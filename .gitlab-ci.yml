@@ -1,0 +1,40 @@
+stages:
+    - build
+    - test
+    - deploy
+# Building the project
+build_stage:
+    stage: build
+    image: maven:3.8.2-eclipse-temurin-17
+    script:
+        - echo "Starting  - Maven Build stage"
+        - mvn clean install # compile, package, and install
+        - echo "Completed - Maven Build stage"
+    artifacts:
+        paths:
+            - target/*.jar
+# Executing tests
+test_stage:
+    stage: test
+    image: maven:3.8.2-eclipse-temurin-17
+    script:
+        - echo "Starting  - Testing Maven Build"
+        - mvn test
+        - echo "Completed - Testing Maven Build"
+    artifacts:
+        paths:
+            - target/*.jar
+# Deploy the build
+deploy_stage:
+    stage: deploy
+    before_script:
+        - apt update
+        - apt install curl -y
+    script:
+        - echo "Starting  - Deploying Springboot"
+        - curl -s "https://api.render.com/deploy/srv-${DEPLOY_KEY_1}?key=${DEPLOY_KEY_2}" 
+        - echo "Completed - Deploying Springboot"
+    # Execute Deploy only when commits are made on production 'main' branch
+    only:
+        - main
+# EOF
