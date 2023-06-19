@@ -11,27 +11,24 @@ import java.util.Properties;
 public class Database {
     private Connection connection;
 
-    private static final String dbDriverProperty = "db.driver";
-    private static final String dbURLProperty = "db.url";
-    private static final String dbTypeProperty = "db.type";
-    private static final String dbDatabaseNameProperty = "database";
-    private static final String dbUsernameProperty = "username";
-    private static final String dbPasswordProperty = "password";
-
+    private final String dbDriverProperty = "db.driver";
+    private final String dbURLProperty = "db.url";
+    private final String dbTypeProperty = "db.type";
+    private final String dbDatabaseNameProperty = "database";
+    private final String dbUsernameProperty = "username";
+    private final String dbPasswordProperty = "password";
 
     private final String CONFIGURATION_FILE = "src/main/resources/database.properties";
 
 
-    public Connection getConnection() throws Exception {
+    private Connection createConnection() throws Exception {
         try (InputStream configFile = new FileInputStream(CONFIGURATION_FILE)){
             Properties configProperties = new Properties();
             configProperties.load(configFile);
 
             Class.forName(configProperties.getProperty(dbDriverProperty));
 
-
             String dbType = configProperties.getProperty(dbTypeProperty);
-
 
             String dbDatabaseName = configProperties.getProperty(String.format("%s.%s",dbType,dbDatabaseNameProperty));
             String dbURL = String.format("%s%s",configProperties.getProperty(dbURLProperty),dbDatabaseName);
@@ -41,6 +38,20 @@ public class Database {
             return DriverManager.getConnection(dbURL,dbUsername,dbPassword);
         }
         catch (IOException | SQLException e){
+            throw new Exception(e);
+        }
+    }
+
+    public Connection getDatabaseConnection() throws Exception {
+        this.connection = createConnection();
+        return this.connection;
+    }
+
+    public void closeDatabaseConnection() throws Exception {
+        try {
+            this.connection.close();
+        }
+        catch (SQLException e){
             throw new Exception(e);
         }
     }
