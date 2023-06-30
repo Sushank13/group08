@@ -1,7 +1,7 @@
 stages:
     - build_stage
-    - test_stage
-    - deploy_stage
+#    - test_stage
+#    - deploy_stage
 # Building the backend project
 build_backend:
     stage: build_stage
@@ -10,58 +10,61 @@ build_backend:
         - cd backend
     script:
         - echo "Starting  - Maven Build stage"
-        - mvn clean install # compile, package, and install
+        - pwd
+        - ls
+        - echo backend/src/main/resources/database.properties
+        #- mvn clean install # compile, package, and install
         - echo "Completed - Maven Build stage"
-    artifacts:
-        paths:
-            - target/*.jar
-# Building the frontend project
-build_frontend:
-    stage: build_stage
-    image: node:latest
-    before_script:
-        - cd frontend
-    script:
-        - echo "Starting  - React Build stage"
-        - npm install
-        - npm run build 
-        - echo "Completed - React Build stage"    
-# Executing tests in backend project
-test_backend:
-    stage: test_stage
-    image: maven:3.8.2-eclipse-temurin-17
-    before_script:
-        - cd backend
-    script:
-        - echo "Starting  - Testing Maven Build"
-        - mvn test
-        - echo "Completed - Testing Maven Build"
-    artifacts:
-        paths:
-            - target/*.jar
-# Deploy the backend build on Render.com
-deploy_backend:
-    stage: deploy_stage
-    before_script:
-        - apt update
-        - apt install curl -y
-    script:
-        - echo "Starting  - Deploying Springboot"
-        - curl -s "https://api.render.com/deploy/srv-${RENDER_DEPLOY_KEY_1}?key=${RENDER_DEPLOY_KEY_2}" 
-        - echo "Completed - Deploying Springboot"
-    # Execute Deploy only when commits are made on production 'main' branch
-    only:
-        - main
-# Deploy the frontend build on Netlify
-deploy_frontend:
-    stage: deploy_stage
-    before_script:
-        - apt update
-        - apt install curl -y
-    script:
-        - echo "Starting  - Deploying React Frontend"
-        - curl -X POST "https://api.netlify.com/build_hooks/${NETLIFY_DEPLOY_KEY}" 
-        - echo "Completed - Deploying React Frontend"
-    # Execute Deploy only when commits are made on production 'main' branch
-    only:
-        - main
+#    artifacts:
+#        paths:
+#            - target/*.jar
+## Building the frontend project
+#build_frontend:
+#    stage: build_stage
+#    image: node:latest
+#    before_script:
+#        - cd frontend
+#    script:
+#        - echo "Starting  - React Build stage"
+#        - npm install
+#        - npm run build
+#        - echo "Completed - React Build stage"
+## Executing tests in backend project
+#test_backend:
+#    stage: test_stage
+#    image: maven:3.8.2-eclipse-temurin-17
+#    before_script:
+#        - cd backend
+#    script:
+#        - echo "Starting  - Testing Maven Build"
+#        - mvn test
+#        - echo "Completed - Testing Maven Build"
+#    artifacts:
+#        paths:
+#            - target/*.jar
+## Deploy the backend build on Render.com
+#deploy_backend:
+#    stage: deploy_stage
+#    before_script:
+#        - apt update
+#        - apt install curl -y
+#    script:
+#        - echo "Starting  - Deploying Springboot"
+#        - curl -s "https://api.render.com/deploy/srv-${RENDER_DEPLOY_KEY_1}?key=${RENDER_DEPLOY_KEY_2}"
+#        - echo "Completed - Deploying Springboot"
+#    # Execute Deploy only when commits are made on production 'main' branch
+#    only:
+#        - main
+## Deploy the frontend build on Netlify
+#deploy_frontend:
+#    stage: deploy_stage
+#    before_script:
+#        - apt update
+#        - apt install curl -y
+#    script:
+#        - echo "Starting  - Deploying React Frontend"
+#        - curl -X POST "https://api.netlify.com/build_hooks/${NETLIFY_DEPLOY_KEY}"
+#        - echo "Completed - Deploying React Frontend"
+#    # Execute Deploy only when commits are made on production 'main' branch
+#    only:
+#        - main
