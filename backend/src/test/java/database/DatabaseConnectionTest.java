@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 
 public class DatabaseConnectionTest {
-    private DatabaseConnection databaseConnection;
+    private IDatabaseConnection databaseConnection;
     private Connection connection;
 
     @BeforeEach
