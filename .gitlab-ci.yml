@@ -11,6 +11,7 @@ build_backend:
     script:
         - echo "Starting  - Maven Build stage"
         - export DATABASE_TYPE=dev
+        - apt-get update
         - apt-get install gettext-base moreutils -y
         - envsubst < backend/src/main/resources/database.properties | sponge backend/src/main/resources/database.properties
         - mvn clean install # compile, package, and install
@@ -38,6 +39,7 @@ test_backend:
     script:
         - echo "Starting  - Testing Maven Build"
         - export DATABASE_TYPE=test
+        - apt-get update
         - apt-get install gettext-base moreutils -y
         - envsubst < backend/src/main/resources/database.properties | sponge backend/src/main/resources/database.properties
         - mvn test
@@ -54,6 +56,7 @@ deploy_backend:
     script:
         - echo "Starting  - Deploying Springboot"
         - export DATABASE_TYPE=prod
+        - apt-get update
         - apt-get install gettext-base moreutils -y
         - envsubst < backend/src/main/resources/database.properties | sponge backend/src/main/resources/database.properties
         - curl -s "https://api.render.com/deploy/srv-${RENDER_DEPLOY_KEY_1}?key=${RENDER_DEPLOY_KEY_2}" 
