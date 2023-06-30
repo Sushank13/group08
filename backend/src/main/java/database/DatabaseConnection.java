@@ -48,4 +48,6 @@ public class DatabaseConnection {
     }
 
 
+    public void closeDatabaseConnection() {
+    }
 }
