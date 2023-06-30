@@ -2,6 +2,7 @@ package database;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -15,6 +16,12 @@ public class DatabaseConnectionTest {
         databaseConnection = new DatabaseConnection();
         connection = databaseConnection.getDatabaseConnection();
     }
+
+    @AfterEach
+    public void TestTearDown() throws Exception {
+        databaseConnection.closeDatabaseConnection();
+    }
+
 
     @Test
     public void checkCreateDatabaseConnection() throws Exception {
