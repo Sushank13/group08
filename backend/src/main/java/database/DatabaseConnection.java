@@ -48,6 +48,12 @@ public class DatabaseConnection {
     }
 
 
-    public void closeDatabaseConnection() {
+    public void closeDatabaseConnection() throws Exception {
+        try {
+            this.connection.close();
+        }
+        catch (SQLException e){
+            throw new Exception(e);
+        }
     }
 }
