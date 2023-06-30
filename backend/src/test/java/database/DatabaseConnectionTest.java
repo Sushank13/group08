@@ -15,12 +15,13 @@ public class DatabaseConnectionTest {
     private Connection connection;
 
     @BeforeEach
-    public void setUp() {
-        this.databaseConnection = new DatabaseConnection();
+    public void setUp() throws Exception {
+        databaseConnection = new DatabaseConnection();
+        connection = databaseConnection.getDatabaseConnection();
     }
 
     @Test
-    public void checkCreateDatabaseConnection() {
-        Assertions.assertDoesNotThrow(() -> this.databaseConnection.getDatabaseConnection());
+    public void checkCreateDatabaseConnection() throws Exception {
+        Assertions.assertTrue(connection.isValid(60));
     }
 }
