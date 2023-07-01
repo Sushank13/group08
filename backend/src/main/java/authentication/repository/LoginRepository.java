@@ -1,19 +1,25 @@
 package authentication.repository;
 
+import authentication.model.Login;
+import database.DatabaseConnection;
 import database.IDatabaseConnection;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class LoginRepository {
     private Connection connection;
 
-    public LoginRepository(Connection connection) {
-        this.connection = connection;
+    public LoginRepository() throws Exception {
+        connection = new DatabaseConnection().getDatabaseConnection();
     }
 
-    public ResultSet getPassword(){
+    public void createCredential(Login login) throws SQLException {
+        CallableStatement cs = connection.prepareCall("{call AuthenticationSaveEmailAndPassword(?,?)}");
+        cs.setString(1, login.getemailID());
+        cs.setString(2, login.getPassword());
 
-        return null;
+        ResultSet resultSet = cs.executeQuery();
+        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+
     }
 }
