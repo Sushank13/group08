@@ -5,6 +5,8 @@ import Club.DataLayer.IClubDataLayer;
 import Club.DataLayer.IClubSecondDataLayer;
 import Club.Enum.RequestStatus;
 import Club.Enum.RequestType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +16,14 @@ import java.util.List;
 @Service
 public class ClubServiceLayer implements  IClubServiceLayer
 {
+    private static final Logger logger= LogManager.getLogger(ClubServiceLayer.class);
     @Autowired
     IClubDataLayer iClubDataLayer;
     @Autowired
     IClubSecondDataLayer iClubSecondDataLayer;
     public String createNewClubRequest(Club club)
     {
+        logger.info("inside createNewClubRequest() in ClubServiceLayer");
         String requestId=generateRequestId();
         String clubId=generateClubId();
         club.setClubID(clubId);
@@ -30,16 +34,17 @@ public class ClubServiceLayer implements  IClubServiceLayer
             boolean createNewClubRequestStatus = iClubDataLayer.createNewClubRequest(requestId, club, requestType, requestStatus);
             if (createNewClubRequestStatus) {
                 String message = "Your request for new club creation has been submitted to the Admin with request id:" + requestId;
+                logger.info("new club request created successfully");
                 return message;
             }
         }
         catch(SQLException e)
         {
-            e.getMessage();
+           logger.error(e.getMessage());
         }
         catch (Exception e)
         {
-            e.getMessage();
+            logger.error(e.getMessage());
         }
         String errorMessage = "There was a problem submitting your request. Please raise a new request.";
         return errorMessage;
@@ -51,6 +56,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
      */
     private String generateRequestId()
     {
+        logger.info("inside generateRequestId() in ClubServiceLayer ");
         try
         {
             final int one=1;
@@ -68,7 +74,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
         }
         catch (SQLException e)
         {
-            e.getMessage();
+            logger.error(e.getMessage());
         }
         return "";
     }
@@ -79,6 +85,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
      */
     private String generateClubId()
     {
+        logger.info("inside generateClubId() in ClubServiceLayer ");
         try
         {
             final int one=1;
@@ -91,12 +98,12 @@ public class ClubServiceLayer implements  IClubServiceLayer
                 String newClubId=splitLatestClubId.get(0).concat("_").concat(String.valueOf(newClubNumber));
                 return newClubId;
             }
-            String firstClubId = "CLUB_1";
+            String firstClubId = "CLB_1";
             return firstClubId;
         }
         catch (SQLException e)
         {
-            e.getMessage();
+            logger.error(e.getMessage());
         }
         return "";
     }
