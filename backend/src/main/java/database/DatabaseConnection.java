@@ -42,8 +42,13 @@ public class DatabaseConnection implements IDatabaseConnection {
         }
     }
 
-    public Connection getDatabaseConnection() throws Exception {
-        this.connection = createConnection();
+    public Connection getDatabaseConnection()
+    {
+        try {
+            this.connection = createConnection();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return this.connection;
     }
 
