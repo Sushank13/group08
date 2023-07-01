@@ -65,7 +65,7 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         callableStatement.setString(8,club.getInstagramLink());
         callableStatement.setString(9,club.getLocation());
         callableStatement.setString(10,club.getMeetingTime());
-        callableStatement.setString(111,club.getClubImage());
+        callableStatement.setString(11,club.getClubImage());
         callableStatement.setString(12,club.getRules());
         callableStatement.setString(13,requestType);
         callableStatement.setString(14,requestStatus);

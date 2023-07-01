@@ -2,6 +2,8 @@ package Club.Controller;
 
 import Club.ClassObject.Club;
 import Club.ServiceLayer.IClubServiceLayer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ClubController
 {
+   private static final Logger logger= LogManager.getLogger(ClubController.class);
    @Autowired
    IClubServiceLayer iClubServiceLayer;
 
@@ -23,7 +26,10 @@ public class ClubController
    @RequestMapping(method = RequestMethod.POST,value="/registerClub")
    public String createClubRequest(@RequestBody Club club)
    {
+      logger.info("New request received for club creation");
+      logger.info("Inside method createClubRequest() in ClubController");
       String message=iClubServiceLayer.createNewClubRequest(club);
+      logger.info("Exiting method createClubRequest() in ClubController");
       return message;
    }
 }
