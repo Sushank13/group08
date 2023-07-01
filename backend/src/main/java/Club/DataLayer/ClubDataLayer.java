@@ -9,6 +9,13 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
    private Connection connection=null;
    private String callProcedure;
    CallableStatement callableStatement;
+
+    /**
+     * This method calls a stored procedure to get the last row of the table that stores the
+     * new club requests
+     * @return the request id of the last row of the table that stores the new club requests
+     * @throws SQLException
+     */
     public String getLatestRequestId() throws SQLException
     {
         callProcedure="{CALL getLatestRequestId()}";
@@ -16,13 +23,15 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         callableStatement.registerOutParameter(1,Types.VARCHAR);
         callableStatement.execute();
         String latestRequestId=callableStatement.getString(1);
-        if(latestRequestId.equals(null))
-        {
-            String defaultRequestId = "REQ_0";
-            return defaultRequestId;
-        }
         return latestRequestId;
     }
+
+    /**
+     * This method calls a stored procedure to get the last row of the table that stores the
+     * new club requests
+     * @return club id of the last row of the table that stores the new club requests
+     * @throws SQLException
+     */
     public String getLatestClubId() throws SQLException
     {
         callProcedure="{CALL getLatestClubId()}";
@@ -30,13 +39,18 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         callableStatement.registerOutParameter(1,Types.VARCHAR);
         callableStatement.execute();
         String latestClubId=callableStatement.getString(1);
-        if(latestClubId.equals(null))
-        {
-            String defaultClubId = "CLUB_0";
-            return defaultClubId;
-        }
         return latestClubId;
     }
+
+    /**
+     *
+     * @param requestId passed as an argument from the service layer
+     * @param club object that has all club details passed from the service layer
+     * @param requestType parameter passed from the service layer. It will be NEW_REQUEST in this case.
+     * @param requestStatus parameter passed from the service layer. It will be PENDING initially.
+     * @return true if the request is created else an exception will be thrown.
+     * @throws SQLException
+     */
     public boolean createNewClubRequest(String requestId, Club club, String requestType, String requestStatus)throws SQLException
     {
         callProcedure="{CALL insertIntoNewAndUpdateClubRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
