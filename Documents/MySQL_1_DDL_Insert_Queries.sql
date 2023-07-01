@@ -28,7 +28,9 @@ CREATE TABLE category (
 CREATE TABLE login (
   emailID VARCHAR(255),
   password VARCHAR(255) NOT NULL,
-  PRIMARY KEY (emailID)
+  PRIMARY KEY (emailID),
+  FOREIGN KEY (emailID) REFERENCES member(emailID)
+
 );
 
 CREATE TABLE member (
@@ -40,7 +42,7 @@ CREATE TABLE member (
   term INT,
   mobileNumber VARCHAR(255) NOT NULL,
   DOB DATE NOT NULL,
-  FOREIGN KEY (emailID) REFERENCES login(emailID)
+  PRIMARY KEY (emailID)
 );
 
 CREATE TABLE club (
