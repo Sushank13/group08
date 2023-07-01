@@ -1,14 +1,17 @@
 package Club.DataLayer;
 
 import Club.ClassObject.Club;
+import Club.ServiceLayer.ClubServiceLayer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
 public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
-{
+{ private static final Logger logger= LogManager.getLogger(ClubServiceLayer.class);
    private Connection connection=null;
    private String callProcedure;
-   CallableStatement callableStatement;
+   private  CallableStatement callableStatement;
 
     /**
      * This method calls a stored procedure to get the last row of the table that stores the
@@ -18,11 +21,13 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
      */
     public String getLatestRequestId() throws SQLException
     {
+        logger.info("inside getLatestRequestId() in ClubDataLayer");
         callProcedure="{CALL getLatestRequestId()}";
         callableStatement=connection.prepareCall(callProcedure);
         callableStatement.registerOutParameter(1,Types.VARCHAR);
         callableStatement.execute();
         String latestRequestId=callableStatement.getString(1);
+        logger.info("Exiting getLatestRequestId() in ClubDataLayer");
         return latestRequestId;
     }
 
@@ -34,11 +39,13 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
      */
     public String getLatestClubId() throws SQLException
     {
+        logger.info("inside getLatestClubId() in ClubDataLayer");
         callProcedure="{CALL getLatestClubId()}";
         callableStatement=connection.prepareCall(callProcedure);
         callableStatement.registerOutParameter(1,Types.VARCHAR);
         callableStatement.execute();
         String latestClubId=callableStatement.getString(1);
+        logger.info("Exiting getLatestClubId() in ClubDataLayer");
         return latestClubId;
     }
 
@@ -53,6 +60,7 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
      */
     public boolean createNewClubRequest(String requestId, Club club, String requestType, String requestStatus)throws SQLException
     {
+        logger.info("inside createNewClubRequest() in ClubDataLayer");
         callProcedure="{CALL insertIntoNewAndUpdateClubRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
         callableStatement=connection.prepareCall(callProcedure);
         callableStatement.setString(1,requestId);
@@ -70,6 +78,7 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         callableStatement.setString(13,requestType);
         callableStatement.setString(14,requestStatus);
         callableStatement.execute();
+        logger.info("Exiting createNewClubRequest() in ClubDataLayer");
         return true;
 
     }
