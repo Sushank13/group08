@@ -10,9 +10,20 @@ public class Member {
     private String lastName;
     private MemberType memberType;
     private String program;
-    private String term;
+    private int term;
     private String mobile;
     private LocalDate dob;
+
+    public Member(String emailId, String firstName, String lastName, MemberType memberType, String program, int term, String mobile, LocalDate dob) {
+        this.emailId = emailId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.memberType = memberType;
+        this.program = program;
+        this.term = term;
+        this.mobile = mobile;
+        this.dob = dob;
+    }
 
     public String getEmailId() {
         return emailId;
@@ -54,11 +65,11 @@ public class Member {
         this.program = program;
     }
 
-    public String getTerm() {
+    public int getTerm() {
         return term;
     }
 
-    public void setTerm(String term) {
+    public void setTerm(int term) {
         this.term = term;
     }
 
