@@ -5,15 +5,15 @@ import member.model.Member;
 
 import java.sql.*;
 
-public class MemberRepository {
+public class MemberRepository implements IMemberRepository {
 
     private Connection connection;
 
-    public MemberRepository() throws Exception {
+    public MemberRepository() {
         connection = new DatabaseConnection().getDatabaseConnection();
     }
 
-    public boolean createNewMember(Member member) {
+    public boolean createNewMember(Member member)  {
         try {
             CallableStatement cs = connection.prepareCall("{call MemberSaveNewMember(?,?,?,?,?,?,?,?)}");
             cs.setString(1, member.getEmailId());

@@ -6,20 +6,25 @@ import database.IDatabaseConnection;
 
 import java.sql.*;
 
-public class LoginRepository {
+public class LoginRepository implements ILoginRepository{
     private Connection connection;
 
-    public LoginRepository() throws Exception {
+    public LoginRepository() {
         connection = new DatabaseConnection().getDatabaseConnection();
     }
 
-    public void createCredential(Login login) throws SQLException {
-        CallableStatement cs = connection.prepareCall("{call AuthenticationSaveEmailAndPassword(?,?)}");
-        cs.setString(1, login.getemailID());
-        cs.setString(2, login.getPassword());
+    public void createCredential(Login login) {
+        try {
+            CallableStatement cs = connection.prepareCall("{call AuthenticationSaveEmailAndPassword(?,?)}");
+            cs.setString(1, login.getemailID());
+            cs.setString(2, login.getPassword());
 
-        ResultSet resultSet = cs.executeQuery();
-        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            ResultSet resultSet = cs.executeQuery();
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
