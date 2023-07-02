@@ -1,14 +1,18 @@
-package Club.DataLayer;
+package com.dal.cs.backend.Club.DataLayer;
 
-import Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.database.DatabaseConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
 {
-   private Connection connection=null;
-   private String callProcedure;
-   CallableStatement callableStatement;
+    DatabaseConnection databaseConnection = new DatabaseConnection();
+    private Connection connection=databaseConnection.getDatabaseConnection();
+    private String callProcedure;
+    CallableStatement callableStatement;
     public String getLatestRequestId() throws SQLException
     {
         callProcedure="{CALL getLatestRequestId()}";
@@ -59,4 +63,23 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         return true;
 
     }
+    public ArrayList<HashMap<String, String>> getAllClubCategories() throws SQLException {
+        callProcedure = "{CALL selectAllFromCategory()}";
+        callableStatement = connection.prepareCall(callProcedure);
+        boolean resultStatus = callableStatement.execute();
+        ArrayList<HashMap<String, String>> allClubCategories = null;
+        if (resultStatus) {
+            ResultSet resultSet = callableStatement.getResultSet();
+            allClubCategories = new ArrayList<>();
+
+            while (resultSet.next()) {
+                HashMap<String, String> categoryMap = new HashMap<>();
+                categoryMap.put("categoryID", resultSet.getString("categoryID"));
+                categoryMap.put("categoryName", resultSet.getString("categoryName"));
+                allClubCategories.add(categoryMap);
+            }
+        }
+        return allClubCategories;
+    }
+
 }
