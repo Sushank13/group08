@@ -2,21 +2,29 @@ package com.dal.cs.backend.Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Club.ServiceLayer.ClubServiceLayer;
+import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 
+@Component
 public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
 {
     private static final Logger logger= LogManager.getLogger(ClubServiceLayer.class);
     @Autowired
     private IDatabaseConnection iDatabaseConnection;
-    private Connection connection=iDatabaseConnection.getDatabaseConnection();
+    private Connection connection;
     private String callProcedure;
     private  CallableStatement callableStatement;
+    public ClubDataLayer()
+    {
+       connection=iDatabaseConnection.getDatabaseConnection();
+    }
 
     /**
      * This method calls a stored procedure to get the last row of the table that stores the
