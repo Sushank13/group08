@@ -1,4 +1,4 @@
-package database;
+package com.dal.cs.backend.database;
 
 import java.sql.Connection;
 

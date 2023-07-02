@@ -1,8 +1,8 @@
-package Club.DataLayer;
+package com.dal.cs.backend.Club.DataLayer;
 
-import Club.ClassObject.Club;
-import Club.ServiceLayer.ClubServiceLayer;
-import database.IDatabaseConnection;
+import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ServiceLayer.ClubServiceLayer;
+import com.dal.cs.backend.database.IDatabaseConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

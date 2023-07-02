@@ -1,10 +1,10 @@
-package Club.ServiceLayer;
+package com.dal.cs.backend.Club.ServiceLayer;
 
-import Club.ClassObject.Club;
-import Club.DataLayer.IClubDataLayer;
-import Club.DataLayer.IClubSecondDataLayer;
-import Club.Enum.RequestStatus;
-import Club.Enum.RequestType;
+import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
+import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
+import com.dal.cs.backend.Club.Enum.RequestStatus;
+import com.dal.cs.backend.Club.Enum.RequestType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

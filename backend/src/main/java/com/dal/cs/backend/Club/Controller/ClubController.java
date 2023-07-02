@@ -1,7 +1,7 @@
-package Club.Controller;
+package com.dal.cs.backend.Club.Controller;
 
-import Club.ClassObject.Club;
-import Club.ServiceLayer.IClubServiceLayer;
+import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ServiceLayer.IClubServiceLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
