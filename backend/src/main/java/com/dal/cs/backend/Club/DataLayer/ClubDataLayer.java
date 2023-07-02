@@ -67,6 +67,13 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         return true;
 
     }
+
+    /**
+     * Retrieves all club categories from the category table by calling the stored procedure.
+     * @return A list of maps containing category names and corresponding category IDs.
+     * @throws SQLException If an error occurs while executing the stored procedure.
+     */
+    @Override
     public ArrayList<HashMap<String, String>> getAllClubCategories() throws SQLException {
 
         if (connection != null) {

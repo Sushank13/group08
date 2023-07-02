@@ -83,6 +83,11 @@ public class ClubServiceLayer implements  IClubServiceLayer
         return "";
     }
 
+    /**
+     * Retrieves all club categories by invoking the corresponding data layer function.
+     *
+     * @return A list of maps containing category names and corresponding category IDs.
+     */
     @Override
     public ArrayList<HashMap<String, String>>  getAllClubCategories() {
         try {

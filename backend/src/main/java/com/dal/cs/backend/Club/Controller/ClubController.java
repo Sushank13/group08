@@ -30,6 +30,11 @@ public class ClubController
       return message;
    }
 
+   /**
+    * Retrieves all club categories.
+    *
+    * @return A list of maps containing category names and corresponding category IDs.
+    */
    @RequestMapping(method = RequestMethod.GET, value="/getAllClubCategory")
    public ArrayList<HashMap<String, String>> getAllClubCategories() {
       logger.info("Controller Entered: Received request for getting all club categories.");
