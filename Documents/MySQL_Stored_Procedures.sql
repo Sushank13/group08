@@ -22,3 +22,11 @@ BEGIN
       SELECT requestID from newAndUpdateClubRequest ORDER BY requestID DESC LIMIT 1;
 END //
 DELIMITER ;
+
+-- Procedure for getting all the clubs from Club table
+DELIMITER //
+CREATE PROCEDURE getAllClubs()
+BEGIN 
+      SELECT * from club;
+END //
+DELIMITER ;
