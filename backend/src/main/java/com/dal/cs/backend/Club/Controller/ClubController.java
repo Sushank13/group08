@@ -32,10 +32,10 @@ public class ClubController
 
    @RequestMapping(method = RequestMethod.GET, value="/getAllClubCategory")
    public ArrayList<HashMap<String, String>> getAllClubCategories() {
-      logger.info("Received request for getting all club categories");
-      logger.info("ClubControllerLayer-getAllClubCategories: Calling Service layer getAllClubCategories");
+      logger.info("Controller Entered: Received request for getting all club categories.");
+      logger.info("getAllClubCategories- Calling Service layer getAllClubCategories");
       ArrayList<HashMap<String, String>> allClubCategories = iClubServiceLayer.getAllClubCategories();
-      logger.info("ClubControllerLayer-getAllClubCategories: Returning categories collection");
+      logger.info("Exiting Controller: Returning categories collection to Frontend via GET /getAllClubCategory");
       return allClubCategories;
    }
 }

@@ -86,12 +86,12 @@ public class ClubServiceLayer implements  IClubServiceLayer
     @Override
     public ArrayList<HashMap<String, String>>  getAllClubCategories() {
         try {
-            logger.info("ClubServiceLayer-getAllClubCategories: Calling Data layer getAllClubCategories");
+            logger.info("Service Layer Entered: Entered getAllClubCategories- Calling Data layer getAllClubCategories");
             ArrayList<HashMap<String, String>> allClubCategories = iClubDataLayer.getAllClubCategories();
-            logger.info("ClubServiceLayer-getAllClubCategories: Returning category collection to Service layer");
+            logger.info("Exiting Service Layer: Returning category collection to Controller");
             return allClubCategories;
         } catch (SQLException e) {
-            logger.error("ClubServiceLayer-getAllClubCategories: SQL Exception occured while getting response from Data layer");
+            logger.error("getAllClubCategories- SQL Exception occured while getting response from Data layer");
             throw new RuntimeException(e);
         }
     }
