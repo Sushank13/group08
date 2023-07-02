@@ -2,6 +2,8 @@ package com.dal.cs.backend.Club.Controller;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Club.ServiceLayer.IClubServiceLayer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,7 @@ import java.util.HashMap;
 @RestController
 public class ClubController
 {
+   private static final Logger logger= LogManager.getLogger(ClubController.class);
    @Autowired
    IClubServiceLayer iClubServiceLayer;
 
@@ -27,10 +30,12 @@ public class ClubController
       return message;
    }
 
-   @RequestMapping(method = RequestMethod.GET, value="/findAllClubsByCategory")
-   public ArrayList<HashMap<String, String>> findClubByCategory() {
-
+   @RequestMapping(method = RequestMethod.GET, value="/getAllClubCategory")
+   public ArrayList<HashMap<String, String>> getAllClubCategories() {
+      logger.info("Received request for getting all club categories");
+      logger.info("ClubControllerLayer-getAllClubCategories: Calling Service layer getAllClubCategories");
       ArrayList<HashMap<String, String>> allClubCategories = iClubServiceLayer.getAllClubCategories();
+      logger.info("ClubControllerLayer-getAllClubCategories: Returning categories collection");
       return allClubCategories;
    }
 }

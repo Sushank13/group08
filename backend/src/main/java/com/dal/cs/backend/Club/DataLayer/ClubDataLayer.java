@@ -1,7 +1,11 @@
 package com.dal.cs.backend.Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ServiceLayer.ClubServiceLayer;
 import com.dal.cs.backend.database.DatabaseConnection;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,10 +13,11 @@ import java.util.HashMap;
 
 public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
 {
+    private static final Logger logger= LogManager.getLogger(ClubServiceLayer.class);
     DatabaseConnection databaseConnection = new DatabaseConnection();
     private Connection connection=databaseConnection.getDatabaseConnection();
     private String callProcedure;
-    CallableStatement callableStatement;
+    private CallableStatement callableStatement;
     public String getLatestRequestId() throws SQLException
     {
         callProcedure="{CALL getLatestRequestId()}";
@@ -64,9 +69,11 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
 
     }
     public ArrayList<HashMap<String, String>> getAllClubCategories() throws SQLException {
+        logger.info("ClubDataLayer: Entered getAllClubCategories()");
         callProcedure = "{CALL selectAllFromCategory()}";
         callableStatement = connection.prepareCall(callProcedure);
         boolean resultStatus = callableStatement.execute();
+        logger.info("ClubDataLayer-getAllClubCategories: Procedure execution call successful, resultStatus = "+resultStatus);
         ArrayList<HashMap<String, String>> allClubCategories = null;
         if (resultStatus) {
             ResultSet resultSet = callableStatement.getResultSet();
@@ -78,7 +85,9 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
                 categoryMap.put("categoryName", resultSet.getString("categoryName"));
                 allClubCategories.add(categoryMap);
             }
+            logger.info("ClubDataLayer-getAllClubCategories: Category collection created successfully");
         }
+        logger.info("ClubDataLayer-getAllClubCategories: Returning category collection to Service Layer");
         return allClubCategories;
     }
 

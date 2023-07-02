@@ -1,12 +1,12 @@
 package com.dal.cs.backend.Club.ServiceLayer;
 
+import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
-import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
 import com.dal.cs.backend.Club.Enum.RequestStatus;
 import com.dal.cs.backend.Club.Enum.RequestType;
-import com.dal.cs.backend.Club.ClassObject.Club;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -17,6 +17,7 @@ import java.util.List;
 @Service
 public class ClubServiceLayer implements  IClubServiceLayer
 {
+    private static final Logger logger= LogManager.getLogger(ClubServiceLayer.class);
     ClubDataLayer iClubDataLayer = new ClubDataLayer();
     IClubSecondDataLayer iClubSecondDataLayer;
     public String createNewClubRequest(Club club)
@@ -85,9 +86,12 @@ public class ClubServiceLayer implements  IClubServiceLayer
     @Override
     public ArrayList<HashMap<String, String>>  getAllClubCategories() {
         try {
+            logger.info("ClubServiceLayer-getAllClubCategories: Calling Data layer getAllClubCategories");
             ArrayList<HashMap<String, String>> allClubCategories = iClubDataLayer.getAllClubCategories();
+            logger.info("ClubServiceLayer-getAllClubCategories: Returning category collection to Service layer");
             return allClubCategories;
         } catch (SQLException e) {
+            logger.error("ClubServiceLayer-getAllClubCategories: SQL Exception occured while getting response from Data layer");
             throw new RuntimeException(e);
         }
     }
