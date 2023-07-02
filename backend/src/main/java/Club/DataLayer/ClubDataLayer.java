@@ -32,6 +32,8 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         callableStatement.registerOutParameter(1,Types.VARCHAR);
         callableStatement.execute();
         String latestRequestId=callableStatement.getString(1);
+        callableStatement.close();
+        iDatabaseConnection.closeDatabaseConnection();
         logger.info("Exiting getLatestRequestId() in ClubDataLayer");
         return latestRequestId;
     }
@@ -50,6 +52,8 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         callableStatement.registerOutParameter(1,Types.VARCHAR);
         callableStatement.execute();
         String latestClubId=callableStatement.getString(1);
+        callableStatement.close();
+        iDatabaseConnection.closeDatabaseConnection();
         logger.info("Exiting getLatestClubId() in ClubDataLayer");
         return latestClubId;
     }
@@ -83,8 +87,9 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         callableStatement.setString(13,requestType);
         callableStatement.setString(14,requestStatus);
         callableStatement.execute();
+        callableStatement.close();
+        iDatabaseConnection.closeDatabaseConnection();
         logger.info("Exiting createNewClubRequest() in ClubDataLayer");
         return true;
-
     }
 }
