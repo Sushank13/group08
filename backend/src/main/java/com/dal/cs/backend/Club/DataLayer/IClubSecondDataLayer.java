@@ -1,4 +1,4 @@
-package Club.DataLayer;
+package com.dal.cs.backend.Club.DataLayer;
 
 import java.sql.SQLException;
 

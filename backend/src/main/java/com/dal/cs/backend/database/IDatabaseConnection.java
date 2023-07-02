@@ -1,4 +1,4 @@
-package database;
+package com.dal.cs.backend.database;
 
 import java.sql.Connection;
 
@@ -10,12 +10,13 @@ public interface IDatabaseConnection {
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    Connection getDatabaseConnection() throws Exception;
+    Connection getDatabaseConnection();
 
     /**
      * Closes SQL connection to database
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */
-    void closeDatabaseConnection() throws Exception;
+    void closeDatabaseConnection();
 }
+

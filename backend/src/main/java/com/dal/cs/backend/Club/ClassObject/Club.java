@@ -1,4 +1,4 @@
-package Club.ClassObject;
+package com.dal.cs.backend.Club.ClassObject;
 
 public class Club
 {

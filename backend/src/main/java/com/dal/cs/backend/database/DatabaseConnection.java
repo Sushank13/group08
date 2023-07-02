@@ -1,4 +1,4 @@
-package database;
+package com.dal.cs.backend.database;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class DatabaseConnection implements IDatabaseConnection {
     private final String CONFIGURATION_FILE = "src/main/resources/database.properties";
 
 
-    private Connection createConnection() throws Exception {
+    private Connection createConnection() {
         try (InputStream configFile = new FileInputStream(CONFIGURATION_FILE)){
             Properties configProperties = new Properties();
             configProperties.load(configFile);
@@ -37,23 +37,26 @@ public class DatabaseConnection implements IDatabaseConnection {
 
             return DriverManager.getConnection(dbURL,dbUsername,dbPassword);
         }
-        catch (IOException | SQLException e){
-            throw new Exception(e);
+        catch (IOException | SQLException | ClassNotFoundException e){
+            System.err.println("Error while creating SQL connection "+e.getMessage());
+            System.exit(1);
         }
+        return null;
     }
 
-    public Connection getDatabaseConnection() throws Exception {
+    public Connection getDatabaseConnection() {
         this.connection = createConnection();
         return this.connection;
     }
 
 
-    public void closeDatabaseConnection() throws Exception {
+    public void closeDatabaseConnection() {
         try {
             this.connection.close();
         }
         catch (SQLException e){
-            throw new Exception(e);
+            System.err.println("Error while closing SQL connection "+e.getMessage());
+            System.exit(1);
         }
     }
 }
