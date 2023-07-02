@@ -23,7 +23,7 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
     public ClubDataLayer()
     {
         iDatabaseConnection=new DatabaseConnection();
-       connection=iDatabaseConnection.getDatabaseConnection();
+        connection=iDatabaseConnection.getDatabaseConnection();
     }
 
     /**
@@ -57,9 +57,12 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         logger.info("inside getLatestClubId() in ClubDataLayer");
         callProcedure="{CALL getLatestClubId()}";
         callableStatement=connection.prepareCall(callProcedure);
-        callableStatement.registerOutParameter(1,Types.VARCHAR);
+//        callableStatement.registerOutParameter(1,Types.VARCHAR);
         callableStatement.execute();
-        String latestClubId=callableStatement.getString(1);
+        ResultSet resultSet = callableStatement.getResultSet();
+        resultSet.next();
+        String latestClubId=resultSet.getString("requestID");
+        System.out.println("latestClubId = " + latestClubId);
         callableStatement.close();
         iDatabaseConnection.closeDatabaseConnection();
         logger.info("Exiting getLatestClubId() in ClubDataLayer");
