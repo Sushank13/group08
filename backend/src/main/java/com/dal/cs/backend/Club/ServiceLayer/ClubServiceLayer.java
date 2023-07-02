@@ -33,7 +33,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
         {
             boolean createNewClubRequestStatus = iClubDataLayer.createNewClubRequest(requestId, club, requestType, requestStatus);
             if (createNewClubRequestStatus) {
-                String message = "Your request for new club creation has been submitted to the Admin with request id:" + requestId;
+                String message = "Your request for new club creation has been submitted to the Admin with request id: " + requestId;
                 logger.info("new club request created successfully");
                 return message;
             }
