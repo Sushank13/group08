@@ -1,22 +1,23 @@
-package Club.ServiceLayer;
+package com.dal.cs.backend.Club.ServiceLayer;
 
-import Club.ClassObject.Club;
-import Club.DataLayer.IClubDataLayer;
-import Club.DataLayer.IClubSecondDataLayer;
-import Club.Enum.RequestStatus;
-import Club.Enum.RequestType;
+import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
+import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
+import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
+import com.dal.cs.backend.Club.Enum.RequestStatus;
+import com.dal.cs.backend.Club.Enum.RequestType;
+import com.dal.cs.backend.Club.ClassObject.Club;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
 public class ClubServiceLayer implements  IClubServiceLayer
 {
-    @Autowired
-    IClubDataLayer iClubDataLayer;
-    @Autowired
+    ClubDataLayer iClubDataLayer = new ClubDataLayer();
     IClubSecondDataLayer iClubSecondDataLayer;
     public String createNewClubRequest(Club club)
     {
@@ -79,5 +80,15 @@ public class ClubServiceLayer implements  IClubServiceLayer
             e.getMessage();
         }
         return "";
+    }
+
+    @Override
+    public ArrayList<HashMap<String, String>>  getAllClubCategories() {
+        try {
+            ArrayList<HashMap<String, String>> allClubCategories = iClubDataLayer.getAllClubCategories();
+            return allClubCategories;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
