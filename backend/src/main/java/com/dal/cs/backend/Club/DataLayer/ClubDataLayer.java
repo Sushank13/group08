@@ -16,13 +16,13 @@ import java.sql.*;
 public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
 {
     private static final Logger logger= LogManager.getLogger(ClubServiceLayer.class);
-    @Autowired
     private IDatabaseConnection iDatabaseConnection;
     private Connection connection;
     private String callProcedure;
     private  CallableStatement callableStatement;
     public ClubDataLayer()
     {
+        iDatabaseConnection=new DatabaseConnection();
        connection=iDatabaseConnection.getDatabaseConnection();
     }
 

@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({"com.dal.cs.backend.database.DatabaseConnection"})
 public class BackendApplication {
 
 	public static void main(String[] args) {
