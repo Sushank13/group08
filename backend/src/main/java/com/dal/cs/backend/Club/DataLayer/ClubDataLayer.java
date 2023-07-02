@@ -37,13 +37,20 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         logger.info("inside getLatestRequestId() in ClubDataLayer");
         callProcedure="{CALL getLatestRequestId()}";
         callableStatement=connection.prepareCall(callProcedure);
-        callableStatement.registerOutParameter(1,Types.VARCHAR);
         callableStatement.execute();
-        String latestRequestId=callableStatement.getString(1);
-        callableStatement.close();
-        iDatabaseConnection.closeDatabaseConnection();
-        logger.info("Exiting getLatestRequestId() in ClubDataLayer");
-        return latestRequestId;
+        ResultSet resultSet = callableStatement.getResultSet();
+        boolean resultStatus = resultSet.next();
+        if (resultStatus) {
+            String latestRequestId = resultSet.getString("requestID");
+            callableStatement.close();
+            iDatabaseConnection.closeDatabaseConnection();
+            logger.info("Exiting getLatestRequestId() in ClubDataLayer");
+            return latestRequestId;
+        }
+        else {
+            logger.info("Request ID is null. Exiting getLatestRequestId() in ClubDataLayer");
+            return null;
+        }
     }
 
     /**
@@ -57,16 +64,20 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         logger.info("inside getLatestClubId() in ClubDataLayer");
         callProcedure="{CALL getLatestClubId()}";
         callableStatement=connection.prepareCall(callProcedure);
-//        callableStatement.registerOutParameter(1,Types.VARCHAR);
         callableStatement.execute();
         ResultSet resultSet = callableStatement.getResultSet();
-        resultSet.next();
-        String latestClubId=resultSet.getString("requestID");
-        System.out.println("latestClubId = " + latestClubId);
-        callableStatement.close();
-        iDatabaseConnection.closeDatabaseConnection();
-        logger.info("Exiting getLatestClubId() in ClubDataLayer");
-        return latestClubId;
+        boolean resultStatus = resultSet.next();
+        if (resultStatus) {
+            String latestClubId = resultSet.getString("ClubID");
+            callableStatement.close();
+            iDatabaseConnection.closeDatabaseConnection();
+            logger.info("Exiting getLatestClubId() in ClubDataLayer");
+            return latestClubId;
+        }
+        else {
+            logger.info("ClubID is null. Exiting getLatestClubId() in ClubDataLayer");
+            return null;
+        }
     }
 
     /**

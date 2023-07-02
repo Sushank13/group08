@@ -1,4 +1,4 @@
-package ClubTest.ServiceLayerTest;
+package Club.ServiceLayer;
 
 public class ClubServiceLayerTest
 {

@@ -61,7 +61,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
         {
             final int one=1;
             String latestRequestId = iClubSecondDataLayer.getLatestRequestId();
-            if(!latestRequestId.equals(null))
+            if(latestRequestId != null)
             {
                 List<String> splitLatestRequestId = List.of(latestRequestId.split("_"));
                 int requestNumber= Integer.parseInt(splitLatestRequestId.get(1));
@@ -90,7 +90,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
         {
             final int one=1;
             String latestClubId = iClubSecondDataLayer.getLatestClubId();
-            if(!latestClubId.equals(null))
+            if(latestClubId != null)
             {
                 List<String> splitLatestClubId = List.of(latestClubId.split("_"));
                 int clubNUmber=Integer.parseInt(splitLatestClubId.get(1));
