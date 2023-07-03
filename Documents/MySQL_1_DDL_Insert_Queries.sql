@@ -91,7 +91,7 @@ CREATE TABLE events (
 
 CREATE TABLE newAndUpdateClubRequest (
   requestID VARCHAR(50),
-  clubID VARCHAR(50),
+  clubID VARCHAR(50) NOT NULL,
   requestorEmailID VARCHAR(255),
   categoryID VARCHAR(50),
   clubName VARCHAR(255),
@@ -105,7 +105,6 @@ CREATE TABLE newAndUpdateClubRequest (
   requestType VARCHAR(255) NOT NULL,
   requestStatus VARCHAR(255) NOT NULL,
   PRIMARY KEY (requestID),
-  FOREIGN KEY (clubID) REFERENCES club(clubID),
   FOREIGN KEY (requestorEmailID) REFERENCES member(emailID),
   FOREIGN KEY (categoryID) REFERENCES category(categoryID)
 );
@@ -152,8 +151,13 @@ VALUES
   ('EVNT_2', 'UNICEF GALA', 'Charitable event for improving life around the world', 'SMU, Layola 290', 'CLB_2', 'shrutichaturvedi2707@dal.ca', NULL , '2023-03-20', '2023-03-20', '19:00:00', '22:00:00', 'Topic 2'),
   ('EVNT_3', 'Dalhousie Outdoors Society Spring AGM', 'Join DOS for their spring AGM! You can expect a DOS year summary, games, prizes, exec elections, the societys plans for the future and a good time! ', 'SUB Room 22', 'CLB_3', 'daloutdoors@dal.ca', NULL , '2023-03-21', '2023-03-21', '18:00:00', '20:00:00', 'Outdoor');
 
- 
- 
+-- Insert data into newAndUpdateClubRequest table
+INSERT INTO newAndUpdateClubRequest (requestID, clubID, requestorEmailID, categoryID, clubName, description, facebookLink, instagramLink, location, meetingTime, clubImage, rules, requestType, requestStatus)
+VALUES
+('REQ_1', 'CLB_1', 'bikectr@dal.ca', 'CAT_1', 'Dal/Kings Bike Society', 'Description 1', 'https://www.facebook.com/dalbikecentre/', 'https://www.instagram.com/bikeatdal/', 'Location 1', '17:00:00', NULL, 'Rules 1', 'NEW_REQUEST', 'APPROVED'),
+('REQ_2', 'CLB_2', 'user@dal.ca', 'CAT_2', 'UNICEF DAL', 'Description 2', NULL, 'https://www.instagram.com/dalkinsociety/', 'Location 2', '18:00:00', 'image2.jpg', 'Rules 2', 'NEW_REQUEST', 'APPROVED'),
+('REQ_3', 'CLB_3', 'daloutdoors@dal.ca', 'CAT_3', 'Dalhousie Outdoors Society', 'Description 3', 'https://www.facebook.com/DalOutdoors', 'https://instagram.com/daloutdoors?igshid=NTc4MTIwNjQ2YQ==', 'Location 3', '19:00:00', 'image3.jpg', 'Rules 3', 'NEW_REQUEST', 'APPROVED');
+
  
  
 -- Drop all tables:
