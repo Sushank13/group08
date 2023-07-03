@@ -1,4 +1,6 @@
-package database;
+package com.dal.cs.backend.database;
+
+import org.springframework.stereotype.Component;
 
 import java.awt.*;
 import java.io.FileInputStream;
@@ -8,7 +10,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
-
 public class DatabaseConnection implements IDatabaseConnection {
 
     private Connection connection;
