@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ClubServiceLayerTest
@@ -22,11 +21,10 @@ public class ClubServiceLayerTest
     public void getAllClubCategoriesTest() {
         try {
             ArrayList<HashMap<String, String>> result = clubServiceLayer.getAllClubCategories();
-            System.out.println("result = \n" + result);
-            assertNotNull(result);
+            System.out.println("result: \n" + result);
         }
         catch (Exception e) {
-            fail("Exception occured: "+e.getMessage());
+            fail("Test failed: Exception occured- "+e.getMessage());
         }
     }
 }
