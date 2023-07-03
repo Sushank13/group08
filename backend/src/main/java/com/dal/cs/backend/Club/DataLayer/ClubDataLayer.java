@@ -6,9 +6,7 @@ import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 
@@ -42,8 +40,6 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         boolean resultStatus = resultSet.next();
         if (resultStatus) {
             String latestRequestId = resultSet.getString("requestID");
-            callableStatement.close();
-            iDatabaseConnection.closeDatabaseConnection();
             logger.info("Exiting getLatestRequestId() in ClubDataLayer");
             return latestRequestId;
         }
@@ -69,8 +65,6 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         boolean resultStatus = resultSet.next();
         if (resultStatus) {
             String latestClubId = resultSet.getString("ClubID");
-            callableStatement.close();
-            iDatabaseConnection.closeDatabaseConnection();
             logger.info("Exiting getLatestClubId() in ClubDataLayer");
             return latestClubId;
         }
@@ -92,6 +86,7 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
     public boolean createNewClubRequest(String requestId, Club club, String requestType, String requestStatus)throws SQLException
     {
         logger.info("inside createNewClubRequest() in ClubDataLayer");
+        System.out.println("club.getClubID() = " + club.getClubID());
         callProcedure="{CALL insertIntoNewAndUpdateClubRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
         callableStatement=connection.prepareCall(callProcedure);
         callableStatement.setString(1,requestId);
@@ -109,8 +104,6 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         callableStatement.setString(13,requestType);
         callableStatement.setString(14,requestStatus);
         callableStatement.execute();
-        callableStatement.close();
-        iDatabaseConnection.closeDatabaseConnection();
         logger.info("Exiting createNewClubRequest() in ClubDataLayer");
         return true;
     }
