@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Club.ServiceLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
 import com.dal.cs.backend.Club.Enum.RequestStatus;
@@ -20,10 +21,15 @@ public class ClubServiceLayer implements  IClubServiceLayer
 {
     private static final Logger logger= LogManager.getLogger(ClubServiceLayer.class);
 
-    @Autowired
+//    @Autowired
     IClubDataLayer iClubDataLayer;
-    @Autowired
+//    @Autowired
     IClubSecondDataLayer iClubSecondDataLayer;
+
+    public ClubServiceLayer() {
+        iClubDataLayer = new ClubDataLayer();
+        iClubSecondDataLayer = new ClubDataLayer();
+    }
 
     public String createNewClubRequest(Club club)
     {
