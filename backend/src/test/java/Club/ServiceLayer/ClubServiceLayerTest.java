@@ -1,6 +1,7 @@
 package Club.ServiceLayer;
 
 import com.dal.cs.backend.Club.ServiceLayer.ClubServiceLayer;
+import com.dal.cs.backend.Club.ServiceLayer.IClubServiceLayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,16 +12,16 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class ClubServiceLayerTest
 {
-    private ClubServiceLayer clubServiceLayer;
+    private IClubServiceLayer iclubServiceLayer;
 
     @BeforeEach
     public void beforeTestRun() {
-        clubServiceLayer = new ClubServiceLayer() ;
+        iclubServiceLayer = new ClubServiceLayer() ;
     }
     @Test
     public void getAllClubCategoriesTest() {
         try {
-            ArrayList<HashMap<String, String>> result = clubServiceLayer.getAllClubCategories();
+            ArrayList<HashMap<String, String>> result = iclubServiceLayer.getAllClubCategories();
             System.out.println("result: \n" + result);
         }
         catch (Exception e) {
