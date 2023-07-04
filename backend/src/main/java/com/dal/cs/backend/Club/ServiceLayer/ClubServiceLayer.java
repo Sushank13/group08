@@ -8,7 +8,6 @@ import com.dal.cs.backend.Club.Enum.RequestStatus;
 import com.dal.cs.backend.Club.Enum.RequestType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -21,9 +20,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
 {
     private static final Logger logger= LogManager.getLogger(ClubServiceLayer.class);
 
-//    @Autowired
     IClubDataLayer iClubDataLayer;
-//    @Autowired
     IClubSecondDataLayer iClubSecondDataLayer;
 
     public ClubServiceLayer() {
@@ -33,6 +30,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
 
     public String createNewClubRequest(Club club)
     {
+        logger.info("inside createNewClubRequest() in ClubServiceLayer");
         String requestId=generateRequestId();
         String clubId=generateClubId();
         club.setClubID(clubId);
@@ -43,6 +41,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
             boolean createNewClubRequestStatus = iClubDataLayer.createNewClubRequest(requestId, club, requestType, requestStatus);
             if (createNewClubRequestStatus) {
                 String message = "Your request for new club creation has been submitted to the Admin with request id: " + requestId;
+                logger.info("new club request created successfully");
                 return message;
             }
         }
@@ -54,20 +53,32 @@ public class ClubServiceLayer implements  IClubServiceLayer
         {
             logger.error(e.getMessage());
         }
-        String errorMessage = "There was a problem submitting your request";
+        String errorMessage = "There was a problem submitting your request. Please raise a new request.";
         return errorMessage;
     }
+
+    /**
+     * This method generates a new incremented request id when a new request for club creation is submitted.
+     * @return the incremented request id
+     */
     private String generateRequestId()
     {
+        logger.info("inside generateRequestId() in ClubServiceLayer ");
         try
         {
             final int one=1;
             String latestRequestId = iClubSecondDataLayer.getLatestRequestId();
-            List<String> splitLatestRequestId = List.of(latestRequestId.split("_"));
-            int requestNumber= Integer.parseInt(splitLatestRequestId.get(1));
-            int newRequestNumber=requestNumber+one;
-            String newRequestId=splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
-            return newRequestId;
+            if(latestRequestId != null)
+            {
+                List<String> splitLatestRequestId = List.of(latestRequestId.split("_"));
+                int requestNumber= Integer.parseInt(splitLatestRequestId.get(1));
+                int newRequestNumber=requestNumber+one;
+                System.out.println("newRequestNumber = " + newRequestNumber);
+                String newRequestId=splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
+                return newRequestId;
+            }
+            String firstRequestId = "REQ_1";
+            return firstRequestId;
         }
         catch (SQLException e)
         {
@@ -75,17 +86,28 @@ public class ClubServiceLayer implements  IClubServiceLayer
         }
         return "";
     }
+
+    /**
+     * This method generates a new incremented club id when a new request for club creation is submitted.
+     * @return the incremented club id
+     */
     private String generateClubId()
     {
+        logger.info("inside generateClubId() in ClubServiceLayer ");
         try
         {
             final int one=1;
             String latestClubId = iClubSecondDataLayer.getLatestClubId();
-            List<String> splitLatestClubId = List.of(latestClubId.split("_"));
-            int clubNUmber=Integer.parseInt(splitLatestClubId.get(1));
-            int newClubNumber=clubNUmber+one;
-            String newClubId=splitLatestClubId.get(0).concat("_").concat(String.valueOf(newClubNumber));
-            return newClubId;
+            if(latestClubId != null)
+            {
+                List<String> splitLatestClubId = List.of(latestClubId.split("_"));
+                int clubNUmber=Integer.parseInt(splitLatestClubId.get(1));
+                int newClubNumber=clubNUmber+one;
+                String newClubId=splitLatestClubId.get(0).concat("_").concat(String.valueOf(newClubNumber));
+                return newClubId;
+            }
+            String firstClubId = "CLB_1";
+            return firstClubId;
         }
         catch (SQLException e)
         {
