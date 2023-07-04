@@ -14,13 +14,13 @@ public class DatabaseConnectionTest {
     private Connection connection;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         databaseConnection = new DatabaseConnection();
         connection = databaseConnection.getDatabaseConnection();
     }
 
     @AfterEach
-    public void TestTearDown() throws Exception {
+    public void TestTearDown() {
         databaseConnection.closeDatabaseConnection();
     }
 

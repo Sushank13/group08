@@ -8,8 +8,7 @@ import java.util.HashMap;
 
 public interface IClubDataLayer
 {
-   public boolean createNewClubRequest(String requestId, Club club,String requestType,String requestStatus)throws SQLException;
+   public boolean createNewClubRequest(String requestId, Club club, String requestType, String requestStatus) throws SQLException;
 
    public ArrayList<HashMap<String, String>> getAllClubCategories() throws SQLException;
-
 }
