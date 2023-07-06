@@ -37,3 +37,11 @@ BEGIN
       INSERT INTO newAndUpdateClubRequest values (requestID, clubID,requestorEmailID,categoryID,clubName,clubDescription,facebookLink,instagramLink,location,meetingTime,clubImage,rules,requestType,requestStatus);
 END //
 DELIMITER ;
+
+-- Procedure for inserting data of new member request
+DELIMITER //
+CREATE PROCEDURE `MemberSaveNewMember` (IN emailId VARCHAR(255), IN firstName VARCHAR(255), IN lastName VARCHAR(255), IN userType VARCHAR(255), IN program VARCHAR(255), IN term INT(11), IN mobileNumber VARCHAR(255), IN DOB DATE)
+BEGIN
+	INSERT INTO member Values (emailID, firstName, lastName, userType, program, term, mobileNumber, DOB);
+END //
+DELIMITER ;
