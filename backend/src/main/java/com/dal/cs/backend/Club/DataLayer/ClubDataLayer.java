@@ -1,19 +1,21 @@
 package com.dal.cs.backend.Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
-import com.dal.cs.backend.Club.ServiceLayer.ClubServiceLayer;
 import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @Component
 public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
 {
-    private static final Logger logger= LogManager.getLogger(ClubServiceLayer.class);
+    private static final Logger logger= LogManager.getLogger(ClubDataLayer.class);
     private IDatabaseConnection iDatabaseConnection;
     private Connection connection;
     private String callProcedure;
@@ -106,5 +108,44 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         callableStatement.execute();
         logger.info("Exiting createNewClubRequest() in ClubDataLayer");
         return true;
+
+    }
+
+    /**
+     * Retrieves all club categories from the category table by calling the stored procedure.
+     * @return A list of maps containing category names and corresponding category IDs.
+     * @throws SQLException If an error occurs while executing the stored procedure.
+     */
+    @Override
+    public ArrayList<HashMap<String, String>> getAllClubCategories() throws SQLException {
+
+        if (connection != null) {
+
+            logger.info("Data Layer Entered: Entered getAllClubCategories()");
+            callProcedure = "{CALL selectAllFromCategory()}";
+            callableStatement = connection.prepareCall(callProcedure);
+            boolean resultStatus = callableStatement.execute();
+            logger.info("getAllClubCategories- Procedure execution call successful, resultStatus = " + resultStatus);
+            ArrayList<HashMap<String, String>> allClubCategories = null;
+            if (resultStatus) {
+                ResultSet resultSet = callableStatement.getResultSet();
+                allClubCategories = new ArrayList<>();
+
+                while (resultSet.next()) {
+                    HashMap<String, String> categoryMap = new HashMap<>();
+                    categoryMap.put("categoryID", resultSet.getString("categoryID"));
+                    categoryMap.put("categoryName", resultSet.getString("categoryName"));
+                    allClubCategories.add(categoryMap);
+                }
+                logger.info("getAllClubCategories- Category collection created successfully");
+            }
+            logger.info("Exiting Data Layer: Returning category collection to Service Layer");
+
+            return allClubCategories;
+        }
+        else {
+            logger.error("Exception: Unable to establish connection to Database");
+            return null;
+        }
     }
 }
