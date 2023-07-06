@@ -25,12 +25,6 @@ CREATE TABLE category (
   PRIMARY KEY (categoryID)
 );
 
-CREATE TABLE login (
-  emailID VARCHAR(255),
-  password VARCHAR(255) NOT NULL,
-  PRIMARY KEY (emailID)
-);
-
 CREATE TABLE member (
   emailID VARCHAR(255),
   firstName VARCHAR(255) NOT NULL,
@@ -40,7 +34,15 @@ CREATE TABLE member (
   term INT,
   mobileNumber VARCHAR(255) NOT NULL,
   DOB DATE NOT NULL,
-  FOREIGN KEY (emailID) REFERENCES login(emailID)
+  PRIMARY KEY (emailID)
+
+);
+
+CREATE TABLE login (
+  emailID VARCHAR(255),
+  password VARCHAR(255) NOT NULL,
+  PRIMARY KEY (emailID),
+  FOREIGN KEY (emailID) REFERENCES member(emailID)
 );
 
 CREATE TABLE club (
@@ -117,16 +119,6 @@ VALUES
   ('CAT_2', 'Social Justice & Outreach'),
   ('CAT_3', 'Hobbies & Recreation');
 
--- Insert data into login table
-INSERT INTO login (emailID, password)
-VALUES
-  ('bikectr@dal.ca', 'password1'),
-  ('user@dal.ca', 'password'),
-  ('daloutdoors@dal.ca', 'password2'),
-  ('swit@dal.ca', 'password3'),
-  ('km421782@dal.ca', 'password4'),
-  ('shrutichaturvedi2707@dal.ca', 'password5');
-
 -- Insert data into member table
 INSERT INTO member (emailID, firstName, lastName, userType, program, term, mobileNumber, DOB)
 VALUES
@@ -136,6 +128,16 @@ VALUES
   ('swit@dal.ca', 'Suman', 'Wit', 'member', 'Program 4', 1, 2345678801, '2002-08-18'),
   ('km421782@dal.ca', 'K', 'M', 'president', 'Program 2', 2, 2345677777, '1992-01-06'),
   ('shrutichaturvedi2707@dal.ca', 'Shruti', 'Chaturvedi', 'president', 'Program 4', 1, 2345678888, '1994-11-22');
+
+-- Insert data into login table
+INSERT INTO login (emailID, password)
+VALUES
+  ('bikectr@dal.ca', 'password1'),
+  ('user@dal.ca', 'password'),
+  ('daloutdoors@dal.ca', 'password2'),
+  ('swit@dal.ca', 'password3'),
+  ('km421782@dal.ca', 'password4'),
+  ('shrutichaturvedi2707@dal.ca', 'password5');
 
 -- Insert data into club table
 INSERT INTO club (clubID, clubName, description, presidentEmailID, facebookLink, instagramLink, categoryID, location, meetingTime, clubImage, rules)
@@ -165,6 +167,6 @@ VALUES
 -- DROP table joinClubRequest;
 -- DROP table newAndUpdateClubRequest;
 -- DROP table club;
--- DROP table member;
 -- DROP table login;
+-- DROP table member;
 -- DROP table category;
