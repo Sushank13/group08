@@ -1,6 +1,7 @@
 package com.dal.cs.backend.member.ServiceLayer;
 
 import com.dal.cs.backend.member.DataLayer.IMemberDataLayer;
+import com.dal.cs.backend.member.DataLayer.MemberDataLayer;
 import com.dal.cs.backend.member.MemberObject.Member;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +15,9 @@ public class MemberServiceLayer {
     @Autowired
     IMemberDataLayer iMemberDataLayer;
 
+    public MemberServiceLayer() {
+        iMemberDataLayer = new MemberDataLayer();
+    }
 
     /**
      * This method accepts the club details  for a new club request.
