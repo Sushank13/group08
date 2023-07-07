@@ -148,4 +148,41 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
             return null;
         }
     }
+
+    /**
+     * Inserts the updated club details into a request table.
+     * @return A boolean value true if insert is successful, else false in case of error occured.
+     * @throws SQLException If an error occurs while executing the stored procedure.
+     */
+    @Override
+    public boolean insertUpdatedClubDetails(String requestId, Club club, String requestType, String requestStatus) throws SQLException {
+        if (connection != null) {
+
+            logger.info("Data Layer Entered: Entered insertUpdatedClubDetails()");
+            callProcedure="{CALL insertIntoNewAndUpdateClubRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+            callableStatement=connection.prepareCall(callProcedure);
+            callableStatement.setString(1,requestId);
+            callableStatement.setString(2,club.getClubID());
+            callableStatement.setString(3,club.getPresidentEmailID());
+            callableStatement.setString(4,club.getCategoryID());
+            callableStatement.setString(5,club.getClubName());
+            callableStatement.setString(6,club.getDescription());
+            callableStatement.setString(7,club.getFacebookLink());
+            callableStatement.setString(8,club.getInstagramLink());
+            callableStatement.setString(9,club.getLocation());
+            callableStatement.setString(10,club.getMeetingTime());
+            callableStatement.setString(11,club.getClubImage());
+            callableStatement.setString(12,club.getRules());
+            callableStatement.setString(13,requestType);
+            callableStatement.setString(14,requestStatus);
+            boolean resultStatus = callableStatement.execute();
+            logger.info("insertUpdatedClubDetails- Procedure execution call successful, resultStatus = " + resultStatus);
+            logger.info("Exiting Data Layer: Returning boolean status to Service Layer");
+            return resultStatus;
+        }
+        else {
+            logger.error("Exception: Connection not established to Database. Please establish connection to continue.");
+            return false;
+        }
+    }
 }
