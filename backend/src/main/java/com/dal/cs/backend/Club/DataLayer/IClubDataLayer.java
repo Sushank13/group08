@@ -11,4 +11,6 @@ public interface IClubDataLayer
    public boolean createNewClubRequest(String requestId, Club club, String requestType, String requestStatus) throws SQLException;
 
    public ArrayList<HashMap<String, String>> getAllClubCategories() throws SQLException;
+   public boolean insertUpdatedClubDetails(String requestId, Club club, String requestType, String requestStatus) throws SQLException;
+
 }
