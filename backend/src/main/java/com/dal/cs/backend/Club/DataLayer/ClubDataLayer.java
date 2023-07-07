@@ -144,7 +144,7 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
             return allClubCategories;
         }
         else {
-            logger.error("Exception: Unable to establish connection to Database");
+            logger.error("Exception: Database Connection not established.");
             return null;
         }
     }
@@ -177,12 +177,12 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
             callableStatement.setString(14,requestStatus);
             int result = callableStatement.executeUpdate();
             boolean resultStatus = (result==1);
-            logger.info("insertUpdatedClubDetails- Procedure execution call successful, resultStatus = " + requestStatus);
-            logger.info("Exiting Data Layer: Returning boolean status to Service Layer");
+            logger.info("insertUpdatedClubDetails- Procedure execution call successful, resultStatus = " + resultStatus);
+            logger.info("Exiting Data Layer: Returning boolean resultStatus to Service Layer");
             return resultStatus;
         }
         else {
-            logger.error("Exception: Connection not established to Database.");
+            logger.error("Exception: Database Connection not established.");
             return false;
         }
     }

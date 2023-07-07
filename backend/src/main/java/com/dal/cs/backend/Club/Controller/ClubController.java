@@ -49,7 +49,10 @@ public class ClubController
 
     @RequestMapping(method = RequestMethod.POST, value="/updateClubDetails")
     public String updateClubDetails(@RequestBody Club club) {
+        logger.info("Controller Entered: Received request for updating club details.");
+        logger.info("updateClubDetails- Calling Service layer updateClubDetails");
         String responseResult = iClubServiceLayer.updateClubDetails(club);
+        logger.info("Exiting Controller: Returning service layer response result to Frontend via POST /updateClubDetails");
         return responseResult;
     }
 }

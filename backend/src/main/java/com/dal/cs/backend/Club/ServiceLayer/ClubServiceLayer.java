@@ -73,7 +73,6 @@ public class ClubServiceLayer implements  IClubServiceLayer
                 List<String> splitLatestRequestId = List.of(latestRequestId.split("_"));
                 int requestNumber= Integer.parseInt(splitLatestRequestId.get(1));
                 int newRequestNumber=requestNumber+one;
-                System.out.println("newRequestNumber = " + newRequestNumber);
                 String newRequestId=splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
                 return newRequestId;
             }
@@ -133,23 +132,25 @@ public class ClubServiceLayer implements  IClubServiceLayer
             throw new RuntimeException(e);
         }
     }
-    /**
-     * Retrieves all club categories by invoking the corresponding data layer function.
-     *
-     * @return A list of maps containing category names and corresponding category IDs.
-     */
+
+
     @Override
     public String updateClubDetails(Club club)
     {
+        logger.info("Service Layer Entered: Entered updateClubDetails- Calling Data layer insertUpdatedClubDetails");
         String errorMessage = null;
         String requestId=generateRequestId();
         String requestType= String.valueOf(RequestType.UPDATE_REQUEST);
         String requestStatus=String.valueOf(RequestStatus.PENDING);
         try
         {
-            boolean createNewClubRequestStatus = iClubDataLayer.insertUpdatedClubDetails(requestId, club, requestType, requestStatus);
-            if (createNewClubRequestStatus) {
+            boolean resultStatus = iClubDataLayer.insertUpdatedClubDetails(requestId, club, requestType, requestStatus);
+            if (resultStatus) {
+                logger.info("Exiting Service Layer: Returning requestId to Controller");
                 return requestId;
+            }
+            else {
+                errorMessage = "Unable to insert updated club detail values.";
             }
         }
         catch(SQLException e)
@@ -162,6 +163,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
             errorMessage = e.getMessage();
             logger.error("Exception occured in 'updateClubDetails': "+errorMessage);
         }
+        logger.info("Exiting Service Layer: Returning error message to Controller");
         return errorMessage;
     }
 }
