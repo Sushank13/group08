@@ -175,13 +175,14 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
             callableStatement.setString(12,club.getRules());
             callableStatement.setString(13,requestType);
             callableStatement.setString(14,requestStatus);
-            boolean resultStatus = callableStatement.execute();
-            logger.info("insertUpdatedClubDetails- Procedure execution call successful, resultStatus = " + resultStatus);
+            int result = callableStatement.executeUpdate();
+            boolean resultStatus = (result==1);
+            logger.info("insertUpdatedClubDetails- Procedure execution call successful, resultStatus = " + requestStatus);
             logger.info("Exiting Data Layer: Returning boolean status to Service Layer");
             return resultStatus;
         }
         else {
-            logger.error("Exception: Connection not established to Database. Please establish connection to continue.");
+            logger.error("Exception: Connection not established to Database.");
             return false;
         }
     }

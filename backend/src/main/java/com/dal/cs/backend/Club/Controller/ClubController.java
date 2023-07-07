@@ -46,4 +46,10 @@ public class ClubController
         logger.info("Exiting Controller: Returning categories collection to Frontend via GET /getAllClubCategory");
         return allClubCategories;
     }
+
+    @RequestMapping(method = RequestMethod.POST, value="/updateClubDetails")
+    public String updateClubDetails(@RequestBody Club club) {
+        String responseResult = iClubServiceLayer.updateClubDetails(club);
+        return responseResult;
+    }
 }
