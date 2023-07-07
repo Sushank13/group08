@@ -1,36 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
-import axios from 'axios';
-import React, { useState } from 'react';
+import { ChakraProvider, theme } from '@chakra-ui/react';
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Admin from './Pages/Admin';
+import ClubMembershipForm from './Pages/ClubMembershipForm';
+import CreateEventForm from './Pages/CreateEventForm';
+import Layout from './Pages/layout';
+import NewClubRequest from './Pages/NewClubRequest';
+import Subscribe from './Pages/Subscribe';
 
-axios.defaults.baseURL = 'https://sample-boot-service.onrender.com';
-axios.defaults.headers.common['Content-Type'] = 'application/json;charset=utf-8';
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+const router = createBrowserRouter(
+  [
+    {
+      element: <Layout/>,
+      children:[
+        { 
+        path: "/",
+        element: <Admin />
+        },
+        {
+          path: "/NewClubRequest",
+          element: <NewClubRequest />
+        },
+        {
+          path:"/subscribe",
+          element: <Subscribe />
+        },
+        {
+          path:"/clubmembershipform",
+          element: <ClubMembershipForm />
+        },
+        {
+          path:"/createeventform",
+          element: <CreateEventForm />
+        }
+      ]
+    }
+  ]
+);
 
 function App() {
-	const [responseData, setResponseData] = useState(null);
-
-const handleButtonClick = () => {
-    axios.get('/welcome')
-      .then(response => {
-        console.log(response);
-        setResponseData(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" height="100" />
-        
-        <button style={{ padding: '32px 16px' }} onClick={handleButtonClick}>Test Welcome API</button>
-        {responseData && <div>{responseData.message}</div>}
-      </header>
-    </div>
+    <ChakraProvider theme={theme}>
+        <RouterProvider router={router} />
+    </ChakraProvider>
   );
 }
+
+
 
 export default App;
