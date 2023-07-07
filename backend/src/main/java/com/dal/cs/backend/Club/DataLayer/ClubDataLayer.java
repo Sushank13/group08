@@ -150,8 +150,13 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
     }
 
     /**
-     * Inserts the updated club details into a request table.
-     * @return A boolean value true if insert is successful, else false in case of error occured.
+     * Inserts the updated club details into the request table.
+     *
+     * @param requestId The ID of the request.
+     * @param club The club object containing the new details.
+     * @param requestType The type of the request.
+     * @param requestStatus The status of the request.
+     * @return True if the insert operation is successful, else an error message.
      * @throws SQLException If an error occurs while executing the stored procedure.
      */
     @Override

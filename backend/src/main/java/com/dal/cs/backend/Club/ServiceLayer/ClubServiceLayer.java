@@ -133,7 +133,12 @@ public class ClubServiceLayer implements  IClubServiceLayer
         }
     }
 
-
+    /**
+     * Inserts the updated club details into the request table by invoking the corresponding data layer function.
+     *
+     * @param club The club object containing the new details.
+     * @return The request ID if the data layer operation is successful, else an error message.
+     */
     @Override
     public String updateClubDetails(Club club)
     {
