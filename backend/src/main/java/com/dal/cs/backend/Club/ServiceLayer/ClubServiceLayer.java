@@ -133,4 +133,35 @@ public class ClubServiceLayer implements  IClubServiceLayer
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Retrieves all club categories by invoking the corresponding data layer function.
+     *
+     * @return A list of maps containing category names and corresponding category IDs.
+     */
+    @Override
+    public String updateClubDetails(Club club)
+    {
+        String errorMessage = null;
+        String requestId=generateRequestId();
+        String requestType= String.valueOf(RequestType.UPDATE_REQUEST);
+        String requestStatus=String.valueOf(RequestStatus.PENDING);
+        try
+        {
+            boolean createNewClubRequestStatus = iClubDataLayer.insertUpdatedClubDetails(requestId, club, requestType, requestStatus);
+            if (createNewClubRequestStatus) {
+                return requestId;
+            }
+        }
+        catch(SQLException e)
+        {
+            errorMessage = e.getMessage();
+            logger.error("Exception occured in 'updateClubDetails': "+errorMessage);
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.getMessage();
+            logger.error("Exception occured in 'updateClubDetails': "+errorMessage);
+        }
+        return errorMessage;
+    }
 }
