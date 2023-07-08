@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Component
 public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
@@ -147,5 +148,16 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
             logger.error("Exception: Unable to establish connection to Database");
             return null;
         }
+    }
+
+    /**
+     * This method fetches the records of all the clubs from the database table
+     * @return list of clubs fetched
+     * @throws SQLException
+     */
+    @Override
+    public List<Club> getAllClubs() throws SQLException
+    {
+        return null;
     }
 }

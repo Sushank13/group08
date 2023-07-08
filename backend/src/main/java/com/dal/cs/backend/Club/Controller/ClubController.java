@@ -57,7 +57,8 @@ public class ClubController
     {
         logger.info("Controller Entered: Received request to get all clubs.");
         logger.info("getAllClubs- Calling getAllClubs() of ServiceLayer");
+        List<Club> listOfAllClubs=iClubServiceLayer.getAllClubs();
         logger.info("Exiting Controller: Returning list of clubs to Frontend via GET /getAllClubs");
-        return null;
+        return listOfAllClubs;
     }
 }
