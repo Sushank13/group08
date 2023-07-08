@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class ClubController
@@ -26,10 +27,10 @@ public class ClubController
     @RequestMapping(method = RequestMethod.POST,value="/registerClub")
     public String createClubRequest(@RequestBody Club club)
     {
-        logger.info("New request received for club creation");
-        logger.info("Inside method createClubRequest() in ClubController");
+        logger.info("Controller Entered: Received a new request for club creation");
+        logger.info(" createClubRequest- calling createClubRequest() of ServiceLayer");
         String message=iClubServiceLayer.createNewClubRequest(club);
-        logger.info("Exiting method createClubRequest() in ClubController");
+        logger.info("Exiting Controller: returning message if create club request generated or not");
         return message;
     }
 
@@ -45,5 +46,18 @@ public class ClubController
         ArrayList<HashMap<String, String>> allClubCategories = iClubServiceLayer.getAllClubCategories();
         logger.info("Exiting Controller: Returning categories collection to Frontend via GET /getAllClubCategory");
         return allClubCategories;
+    }
+
+    /**
+     *This receives request to retrieve a list of all clubs in DalClubs
+     * @return list of clubs
+     */
+    @RequestMapping(method = RequestMethod.GET, value="/getAllClubs")
+    public List<Club> getAllClubs()
+    {
+        logger.info("Controller Entered: Received request to get all clubs.");
+        logger.info("getAllClubs- Calling getAllClubs() of ServiceLayer");
+        logger.info("Exiting Controller: Returning list of clubs to Frontend via GET /getAllClubs");
+        return null;
     }
 }
