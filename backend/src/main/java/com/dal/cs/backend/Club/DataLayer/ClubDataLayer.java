@@ -181,12 +181,12 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         boolean procedureCallStatus=callableStatement.execute();
         logger.info("Stored procedure for getAllClubs() executed with status "+procedureCallStatus);
         ResultSet resultSet=callableStatement.getResultSet();
-        List<Club> litOfAllClubs=new ArrayList<>();
-        Club club=new Club();
+        List<Club> listOfAllClubs=new ArrayList<>();
         if(procedureCallStatus)
         {
             while(resultSet.next())
             {
+                Club club=new Club();
                 club.setClubID(resultSet.getString(1));
                 club.setClubName(resultSet.getString(2));
                 club.setDescription(resultSet.getString(3));
@@ -198,11 +198,11 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
                 club.setMeetingTime(resultSet.getString(9));
                 club.setClubImage(resultSet.getString(10));
                 club.setRules(resultSet.getString(11));
-                litOfAllClubs.add(club);
+                listOfAllClubs.add(club);
             }
             logger.info("getAllClubs(): list of all clubs created successfully");
             logger.info("Exiting DataLayer: returning list of all clubs to Service Layer");
-            return litOfAllClubs;
+            return List.copyOf(listOfAllClubs);
         }
         else
         {

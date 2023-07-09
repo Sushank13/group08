@@ -157,8 +157,8 @@ public class ClubServiceLayer implements  IClubServiceLayer
         logger.info("Service Layer Entered: Entered getAllClubs()- Calling Data layer getAllClubs()");
         try
         {
-            List<Club> listOfClubs=iClubDataLayer.getAllClubs();
-            return listOfClubs;
+            List<Club> listOfAllClubs=iClubDataLayer.getAllClubs();
+            return listOfAllClubs;
         }
         catch(SQLException e)
         {
