@@ -202,7 +202,7 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
             }
             logger.info("getAllClubs(): list of all clubs created successfully");
             logger.info("Exiting DataLayer: returning list of all clubs to Service Layer");
-            return List.copyOf(listOfAllClubs);
+            return listOfAllClubs;
         }
         else
         {
