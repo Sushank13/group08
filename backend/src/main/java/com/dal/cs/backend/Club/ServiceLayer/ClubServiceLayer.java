@@ -142,7 +142,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
             logger.info("Exiting Service Layer: Returning category collection to Controller");
             return allClubCategories;
         } catch (SQLException e) {
-            logger.error("getAllClubCategories- SQL Exception occured while getting response from Data layer");
+            logger.error("getAllClubCategories- SQL Exception occurred while getting response from Data layer"+e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -154,7 +154,17 @@ public class ClubServiceLayer implements  IClubServiceLayer
     @Override
     public List<Club> getAllClubs()
     {
-
+        logger.info("Service Layer Entered: Entered getAllClubs()- Calling Data layer getAllClubs()");
+        try
+        {
+            List<Club> listOfClubs=iClubDataLayer.getAllClubs();
+            return listOfClubs;
+        }
+        catch(SQLException e)
+        {
+            logger.error("getAllClubs()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
+        }
+        logger.info("ServiceLayer: getAllClubs() returned null to Controller");
         return null;
     }
 }
