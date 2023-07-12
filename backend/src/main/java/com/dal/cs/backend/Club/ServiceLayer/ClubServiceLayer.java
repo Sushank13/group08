@@ -205,6 +205,10 @@ public class ClubServiceLayer implements  IClubServiceLayer
     @Override
     public boolean approveClubRequest(String reqId)
     {
+        if(reqId==null)
+        {
+            return false;
+        }
 
         return true;
     }
