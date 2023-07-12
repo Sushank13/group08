@@ -13,7 +13,6 @@ public class Club
     private String meetingTime;
     private String clubImage;
     private String rules;
-
     public String getClubID() {
         return clubID;
     }
