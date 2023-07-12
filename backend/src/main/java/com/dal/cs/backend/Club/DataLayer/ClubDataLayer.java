@@ -291,4 +291,43 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
             return null;
         }
     }
+
+    /**
+     * This method calls a stored procedure that inserts a record in the Club table to create a new club
+     * @param club is the club object that has all the club details
+     * @return true if the club record inserted else return false
+     * @throws SQLException
+     */
+    public boolean createClub(Club club) throws SQLException
+    {
+        logger.info("Entered DataLayer: Entered createClub()");
+        callProcedure="{CALL createClub(?,?,?,?,?,?,?,?,?,?,?)}";
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1,club.getClubID());
+        callableStatement.setString(2,club.getClubName());
+        callableStatement.setString(3,club.getDescription());
+        callableStatement.setString(4,club.getPresidentEmailID());
+        callableStatement.setString(5,club.getFacebookLink());
+        callableStatement.setString(6,club.getInstagramLink());
+        callableStatement.setString(7,club.getCategoryID());
+        callableStatement.setString(8,club.getLocation());
+        callableStatement.setString(9,club.getMeetingTime());
+        callableStatement.setString(10,club.getClubImage());
+        callableStatement.setString(1,club.getRules());
+        logger.info("Calling stored procedure createClub");
+        boolean procedureCallStatus=callableStatement.execute();
+        logger.info("stored procedure called with status as: "+ procedureCallStatus);
+        if(procedureCallStatus)
+        {
+            logger.info("Club record for club with Club ID: "+ club.getClubID()+" inserted successfully");
+            logger.info("Exiting datalayer: returning true to ServiceLayer");
+            return true;
+        }
+        else
+        {
+            logger.info("Club record not inserted.");
+            logger.info("Exiting datalayer: returning false to ServiceLayer");
+            return false;
+        }
+    }
 }
