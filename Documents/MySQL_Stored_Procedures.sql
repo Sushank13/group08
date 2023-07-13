@@ -49,7 +49,16 @@ DELIMITER ;
 -- Procedure to get the club request information from newAndUpdateClubRequest table based on the reqid
 DELIMITER //
 CREATE PROCEDURE getClubRequestInfoByRequestId(IN requestId varchar(50))
-BEGIN  
-  select * from newAndUpdateClubRequest where requestID=requestId;
+BEGIN
+  SELECT * FROM newAndUpdateClubRequest as naucr WHERE naucr.requestID=requestID;
+END //
+DELIMITER ;
+
+
+-- Procedure to create a club by inserting record in Club table
+DELIMITER //
+CREATE PROCEDURE createClub(IN clubID VARCHAR(50),IN clubName VARCHAR(255),IN clubDescription VARCHAR(255),IN presidentEmailID VARCHAR(255),IN facebookLink VARCHAR(255),IN instagramLink VARCHAR(255),IN categoryID VARCHAR(50),IN location VARCHAR(255), IN meetingTime VARCHAR(255),IN clubImage VARCHAR(255),IN rules VARCHAR(255))
+BEGIN
+  INSERT INTO club values(clubID,clubName,clubDescription, presidentEmailID,facebookLink,instagramLink,categoryID,location,meetingTime,clubImage,rules);
 END //
 DELIMITER ;

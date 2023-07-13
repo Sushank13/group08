@@ -54,7 +54,7 @@ CREATE TABLE club (
   instagramLink VARCHAR(255),
   categoryID VARCHAR(50),
   location VARCHAR(255) NOT NULL,
-  meetingTime TIME NOT NULL,
+  meetingTime VARCHAR(255) NOT NULL,
   clubImage VARCHAR(255),
   rules VARCHAR(255) NOT NULL,
   PRIMARY KEY (clubID),
