@@ -50,7 +50,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getClubRequestInfoByRequestId(IN requestId varchar(50))
 BEGIN  
-  select * from newAndUpdateClubRequest where requestID=requestId;
+  SELECT * FROM newAndUpdateClubRequest as naucr WHERE naucr.requestID=requestID;
 END //
 DELIMITER ;
 
