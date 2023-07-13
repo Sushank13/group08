@@ -45,3 +45,11 @@ BEGIN
 	INSERT INTO member Values (emailID, firstName, lastName, userType, program, term, mobileNumber, DOB);
 END //
 DELIMITER ;
+
+-- Procedure to get the club request information from newAndUpdateClubRequest table based on the reqid
+DELIMITER //
+CREATE PROCEDURE getClubRequestInfoByRequestId(IN requestId varchar(50))
+BEGIN  
+  select * from newAndUpdateClubRequest where requestID=requestId;
+END //
+DELIMITER ;
