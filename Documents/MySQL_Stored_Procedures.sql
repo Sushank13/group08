@@ -49,7 +49,7 @@ DELIMITER ;
 -- Procedure to get the club request information from newAndUpdateClubRequest table based on the reqid
 DELIMITER //
 CREATE PROCEDURE getClubRequestInfoByRequestId(IN requestId varchar(50))
-BEGIN  
+BEGIN
   SELECT * FROM newAndUpdateClubRequest as naucr WHERE naucr.requestID=requestID;
 END //
 DELIMITER ;
