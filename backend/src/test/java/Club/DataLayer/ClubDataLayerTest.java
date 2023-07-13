@@ -4,6 +4,8 @@ import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
+import com.dal.cs.backend.Club.Enum.RequestStatus;
+import com.dal.cs.backend.Club.Enum.RequestType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ClubDataLayerTest {
@@ -51,6 +54,29 @@ public class ClubDataLayerTest {
         try {
             ArrayList<HashMap<String, String>> result = iclubDataLayer.getAllClubCategories();
             System.out.println("result = \n" + result);
+        }
+        catch (Exception e) {
+            fail("Test failed: Exception occured- "+e.getMessage());
+        }
+    }
+    @Test
+    void updateClubDetailsTest(){
+        try {
+            // Request ID
+            String requestId = "REQ_00_"+(int)Math.floor(Math.random()*500);
+            // New Club object with updated details
+            Club club = new Club();
+            club.setClubID("CLB_1");
+            club.setClubName("Dal & Kings Bike Society");
+            club.setDescription("Enthusiastic club organising biking trips.");
+            // request type
+            String requestType = String.valueOf(RequestType.UPDATE_REQUEST);
+            // request status
+            String requestStatus = String.valueOf(RequestStatus.PENDING);
+            // calling data layer function
+            boolean result = iclubDataLayer.insertUpdatedClubDetails(requestId,club,requestType,requestStatus);
+            System.out.println("result = " + result);
+            assertTrue(result);
         }
         catch (Exception e) {
             fail("Test failed: Exception occurred- "+e.getMessage());

@@ -50,7 +50,7 @@ public class ClubController
     }
 
     /**
-     *This receives request to retrieve a list of all clubs in DalClubs
+     * This receives request to retrieve a list of all clubs in DalClubs
      * @return list of clubs
      */
     @RequestMapping(method = RequestMethod.GET, value="/getAllClubs")
@@ -61,5 +61,20 @@ public class ClubController
         List<Club> listOfAllClubs=iClubServiceLayer.getAllClubs();
         logger.info("Exiting Controller: Returning list of clubs to Frontend via GET /getAllClubs");
         return listOfAllClubs;
+    }
+
+    /**
+     * Updates the details of a existing club.
+     *
+     * @param club The club object containing the new details.
+     * @return A string response result, upon success returns newly generated request ID and upon failure returns error message.
+     */
+    @RequestMapping(method = RequestMethod.POST, value="/updateClubDetails")
+    public String updateClubDetails(@RequestBody Club club) {
+        logger.info("Controller Entered: Received request for updating club details.");
+        logger.info("updateClubDetails- Calling Service layer updateClubDetails");
+        String responseResult = iClubServiceLayer.updateClubDetails(club);
+        logger.info("Exiting Controller: Returning service layer response result to Frontend via POST /updateClubDetails");
+        return responseResult;
     }
 }

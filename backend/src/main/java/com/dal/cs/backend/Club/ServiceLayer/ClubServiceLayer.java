@@ -86,7 +86,6 @@ public class ClubServiceLayer implements  IClubServiceLayer
                 List<String> splitLatestRequestId = List.of(latestRequestId.split("_"));
                 int requestNumber= Integer.parseInt(splitLatestRequestId.get(1));
                 int newRequestNumber=requestNumber+one;
-                System.out.println("newRequestNumber = " + newRequestNumber);
                 String newRequestId=splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
                 return newRequestId;
             }
@@ -166,5 +165,44 @@ public class ClubServiceLayer implements  IClubServiceLayer
         }
         logger.info("ServiceLayer: getAllClubs() returned null to Controller");
         return null;
+    }
+
+    /**
+     * Inserts the updated club details into the request table by invoking the corresponding data layer function.
+     *
+     * @param club The club object containing the new details.
+     * @return The request ID if the data layer operation is successful, else an error message.
+     */
+    @Override
+    public String updateClubDetails(Club club)
+    {
+        logger.info("Service Layer Entered: Entered updateClubDetails- Calling Data layer insertUpdatedClubDetails");
+        String errorMessage = null;
+        String requestId=generateRequestId();
+        String requestType= String.valueOf(RequestType.UPDATE_REQUEST);
+        String requestStatus=String.valueOf(RequestStatus.PENDING);
+        try
+        {
+            boolean resultStatus = iClubDataLayer.insertUpdatedClubDetails(requestId, club, requestType, requestStatus);
+            if (resultStatus) {
+                logger.info("Exiting Service Layer: Returning requestId to Controller");
+                return requestId;
+            }
+            else {
+                errorMessage = "Unable to insert updated club detail values.";
+            }
+        }
+        catch(SQLException e)
+        {
+            errorMessage = e.getMessage();
+            logger.error("Exception occured in 'updateClubDetails': "+errorMessage);
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.getMessage();
+            logger.error("Exception occured in 'updateClubDetails': "+errorMessage);
+        }
+        logger.info("Exiting Service Layer: Returning error message to Controller");
+        return errorMessage;
     }
 }
