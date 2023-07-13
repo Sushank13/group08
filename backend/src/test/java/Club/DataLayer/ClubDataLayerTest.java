@@ -9,8 +9,10 @@ import com.dal.cs.backend.Club.Enum.RequestType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -77,7 +79,21 @@ public class ClubDataLayerTest {
             assertTrue(result);
         }
         catch (Exception e) {
-            fail("Test failed: Exception occured- "+e.getMessage());
+            fail("Test failed: Exception occurred- "+e.getMessage());
         }
+    }
+    @Test
+    public void getAllClubsTest()
+    {
+        try
+        {
+            List<Club> listOfAllClubs = iclubDataLayer.getAllClubs();
+            System.out.println("List of Clubs: \n"+listOfAllClubs);
+        }
+        catch (SQLException e)
+        {
+            fail("Test failed: Exception occurred- "+e.getMessage());
+        }
+
     }
 }

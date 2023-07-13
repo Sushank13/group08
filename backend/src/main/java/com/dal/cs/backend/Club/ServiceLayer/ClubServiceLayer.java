@@ -28,20 +28,32 @@ public class ClubServiceLayer implements  IClubServiceLayer
         iClubSecondDataLayer = new ClubDataLayer();
     }
 
+    /**
+     * This method generates and sets the club id of a new club. It also generates a new request id(ticket)
+     * for the new club
+     * @param club represents the real world club object that has all the information of the club
+     * @return message that request generated successfully or not
+     */
+    @Override
     public String createNewClubRequest(Club club)
     {
-        logger.info("inside createNewClubRequest() in ClubServiceLayer");
+        logger.info("Entered ServiceLayer: createNewClubRequest() entered ");
+        logger.info("Calling generateRequestId()");
         String requestId=generateRequestId();
+        logger.info("Calling generateClubId()");
         String clubId=generateClubId();
         club.setClubID(clubId);
         String requestType= String.valueOf(RequestType.NEW_REQUEST);
         String requestStatus=String.valueOf(RequestStatus.PENDING);
         try
         {
+            logger.info("Calling createNewClubRequest() of DataLayer");
             boolean createNewClubRequestStatus = iClubDataLayer.createNewClubRequest(requestId, club, requestType, requestStatus);
-            if (createNewClubRequestStatus) {
+            if (createNewClubRequestStatus)
+            {
                 String message = "Your request for new club creation has been submitted to the Admin with request id: " + requestId;
                 logger.info("new club request created successfully");
+                logger.info("Exiting ServiceLayer");
                 return message;
             }
         }
@@ -54,6 +66,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
             logger.error(e.getMessage());
         }
         String errorMessage = "There was a problem submitting your request. Please raise a new request.";
+        logger.info("Exiting ServiceLayer");
         return errorMessage;
     }
 
@@ -128,9 +141,30 @@ public class ClubServiceLayer implements  IClubServiceLayer
             logger.info("Exiting Service Layer: Returning category collection to Controller");
             return allClubCategories;
         } catch (SQLException e) {
-            logger.error("getAllClubCategories- SQL Exception occured while getting response from Data layer");
+            logger.error("getAllClubCategories- SQL Exception occurred while getting response from Data layer"+e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * This method fetches all the clubs
+     * @return list of all clubs
+     */
+    @Override
+    public List<Club> getAllClubs()
+    {
+        logger.info("Service Layer Entered: Entered getAllClubs()- Calling Data layer getAllClubs()");
+        try
+        {
+            List<Club> listOfAllClubs=iClubDataLayer.getAllClubs();
+            return listOfAllClubs;
+        }
+        catch(SQLException e)
+        {
+            logger.error("getAllClubs()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
+        }
+        logger.info("ServiceLayer: getAllClubs() returned null to Controller");
+        return null;
     }
 
     /**

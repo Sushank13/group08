@@ -37,3 +37,28 @@ BEGIN
       INSERT INTO newAndUpdateClubRequest values (requestID, clubID,requestorEmailID,categoryID,clubName,clubDescription,facebookLink,instagramLink,location,meetingTime,clubImage,rules,requestType,requestStatus);
 END //
 DELIMITER ;
+
+-- Procedure for inserting data of new member request
+DELIMITER //
+CREATE PROCEDURE `MemberSaveNewMember` (IN emailId VARCHAR(255), IN firstName VARCHAR(255), IN lastName VARCHAR(255), IN userType VARCHAR(255), IN program VARCHAR(255), IN term INT(11), IN mobileNumber VARCHAR(255), IN DOB DATE)
+BEGIN
+	INSERT INTO member Values (emailID, firstName, lastName, userType, program, term, mobileNumber, DOB);
+END //
+DELIMITER ;
+
+-- Procedure to get the club request information from newAndUpdateClubRequest table based on the reqid
+DELIMITER //
+CREATE PROCEDURE getClubRequestInfoByRequestId(IN requestId varchar(50))
+BEGIN  
+  SELECT * FROM newAndUpdateClubRequest as naucr WHERE naucr.requestID=requestID;
+END //
+DELIMITER ;
+
+
+-- Procedure to create a club by inserting record in Club table
+DELIMITER //
+CREATE PROCEDURE createClub(IN clubID VARCHAR(50),IN clubName VARCHAR(255),IN clubDescription VARCHAR(255),IN presidentEmailID VARCHAR(255),IN facebookLink VARCHAR(255),IN instagramLink VARCHAR(255),IN categoryID VARCHAR(50),IN location VARCHAR(255), IN meetingTime VARCHAR(255),IN clubImage VARCHAR(255),IN rules VARCHAR(255))
+BEGIN
+  INSERT INTO club values(clubID,clubName,clubDescription, presidentEmailID,facebookLink,instagramLink,categoryID,location,meetingTime,clubImage,rules);
+END //
+DELIMITER ;
