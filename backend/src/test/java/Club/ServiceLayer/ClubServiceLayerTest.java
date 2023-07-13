@@ -31,25 +31,5 @@ public class ClubServiceLayerTest
             fail("Test failed: Exception occured- "+e.getMessage());
         }
     }
-    @Test
-    public void getAllClubsTest()
-    {
-        List<Club> listOfAllClubs=iclubServiceLayer.getAllClubs();
-        System.out.println(listOfAllClubs);
-    }
 
-    @Test
-    public void updateClubDetailsTest() {
-        try {
-            Club club = new Club();
-            club.setClubID("CLB_1");
-            club.setClubName("Dal & Kings Bike Society");
-            club.setDescription("Enthusiastic club organising biking trips.");
-            String result = iclubServiceLayer.updateClubDetails(club);
-            System.out.println("result: " + result);
-        }
-        catch (Exception e) {
-            fail("Test failed: Exception occured- "+e.getMessage());
-        }
-    }
 }

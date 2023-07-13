@@ -25,7 +25,6 @@ public class EventDataLayer implements IEventDataLayer
     }
 
 
-
     @Override
     public List<Event> getAllEvents() throws SQLException
     {
