@@ -96,7 +96,7 @@ public class ClubController
         }
         else
         {
-            String message="Your request with Request ID: "+reqId+ " has could not be approved";
+            String message="Your request with Request ID: "+reqId+ " could not be approved";
             logger.info("Exiting Controller: returning club request approval message");
             return  message;
         }

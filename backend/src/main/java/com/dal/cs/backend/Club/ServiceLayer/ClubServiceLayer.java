@@ -212,9 +212,18 @@ public class ClubServiceLayer implements  IClubServiceLayer
             return false;
         }
         logger.info("input validation for Request Id passed- Calling getClubDetailsFromClubRequest() of DataLayer");
-        Club club=iClubDataLayer.getClubDetailsFromClubRequest(reqId);
-        logger.info("Club details returned from getClubDetailsFromClubRequest() of DataLayer");
-
-        return true;
+        try
+        {
+            Club club = iClubDataLayer.getClubDetailsFromClubRequest(reqId);
+            logger.info("Club details returned from getClubDetailsFromClubRequest() of DataLayer");
+            System.out.println(club.getClubID()+","+club.getClubName());
+            logger.info("Exiting Service Layer");
+            return true;
+        }
+        catch(SQLException e)
+        {
+            logger.error(" approveClubRequest()- SQL exception occurred while getting club details from Data Layer"+e.getMessage());
+        }
+        return false;
     }
 }
