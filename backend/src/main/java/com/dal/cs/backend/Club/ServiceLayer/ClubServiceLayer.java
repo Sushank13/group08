@@ -261,7 +261,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
      public boolean rejectClubRequest(String reqId)
      {
          logger.info("Service Layer Entered: Entered rejectClubRequest()- Performing input validation for Request Id");
-         if(reqId==null)
+         if(reqId==null||reqId.equals(""))
          {
              return false;
          }
