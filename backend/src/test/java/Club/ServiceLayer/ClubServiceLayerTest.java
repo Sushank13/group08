@@ -52,4 +52,10 @@ public class ClubServiceLayerTest
             fail("Test failed: Exception occured- "+e.getMessage());
         }
     }
+
+    @Test
+    public void deleteClubTest() {
+        boolean result = iclubServiceLayer.deleteClub("CLB_1");
+        System.out.println("result = " + result);
+    }
 }

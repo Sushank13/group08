@@ -205,4 +205,23 @@ public class ClubServiceLayer implements  IClubServiceLayer
         logger.info("Exiting Service Layer: Returning error message to Controller");
         return errorMessage;
     }
+
+    @Override
+    public boolean deleteClub(String clubID) {
+        boolean resultStatus;
+        String errorMessage = null;
+        try {
+            resultStatus = iClubDataLayer.deleteClub(clubID);
+            return resultStatus;
+        }
+        catch (SQLException e) {
+            resultStatus = false;
+            errorMessage = e.getMessage();
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.getMessage();
+        }
+        return false;
+    }
 }
