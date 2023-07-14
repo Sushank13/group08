@@ -78,6 +78,11 @@ public class ClubController
         return responseResult;
     }
 
+    /**
+     * Deletes the club details from the Club table. It also deletes all the Event details corresponding to this club to delete.
+     * @param clubID The clubID value for the club record to delete
+     * @return A boolean response result, which returns true if record deleted successfully, else returns false
+     */
     @RequestMapping(method = RequestMethod.POST, value="/deleteClub")
     public boolean deleteClub(String clubID) {
         boolean responseResult = iClubServiceLayer.deleteClub(clubID);
