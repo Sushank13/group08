@@ -218,24 +218,37 @@ public class ClubServiceLayer implements  IClubServiceLayer
             logger.info("Club details returned from getClubDetailsFromClubRequest() of DataLayer");
             logger.info("Service Layer: calling createClub() in DataLayer");
             boolean clubCreationStatus=iClubDataLayer.createClub(club);
-            System.out.println(clubCreationStatus);
             if(clubCreationStatus)
             {
-                //update the club request status
-                logger.info("Exiting Service Layer");
-                return true;
+                logger.info("ServiceLayer: club created successfully");
+                logger.info("Calling updateClubRequestStatusToApproved() in DataLayer to update the club request status to approved");
+                boolean updateClubRequestStatus=iClubDataLayer.updateClubRequestStatusToApproved(reqId);
+                if(updateClubRequestStatus)
+                {
+                    logger.info("ServiceLayer: club request status updated to Approved.");
+                    logger.info("Exiting Service Layer: Returning true to Controller");
+                    return true;
+                }
+                else
+                {
+                    logger.info("ServiceLayer: club request status could not be updated to Approved.");
+                    logger.info("Exiting Service Layer: Returning false to Controller");
+                    return false;
+                }
             }
             else
             {
-                //log message
+                logger.info("ServiceLayer: club could not be created successfully");
+                logger.info("Exiting ServiceLayer: Returning false to controller");
                 return false;
             }
 
         }
         catch(SQLException e)
         {
-            logger.error(" approveClubRequest()- SQL exception occurred while getting club details from Data Layer"+e.getMessage());
+            logger.error(" approveClubRequest()- SQL exception occurred in DataLayer"+e.getMessage());
         }
+        logger.info("Exiting ServiceLayer: Returning false to controller");
         return false;
     }
 }
