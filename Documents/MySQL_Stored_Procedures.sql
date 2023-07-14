@@ -62,3 +62,13 @@ BEGIN
   INSERT INTO club values(clubID,clubName,clubDescription, presidentEmailID,facebookLink,instagramLink,categoryID,location,meetingTime,clubImage,rules);
 END //
 DELIMITER ;
+
+-- Procedure to deleting a club record in Club table based on clubID
+DELIMITER //
+CREATE PROCEDURE deleteClub(IN deleteClubID VARCHAR(50))
+BEGIN
+  DELETE FROM events WHERE clubID=deleteClubID;
+  
+  DELETE FROM club WHERE clubID=deleteClubID;
+END //
+DELIMITER ;
