@@ -16,4 +16,5 @@ public interface IClubDataLayer
    public boolean insertUpdatedClubDetails(String requestId, Club club, String requestType, String requestStatus) throws SQLException;
    public Club getClubDetailsFromClubRequest(String reqId) throws SQLException;
    public boolean createClub(Club club) throws SQLException;
+   public boolean updateClubRequestStatusToApproved(String requestId) throws  SQLException;
 }

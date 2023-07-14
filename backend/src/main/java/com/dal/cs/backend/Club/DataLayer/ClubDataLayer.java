@@ -326,7 +326,30 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         else
         {
             logger.info("Club record not inserted.");
+            logger.error("Problem with procedure call or database connection");
             logger.info("Exiting datalayer: returning false to ServiceLayer");
+            return false;
+        }
+    }
+    public boolean updateClubRequestStatusToApproved(String requestId) throws SQLException
+    {
+        logger.info("Entering DataLayer: Entered updateClubRequestStatusToApproved()");
+        callProcedure="{CALL updateClubRequestStatusToApproved(?)}";
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1,requestId);
+        logger.info("Calling stored procedure updateClubRequestStatusToApproved()");
+        boolean procedureCallStatus=callableStatement.execute();
+        logger.info("stored procedure called with status as: "+ procedureCallStatus);
+        if(procedureCallStatus)
+        {
+            logger.info("record updated successfully");
+            logger.info("Exiting DataLayer:Returning true to ServiceLayer");
+            return true;
+        }
+        else
+        {
+            logger.info("record could not be updated successfully");
+            logger.info("Exiting DataLayer:Returning false to ServiceLayer");
             return false;
         }
     }
