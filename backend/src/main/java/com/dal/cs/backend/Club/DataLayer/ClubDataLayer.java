@@ -254,4 +254,23 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
             return false;
         }
     }
+
+    @Override
+    public boolean deleteClub(String clubID) throws SQLException {
+        boolean resultStatus = false;
+        if (connection != null) {
+            callProcedure = "{CALL deleteClub(?)}";
+            callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1, clubID);
+            int result = callableStatement.executeUpdate();
+            if (result == 0)
+                resultStatus = false;
+            else if (result > 1)
+            resultStatus = true;
+            return resultStatus;
+        }
+        else {
+            return false;
+        }
+    }
 }
