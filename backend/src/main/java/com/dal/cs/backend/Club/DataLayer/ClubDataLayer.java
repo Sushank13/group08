@@ -264,7 +264,7 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         callableStatement=connection.prepareCall(callProcedure);
         callableStatement.setString(1,reqId);
         boolean procedureCallStatus=callableStatement.execute();
-        logger.info("Stored procedure for getAllClubs() executed with status "+procedureCallStatus);
+        logger.info("Stored procedure for getClubRequestInfoByRequestId() executed with status "+procedureCallStatus);
         ResultSet resultSet=callableStatement.getResultSet();
         if(procedureCallStatus)
         {
@@ -313,7 +313,7 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         callableStatement.setString(8,club.getLocation());
         callableStatement.setString(9,club.getMeetingTime());
         callableStatement.setString(10,club.getClubImage());
-        callableStatement.setString(1,club.getRules());
+        callableStatement.setString(11,club.getRules());
         logger.info("Calling stored procedure createClub");
         boolean procedureCallStatus=callableStatement.execute();
         logger.info("stored procedure called with status as: "+ procedureCallStatus);

@@ -216,9 +216,21 @@ public class ClubServiceLayer implements  IClubServiceLayer
         {
             Club club = iClubDataLayer.getClubDetailsFromClubRequest(reqId);
             logger.info("Club details returned from getClubDetailsFromClubRequest() of DataLayer");
-            System.out.println(club.getClubID()+","+club.getClubName());
-            logger.info("Exiting Service Layer");
-            return true;
+            logger.info("Service Layer: calling createClub() in DataLayer");
+            boolean clubCreationStatus=iClubDataLayer.createClub(club);
+            System.out.println(clubCreationStatus);
+            if(clubCreationStatus)
+            {
+                //update the club request status
+                logger.info("Exiting Service Layer");
+                return true;
+            }
+            else
+            {
+                //log message
+                return false;
+            }
+
         }
         catch(SQLException e)
         {
