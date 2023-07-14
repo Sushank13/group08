@@ -10,7 +10,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getLatestClubId()
 BEGIN 
-      SELECT clubID from newAndUpdateClubRequest ORDER BY clubID DESC LIMIT 1;
+      SELECT CONCAT('CLB_',(SELECT CAST(SUBSTRING_INDEX(clubID , '_', -1) AS UNSIGNED) AS clubID FROM newAndUpdateClubRequest ORDER BY clubID DESC LIMIT 1)) AS clubID FROM newAndUpdateClubRequest LIMIT 1;
 END //
 DELIMITER ;
 
@@ -18,7 +18,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getLatestRequestId()
 BEGIN 
-      SELECT requestID from newAndUpdateClubRequest ORDER BY requestID DESC LIMIT 1;
+      SELECT CONCAT('REQ_',(SELECT CAST(SUBSTRING_INDEX(requestID, '_', -1) AS UNSIGNED) AS requestID FROM newAndUpdateClubRequest ORDER BY requestID DESC LIMIT 1)) AS requestID FROM newAndUpdateClubRequest LIMIT 1;
 END //
 DELIMITER ;
 
