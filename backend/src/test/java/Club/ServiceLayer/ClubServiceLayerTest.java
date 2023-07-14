@@ -6,11 +6,11 @@ import com.dal.cs.backend.Club.ClassObject.Club;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ClubServiceLayerTest
@@ -37,7 +37,6 @@ public class ClubServiceLayerTest
         List<Club> listOfAllClubs=iclubServiceLayer.getAllClubs();
         System.out.println(listOfAllClubs);
     }
-
     @Test
     public void updateClubDetailsTest() {
         try {
@@ -47,9 +46,21 @@ public class ClubServiceLayerTest
             club.setDescription("Enthusiastic club organising biking trips.");
             String result = iclubServiceLayer.updateClubDetails(club);
             System.out.println("result: " + result);
-        }
-        catch (Exception e) {
-            fail("Test failed: Exception occured- "+e.getMessage());
+        } catch (Exception e) {
+            fail("Test failed: Exception occured- " + e.getMessage());
         }
     }
+    @Test
+    public void approveClubRequestWhenReqIdIsNull()
+    {
+        String reqId=null;
+        assertFalse(iclubServiceLayer.approveClubRequest(reqId));
+    }
+    @Test
+    public void approveClubRequestWhenReqIdIsEmpty()
+    {
+        String reqId="";
+        assertFalse(iclubServiceLayer.approveClubRequest(reqId));
+    }
+
 }

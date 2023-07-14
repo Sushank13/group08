@@ -65,7 +65,6 @@ public class ClubController
 
     /**
      * Updates the details of a existing club.
-     *
      * @param club The club object containing the new details.
      * @return A string response result, upon success returns newly generated request ID and upon failure returns error message.
      */
@@ -76,5 +75,30 @@ public class ClubController
         String responseResult = iClubServiceLayer.updateClubDetails(club);
         logger.info("Exiting Controller: Returning service layer response result to Frontend via POST /updateClubDetails");
         return responseResult;
+    }
+
+
+    /** * This method receives the request to approve the club update or new club request
+     * @param reqId is the request id of the club update or new club request
+     * @return a message
+     */
+    @RequestMapping(method = RequestMethod.PUT,value="/approveClubRequest/{reqId}")
+     public String approveClubRequest(@PathVariable("reqId") String reqId )
+    {
+        logger.info("Controller Entered: Received request to approve the new club or update club request.");
+        logger.info("approveClubRequest()- Calling approveClubRequest() of ServiceLayer");
+        boolean approveRequestStatus=iClubServiceLayer.approveClubRequest(reqId);
+        if(approveRequestStatus)
+        {
+            String message="Your request with Request ID: "+reqId+ " has been successfully approved";
+            logger.info("Exiting Controller: returning club request approval message");
+            return  message;
+        }
+        else
+        {
+            String message="Your request with Request ID: "+reqId+ " could not be approved";
+            logger.info("Exiting Controller: returning club request approval message");
+            return  message;
+        }
     }
 }

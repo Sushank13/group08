@@ -96,4 +96,18 @@ public class ClubDataLayerTest {
         }
 
     }
+    @Test
+    public void getClubDetailsFromClubRequestTest()
+    {
+        try
+        {
+            String reqId="REQ_1";
+            Club club=iclubDataLayer.getClubDetailsFromClubRequest(reqId);
+            System.out.println(club.getClubID()+","+club.getClubName());
+        }
+        catch(SQLException e)
+        {
+            fail("Test failed: Exception occurred- "+e.getMessage());
+        }
+    }
 }

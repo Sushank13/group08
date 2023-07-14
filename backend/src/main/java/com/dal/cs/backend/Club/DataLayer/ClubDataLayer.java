@@ -214,7 +214,6 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
 
     /**
      * Inserts the updated club details into the request table.
-     *
      * @param requestId The ID of the request.
      * @param club The club object containing the new details.
      * @param requestType The type of the request.
@@ -227,30 +226,130 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         if (connection != null) {
 
             logger.info("Data Layer Entered: Entered insertUpdatedClubDetails()");
-            callProcedure="{CALL insertIntoNewAndUpdateClubRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
-            callableStatement=connection.prepareCall(callProcedure);
-            callableStatement.setString(1,requestId);
-            callableStatement.setString(2,club.getClubID());
-            callableStatement.setString(3,club.getPresidentEmailID());
-            callableStatement.setString(4,club.getCategoryID());
-            callableStatement.setString(5,club.getClubName());
-            callableStatement.setString(6,club.getDescription());
-            callableStatement.setString(7,club.getFacebookLink());
-            callableStatement.setString(8,club.getInstagramLink());
-            callableStatement.setString(9,club.getLocation());
-            callableStatement.setString(10,club.getMeetingTime());
-            callableStatement.setString(11,club.getClubImage());
-            callableStatement.setString(12,club.getRules());
-            callableStatement.setString(13,requestType);
-            callableStatement.setString(14,requestStatus);
+            callProcedure = "{CALL insertIntoNewAndUpdateClubRequest(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+            callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1, requestId);
+            callableStatement.setString(2, club.getClubID());
+            callableStatement.setString(3, club.getPresidentEmailID());
+            callableStatement.setString(4, club.getCategoryID());
+            callableStatement.setString(5, club.getClubName());
+            callableStatement.setString(6, club.getDescription());
+            callableStatement.setString(7, club.getFacebookLink());
+            callableStatement.setString(8, club.getInstagramLink());
+            callableStatement.setString(9, club.getLocation());
+            callableStatement.setString(10, club.getMeetingTime());
+            callableStatement.setString(11, club.getClubImage());
+            callableStatement.setString(12, club.getRules());
+            callableStatement.setString(13, requestType);
+            callableStatement.setString(14, requestStatus);
             int result = callableStatement.executeUpdate();
-            boolean resultStatus = (result==1);
+            boolean resultStatus = (result == 1);
             logger.info("insertUpdatedClubDetails- Procedure execution call successful, resultStatus = " + resultStatus);
             logger.info("Exiting Data Layer: Returning boolean resultStatus to Service Layer");
             return resultStatus;
-        }
-        else {
+        } else {
             logger.error("Exception: Database Connection not established.");
+            return false;
+        }
+    }
+     /** This method fetches the club details from the club request information
+     * @param reqId is the request id of the club update or new club request
+     * @return Club object if stored procedure called successfully else return null
+     * @throws SQLException
+     */
+    public Club getClubDetailsFromClubRequest(String reqId) throws SQLException
+    {
+        logger.info("Entered DataLayer: Entered getClubDetailsFromClubRequest()");
+        callProcedure="{CALL getClubRequestInfoByRequestId(?)}";
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1,reqId);
+        boolean procedureCallStatus=callableStatement.execute();
+        logger.info("Stored procedure for getClubRequestInfoByRequestId() executed with status "+procedureCallStatus);
+        ResultSet resultSet=callableStatement.getResultSet();
+        if(procedureCallStatus)
+        {
+            resultSet.next();
+            Club club=new Club();
+            club.setClubID(resultSet.getString(2));
+            club.setPresidentEmailID(resultSet.getString(3));
+            club.setCategoryID(resultSet.getString(4));
+            club.setClubName(resultSet.getString(5));
+            club.setDescription(resultSet.getString(6));
+            club.setFacebookLink(resultSet.getString(7));
+            club.setInstagramLink(resultSet.getString(8));
+            club.setLocation(resultSet.getString(9));
+            club.setMeetingTime(resultSet.getString(10));
+            club.setClubImage(resultSet.getString(11));
+            club.setRules(resultSet.getString(12));
+            logger.info("Exiting DataLayer: returning club details to Service Layer for request id "+reqId);
+            return club;
+        }
+        else
+        {
+            logger.info("Exiting DataLayer: returning null to Service Layer");
+            logger.error("Problem with procedure call or database connection");
+            return null;
+        }
+    }
+
+    /**
+     * This method calls a stored procedure that inserts a record in the Club table to create a new club
+     * @param club is the club object that has all the club details
+     * @return true if the club record inserted else return false
+     * @throws SQLException
+     */
+    public boolean createClub(Club club) throws SQLException
+    {
+        logger.info("Entered DataLayer: Entered createClub()");
+        callProcedure="{CALL createClub(?,?,?,?,?,?,?,?,?,?,?)}";
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1,club.getClubID());
+        callableStatement.setString(2,club.getClubName());
+        callableStatement.setString(3,club.getDescription());
+        callableStatement.setString(4,club.getPresidentEmailID());
+        callableStatement.setString(5,club.getFacebookLink());
+        callableStatement.setString(6,club.getInstagramLink());
+        callableStatement.setString(7,club.getCategoryID());
+        callableStatement.setString(8,club.getLocation());
+        callableStatement.setString(9,club.getMeetingTime());
+        callableStatement.setString(10,club.getClubImage());
+        callableStatement.setString(11,club.getRules());
+        logger.info("Calling stored procedure createClub");
+        boolean procedureCallStatus=callableStatement.execute();
+        logger.info("stored procedure called with status as: "+ procedureCallStatus);
+        if(procedureCallStatus)
+        {
+            logger.info("Club record for club with Club ID: "+ club.getClubID()+" inserted successfully");
+            logger.info("Exiting datalayer: returning true to ServiceLayer");
+            return true;
+        }
+        else
+        {
+            logger.info("Club record not inserted.");
+            logger.error("Problem with procedure call or database connection");
+            logger.info("Exiting datalayer: returning false to ServiceLayer");
+            return false;
+        }
+    }
+    public boolean updateClubRequestStatusToApproved(String requestId) throws SQLException
+    {
+        logger.info("Entering DataLayer: Entered updateClubRequestStatusToApproved()");
+        callProcedure="{CALL updateClubRequestStatusToApproved(?)}";
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1,requestId);
+        logger.info("Calling stored procedure updateClubRequestStatusToApproved()");
+        boolean procedureCallStatus=callableStatement.execute();
+        logger.info("stored procedure called with status as: "+ procedureCallStatus);
+        if(procedureCallStatus)
+        {
+            logger.info("record updated successfully");
+            logger.info("Exiting DataLayer:Returning true to ServiceLayer");
+            return true;
+        }
+        else
+        {
+            logger.info("record could not be updated successfully");
+            logger.info("Exiting DataLayer:Returning false to ServiceLayer");
             return false;
         }
     }
