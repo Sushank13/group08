@@ -198,6 +198,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
         return errorMessage;
     }
      /** This method  first gets the cliub details from the club request table and then inserts those values
+     * This method  first gets the club details from the club request table and then inserts those values
      * into the club table. Once inserted, it updates the club request status to approved.
      * @param reqId is the request id of the club update or new club request
      * @return true if the request status is updated to approved else return false
@@ -205,10 +206,14 @@ public class ClubServiceLayer implements  IClubServiceLayer
     @Override
     public boolean approveClubRequest(String reqId)
     {
+        logger.info("Service Layer Entered: Entered approveClubRequest()- Performing input validation for Request Id");
         if(reqId==null||reqId.equals(""))
         {
             return false;
         }
+        logger.info("input validation for Request Id passed- Calling getClubDetailsFromClubRequest() of DataLayer");
+        Club club=iClubDataLayer.getClubDetailsFromClubRequest(reqId);
+        logger.info("Club details returned from getClubDetailsFromClubRequest() of DataLayer");
 
         return true;
     }
