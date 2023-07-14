@@ -197,7 +197,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
         logger.info("Exiting Service Layer: Returning error message to Controller");
         return errorMessage;
     }
-     /** This method  first gets the cliub details from the club request table and then inserts those values
+     /** This method  first gets the club details from the club request table and then inserts those values
      * This method  first gets the club details from the club request table and then inserts those values
      * into the club table. Once inserted, it updates the club request status to approved.
      * @param reqId is the request id of the club update or new club request
@@ -251,4 +251,17 @@ public class ClubServiceLayer implements  IClubServiceLayer
         logger.info("Exiting ServiceLayer: Returning false to controller");
         return false;
     }
+
+    /**
+     * This method updates the club request status to rejected
+     * @param reqId is the request id of the club update or new club request
+     * @return true if the request status is updated to rejected else return false
+     */
+     @Override
+     public boolean rejectClubRequest(String reqId)
+     {
+         logger.info("Service Layer Entered: Entered rejectClubRequest()- Performing input validation for Request Id");
+
+         return false;
+     }
 }
