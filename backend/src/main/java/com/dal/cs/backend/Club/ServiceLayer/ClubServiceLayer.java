@@ -169,41 +169,87 @@ public class ClubServiceLayer implements  IClubServiceLayer
 
     /**
      * Inserts the updated club details into the request table by invoking the corresponding data layer function.
-     *
      * @param club The club object containing the new details.
      * @return The request ID if the data layer operation is successful, else an error message.
      */
     @Override
-    public String updateClubDetails(Club club)
-    {
+    public String updateClubDetails(Club club) {
         logger.info("Service Layer Entered: Entered updateClubDetails- Calling Data layer insertUpdatedClubDetails");
         String errorMessage = null;
-        String requestId=generateRequestId();
-        String requestType= String.valueOf(RequestType.UPDATE_REQUEST);
-        String requestStatus=String.valueOf(RequestStatus.PENDING);
-        try
-        {
+        String requestId = generateRequestId();
+        String requestType = String.valueOf(RequestType.UPDATE_REQUEST);
+        String requestStatus = String.valueOf(RequestStatus.PENDING);
+        try {
             boolean resultStatus = iClubDataLayer.insertUpdatedClubDetails(requestId, club, requestType, requestStatus);
             if (resultStatus) {
                 logger.info("Exiting Service Layer: Returning requestId to Controller");
                 return requestId;
-            }
-            else {
+            } else {
                 errorMessage = "Unable to insert updated club detail values.";
             }
-        }
-        catch(SQLException e)
-        {
+        } catch (SQLException e) {
             errorMessage = e.getMessage();
-            logger.error("Exception occured in 'updateClubDetails': "+errorMessage);
-        }
-        catch (Exception e)
-        {
+            logger.error("Exception occured in 'updateClubDetails': " + errorMessage);
+        } catch (Exception e) {
             errorMessage = e.getMessage();
-            logger.error("Exception occured in 'updateClubDetails': "+errorMessage);
+            logger.error("Exception occured in 'updateClubDetails': " + errorMessage);
         }
         logger.info("Exiting Service Layer: Returning error message to Controller");
         return errorMessage;
+    }
+     /** This method  first gets the cliub details from the club request table and then inserts those values
+     * This method  first gets the club details from the club request table and then inserts those values
+     * into the club table. Once inserted, it updates the club request status to approved.
+     * @param reqId is the request id of the club update or new club request
+     * @return true if the request status is updated to approved else return false
+     */
+    @Override
+    public boolean approveClubRequest(String reqId)
+    {
+        logger.info("Service Layer Entered: Entered approveClubRequest()- Performing input validation for Request Id");
+        if(reqId==null||reqId.equals(""))
+        {
+            return false;
+        }
+        logger.info("input validation for Request Id passed- Calling getClubDetailsFromClubRequest() of DataLayer");
+        try
+        {
+            Club club = iClubDataLayer.getClubDetailsFromClubRequest(reqId);
+            logger.info("Club details returned from getClubDetailsFromClubRequest() of DataLayer");
+            logger.info("Service Layer: calling createClub() in DataLayer");
+            boolean clubCreationStatus=iClubDataLayer.createClub(club);
+            if(clubCreationStatus)
+            {
+                logger.info("ServiceLayer: club created successfully");
+                logger.info("Calling updateClubRequestStatusToApproved() in DataLayer to update the club request status to approved");
+                boolean updateClubRequestStatus=iClubDataLayer.updateClubRequestStatusToApproved(reqId);
+                if(updateClubRequestStatus)
+                {
+                    logger.info("ServiceLayer: club request status updated to Approved.");
+                    logger.info("Exiting Service Layer: Returning true to Controller");
+                    return true;
+                }
+                else
+                {
+                    logger.info("ServiceLayer: club request status could not be updated to Approved.");
+                    logger.info("Exiting Service Layer: Returning false to Controller");
+                    return false;
+                }
+            }
+            else
+            {
+                logger.info("ServiceLayer: club could not be created successfully");
+                logger.info("Exiting ServiceLayer: Returning false to controller");
+                return false;
+            }
+
+        }
+        catch(SQLException e)
+        {
+            logger.error(" approveClubRequest()- SQL exception occurred in DataLayer"+e.getMessage());
+        }
+        logger.info("Exiting ServiceLayer: Returning false to controller");
+        return false;
     }
 
     /**

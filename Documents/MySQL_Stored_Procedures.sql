@@ -80,3 +80,12 @@ BEGIN
    UPDATE newAndUpdateClubRequest as naucr SET requestStatus="APPROVED" WHERE naucr.requestID=requestId;
 END //
 DELIMITER ;
+
+
+-- Procedure to update club request status to rejected
+DELIMITER //
+CREATE PROCEDURE updateClubRequestStatusToRejected(IN requestId VARCHAR(50))
+BEGIN
+   UPDATE newAndUpdateClubRequest as naucr SET requestStatus="REJECTED" WHERE naucr.requestID=requestId;
+END //
+DELIMITER ;
