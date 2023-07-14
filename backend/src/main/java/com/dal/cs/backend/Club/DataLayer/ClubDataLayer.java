@@ -266,6 +266,7 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
     public boolean deleteClub(String clubID) throws SQLException {
         boolean resultStatus = false;
         if (connection != null) {
+            logger.info("Data Layer Entered: Entered deleteClub()");
             callProcedure = "{CALL deleteClub(?)}";
             callableStatement = connection.prepareCall(callProcedure);
             callableStatement.setString(1, clubID);
@@ -274,9 +275,12 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
                 resultStatus = false;
             else if (result > 1)
             resultStatus = true;
+            logger.info("deleteClub- Procedure execution call successful, resultStatus = " + resultStatus);
+            logger.info("Exiting Data Layer: Returning boolean resultStatus to Service Layer");
             return resultStatus;
         }
         else {
+            logger.error("Exception: Database Connection not established.");
             return false;
         }
     }

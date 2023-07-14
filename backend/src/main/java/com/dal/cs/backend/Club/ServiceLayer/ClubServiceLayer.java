@@ -214,20 +214,26 @@ public class ClubServiceLayer implements  IClubServiceLayer
      */
     @Override
     public boolean deleteClub(String clubID) {
+        logger.info("Service Layer Entered: Entered deleteClub- Calling Data layer deleteClub");
         boolean resultStatus;
         String errorMessage = null;
         try {
             resultStatus = iClubDataLayer.deleteClub(clubID);
+            logger.info("Exiting Service Layer: Returning boolean resultStatus to Controller");
             return resultStatus;
         }
         catch (SQLException e) {
             resultStatus = false;
             errorMessage = e.getMessage();
+            logger.error("Exception occured in 'deleteClub': "+errorMessage);
         }
         catch (Exception e)
         {
+            resultStatus = false;
             errorMessage = e.getMessage();
+            logger.error("Exception occured in 'deleteClub': "+errorMessage);
         }
-        return false;
+        logger.info("Exiting Service Layer: Returning error message to Controller");
+        return resultStatus;
     }
 }
