@@ -12,6 +12,6 @@ public interface IClubServiceLayer
 
   public ArrayList<HashMap<String, String>> getAllClubCategories();
   public List<Club> getAllClubs();
-
   public String updateClubDetails(Club club);
+  public boolean approveClubRequest(String reqId);
 }
