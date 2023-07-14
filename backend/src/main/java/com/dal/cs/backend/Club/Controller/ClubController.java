@@ -65,7 +65,6 @@ public class ClubController
 
     /**
      * Updates the details of a existing club.
-     *
      * @param club The club object containing the new details.
      * @return A string response result, upon success returns newly generated request ID and upon failure returns error message.
      */
@@ -78,9 +77,10 @@ public class ClubController
         return responseResult;
     }
 
-    /** This method receives the request to approve the club update or new club request
-     * @param reqId is the request id f the club update or new club request
-     * @return true if the request status is updated to approved else return false
+
+    /** * This method receives the request to approve the club update or new club request
+     * @param reqId is the request id of the club update or new club request
+     * @return a message
      */
     @RequestMapping(method = RequestMethod.PUT,value="/approveClubRequest/{reqId}")
      public String approveClubRequest(@PathVariable("reqId") String reqId )

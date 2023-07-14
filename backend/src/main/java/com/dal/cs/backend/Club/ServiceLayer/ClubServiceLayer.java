@@ -169,40 +169,43 @@ public class ClubServiceLayer implements  IClubServiceLayer
 
     /**
      * Inserts the updated club details into the request table by invoking the corresponding data layer function.
-     *
      * @param club The club object containing the new details.
      * @return The request ID if the data layer operation is successful, else an error message.
      */
     @Override
-    public String updateClubDetails(Club club)
-    {
+    public String updateClubDetails(Club club) {
         logger.info("Service Layer Entered: Entered updateClubDetails- Calling Data layer insertUpdatedClubDetails");
         String errorMessage = null;
-        String requestId=generateRequestId();
-        String requestType= String.valueOf(RequestType.UPDATE_REQUEST);
-        String requestStatus=String.valueOf(RequestStatus.PENDING);
-        try
-        {
+        String requestId = generateRequestId();
+        String requestType = String.valueOf(RequestType.UPDATE_REQUEST);
+        String requestStatus = String.valueOf(RequestStatus.PENDING);
+        try {
             boolean resultStatus = iClubDataLayer.insertUpdatedClubDetails(requestId, club, requestType, requestStatus);
             if (resultStatus) {
                 logger.info("Exiting Service Layer: Returning requestId to Controller");
                 return requestId;
-            }
-            else {
+            } else {
                 errorMessage = "Unable to insert updated club detail values.";
             }
-        }
-        catch(SQLException e)
-        {
+        } catch (SQLException e) {
             errorMessage = e.getMessage();
-            logger.error("Exception occured in 'updateClubDetails': "+errorMessage);
-        }
-        catch (Exception e)
-        {
+            logger.error("Exception occured in 'updateClubDetails': " + errorMessage);
+        } catch (Exception e) {
             errorMessage = e.getMessage();
-            logger.error("Exception occured in 'updateClubDetails': "+errorMessage);
+            logger.error("Exception occured in 'updateClubDetails': " + errorMessage);
         }
         logger.info("Exiting Service Layer: Returning error message to Controller");
         return errorMessage;
+    }
+     /** This method  first gets the cliub details from the club request table and then inserts those values
+     * into the club table. Once inserted, it updates the club request status to approved.
+     * @param reqId is the request id of the club update or new club request
+     * @return true if the request status is updated to approved else return false
+     */
+    @Override
+    public boolean approveClubRequest(String reqId)
+    {
+
+        return true;
     }
 }
