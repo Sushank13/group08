@@ -72,3 +72,11 @@ BEGIN
   DELETE FROM club WHERE clubID=deleteClubID;
 END //
 DELIMITER ;
+
+-- Procedure to update club request status to approved 
+DELIMITER //
+CREATE PROCEDURE updateClubRequestStatusToApproved(IN requestId VARCHAR(50))
+BEGIN
+   UPDATE newAndUpdateClubRequest as naucr SET requestStatus="APPROVED" WHERE naucr.requestID=requestId;
+END //
+DELIMITER ;
