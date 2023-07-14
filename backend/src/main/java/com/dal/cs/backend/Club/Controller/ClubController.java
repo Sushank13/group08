@@ -77,4 +77,10 @@ public class ClubController
         logger.info("Exiting Controller: Returning service layer response result to Frontend via POST /updateClubDetails");
         return responseResult;
     }
+
+    @RequestMapping(method = RequestMethod.POST, value="/deleteClub")
+    public boolean deleteClub(String clubID) {
+        boolean responseResult = iClubServiceLayer.deleteClub(clubID);
+        return responseResult;
+    }
 }
