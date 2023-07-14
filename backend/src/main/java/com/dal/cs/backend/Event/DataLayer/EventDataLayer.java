@@ -1,8 +1,11 @@
 package com.dal.cs.backend.Event.DataLayer;
 
+import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
 import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -13,6 +16,7 @@ import java.util.List;
 
 public class EventDataLayer implements IEventDataLayer
 {
+    private static final Logger logger= LogManager.getLogger(ClubDataLayer.class);
     private IDatabaseConnection iDatabaseConnection;
     private Connection connection;
     private String callProcedure;
@@ -24,14 +28,19 @@ public class EventDataLayer implements IEventDataLayer
         connection=iDatabaseConnection.getDatabaseConnection();
     }
 
-
+    /**
+     * This method fetches the records of all the events from the database table
+     * @return list of events fetched
+     * @throws SQLException
+     */
     @Override
     public List<Event> getAllEvents() throws SQLException
     {
+        logger.info("Entered DataLayer: Entered getAllEvents()");
         callProcedure="{CALL getAllEvents()}";
         callableStatement=connection.prepareCall(callProcedure);
         boolean procedureCallStatus=callableStatement.execute();
-
+        logger.info("Stored procedure for getAllEvents() executed with status "+procedureCallStatus);
         ResultSet resultSet=callableStatement.getResultSet();
         List<Event> listOfAllEvents=new ArrayList<>();
         if(procedureCallStatus)
@@ -51,11 +60,13 @@ public class EventDataLayer implements IEventDataLayer
                 event.setEventTopic(resultSet.getString(10));
                 listOfAllEvents.add(event);
             }
+            logger.info("getAllEvents(): list of all events created successfully");
+            logger.info("Exiting DataLayer: returning list of all events to Service Layer");
             return listOfAllEvents;
         }
         else
         {
-
+            logger.error("Problem with procedure call or database connection");
             return null;
         }
 
