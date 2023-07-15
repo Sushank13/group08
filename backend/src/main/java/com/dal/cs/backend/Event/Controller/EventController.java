@@ -38,6 +38,7 @@ public class EventController
     @RequestMapping(method = RequestMethod.GET, value="/getAllEvents/{userEmailId}")
     public List<Event> getEventsByUser(@PathVariable("userEmailId") String userEmailId)
     {
-        return null;
+        List<Event> listOfAllEvents=iEventServiceLayer.getEventsByUser(userEmailId);
+        return listOfAllEvents;
     }
 }
