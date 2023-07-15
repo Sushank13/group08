@@ -90,7 +90,7 @@ public class ClubController
         boolean approveRequestStatus=iClubServiceLayer.approveClubRequest(reqId);
         if(approveRequestStatus)
         {
-            String message="Your request with Request ID: "+reqId+ " has been successfully approved";
+            String message=" Club request with Request ID: "+reqId+ " has been successfully approved";
             logger.info("Exiting Controller: returning club request approval message");
             return  message;
         }
@@ -101,6 +101,31 @@ public class ClubController
             return  message;
         }
     }
+    
+    /** * This method receives the request to reject the club update or new club request
+     * @param reqId is the request id of the club update or new club request
+     * @return a message
+     */
+    @RequestMapping(method = RequestMethod.PUT,value="/rejectClubRequest/{reqId}")
+    public String rejectClubRequest(@PathVariable("reqId") String reqId )
+    {
+        logger.info("Controller Entered: Received request to reject the new club or update club request.");
+        logger.info("rejectClubRequest()- Calling rejectClubRequest() of ServiceLayer");
+        boolean rejectRequestStatus = iClubServiceLayer.rejectClubRequest(reqId);
+        if (rejectRequestStatus)
+        {
+            String message = "Club request with Request ID: " + reqId + " has been successfully rejected";
+            logger.info("Exiting Controller: returning club request rejection message");
+            return message;
+        }
+        else
+        {
+            String message = "Club request with Request ID: " + reqId + " could not be rejected";
+            logger.info("Exiting Controller: returning club request rejection message");
+            return message;
+        }
+    }
+
 
     /**
      * Deletes the club details from the Club table. It also deletes all the Event details corresponding to this club to delete.

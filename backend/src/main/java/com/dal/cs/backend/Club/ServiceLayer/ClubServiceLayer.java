@@ -197,7 +197,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
         logger.info("Exiting Service Layer: Returning error message to Controller");
         return errorMessage;
     }
-     /** This method  first gets the cliub details from the club request table and then inserts those values
+     /** This method  first gets the club details from the club request table and then inserts those values
      * This method  first gets the club details from the club request table and then inserts those values
      * into the club table. Once inserted, it updates the club request status to approved.
      * @param reqId is the request id of the club update or new club request
@@ -253,7 +253,44 @@ public class ClubServiceLayer implements  IClubServiceLayer
     }
 
     /**
-     * Deletes the club record from the club table by invoking the corresponding data layer function.
+     * This method updates the club request status to rejected
+     * @param reqId is the request id of the club update or new club request
+     * @return true if the request status is updated to rejected else return false
+     */
+     @Override
+     public boolean rejectClubRequest(String reqId)
+     {
+         logger.info("Service Layer Entered: Entered rejectClubRequest()- Performing input validation for Request Id");
+         if(reqId==null||reqId.equals(""))
+         {
+             return false;
+         }
+         logger.info("input validation for Request Id passed- Calling updateClubRequestStatusToRejected() of DataLayer");
+         try
+         {
+             boolean updateClubRequestStatus=iClubDataLayer.updateClubRequestStatusToRejected(reqId);
+             if(updateClubRequestStatus)
+             {
+                 logger.info("ServiceLayer: club request status updated to rejected successfully");
+                 logger.info("Exiting Service Layer: returning true to the Controller");
+                 return true;
+             }
+             else
+             {
+                 logger.info("ServiceLayer: club request status could not be updated to rejected.");
+                 logger.info("Exiting Service Layer: returning false to the Controller");
+                 return false;
+             }
+         }
+         catch(SQLException e)
+         {
+           logger.error("ServiceLayer: SQL exception occurred in DataLayer "+ e.getMessage());
+         }
+         logger.info("Exiting Service Layer: returning false to the Controller");
+         return false;
+     }
+
+     /** Deletes the club record from the club table by invoking the corresponding data layer function.
      *
      * @param clubID The clubID value for the club record to delete.
      * @return A boolean response result, which returns true if club record deleted successfully, else returns false
