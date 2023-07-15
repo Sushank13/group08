@@ -80,10 +80,12 @@ public class EventDataLayer implements IEventDataLayer
      */
     @Override
     public List<Event> getEventsByUser(String userEmailId) throws SQLException {
+        logger.info("Entered DataLayer: Entered getEventsByUser()");
         callProcedure = "{CALL getEventsByUserEmailID(?)}";
         callableStatement = connection.prepareCall(callProcedure);
         callableStatement.setString(1, userEmailId);
         boolean procedureCallStatus = callableStatement.execute();
+        logger.info("Stored procedure for getEventsByUser() executed with status "+procedureCallStatus);
         ResultSet resultSet = callableStatement.getResultSet();
         List<Event> listOfAllEvents = new ArrayList<>();
         if (procedureCallStatus) {
@@ -101,10 +103,13 @@ public class EventDataLayer implements IEventDataLayer
                 event.setEventTopic(resultSet.getString(10));
                 listOfAllEvents.add(event);
             }
+            logger.info("getEventsByUser(): list of all events created successfully");
+            logger.info("Exiting DataLayer: returning list of all events to Service Layer");
             return listOfAllEvents;
         }
         else
         {
+            logger.error("Problem with procedure call or database connection");
             return null;
         }
 
