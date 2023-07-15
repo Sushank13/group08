@@ -10,4 +10,6 @@ public interface IEventDataLayer
 {
 
     List<Event> getAllEvents() throws SQLException;
+    public List<Event> getEventsByUser(String userEmailId) throws SQLException;
+
 }

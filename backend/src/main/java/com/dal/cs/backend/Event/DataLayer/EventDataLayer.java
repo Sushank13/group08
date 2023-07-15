@@ -71,4 +71,16 @@ public class EventDataLayer implements IEventDataLayer
         }
 
     }
+
+    /**
+     * This method fetches list of events that user has registered in from the database
+     * @param userEmailId is the email id of the user using which they signed up to DalClubs
+     * @return list of events to the service layer
+     * @throws SQLException
+     */
+    public List<Event> getEventsByUser(String userEmailId) throws SQLException
+    {
+        return null;
+
+    }
 }
