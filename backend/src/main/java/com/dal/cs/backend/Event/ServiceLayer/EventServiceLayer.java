@@ -38,6 +38,12 @@ public class EventServiceLayer implements  IEventServiceLayer{
         logger.info("ServiceLayer: getAllEvents() returned null to Controller");
         return null;
     }
+
+    /**
+     * This method generates a new event ID, for inserting a new event record into event table.
+     * @param event is the real world event object which has all the information about a event.
+     * @return boolean status result if the event was created successfully by inserting the record into the table, else false.
+     */
     @Override
     public boolean createEvent(Event event)
     {

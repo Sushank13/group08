@@ -71,6 +71,12 @@ public class EventDataLayer implements IEventDataLayer
         }
     }
 
+    /**
+     * This method calls a stored procedure that inserts a record for a new event into the events table
+     * @param event This is event object that has all the event details
+     * @return true if the event record is insert successfully, else return false
+     * @throws SQLException
+     */
     @Override
     public boolean createEvent(Event event) throws SQLException {
         if (connection != null) {

@@ -32,6 +32,11 @@ public class EventController {
         return listOfAllEvents;
     }
 
+    /**
+     * This method accepts the event details for creating a new event.
+     * @param event It is the entity which has all the event information entered by the user.
+     * @return result response about the success of creating event. true if event created successfully, else false.
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/createEvent")
     public Map<String, Boolean> createEvent(@RequestBody Event event) {
         logger.info("Controller Entered: Received request for creating a new event");
