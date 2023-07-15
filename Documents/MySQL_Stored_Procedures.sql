@@ -46,6 +46,14 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Procedure for getting member details with emailID (PK)
+DELIMITER //
+CREATE PROCEDURE `MemberGetMemberDetails` (IN emailID VARCHAR(255))
+BEGIN
+    SELECT * FROM member WHERE member.emailID = emailID;
+END //
+DELIMITER ;
+
 -- Procedure to create login credential
 DELIMITER //
 CREATE PROCEDURE LoginCreatePassword(IN emailId VARCHAR(255), IN password VARCHAR(255))
