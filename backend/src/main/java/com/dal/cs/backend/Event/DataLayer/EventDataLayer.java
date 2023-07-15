@@ -80,7 +80,6 @@ public class EventDataLayer implements IEventDataLayer
      */
     public List<Event> getEventsByUser(String userEmailId) throws SQLException
     {
-        return null;
 
     }
 }
