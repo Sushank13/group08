@@ -110,6 +110,8 @@ public class ClubController
     {
         logger.info("Controller Entered: Received request to reject the new club or update club request.");
         logger.info("rejectClubRequest()- Calling rejectClubRequest() of ServiceLayer");
+        boolean rejectRequestStatus=iClubServiceLayer.rejectClubRequest(reqId);
+        return "";
 
     }
 }
