@@ -5,7 +5,7 @@ package com.dal.cs.backend.database;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
-
+@Component
 public interface IDatabaseConnection {
 
     /**

@@ -46,6 +46,14 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Procedure to create login credential
+DELIMITER //
+CREATE PROCEDURE LoginCreatePassword(IN emailId VARCHAR(255), IN password VARCHAR(255))
+BEGIN
+    INSERT INTO login Values (emailID, password);
+END //
+DELIMITER ;
+
 -- Procedure to get the club request information from newAndUpdateClubRequest table based on the reqid
 DELIMITER //
 CREATE PROCEDURE getClubRequestInfoByRequestId(IN requestId varchar(50))

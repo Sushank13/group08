@@ -1,6 +1,7 @@
 package com.dal.cs.backend.member.Controller;
 
 import com.dal.cs.backend.member.MemberObject.Member;
+import com.dal.cs.backend.member.MemberObject.MemberWithLoginCredential;
 import com.dal.cs.backend.member.ServiceLayer.MemberServiceLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,11 +25,11 @@ public class MemberController {
      * if the request is not submitted
      */
     @RequestMapping(method = RequestMethod.POST,value="/api/registerMember")
-    public String createMemberRequest(@RequestBody Member member)
+    public String createMemberRequest(@RequestBody MemberWithLoginCredential memberWithLoginCredential)
     {
         logger.info("New request received for Member creation");
         logger.info("Inside method createMemberRequest() in MemberController");
-        String message = iMemberServiceLayer.createNewMemberRequest(member);
+        String message = iMemberServiceLayer.createNewMemberRequest(memberWithLoginCredential);
         logger.info("Exiting method createMemberRequest() in MemberController");
         return message;
     }

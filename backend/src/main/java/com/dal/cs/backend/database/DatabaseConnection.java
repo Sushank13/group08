@@ -61,4 +61,8 @@ public class DatabaseConnection implements IDatabaseConnection {
             System.exit(1);
         }
     }
+
+    public static DatabaseConnection getInstance() {
+        return new DatabaseConnection();
+    }
 }

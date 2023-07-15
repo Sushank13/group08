@@ -1,26 +1,32 @@
 package Member.ServiceLayer;
 
-import com.dal.cs.backend.member.Enum.MemberType;
-import com.dal.cs.backend.member.MemberObject.Member;
+import com.dal.cs.backend.authentication.dataLayer.ILoginDataLayer;
+import com.dal.cs.backend.authentication.dataLayer.LoginDataLayer;
+import com.dal.cs.backend.database.DatabaseConnection;
+import com.dal.cs.backend.member.DataLayer.IMemberDataLayer;
+import com.dal.cs.backend.member.DataLayer.MemberDataLayer;
+import com.dal.cs.backend.member.MemberObject.MemberWithLoginCredential;
 import com.dal.cs.backend.member.ServiceLayer.MemberServiceLayer;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import testUtils.TestUtils;
-
-import java.time.LocalDate;
+import testUtils.RandomGenerator;
 
 public class MemberServiceLayerTest {
 
     private MemberServiceLayer memberServiceLayer;
 
-    public MemberServiceLayerTest() {
-        memberServiceLayer =  new MemberServiceLayer();
+    @BeforeAll
+    public void testSetUp() {
+        DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
+        IMemberDataLayer iMemberDataLayer = MemberDataLayer.getInstance(databaseConnection);
+        ILoginDataLayer iLoginDataLayer = LoginDataLayer.getInstance(databaseConnection);
+        memberServiceLayer =  new MemberServiceLayer(iMemberDataLayer, iLoginDataLayer);
     }
+
     @Test
     public void createNewMemberRequestTest() {
-        String randomEmail = TestUtils.generateRandomEmail();
-        Member newMember = new Member(randomEmail, "Jinay", "Shah", MemberType.member, "Program 4", 1, "2345678888", LocalDate.parse("2000-08-15"));
-
+        MemberWithLoginCredential newMember = RandomGenerator.generateRandomDalClubMemberWithLoginCredential();
         Assertions.assertNotNull(memberServiceLayer.createNewMemberRequest(newMember));
     }
 }

@@ -1,26 +1,31 @@
 package com.dal.cs.backend.member.DataLayer;
 
+import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import com.dal.cs.backend.member.MemberObject.Member;
 import com.dal.cs.backend.member.ServiceLayer.MemberServiceLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
 
 @Component
-public class MemberDataLayer implements IMemberDataLayer {
+public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
     private static final Logger logger= LogManager.getLogger(MemberServiceLayer.class);
-    private IDatabaseConnection iDatabaseConnection;
-    private Connection connection;
 
-    public MemberDataLayer()
+    @Autowired
+    public MemberDataLayer(IDatabaseConnection iDatabaseConnection)
     {
-        iDatabaseConnection=new DatabaseConnection();
-        connection=iDatabaseConnection.getDatabaseConnection();
+        super(iDatabaseConnection);
     }
+
+    public static MemberDataLayer getInstance(IDatabaseConnection iDatabaseConnection) {
+        return new MemberDataLayer(iDatabaseConnection);
+    }
+
     /**
      *This method will take the user input for user registration
      * new club requests
