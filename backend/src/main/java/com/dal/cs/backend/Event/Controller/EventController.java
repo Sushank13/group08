@@ -32,4 +32,14 @@ public class EventController
         logger.info("Exiting Controller: Returning list of events to Frontend via GET /getAllEvents");
         return listOfAllEvents;
     }
+
+    /**
+     * This method returns a list of events that user has registered in
+     * @param userEmailId is the email id of the user using which they signed up to DalClubs
+     * @return list of events
+     */
+    public List<Event> getEventsByUser(String userEmailId)
+    {
+        return null;
+    }
 }
