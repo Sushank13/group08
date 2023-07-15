@@ -22,6 +22,10 @@ public class MemberServiceLayer {
         this.iLoginDataLayer = iLoginDataLayer;
     }
 
+    public static MemberServiceLayer getInstance(IMemberDataLayer iMemberDataLayer, ILoginDataLayer iLoginDataLayer) {
+        return new MemberServiceLayer(iMemberDataLayer, iLoginDataLayer);
+    }
+
     /**
      * This method accepts the club details  for a new club request.
      * @param memberWithLoginCredential is the entity to which all the member details submitted by the user are mapped.

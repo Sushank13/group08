@@ -20,15 +20,17 @@ import testUtils.RandomGenerator;
 public class MemberServiceLayerTest {
 
     private static final Logger logger = LogManager.getLogger(MemberServiceLayerTest.class);
+    private IMemberDataLayer memberDataLayer;
     private MemberServiceLayer memberServiceLayer;
 
+
     @BeforeAll
-    public void setUp() {
+    public void beforeAll() {
         IDatabaseConnection databaseConnection = DatabaseConnection.getInstance();
-        IMemberDataLayer memberDataLayer = MemberDataLayer.getInstance(databaseConnection);
+        memberDataLayer = MemberDataLayer.getInstance(databaseConnection);
         ILoginDataLayer loginDataLayer = LoginDataLayer.getInstance(databaseConnection);
 
-        memberServiceLayer = new MemberServiceLayer(memberDataLayer, loginDataLayer);
+        memberServiceLayer = MemberServiceLayer.getInstance(memberDataLayer, loginDataLayer);
     }
 
     @Test
@@ -36,5 +38,8 @@ public class MemberServiceLayerTest {
         MemberWithLoginCredential newMember = RandomGenerator.generateRandomDalClubMemberWithLoginCredential();
         logger.info("[Test][Member][Service] Created test member with emailId: " + newMember.getEmailId());
         Assertions.assertNotNull(memberServiceLayer.createNewMemberRequest(newMember));
+
+        //Clean up
+        memberDataLayer.deleteMember(newMember.getEmailId());
     }
 }
