@@ -22,4 +22,10 @@ public class EventServiceLayerTest {
         List<Event> listOfAllEvents=iEventServiceLayer.getAllEvents();
         System.out.println(listOfAllEvents);
     }
+    @Test
+    public  void getEventsByUser(){
+        List<Event> listOfAllEvents=iEventServiceLayer.getEventsByUser("swit@dal.ca");
+        System.out.println(listOfAllEvents);
+
+    }
 }
