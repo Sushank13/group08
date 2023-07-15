@@ -61,5 +61,18 @@ public class EventServiceLayer implements  IEventServiceLayer{
         return null;
     }
 
+    @Override
+    public boolean registerEvents(String eventID, String emailID){
+        try{
+            boolean resultStatus= iEventDataLayer.registerEvents(eventID,emailID);
+            return resultStatus;
+        }
+        catch (SQLException e)
+        {
+
+        }
+        return false;
+    }
+
 
 }
