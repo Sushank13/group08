@@ -2,6 +2,7 @@ package com.dal.cs.backend.member.DataLayer;
 
 import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
+import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.member.MemberObject.Member;
 import com.dal.cs.backend.member.ServiceLayer.MemberServiceLayer;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
@@ -56,4 +58,39 @@ public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
         return true;
     }
 
+
+    @Override
+    public Member getMember(String emailId) {
+        logger.info("[Member][Data] Get member");
+        String callProcedure = getProcedureCallString("MemberGetMemberDetails", 1);
+        try {
+            CallableStatement callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1, emailId);
+            logger.info("[Member][Data] Executed procedure to get member details ");
+            boolean procedureCallStatus = callableStatement.execute();
+            logger.info("[Member][Data] Procedure call status " + procedureCallStatus);
+
+            if (procedureCallStatus) {
+                ResultSet resultSet = callableStatement.getResultSet();
+                if (resultSet.next()) {
+                    logger.info("[Member][Data] Found member");
+                    Member member = new Member(emailId);
+                    member.setFirstName(resultSet.getString("firstName"));
+                    member.setLastName(resultSet.getString("lastName"));
+                    MemberType memberType = MemberType.fromString(resultSet.getString("userType"));
+                    member.setMemberType(memberType);
+                    member.setProgram(resultSet.getString("program"));
+                    member.setTerm(resultSet.getInt("term"));
+                    member.setMobile(resultSet.getString("mobileNumber"));
+                    member.setDob(resultSet.getDate("DOB").toLocalDate());
+
+                    return member;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        logger.warn("[Member][Data] Procedure call to get member failed");
+        return null;
+    }
 }

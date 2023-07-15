@@ -29,4 +29,22 @@ public class MemberDataLayerTest {
         logger.info("[Test][Member][Service] Created test member with emailId: " + newMember.getEmailId());
         Assertions.assertTrue(() -> memberDataLayer.createNewMember(newMember));
     }
+
+    @Test
+    public void getMemberTest() {
+        Member newMember = RandomGenerator.generateRandomDalClubMember();
+        logger.info("[Test][Member][Service] Created test member with emailId: " + newMember.getEmailId());
+        memberDataLayer.createNewMember(newMember);
+        Member recievedMember = memberDataLayer.getMember(newMember.getEmailId());
+        Assertions.assertNotNull(recievedMember);
+
+        Assertions.assertEquals(newMember.getEmailId(), recievedMember.getEmailId());
+        Assertions.assertEquals(newMember.getFirstName(), recievedMember.getFirstName());
+        Assertions.assertEquals(newMember.getLastName(), recievedMember.getLastName());
+        Assertions.assertEquals(newMember.getMemberType(), recievedMember.getMemberType());
+        Assertions.assertEquals(newMember.getProgram(), recievedMember.getProgram());
+        Assertions.assertEquals(newMember.getTerm(), recievedMember.getTerm());
+        Assertions.assertEquals(newMember.getMobile(), recievedMember.getMobile());
+        Assertions.assertEquals(newMember.getDob(), recievedMember.getDob());
+    }
 }
