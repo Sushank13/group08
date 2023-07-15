@@ -251,4 +251,35 @@ public class ClubServiceLayer implements  IClubServiceLayer
         logger.info("Exiting ServiceLayer: Returning false to controller");
         return false;
     }
+
+    /**
+     * Deletes the club record from the club table by invoking the corresponding data layer function.
+     *
+     * @param clubID The clubID value for the club record to delete.
+     * @return A boolean response result, which returns true if club record deleted successfully, else returns false
+     */
+    @Override
+    public boolean deleteClub(String clubID) {
+        logger.info("Service Layer Entered: Entered deleteClub- Calling Data layer deleteClub");
+        boolean resultStatus;
+        String errorMessage = null;
+        try {
+            resultStatus = iClubDataLayer.deleteClub(clubID);
+            logger.info("Exiting Service Layer: Returning boolean resultStatus to Controller");
+            return resultStatus;
+        }
+        catch (SQLException e) {
+            resultStatus = false;
+            errorMessage = e.getMessage();
+            logger.error("Exception occured in 'deleteClub': "+errorMessage);
+        }
+        catch (Exception e)
+        {
+            resultStatus = false;
+            errorMessage = e.getMessage();
+            logger.error("Exception occured in 'deleteClub': "+errorMessage);
+        }
+        logger.info("Exiting Service Layer: Returning error message to Controller");
+        return resultStatus;
+    }
 }

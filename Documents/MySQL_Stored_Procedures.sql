@@ -10,7 +10,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getLatestClubId()
 BEGIN 
-      SELECT clubID from newAndUpdateClubRequest ORDER BY clubID DESC LIMIT 1;
+      SELECT CONCAT('CLB_',(SELECT CAST(SUBSTRING_INDEX(clubID , '_', -1) AS UNSIGNED) AS clubID FROM newAndUpdateClubRequest ORDER BY clubID DESC LIMIT 1)) AS clubID FROM newAndUpdateClubRequest LIMIT 1;
 END //
 DELIMITER ;
 
@@ -18,7 +18,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getLatestRequestId()
 BEGIN 
-      SELECT requestID from newAndUpdateClubRequest ORDER BY requestID DESC LIMIT 1;
+      SELECT CONCAT('REQ_',(SELECT CAST(SUBSTRING_INDEX(requestID, '_', -1) AS UNSIGNED) AS requestID FROM newAndUpdateClubRequest ORDER BY requestID DESC LIMIT 1)) AS requestID FROM newAndUpdateClubRequest LIMIT 1;
 END //
 DELIMITER ;
 
@@ -60,6 +60,16 @@ DELIMITER //
 CREATE PROCEDURE createClub(IN clubID VARCHAR(50),IN clubName VARCHAR(255),IN clubDescription VARCHAR(255),IN presidentEmailID VARCHAR(255),IN facebookLink VARCHAR(255),IN instagramLink VARCHAR(255),IN categoryID VARCHAR(50),IN location VARCHAR(255), IN meetingTime VARCHAR(255),IN clubImage VARCHAR(255),IN rules VARCHAR(255))
 BEGIN
   INSERT INTO club values(clubID,clubName,clubDescription, presidentEmailID,facebookLink,instagramLink,categoryID,location,meetingTime,clubImage,rules);
+END //
+DELIMITER ;
+
+-- Procedure to deleting a club record in Club table based on clubID
+DELIMITER //
+CREATE PROCEDURE deleteClub(IN deleteClubID VARCHAR(50))
+BEGIN
+  DELETE FROM events WHERE clubID=deleteClubID;
+  
+  DELETE FROM club WHERE clubID=deleteClubID;
 END //
 DELIMITER ;
 

@@ -353,4 +353,34 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
             return false;
         }
     }
+
+    /**
+     * Deletes the club record from the club table based on the clubID
+     *
+     * @param clubID The clubID value for the club record to delete.
+     * @return A boolean response result, which returns true if club record deleted successfully, else returns false
+     * @throws SQLException
+     */
+    @Override
+    public boolean deleteClub(String clubID) throws SQLException {
+        boolean resultStatus = false;
+        if (connection != null) {
+            logger.info("Data Layer Entered: Entered deleteClub()");
+            callProcedure = "{CALL deleteClub(?)}";
+            callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1, clubID);
+            int result = callableStatement.executeUpdate();
+            if (result == 0)
+                resultStatus = false;
+            else if (result > 1)
+            resultStatus = true;
+            logger.info("deleteClub- Procedure execution call successful, resultStatus = " + resultStatus);
+            logger.info("Exiting Data Layer: Returning boolean resultStatus to Service Layer");
+            return resultStatus;
+        }
+        else {
+            logger.error("Exception: Database Connection not established.");
+            return false;
+        }
+    }
 }

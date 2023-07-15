@@ -30,7 +30,7 @@ public class ClubDataLayerTest {
     }
 
     @Test
-    void getLatestRequestIdTest(){
+    void getLatestRequestIdTest() {
         try {
             String result = iclubSecondDataLayer.getLatestRequestId();
             System.out.println("result = \n" + result);
@@ -40,7 +40,7 @@ public class ClubDataLayerTest {
         }
     }
     @Test
-    void getLatestClubIdTest(){
+    void getLatestClubIdTest() {
         try {
             String result = iclubSecondDataLayer.getLatestClubId();
             System.out.println("result = \n" + result);
@@ -50,7 +50,7 @@ public class ClubDataLayerTest {
         }
     }
     @Test
-    void getAllClubCategoriesTest(){
+    void getAllClubCategoriesTest() {
         try {
             ArrayList<HashMap<String, String>> result = iclubDataLayer.getAllClubCategories();
             System.out.println("result = \n" + result);
@@ -60,7 +60,7 @@ public class ClubDataLayerTest {
         }
     }
     @Test
-    void updateClubDetailsTest(){
+    void updateClubDetailsTest() {
         try {
             // Request ID
             String requestId = "REQ_00_"+(int)Math.floor(Math.random()*500);
@@ -94,7 +94,15 @@ public class ClubDataLayerTest {
         {
             fail("Test failed: Exception occurred- "+e.getMessage());
         }
-
+    }
+    @Test
+    public void deleteClubTest() {
+        try {
+            boolean result = iclubDataLayer.deleteClub("CLB_3");
+            System.out.println("result = " + result);
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- "+e.getMessage());
+        }
     }
     @Test
     public void getClubDetailsFromClubRequestTest()
