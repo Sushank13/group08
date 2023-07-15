@@ -38,5 +38,21 @@ public class EventServiceLayer implements  IEventServiceLayer{
         logger.info("ServiceLayer: getAllEvents() returned null to Controller");
         return null;
     }
+    @Override
+    public boolean createEvent(Event event)
+    {
+        try {
+            boolean createEventStatus = iEventDataLayer.createEvent(event);
+            if (createEventStatus) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
 
+    }
 }
