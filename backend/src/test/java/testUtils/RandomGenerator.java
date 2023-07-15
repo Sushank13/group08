@@ -29,7 +29,7 @@ public class RandomGenerator {
 
     public static Integer generateRandomInteger(int upperBound) {
         Random random = new Random();
-        return random.nextInt(upperBound);
+        return random.nextInt(1, upperBound);
     }
 
     public static String generateRandomPhoneNumber() {
