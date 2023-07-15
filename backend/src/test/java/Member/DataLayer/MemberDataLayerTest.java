@@ -11,16 +11,20 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 import testUtils.RandomGenerator;
 
-
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MemberDataLayerTest {
     private static final Logger logger = LogManager.getLogger(MemberDataLayerTest.class);
     private IMemberDataLayer memberDataLayer;
 
     private Member randomMember;
-    @BeforeEach
-    public void beforeTestRun() {
+
+    @BeforeAll
+    public void beforeALl() {
         IDatabaseConnection databaseConnection = DatabaseConnection.getInstance();
         memberDataLayer = MemberDataLayer.getInstance(databaseConnection);
+    }
+    @BeforeEach
+    public void beforeEach() {
         randomMember = RandomGenerator.generateRandomDalClubMember();
     }
 
