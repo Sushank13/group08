@@ -74,6 +74,7 @@ public class EventDataLayer implements IEventDataLayer
     @Override
     public boolean createEvent(Event event) throws SQLException {
         if (connection != null) {
+            logger.info("Entered DataLayer: Entered createEvent()");
             callProcedure="{CALL createEvent(?,?,?,?,?,?,?,?,?,?,?,?)}";
             callableStatement=connection.prepareCall(callProcedure);
             callableStatement.setString(1, event.getEventID());
@@ -90,9 +91,12 @@ public class EventDataLayer implements IEventDataLayer
             callableStatement.setString(12, event.getEventTopic());
             int result = callableStatement.executeUpdate();
             boolean resultStatus = (result == 1);
+            logger.info("createEvent- Procedure execution call successful, resultStatus = " + resultStatus);
+            logger.info("Exiting Data Layer: Returning boolean result status to Service Layer");
             return resultStatus;
         }
         else {
+            logger.error("Exception: Database Connection not established.");
             return false;
         }
     }

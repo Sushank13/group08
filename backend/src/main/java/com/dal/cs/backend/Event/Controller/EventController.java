@@ -34,9 +34,12 @@ public class EventController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/createEvent")
     public Map<String, Boolean> createEvent(@RequestBody Event event) {
+        logger.info("Controller Entered: Received request for creating a new event");
+        logger.info("createEvent- Calling Service layer createEvent");
         Map<String, Boolean> resultResponse = new HashMap<>();
         boolean result = iEventServiceLayer.createEvent(event);
         resultResponse.put("status", result);
+        logger.info("Exiting Controller: Returning response status to Frontend via POST /createEvent");
         return resultResponse;
     }
 }
