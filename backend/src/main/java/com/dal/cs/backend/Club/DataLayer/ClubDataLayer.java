@@ -388,8 +388,10 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
             logger.info("record could not be updated successfully");
             logger.info("Exiting DataLayer:Returning false to ServiceLayer");
         }
+        logger.info("Exiting DataLayer:Returning false to ServiceLayer");
+        return false;
     }
-     * Deletes the club record from the club table based on the clubID
+     /** Deletes the club record from the club table based on the clubID
      *
      * @param clubID The clubID value for the club record to delete.
      * @return A boolean response result, which returns true if club record deleted successfully, else returns false

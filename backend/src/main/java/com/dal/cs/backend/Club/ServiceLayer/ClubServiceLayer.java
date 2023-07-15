@@ -290,7 +290,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
          return false;
      }
 
-     * Deletes the club record from the club table by invoking the corresponding data layer function.
+     /** Deletes the club record from the club table by invoking the corresponding data layer function.
      *
      * @param clubID The clubID value for the club record to delete.
      * @return A boolean response result, which returns true if club record deleted successfully, else returns false
