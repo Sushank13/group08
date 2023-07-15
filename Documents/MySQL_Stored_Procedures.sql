@@ -95,3 +95,16 @@ BEGIN
    UPDATE newAndUpdateClubRequest as naucr SET requestStatus="REJECTED" WHERE naucr.requestID=requestId;
 END //
 DELIMITER ;
+
+-- Procedure to get those events in which a user had registered
+DELIMITER //
+CREATE PROCEDURE getEventsByUserEmailID(IN userEmailID VARCHAR(255))
+BEGIN
+    SELECT c.clubName,e.eventName,e.eventTopic, e.description, e.venue, e.startDate, e.endDate,
+	e.startTime, e.startTime, e.organizerEmailID
+    FROM events e
+    INNER JOIN eventRegistrationDetails erd ON e.eventID = erd.eventID
+    INNER JOIN club c ON c.clubID=e.clubID 
+    WHERE erd.emailID = userEmailID;
+END//
+DELIMITER ;
