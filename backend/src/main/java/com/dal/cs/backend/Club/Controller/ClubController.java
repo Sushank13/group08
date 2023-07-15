@@ -105,7 +105,7 @@ public class ClubController
      * @param reqId is the request id of the club update or new club request
      * @return a message
      */
-    @RequestMapping(method = RequestMethod.PUT,value="/approveClubRequest/{reqId}")
+    @RequestMapping(method = RequestMethod.PUT,value="/rejectClubRequest/{reqId}")
     public String rejectClubRequest(@PathVariable("reqId") String reqId )
     {
         logger.info("Controller Entered: Received request to reject the new club or update club request.");
