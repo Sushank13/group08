@@ -44,4 +44,11 @@ public class EventController
         logger.info("Exiting Controller: Returning list of events to Frontend via GET /getEventsByUser");
         return listOfAllEvents;
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/registerEvents/eventID/{eventID}/emailID/{emailID}")
+    public boolean registerEvents(@PathVariable String eventID, @PathVariable String emaiID)
+    {
+        boolean resultStatus= iEventServiceLayer.registerEvents(eventID, emaiID);
+        return resultStatus;
+    }
 }
