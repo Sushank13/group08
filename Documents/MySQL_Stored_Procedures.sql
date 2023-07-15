@@ -48,7 +48,7 @@ DELIMITER ;
 
 -- Procedure for getting member details with emailID (PK)
 DELIMITER //
-CREATE PROCEDURE `MemberGetMemberDetails` (IN emailID VARCHAR(255))
+CREATE PROCEDURE MemberGetMemberDetails (IN emailID VARCHAR(255))
 BEGIN
     SELECT * FROM member WHERE member.emailID = emailID;
 END //
