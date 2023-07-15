@@ -90,7 +90,7 @@ public class ClubController
         boolean approveRequestStatus=iClubServiceLayer.approveClubRequest(reqId);
         if(approveRequestStatus)
         {
-            String message="Your request with Request ID: "+reqId+ " has been successfully approved";
+            String message=" Club request with Request ID: "+reqId+ " has been successfully approved";
             logger.info("Exiting Controller: returning club request approval message");
             return  message;
         }
@@ -111,7 +111,18 @@ public class ClubController
         logger.info("Controller Entered: Received request to reject the new club or update club request.");
         logger.info("rejectClubRequest()- Calling rejectClubRequest() of ServiceLayer");
         boolean rejectRequestStatus=iClubServiceLayer.rejectClubRequest(reqId);
-        return "";
+        if(rejectRequestStatus)
+        {
+            String message="Club request with Request ID: "+reqId+ " has been successfully rejected";
+            logger.info("Exiting Controller: returning club request rejection message");
+            return message;
+        }
+        else
+        {
+            String message="Club request with Request ID: "+reqId+ " could not be rejected";
+            logger.info("Exiting Controller: returning club request rejection message");
+            return message;
+        }
 
     }
 }
