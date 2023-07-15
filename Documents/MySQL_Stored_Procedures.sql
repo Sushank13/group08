@@ -108,3 +108,12 @@ BEGIN
     WHERE erd.emailID = userEmailID;
 END//
 DELIMITER ;
+
+
+-- Procedure to insert a record when user registers for an event
+DELIMITER //
+CREATE PROCEDURE registerEvents(IN eventID VARCHAR(50), IN emailID VARCHAR(255))
+BEGIN
+    INSERT INTO eventRegistrationDetails VALUES (eventID, emailID);
+END //    
+DELIMITER ;
