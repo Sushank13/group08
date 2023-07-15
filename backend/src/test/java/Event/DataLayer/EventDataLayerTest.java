@@ -47,9 +47,9 @@ public class EventDataLayerTest {
 
     }
     @Test
-    public void getEventsByUser(String userEmailId) {
+    public void getEventsByUser() {
         try {
-            List<Event> listOfAllEvents = iEventDataLayer.getEventsByUser(userEmailId);
+            List<Event> listOfAllEvents = iEventDataLayer.getEventsByUser("swit@dal.ca");
             System.out.println("List of Events: \n" + listOfAllEvents);
             int i;
             for (i = 0; i < listOfAllEvents.size(); i++) {

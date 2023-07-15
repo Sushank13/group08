@@ -78,8 +78,35 @@ public class EventDataLayer implements IEventDataLayer
      * @return list of events to the service layer
      * @throws SQLException
      */
-    public List<Event> getEventsByUser(String userEmailId) throws SQLException
-    {
+    @Override
+    public List<Event> getEventsByUser(String userEmailId) throws SQLException {
+        callProcedure = "{CALL getEventsByUserEmailID(?)}";
+        callableStatement = connection.prepareCall(callProcedure);
+        callableStatement.setString(1, userEmailId);
+        boolean procedureCallStatus = callableStatement.execute();
+        ResultSet resultSet = callableStatement.getResultSet();
+        List<Event> listOfAllEvents = new ArrayList<>();
+        if (procedureCallStatus) {
+            while (resultSet.next()) {
+                Event event = new Event();
+                event.setOrganizerEmailID(resultSet.getString(1));
+                event.setEventName(resultSet.getString(2));
+                event.setDescription(resultSet.getString(3));
+                event.setVenue(resultSet.getString(4));
+                event.setImage(resultSet.getString(5));
+                event.setStartDate(resultSet.getString(6));
+                event.setEndDate(resultSet.getString(7));
+                event.setStartTime(resultSet.getString(8));
+                event.setEndTime(resultSet.getString(9));
+                event.setEventTopic(resultSet.getString(10));
+                listOfAllEvents.add(event);
+            }
+            return listOfAllEvents;
+        }
+        else
+        {
+            return null;
+        }
 
     }
 }
