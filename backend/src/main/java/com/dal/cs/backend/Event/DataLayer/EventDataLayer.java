@@ -114,4 +114,19 @@ public class EventDataLayer implements IEventDataLayer
         }
 
     }
+
+    @Override
+    public boolean registerEvents(String eventID, String emailID) throws SQLException {
+        callProcedure = "{CALL registerEvents(?,?)}";
+        callableStatement = connection.prepareCall(callProcedure);
+        int  procedureCallStatus = callableStatement.executeUpdate();
+        if (procedureCallStatus > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+
 }
