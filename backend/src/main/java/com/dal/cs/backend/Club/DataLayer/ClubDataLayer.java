@@ -315,10 +315,10 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         callableStatement.setString(10,club.getClubImage());
         callableStatement.setString(11,club.getRules());
         logger.info("Calling stored procedure createClub");
-        boolean procedureCallStatus=callableStatement.execute();
-        logger.info("stored procedure called with status as: "+ procedureCallStatus);
-        if(procedureCallStatus)
+        int procedureCallStatus=callableStatement.executeUpdate();
+        if(procedureCallStatus>0)
         {
+            logger.info("stored procedure called successfully");
             logger.info("Club record for club with Club ID: "+ club.getClubID()+" inserted successfully");
             logger.info("Exiting datalayer: returning true to ServiceLayer");
             return true;
@@ -345,10 +345,10 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         callableStatement=connection.prepareCall(callProcedure);
         callableStatement.setString(1,requestId);
         logger.info("Calling stored procedure updateClubRequestStatusToApproved()");
-        boolean procedureCallStatus=callableStatement.execute();
-        logger.info("stored procedure called with status as: "+ procedureCallStatus);
-        if(procedureCallStatus)
+        int procedureCallStatus=callableStatement.executeUpdate();
+        if(procedureCallStatus>0)
         {
+            logger.info("stored procedure called successfully");
             logger.info("record updated successfully");
             logger.info("Exiting DataLayer:Returning true to ServiceLayer");
             return true;
