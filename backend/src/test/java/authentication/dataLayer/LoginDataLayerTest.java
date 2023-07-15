@@ -9,31 +9,38 @@ import com.dal.cs.backend.member.DataLayer.MemberDataLayer;
 import com.dal.cs.backend.member.MemberObject.MemberWithLoginCredential;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import testUtils.RandomGenerator;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LoginDataLayerTest {
     private static final Logger logger = LogManager.getLogger(LoginDataLayerTest.class);
-    private ILoginDataLayer iLoginDataLayer;
-    private IMemberDataLayer iMemberDataLayer;
+    private ILoginDataLayer loginDataLayer;
+    private IMemberDataLayer memberDataLayer;
+
+    private MemberWithLoginCredential randomMemberWithLoginCredential;
 
     @BeforeAll
-    public void setUp() {
+    public void beforeALl() {
         IDatabaseConnection databaseConnection = DatabaseConnection.getInstance();
-        iMemberDataLayer = MemberDataLayer.getInstance(databaseConnection);
-        iLoginDataLayer = LoginDataLayer.getInstance(databaseConnection);
+        memberDataLayer = MemberDataLayer.getInstance(databaseConnection);
+        loginDataLayer = LoginDataLayer.getInstance(databaseConnection);
+    }
+    @BeforeEach
+    public void beforeEach() {
+        randomMemberWithLoginCredential = RandomGenerator.generateRandomDalClubMemberWithLoginCredential();
+    }
+
+    @AfterEach
+    public void afterEach() {
+        memberDataLayer.deleteMember(randomMemberWithLoginCredential.getEmailId());
     }
 
     @Test
     public void setPasswordTest() {
-        MemberWithLoginCredential member = RandomGenerator.generateRandomDalClubMemberWithLoginCredential();
-        logger.info("[Test][Login][Data] Created test member with login using emailId: " + member.getEmailId());
-        iMemberDataLayer.createNewMember(member.getMember());
+        logger.info("[Test][Login][Data] Created test member with login using emailId: " + randomMemberWithLoginCredential.getEmailId());
+        memberDataLayer.createNewMember(randomMemberWithLoginCredential.getMember());
 
-        Assertions.assertTrue(() -> iLoginDataLayer.createLoginCredential(member.getEmailId(), member.getPassword()));
+        Assertions.assertTrue(() -> loginDataLayer.createLoginCredential(randomMemberWithLoginCredential.getEmailId(), randomMemberWithLoginCredential.getPassword()));
     }
 }
