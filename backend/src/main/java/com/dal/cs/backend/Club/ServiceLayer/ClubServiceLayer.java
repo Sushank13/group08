@@ -265,7 +265,28 @@ public class ClubServiceLayer implements  IClubServiceLayer
          {
              return false;
          }
-
+         logger.info("input validation for Request Id passed- Calling updateClubRequestStatusToRejected() of DataLayer");
+         try
+         {
+             boolean updateClubRequestStatus=iClubDataLayer.updateClubRequestStatusToRejected(reqId);
+             if(updateClubRequestStatus)
+             {
+                 logger.info("ServiceLayer: club request status updated to rejected successfully");
+                 logger.info("Exiting Service Layer: returning true to the Controller");
+                 return true;
+             }
+             else
+             {
+                 logger.info("ServiceLayer: club request status could not be updated to rejected.");
+                 logger.info("Exiting Service Layer: returning false to the Controller");
+                 return false;
+             }
+         }
+         catch(SQLException e)
+         {
+           logger.error("ServiceLayer: SQL exception occurred in DataLayer "+ e.getMessage());
+         }
+         logger.info("Exiting Service Layer: returning false to the Controller");
          return false;
      }
 }
