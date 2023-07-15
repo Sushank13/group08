@@ -67,8 +67,14 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE deleteClub(IN deleteClubID VARCHAR(50))
 BEGIN
+  DELETE FROM eventRegistrationDetails WHERE eventID IN ( 
+			SELECT ERD.eventID 
+            FROM eventRegistrationDetails ERD 
+            INNER JOIN events EVNT 
+            ON ERD.eventID = EVNT.eventID 
+            WHERE EVNT.clubID = deleteClubID
+		);
   DELETE FROM events WHERE clubID=deleteClubID;
-  
   DELETE FROM club WHERE clubID=deleteClubID;
 END //
 DELIMITER ;
@@ -88,4 +94,17 @@ CREATE PROCEDURE updateClubRequestStatusToRejected(IN requestId VARCHAR(50))
 BEGIN
    UPDATE newAndUpdateClubRequest as naucr SET requestStatus="REJECTED" WHERE naucr.requestID=requestId;
 END //
+DELIMITER ;
+
+-- Procedure to get those events in which a user had registered
+DELIMITER //
+CREATE PROCEDURE getEventsByUserEmailID(IN userEmailID VARCHAR(255))
+BEGIN
+    SELECT c.clubName,e.eventName,e.eventTopic, e.description, e.venue, e.startDate, e.endDate,
+	e.startTime, e.startTime, e.organizerEmailID
+    FROM events e
+    INNER JOIN eventRegistrationDetails erd ON e.eventID = erd.eventID
+    INNER JOIN club c ON c.clubID=e.clubID 
+    WHERE erd.emailID = userEmailID;
+END//
 DELIMITER ;
