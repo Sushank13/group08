@@ -47,6 +47,15 @@ public class EventServiceLayer implements  IEventServiceLayer{
     @Override
     public List<Event> getEventsByUser(String userEmailId)
     {
+        try
+        {
+            List<Event> listOfAllEvents=iEventDataLayer.getEventsByUser(userEmailId);
+            return listOfAllEvents;
+        }
+        catch(SQLException e)
+        {
+
+        }
         return null;
     }
 

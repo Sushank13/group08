@@ -26,6 +26,19 @@ public class EventServiceLayerTest {
     public  void getEventsByUser(){
         List<Event> listOfAllEvents=iEventServiceLayer.getEventsByUser("swit@dal.ca");
         System.out.println(listOfAllEvents);
-
+        for (int i = 0; i < listOfAllEvents.size(); i++) {
+            System.out.println(listOfAllEvents.get(i).getEventID());
+            System.out.println(listOfAllEvents.get(i).getClubID());
+            System.out.println(listOfAllEvents.get(i).getOrganizerEmailID());
+            System.out.println(listOfAllEvents.get(i).getEventName());
+            System.out.println(listOfAllEvents.get(i).getDescription());
+            System.out.println(listOfAllEvents.get(i).getVenue());
+            System.out.println(listOfAllEvents.get(i).getImage());
+            System.out.println(listOfAllEvents.get(i).getStartDate());
+            System.out.println(listOfAllEvents.get(i).getEndDate());
+            System.out.println(listOfAllEvents.get(i).getStartTime());
+            System.out.println(listOfAllEvents.get(i).getEndTime());
+            System.out.println(listOfAllEvents.get(i).getEventTopic());
+        }
     }
 }
