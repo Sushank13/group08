@@ -69,6 +69,31 @@ public class EventDataLayer implements IEventDataLayer
             logger.error("Problem with procedure call or database connection");
             return null;
         }
+    }
 
+    @Override
+    public boolean createEvent(Event event) throws SQLException {
+        if (connection != null) {
+            callProcedure="{CALL createEvent(?,?,?,?,?,?,?,?,?,?,?,?)}";
+            callableStatement=connection.prepareCall(callProcedure);
+            callableStatement.setString(1, event.getEventID());
+            callableStatement.setString(2, event.getClubID());
+            callableStatement.setString(3, event.getOrganizerEmailID());
+            callableStatement.setString(4, event.getEventName());
+            callableStatement.setString(5, event.getDescription());
+            callableStatement.setString(6, event.getVenue());
+            callableStatement.setString(7, event.getImage());
+            callableStatement.setString(8, event.getStartDate());
+            callableStatement.setString(9, event.getEndDate());
+            callableStatement.setString(10, event.getStartTime());
+            callableStatement.setString(11, event.getEndTime());
+            callableStatement.setString(12, event.getEventTopic());
+            int result = callableStatement.executeUpdate();
+            boolean resultStatus = (result == 1);
+            return resultStatus;
+        }
+        else {
+            return false;
+        }
     }
 }
