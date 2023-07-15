@@ -331,6 +331,13 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
             return false;
         }
     }
+
+    /**
+     * This method calls stored procedure  that updates the status of the club request to approved
+     * @param requestId is the request id of the club update or new club request
+     * @return true if the status is updated to approved successfully else return false
+     * @throws SQLException
+     */
     public boolean updateClubRequestStatusToApproved(String requestId) throws SQLException
     {
         logger.info("Entering DataLayer: Entered updateClubRequestStatusToApproved()");
@@ -355,7 +362,36 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
     }
 
     /**
-     * Deletes the club record from the club table based on the clubID
+     * This method calls stored procedure that updates the status of the club request to rejected
+     * @param requestId is the request id of the club update or new club request
+     * @return true if the status is updated to rejected successfully else return false
+     * @throws SQLException
+     */
+    public boolean updateClubRequestStatusToRejected(String requestId) throws SQLException
+    {
+        logger.info("Entered Datalayer: Entered updateClubRequestStatusToRejected()");
+        callProcedure="{CALL updateClubRequestStatusToRejected(?)}";
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1,requestId);
+        logger.info("Calling stored procedure updateClubRequestStatusToRejected()");
+        int procedureCallStatus=callableStatement.executeUpdate();
+        if(procedureCallStatus>0)
+        {
+            logger.info("Stored procedure executed successfully.");
+            logger.info("Record updated successfully");
+            logger.info("Exiting DataLayer:Returning true to ServiceLayer");
+            return  true;
+        }
+        else
+        {
+            logger.info("Stored procedure not executed successfully.");
+            logger.info("record could not be updated successfully");
+            logger.info("Exiting DataLayer:Returning false to ServiceLayer");
+        }
+        logger.info("Exiting DataLayer:Returning false to ServiceLayer");
+        return false;
+    }
+     /** Deletes the club record from the club table based on the clubID
      *
      * @param clubID The clubID value for the club record to delete.
      * @return A boolean response result, which returns true if club record deleted successfully, else returns false
