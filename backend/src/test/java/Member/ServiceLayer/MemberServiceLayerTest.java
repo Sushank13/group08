@@ -3,6 +3,7 @@ package Member.ServiceLayer;
 import com.dal.cs.backend.authentication.dataLayer.ILoginDataLayer;
 import com.dal.cs.backend.authentication.dataLayer.LoginDataLayer;
 import com.dal.cs.backend.database.DatabaseConnection;
+import com.dal.cs.backend.database.IDatabaseConnection;
 import com.dal.cs.backend.member.DataLayer.IMemberDataLayer;
 import com.dal.cs.backend.member.DataLayer.MemberDataLayer;
 import com.dal.cs.backend.member.MemberObject.MemberWithLoginCredential;
@@ -18,22 +19,22 @@ import testUtils.RandomGenerator;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MemberServiceLayerTest {
 
+    private static final Logger logger = LogManager.getLogger(MemberServiceLayerTest.class);
     private MemberServiceLayer memberServiceLayer;
 
-    private static final Logger logger= LogManager.getLogger(MemberServiceLayerTest.class);
-
     @BeforeAll
-    public void testSetUp() {
-        DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
-        IMemberDataLayer iMemberDataLayer = MemberDataLayer.getInstance(databaseConnection);
-        ILoginDataLayer iLoginDataLayer = LoginDataLayer.getInstance(databaseConnection);
-        memberServiceLayer =  new MemberServiceLayer(iMemberDataLayer, iLoginDataLayer);
+    public void setUp() {
+        IDatabaseConnection databaseConnection = DatabaseConnection.getInstance();
+        IMemberDataLayer memberDataLayer = MemberDataLayer.getInstance(databaseConnection);
+        ILoginDataLayer loginDataLayer = LoginDataLayer.getInstance(databaseConnection);
+
+        memberServiceLayer = new MemberServiceLayer(memberDataLayer, loginDataLayer);
     }
 
     @Test
     public void createNewMemberRequestTest() {
         MemberWithLoginCredential newMember = RandomGenerator.generateRandomDalClubMemberWithLoginCredential();
-        logger.info("[Test][Member][Service] Created test member with emailId: "+newMember.getEmailId());
+        logger.info("[Test][Member][Service] Created test member with emailId: " + newMember.getEmailId());
         Assertions.assertNotNull(memberServiceLayer.createNewMemberRequest(newMember));
     }
 }

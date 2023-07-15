@@ -4,6 +4,7 @@ import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
@@ -15,12 +16,13 @@ public class LoginDataLayer extends BaseDataLayer implements ILoginDataLayer {
 
     private final Logger logger = LogManager.getLogger(LoginDataLayer.class);
 
-    public LoginDataLayer(IDatabaseConnection iDatabaseConnection) {
-        super(iDatabaseConnection);
+    @Autowired
+    public LoginDataLayer(IDatabaseConnection databaseConnection) {
+        super(databaseConnection);
     }
 
-    public static LoginDataLayer getInstance(IDatabaseConnection iDatabaseConnection) {
-        return new LoginDataLayer(iDatabaseConnection);
+    public static LoginDataLayer getInstance(IDatabaseConnection databaseConnection) {
+        return new LoginDataLayer(databaseConnection);
     }
 
     @Override
@@ -40,8 +42,7 @@ public class LoginDataLayer extends BaseDataLayer implements ILoginDataLayer {
                 boolean resultStatus = resultSet.next();
                 if (resultStatus) {
                     logger.info("[Auth][Data] Password set");
-                }
-                else {
+                } else {
                     logger.warn("[Auth][Data] Password not set. Failed data layer call");
                     return false;
                 }

@@ -1,7 +1,6 @@
 package com.dal.cs.backend.member.DataLayer;
 
 import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
-import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import com.dal.cs.backend.member.MemberObject.Member;
 import com.dal.cs.backend.member.ServiceLayer.MemberServiceLayer;
@@ -10,15 +9,17 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Date;
+import java.sql.SQLException;
 
 @Component
 public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
-    private static final Logger logger= LogManager.getLogger(MemberServiceLayer.class);
+    private static final Logger logger = LogManager.getLogger(MemberServiceLayer.class);
+
 
     @Autowired
-    public MemberDataLayer(IDatabaseConnection iDatabaseConnection)
-    {
+    public MemberDataLayer(IDatabaseConnection iDatabaseConnection) {
         super(iDatabaseConnection);
     }
 
@@ -27,14 +28,14 @@ public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
     }
 
     /**
-     *This method will take the user input for user registration
+     * This method will take the user input for user registration
      * new club requests
+     *
      * @param member member object
      * @return true if user registered successfully
-     *
      */
 
-    public boolean createNewMember(Member member)  {
+    public boolean createNewMember(Member member) {
         try {
             CallableStatement cs = connection.prepareCall("{call MemberSaveNewMember(?,?,?,?,?,?,?,?)}");
             cs.setString(1, member.getEmailId());
@@ -48,7 +49,7 @@ public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
             cs.execute();
 
         } catch (SQLException e) {
-            logger.info("Creation filed new member"+ e.getMessage());
+            logger.info("Creation filed new member" + e.getMessage());
             return false;
         }
         logger.info("Exiting createNewMember() in MemberDataLayer");
