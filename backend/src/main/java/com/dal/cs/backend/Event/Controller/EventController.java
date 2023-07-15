@@ -38,6 +38,10 @@ public class EventController
     @RequestMapping(method = RequestMethod.GET, value="/getAllEvents/{userEmailId}")
     public List<Event> getEventsByUser(@PathVariable("userEmailId") String userEmailId)
     {
-        return null;
+        logger.info("Controller Entered: Received request to get all events by userEmaiID");
+        logger.info("getAllEvents- Calling getEventsByUser() of ServiceLayer");
+        List<Event> listOfAllEvents=iEventServiceLayer.getEventsByUser(userEmailId);
+        logger.info("Exiting Controller: Returning list of events to Frontend via GET /getEventsByUser");
+        return listOfAllEvents;
     }
 }

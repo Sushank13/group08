@@ -47,6 +47,17 @@ public class EventServiceLayer implements  IEventServiceLayer{
     @Override
     public List<Event> getEventsByUser(String userEmailId)
     {
+        logger.info("Service Layer Entered: Entered getEventsByUser()- Calling Data layer getEventsByUser()");
+        try
+        {
+            List<Event> listOfAllEvents=iEventDataLayer.getEventsByUser(userEmailId);
+            return listOfAllEvents;
+        }
+        catch(SQLException e)
+        {
+            logger.error("getEventsByUser()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
+        }
+        logger.info("ServiceLayer: getEventsByUser() returned null to Controller");
         return null;
     }
 
