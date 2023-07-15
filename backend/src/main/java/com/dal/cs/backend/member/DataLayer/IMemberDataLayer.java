@@ -6,4 +6,5 @@ public interface IMemberDataLayer {
 
     boolean createNewMember(Member member);
     Member getMember(String emailId);
+    boolean deleteMember(String emailId);
 }

@@ -93,4 +93,27 @@ public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
         logger.warn("[Member][Data] Procedure call to get member failed");
         return null;
     }
+
+    @Override
+    public boolean deleteMember(String emailId) {
+        logger.info("[Member][Data] Delete member");
+        String callProcedure = getProcedureCallString("MemberDeleteMember", 1);
+        try {
+            CallableStatement callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1, emailId);
+            logger.info("[Member][Data] Executed procedure to delete member details ");
+            int rowsAffected = callableStatement.executeUpdate();
+            logger.info("[Member][Data] Rows affected " + rowsAffected);
+
+            if (rowsAffected == 0) {
+                logger.warn("[Member][Data] Didn't delete any member rows");
+                return false;
+            } else {
+                logger.info("[Member][Data] Successfully deleted rows");
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
