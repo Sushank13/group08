@@ -23,9 +23,9 @@ public class EventServiceLayerTest {
         System.out.println(listOfAllEvents);
     }
     @Test
-    public  void getEventsByUser(){
+    public  void getEventsByUserTest(){
         List<Event> listOfAllEvents=iEventServiceLayer.getEventsByUser("swit@dal.ca");
-        System.out.println(listOfAllEvents);
+        System.out.println("List of Events by user id: ");
         for (int i = 0; i < listOfAllEvents.size(); i++) {
             System.out.println(listOfAllEvents.get(i).getEventID());
             System.out.println(listOfAllEvents.get(i).getClubID());
