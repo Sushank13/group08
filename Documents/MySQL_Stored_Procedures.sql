@@ -67,8 +67,14 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE deleteClub(IN deleteClubID VARCHAR(50))
 BEGIN
+  DELETE FROM eventRegistrationDetails WHERE eventID IN ( 
+			SELECT ERD.eventID 
+            FROM eventRegistrationDetails ERD 
+            INNER JOIN events EVNT 
+            ON ERD.eventID = EVNT.eventID 
+            WHERE EVNT.clubID = deleteClubID
+		);
   DELETE FROM events WHERE clubID=deleteClubID;
-  
   DELETE FROM club WHERE clubID=deleteClubID;
 END //
 DELIMITER ;
