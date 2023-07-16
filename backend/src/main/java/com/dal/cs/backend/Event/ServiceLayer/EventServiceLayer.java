@@ -1,5 +1,4 @@
 package com.dal.cs.backend.Event.ServiceLayer;
-import com.dal.cs.backend.Club.ServiceLayer.ClubServiceLayer;
 import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
 import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
@@ -12,7 +11,7 @@ import java.util.List;
 
 @Service
 public class EventServiceLayer implements  IEventServiceLayer{
-    private static final Logger logger= LogManager.getLogger(ClubServiceLayer.class);
+    private static final Logger logger= LogManager.getLogger(EventServiceLayer.class);
     IEventDataLayer iEventDataLayer;
 
     public EventServiceLayer() {
@@ -61,6 +60,12 @@ public class EventServiceLayer implements  IEventServiceLayer{
         return null;
     }
 
+    /**
+     * This method register the events
+     * @param eventID this will be the id of event
+     * @param emailID  is the email id of the user using which they signed up to DalClubs
+     * @return true if registered successfully
+     */
     @Override
     public boolean registerEvents(String eventID, String emailID){
         logger.info("Service Layer Entered: Entered registerEvents()- Calling Data layer registerEvents()");
@@ -75,6 +80,27 @@ public class EventServiceLayer implements  IEventServiceLayer{
         }
         logger.info("ServiceLayer: registerEvents() returned false to Controller");
         return false;
+    }
+
+    /**
+     * This method returns the details of event
+     * @param nameOfEvent it will take the name of event user searching for
+     * @return details of events user searched for
+     */
+    @Override
+    public List<Event> getEventDetails(String nameOfEvent) {
+        logger.info("Service Layer Entered: Entered getEventDetails()- Calling Data layer getEventDetails()");
+        try
+        {
+            List<Event> eventDetails=iEventDataLayer.getEventDetails(nameOfEvent);
+            return eventDetails;
+        }
+        catch(SQLException e)
+        {
+            logger.error("getEventDetails()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
+        }
+        logger.info("ServiceLayer: getEventDetails() returned false to Controller");
+        return null;
     }
 
 

@@ -45,6 +45,12 @@ public class EventController
         return listOfAllEvents;
     }
 
+    /**
+     * This method register the events
+     * @param eventID this will be the id of event
+     * @param emailID  is the email id of the user using which they signed up to DalClubs
+     * @return true if registered successfully
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/registerEvents/eventID/{eventID}/emailID/{emailID}")
     public boolean registerEvents(@PathVariable String eventID, @PathVariable String emailID)
     {
@@ -53,5 +59,21 @@ public class EventController
         boolean resultStatus= iEventServiceLayer.registerEvents(eventID, emailID);
         logger.info("Exiting Controller: Returning status for insert data via POST /registerEvents");
         return resultStatus;
+    }
+
+    /**
+     *This method returns the details of event
+     * @param nameOfEvent is the name of event user is searching detail for
+     * @return list of event details user searched for
+     */
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getEventDetails/{nameOfEvent}")
+    public List<Event> getEventDetails(@PathVariable("nameOfEvent") String nameOfEvent)
+    {
+        logger.info("Controller Entered: Received request for get event details");
+        logger.info("registerEvents- Calling getEventDetails() of ServiceLayer");
+        List<Event> eventDetails=iEventServiceLayer.getEventDetails(nameOfEvent);
+        logger.info("Exiting Controller: Returning status for get data via GET /getEventDetails");
+        return eventDetails;
     }
 }

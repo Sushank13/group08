@@ -9,4 +9,7 @@ public interface IEventServiceLayer {
     public List<Event> getEventsByUser(String userEmailId);
 
     boolean registerEvents(String eventID, String emailID);
+
+    List<Event> getEventDetails(String nameOfEvent);
+
 }
