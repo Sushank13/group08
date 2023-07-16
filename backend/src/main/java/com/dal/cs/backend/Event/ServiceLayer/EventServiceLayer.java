@@ -78,6 +78,15 @@ public class EventServiceLayer implements  IEventServiceLayer{
 
     @Override
     public List<Event> getEventDetails(String nameOfEvent) {
+        try
+        {
+            List<Event> eventDetails=iEventDataLayer.getEventDetails(nameOfEvent);
+            return eventDetails;
+        }
+        catch(SQLException e)
+        {
+
+        }
         return null;
     }
 
