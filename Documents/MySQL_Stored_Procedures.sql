@@ -160,3 +160,13 @@ BEGIN
     INSERT INTO eventRegistrationDetails VALUES (eventID, emailID);
 END //    
 DELIMITER ;
+
+-- Procedure to get event details by event name
+DELIMITER //
+CREATE PROCEDURE getEventDetails(IN nameOfEvent VARCHAR(255))
+BEGIN
+    SELECT organizerEmailID,eventName, description, venue, startDate, endDate, startTime, endTime, eventTopic
+    FROM events
+    WHERE eventName LIKE CONCAT('%', nameOfEvent, '%');
+END //
+DELIMITER ;
