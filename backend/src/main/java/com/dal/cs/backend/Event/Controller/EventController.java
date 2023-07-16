@@ -48,6 +48,7 @@ public class EventController {
         return resultResponse;
     }
 
+    /**
      * This method returns a list of events that user has registered in
      * @param userEmailId is the email id of the user using which they signed up to DalClubs
      * @return list of events to the frontend
