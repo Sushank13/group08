@@ -41,4 +41,25 @@ public class EventServiceLayerTest {
             System.out.println(listOfAllEvents.get(i).getEventTopic());
         }
     }
+    @Test
+    public void getEventDetailsTest()
+    {
+        List<Event> eventDetails=iEventServiceLayer.getEventDetails("GALA");
+        System.out.println(eventDetails);
+        System.out.println("Event Details ");
+        int i;
+        for (i = 0; i < eventDetails.size(); i++) {
+            Event event = eventDetails.get(i);
+            System.out.println(event.getOrganizerEmailID());
+            System.out.println(event.getEventName());
+            System.out.println(event.getDescription());
+            System.out.println(event.getVenue());
+            System.out.println(event.getStartDate());
+            System.out.println(event.getEndDate());
+            System.out.println(event.getStartTime());
+            System.out.println(event.getEndTime());
+            System.out.println(event.getEventTopic());
+
+        }
+    }
 }

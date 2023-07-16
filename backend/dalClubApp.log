@@ -14,3 +14,27 @@
 16-07-2023 00:44:03.601 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Stored procedure for getEventsByUser() executed with status true
 16-07-2023 00:44:03.605 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - getEventsByUser(): list of all events created successfully
 16-07-2023 00:44:03.605 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Exiting DataLayer: returning list of all events to Service Layer
+16-07-2023 00:55:04.133 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Entered DataLayer: Entered getEventsByUser()
+16-07-2023 00:55:04.711 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Stored procedure for getEventsByUser() executed with status true
+16-07-2023 00:55:04.712 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - getEventsByUser(): list of all events created successfully
+16-07-2023 00:55:04.713 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Exiting DataLayer: returning list of all events to Service Layer
+16-07-2023 00:58:41.012 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Entered DataLayer: Entered getEventsByUser()
+16-07-2023 00:58:41.310 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Stored procedure for getEventsByUser() executed with status true
+16-07-2023 00:58:41.311 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - getEventsByUser(): list of all events created successfully
+16-07-2023 00:58:41.311 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Exiting DataLayer: returning list of all events to Service Layer
+16-07-2023 01:03:04.484 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Entered DataLayer: Entered getEventsByUser()
+16-07-2023 01:03:04.767 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Stored procedure for getEventsByUser() executed with status true
+16-07-2023 01:03:04.769 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - getEventsByUser(): list of all events created successfully
+16-07-2023 01:03:04.769 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Exiting DataLayer: returning list of all events to Service Layer
+16-07-2023 01:05:17.772 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Entered DataLayer: Entered getEventsByUser()
+16-07-2023 01:05:18.062 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Stored procedure for getEventsByUser() executed with status true
+16-07-2023 01:05:18.062 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - getEventsByUser(): list of all events created successfully
+16-07-2023 01:05:18.062 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Exiting DataLayer: returning list of all events to Service Layer
+16-07-2023 01:07:56.899 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Entered DataLayer: Entered getEventsByUser()
+16-07-2023 01:07:57.192 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Stored procedure for getEventsByUser() executed with status true
+16-07-2023 01:07:57.192 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - getEventsByUser(): list of all events created successfully
+16-07-2023 01:07:57.192 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Exiting DataLayer: returning list of all events to Service Layer
+16-07-2023 01:09:40.020 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Entered DataLayer: Entered getEventsByUser()
+16-07-2023 01:09:40.330 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Stored procedure for getEventsByUser() executed with status true
+16-07-2023 01:09:40.330 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - getEventsByUser(): list of all events created successfully
+16-07-2023 01:09:40.331 [main] INFO  com.dal.cs.backend.Club.DataLayer.ClubDataLayer - Exiting DataLayer: returning list of all events to Service Layer

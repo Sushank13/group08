@@ -1,5 +1,4 @@
 package com.dal.cs.backend.Event.ServiceLayer;
-import com.dal.cs.backend.Club.ServiceLayer.ClubServiceLayer;
 import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
 import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
@@ -12,7 +11,7 @@ import java.util.List;
 
 @Service
 public class EventServiceLayer implements  IEventServiceLayer{
-    private static final Logger logger= LogManager.getLogger(ClubServiceLayer.class);
+    private static final Logger logger= LogManager.getLogger(EventServiceLayer.class);
     IEventDataLayer iEventDataLayer;
 
     public EventServiceLayer() {
@@ -75,6 +74,11 @@ public class EventServiceLayer implements  IEventServiceLayer{
         }
         logger.info("ServiceLayer: registerEvents() returned false to Controller");
         return false;
+    }
+
+    @Override
+    public List<Event> getEventDetails(String nameOfEvent) {
+        return null;
     }
 
 
