@@ -45,11 +45,15 @@ public class EventServiceLayer implements  IEventServiceLayer{
      * @return boolean status result if the event was created successfully by inserting the record into the table, else false.
      */
     @Override
-    public boolean createEvent(Event event)
-    {
+    public boolean createEvent(Event event) {
+        logger.info("Service Layer Entered: Entered createEvent- Calling Data layer createEvent");
         String errorMessage = null;
+        logger.info("createEvent- Calling generateEventId()");
+        String EventId=generateEventId();
+        event.setEventID(EventId);
+        logger.info("createEvent- retrieved new latest eventID = "+EventId);
         try {
-            logger.info("Service Layer Entered: Entered createEvent- Calling Data layer createEvent");
+            logger.info("createEvent- Calling Data layer createEvent");
             boolean createEventStatus = iEventDataLayer.createEvent(event);
             if (createEventStatus) {
                 logger.info("Exiting Service Layer: Returning boolean result status=true to Controller");
@@ -67,14 +71,16 @@ public class EventServiceLayer implements  IEventServiceLayer{
             return false;
         }
     }
-    private String generateEventId()
-    {
+    private String generateEventId() {
+        logger.info("generateEventId- Entered generateEventId- Calling Data layer getLatestEventId");
         String newEventId = iEventDataLayer.getLatestEventId();
         if(newEventId != null)
         {
+            logger.info("Exiting Service Layer: Returning latest eventID.");
             return newEventId;
         }
         String firstEventId = "EVNT_1";
+        logger.info("Exiting Service Layer: Returning the first eventID, as no events present.");
         return firstEventId;
     }
 }
