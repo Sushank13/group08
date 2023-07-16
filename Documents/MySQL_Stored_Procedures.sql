@@ -46,6 +46,32 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Procedure for getting member details with emailID (PK)
+DELIMITER //
+CREATE PROCEDURE MemberGetMemberDetails (IN emailID VARCHAR(255))
+BEGIN
+    SELECT * FROM member WHERE member.emailID = emailID;
+END //
+DELIMITER ;
+
+-- Procedure to delete a member and their login credential with emailID
+DELIMITER //
+CREATE PROCEDURE MemberDeleteMember(IN emailID VARCHAR(255))
+BEGIN
+    DELETE FROM login WHERE login.emailID=emailID;
+
+    DELETE FROM member WHERE member.emailID=emailID;
+END //
+DELIMITER ;
+
+-- Procedure to create login credential
+DELIMITER //
+CREATE PROCEDURE LoginCreatePassword(IN emailId VARCHAR(255), IN password VARCHAR(255))
+BEGIN
+    INSERT INTO login Values (emailID, password);
+END //
+DELIMITER ;
+
 -- Procedure to get the club request information from newAndUpdateClubRequest table based on the reqid
 DELIMITER //
 CREATE PROCEDURE getClubRequestInfoByRequestId(IN requestId varchar(50))

@@ -14,6 +14,10 @@ public class Member {
     private String mobile;
     private LocalDate dob;
 
+    public Member(String emailId) {
+        this.emailId = emailId;
+    }
+
     public Member(String emailId, String firstName, String lastName, MemberType memberType, String program, int term, String mobile, LocalDate dob) {
         this.emailId = emailId;
         this.firstName = firstName;
