@@ -122,6 +122,23 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Procedure for retrieving the latest Event Id from events table
+DELIMITER //
+CREATE PROCEDURE getLatestEventId()
+BEGIN
+	SELECT CONCAT('EVNT_',(SELECT CAST(SUBSTRING_INDEX(eventID, '_', -1) AS UNSIGNED)+1 AS eventID FROM events ORDER BY eventID DESC LIMIT 1)) AS eventID FROM events LIMIT 1;
+END //
+DELIMITER ;
+
+
+-- Procedure to create event by inserting event record into event table
+DELIMITER //
+CREATE PROCEDURE createEvent(IN eventID VARCHAR(50), IN clubID VARCHAR(50), IN organizerEmailID VARCHAR(255), IN eventName VARCHAR(255), IN description VARCHAR(255), IN venue VARCHAR(255), IN image VARCHAR(255), IN startDate DATE, IN endDate DATE, IN startTime TIME, IN endTime TIME, IN eventTopic VARCHAR(255))
+BEGIN
+  INSERT INTO events values(eventID,clubID,organizerEmailID,eventName,description,venue,image,startDate,endDate,startTime,endTime,eventTopic);
+END //
+DELIMITER ;
+
 -- Procedure to get those events in which a user had registered
 DELIMITER //
 CREATE PROCEDURE getEventsByUserEmailID(IN userEmailID VARCHAR(255))

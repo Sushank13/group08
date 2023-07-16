@@ -39,6 +39,56 @@ public class EventServiceLayer implements  IEventServiceLayer{
     }
 
     /**
+     * This method generates a new event ID, for inserting a new event record into event table.
+     * @param event is the real world event object which has all the information about a event.
+     * @return boolean status result if the event was created successfully by inserting the record into the table, else false.
+     */
+    @Override
+    public boolean createEvent(Event event) {
+        logger.info("Service Layer Entered: Entered createEvent- Calling Data layer createEvent");
+        String errorMessage = null;
+        logger.info("createEvent- Calling generateEventId()");
+        String EventId=generateEventId();
+        event.setEventID(EventId);
+        logger.info("createEvent- retrieved new latest eventID = "+EventId);
+        try {
+            logger.info("createEvent- Calling Data layer createEvent");
+            boolean createEventStatus = iEventDataLayer.createEvent(event);
+            if (createEventStatus) {
+                logger.info("Exiting Service Layer: Returning boolean result status=true to Controller");
+                return true;
+            }
+            else {
+                errorMessage = "Unable to create event by inserting in database table.";
+                logger.warn("Exiting Service Layer: Returning boolean result status=false to Controller");
+                return false;
+            }
+        } catch (SQLException e) {
+            errorMessage = "Unable to create event by inserting in database table. Error message: "+e.getMessage();
+            logger.error("Exception occured in 'createEvent': " + errorMessage);
+            logger.info("Exiting Service Layer: Returning error message to Controller");
+            return false;
+        }
+    }
+
+    /**
+     * This method retrieves the new incremented event id when a new event creation is to be executed.
+     * @return the new latest eventid String
+     */
+    private String generateEventId() {
+        logger.info("generateEventId- Entered generateEventId- Calling Data layer getLatestEventId");
+        String newEventId = iEventDataLayer.getLatestEventId();
+        if(newEventId != null)
+        {
+            logger.info("Exiting Service Layer: Returning latest eventID.");
+            return newEventId;
+        }
+        String firstEventId = "EVNT_1";
+        logger.info("Exiting Service Layer: Returning the first eventID, as no events present.");
+        return firstEventId;
+    }
+
+    /**
      * This method returns a list of events that user has registered in
      * @param userEmailId  is the email id of the user using which they signed up to DalClubs
      * @return  list of events to the controller

@@ -69,7 +69,73 @@ public class EventDataLayer implements IEventDataLayer
             logger.error("Problem with procedure call or database connection");
             return null;
         }
+    }
 
+    /**
+     * This method calls a stored procedure that inserts a record for a new event into the events table
+     * @param event This is event object that has all the event details
+     * @return true if the event record is insert successfully, else return false
+     * @throws SQLException
+     */
+    @Override
+    public boolean createEvent(Event event) throws SQLException {
+        if (connection != null) {
+            logger.info("Entered DataLayer: Entered createEvent()");
+            callProcedure="{CALL createEvent(?,?,?,?,?,?,?,?,?,?,?,?)}";
+            callableStatement=connection.prepareCall(callProcedure);
+            callableStatement.setString(1, event.getEventID());
+            callableStatement.setString(2, event.getClubID());
+            callableStatement.setString(3, event.getOrganizerEmailID());
+            callableStatement.setString(4, event.getEventName());
+            callableStatement.setString(5, event.getDescription());
+            callableStatement.setString(6, event.getVenue());
+            callableStatement.setString(7, event.getImage());
+            callableStatement.setString(8, event.getStartDate());
+            callableStatement.setString(9, event.getEndDate());
+            callableStatement.setString(10, event.getStartTime());
+            callableStatement.setString(11, event.getEndTime());
+            callableStatement.setString(12, event.getEventTopic());
+            int result = callableStatement.executeUpdate();
+            boolean resultStatus = (result == 1);
+            logger.info("createEvent- Procedure execution call successful, resultStatus = " + resultStatus);
+            logger.info("Exiting Data Layer: Returning boolean result status to Service Layer");
+            return resultStatus;
+        }
+        else {
+            logger.error("Exception: Database Connection not established.");
+            return false;
+        }
+    }
+
+    /**
+     * retrieve the latest event id by calling a stored procedure
+     * @return event id of the latest event to add into table
+     */
+    @Override
+    public String getLatestEventId() {
+        try {
+            logger.info("Entered DataLayer: Entered getLatestEventId)");
+            callProcedure = "{CALL getLatestEventId()}";
+            callableStatement = connection.prepareCall(callProcedure);
+            boolean procedureCallStatus = callableStatement.execute();
+            logger.info("getLatestEventId- Procedure call to get latest event id");
+            if (procedureCallStatus) {
+                ResultSet resultSet = callableStatement.getResultSet();
+                boolean resultStatus = resultSet.next();
+                if (resultStatus) {
+                    String latestEventId = resultSet.getString("eventID");
+                    logger.info("Latest event id fetched is: "+latestEventId);
+                    logger.info("Exiting Datalayer: returning latest event id to Service Layer");
+                    return latestEventId;
+                }
+            }
+        } catch (SQLException e) {
+            logger.info("Exiting DataLayer: returning event id as null to Service Layer");
+            System.out.println(e.getMessage());
+            return null;
+        }
+        logger.info("Exiting DataLayer: returning event id as null to Service Layer");
+        return null;
     }
 
     /**

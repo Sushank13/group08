@@ -1,6 +1,5 @@
 package Event.DataLayer;
 
-import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
 import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
@@ -44,7 +43,35 @@ public class EventDataLayerTest {
         } catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
+    }
 
+    @Test
+    public void createEventTest() {
+//        try {
+//            Event demoEvent = new Event();
+//            demoEvent.setEventID("EVNT_00_1");
+//            demoEvent.setClubID("CLB_2");
+//            demoEvent.setOrganizerEmailID("swit@dal.ca");
+//            demoEvent.setEventName("sample event name");
+//            demoEvent.setDescription("sample event description");
+//            demoEvent.setVenue("sample event venue");
+//            demoEvent.setImage("sample_image.jpg");
+//            demoEvent.setStartDate("2023-01-01");
+//            demoEvent.setEndDate("2023-01-03");
+//            demoEvent.setStartTime("11:00:00");
+//            demoEvent.setEndTime("12:00:00");
+//            demoEvent.setEventTopic("sample topic");
+//            boolean result = iEventDataLayer.createEvent(demoEvent);
+//            System.out.println("result = " + result);
+//        } catch (SQLException e) {
+//            fail("Test failed: Exception occurred- " + e.getMessage());
+//        }
+    }
+
+    @Test
+    public void getLatestEventIdTest() {
+        String result = iEventDataLayer.getLatestEventId();
+        System.out.println("result = "+result);
     }
 
     @Test

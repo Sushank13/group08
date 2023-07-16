@@ -10,6 +10,11 @@ public interface IEventDataLayer
 {
 
     List<Event> getAllEvents() throws SQLException;
+
+    boolean createEvent(Event event) throws SQLException;
+
+    String getLatestEventId();
+
     List<Event> getEventsByUser(String userEmailId) throws SQLException;
 
     boolean registerEvents(String eventID, String emailID) throws SQLException;
