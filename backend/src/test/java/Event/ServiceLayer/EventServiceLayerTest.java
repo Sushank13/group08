@@ -22,6 +22,7 @@ public class EventServiceLayerTest {
         List<Event> listOfAllEvents=iEventServiceLayer.getAllEvents();
         System.out.println(listOfAllEvents);
     }
+
     @Test
     public void createEventTest() {
 //        Event demoEvent = new Event();
@@ -39,5 +40,25 @@ public class EventServiceLayerTest {
 //        demoEvent.setEventTopic("sample topic");
 //        boolean result = iEventServiceLayer.createEvent(demoEvent);
 //        System.out.println("result = " + result);
+    }
+
+    @Test
+    public  void getEventsByUserTest(){
+        List<Event> listOfAllEvents=iEventServiceLayer.getEventsByUser("swit@dal.ca");
+        System.out.println("List of Events by user id: ");
+        for (int i = 0; i < listOfAllEvents.size(); i++) {
+            System.out.println(listOfAllEvents.get(i).getEventID());
+            System.out.println(listOfAllEvents.get(i).getClubID());
+            System.out.println(listOfAllEvents.get(i).getOrganizerEmailID());
+            System.out.println(listOfAllEvents.get(i).getEventName());
+            System.out.println(listOfAllEvents.get(i).getDescription());
+            System.out.println(listOfAllEvents.get(i).getVenue());
+            System.out.println(listOfAllEvents.get(i).getImage());
+            System.out.println(listOfAllEvents.get(i).getStartDate());
+            System.out.println(listOfAllEvents.get(i).getEndDate());
+            System.out.println(listOfAllEvents.get(i).getStartTime());
+            System.out.println(listOfAllEvents.get(i).getEndTime());
+            System.out.println(listOfAllEvents.get(i).getEventTopic());
+        }
     }
 }

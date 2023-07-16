@@ -137,4 +137,71 @@ public class EventDataLayer implements IEventDataLayer
         logger.info("Exiting DataLayer: returning event id as null to Service Layer");
         return null;
     }
+
+    /**
+     * This method fetches list of events that user has registered in from the database
+     * @param userEmailId is the email id of the user using which they signed up to DalClubs
+     * @return list of events to the service layer
+     * @throws SQLException
+     */
+    @Override
+    public List<Event> getEventsByUser(String userEmailId) throws SQLException {
+        logger.info("Entered DataLayer: Entered getEventsByUser()");
+        callProcedure = "{CALL getEventsByUserEmailID(?)}";
+        callableStatement = connection.prepareCall(callProcedure);
+        callableStatement.setString(1, userEmailId);
+        boolean procedureCallStatus = callableStatement.execute();
+        logger.info("Stored procedure for getEventsByUser() executed with status "+procedureCallStatus);
+        ResultSet resultSet = callableStatement.getResultSet();
+        List<Event> listOfAllEvents = new ArrayList<>();
+        if (procedureCallStatus) {
+            while (resultSet.next()) {
+                Event event = new Event();
+                event.setOrganizerEmailID(resultSet.getString(1));
+                event.setEventName(resultSet.getString(2));
+                event.setDescription(resultSet.getString(3));
+                event.setVenue(resultSet.getString(4));
+                event.setImage(resultSet.getString(5));
+                event.setStartDate(resultSet.getString(6));
+                event.setEndDate(resultSet.getString(7));
+                event.setStartTime(resultSet.getString(8));
+                event.setEndTime(resultSet.getString(9));
+                event.setEventTopic(resultSet.getString(10));
+                listOfAllEvents.add(event);
+            }
+            logger.info("getEventsByUser(): list of all events created successfully");
+            logger.info("Exiting DataLayer: returning list of all events to Service Layer");
+            return listOfAllEvents;
+        }
+        else
+        {
+            logger.error("Problem with procedure call or database connection");
+            return null;
+        }
+
+    }
+
+    @Override
+    public boolean registerEvents(String eventID, String emailID) throws SQLException {
+        logger.info("Entered DataLayer: Entered registerEvents()");
+        callProcedure = "{CALL registerEvents(?,?)}";
+        callableStatement = connection.prepareCall(callProcedure);
+        callableStatement.setString(1,eventID);
+        callableStatement.setString(2,emailID);
+        int  procedureCallStatus = callableStatement.executeUpdate();
+        logger.info("Stored procedure for registerEvents() executed with status "+procedureCallStatus);
+        if (procedureCallStatus > 0)
+        {
+            logger.info("registerEvents(): event register successfully");
+            logger.info("Exiting DataLayer: returning boolean status Service Layer");
+            return true;
+        }
+        else
+        {
+            logger.error("Problem with procedure call or database connection");
+            return false;
+        }
+
+    }
+
 }

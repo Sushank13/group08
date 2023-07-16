@@ -66,7 +66,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
             }
         } catch (SQLException e) {
             errorMessage = "Unable to create event by inserting in database table. Error message: "+e.getMessage();
-            logger.error("Exception occured in 'updateClubDetails': " + errorMessage);
+            logger.error("Exception occured in 'createEvent': " + errorMessage);
             logger.info("Exiting Service Layer: Returning error message to Controller");
             return false;
         }
@@ -88,4 +88,42 @@ public class EventServiceLayer implements  IEventServiceLayer{
         logger.info("Exiting Service Layer: Returning the first eventID, as no events present.");
         return firstEventId;
     }
+
+     * This method returns a list of events that user has registered in
+     * @param userEmailId  is the email id of the user using which they signed up to DalClubs
+     * @return  list of events to the controller
+     */
+    @Override
+    public List<Event> getEventsByUser(String userEmailId)
+    {
+        logger.info("Service Layer Entered: Entered getEventsByUser()- Calling Data layer getEventsByUser()");
+        try
+        {
+            List<Event> listOfAllEvents=iEventDataLayer.getEventsByUser(userEmailId);
+            return listOfAllEvents;
+        }
+        catch(SQLException e)
+        {
+            logger.error("getEventsByUser()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
+        }
+        logger.info("ServiceLayer: getEventsByUser() returned null to Controller");
+        return null;
+    }
+
+    @Override
+    public boolean registerEvents(String eventID, String emailID){
+        logger.info("Service Layer Entered: Entered registerEvents()- Calling Data layer registerEvents()");
+        try
+        {
+            boolean resultStatus= iEventDataLayer.registerEvents(eventID,emailID);
+            return resultStatus;
+        }
+        catch (SQLException e)
+        {
+            logger.error("getEventsByUser()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
+        }
+        logger.info("ServiceLayer: registerEvents() returned false to Controller");
+        return false;
+    }
+    
 }

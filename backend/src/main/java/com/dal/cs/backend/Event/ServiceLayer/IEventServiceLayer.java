@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface IEventServiceLayer {
     public List<Event> getAllEvents();
+    public List<Event> getEventsByUser(String userEmailId);
 
     boolean createEvent(Event event);
+
+    boolean registerEvents(String eventID, String emailID);
+
 }

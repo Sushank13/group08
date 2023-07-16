@@ -1,15 +1,13 @@
 package com.dal.cs.backend.database;
 
 
-
-import org.springframework.stereotype.Component;
-
 import java.sql.Connection;
 
 public interface IDatabaseConnection {
 
     /**
      * Creates database connection using parameters defined in database.properties
+     *
      * @return SQL connection to database
      * @throws java.sql.SQLException
      * @throws java.io.IOException
@@ -18,6 +16,7 @@ public interface IDatabaseConnection {
 
     /**
      * Closes SQL connection to database
+     *
      * @throws java.sql.SQLException
      * @throws java.io.IOException
      */

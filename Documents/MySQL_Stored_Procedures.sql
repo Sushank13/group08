@@ -46,6 +46,32 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Procedure for getting member details with emailID (PK)
+DELIMITER //
+CREATE PROCEDURE MemberGetMemberDetails (IN emailID VARCHAR(255))
+BEGIN
+    SELECT * FROM member WHERE member.emailID = emailID;
+END //
+DELIMITER ;
+
+-- Procedure to delete a member and their login credential with emailID
+DELIMITER //
+CREATE PROCEDURE MemberDeleteMember(IN emailID VARCHAR(255))
+BEGIN
+    DELETE FROM login WHERE login.emailID=emailID;
+
+    DELETE FROM member WHERE member.emailID=emailID;
+END //
+DELIMITER ;
+
+-- Procedure to create login credential
+DELIMITER //
+CREATE PROCEDURE LoginCreatePassword(IN emailId VARCHAR(255), IN password VARCHAR(255))
+BEGIN
+    INSERT INTO login Values (emailID, password);
+END //
+DELIMITER ;
+
 -- Procedure to get the club request information from newAndUpdateClubRequest table based on the reqid
 DELIMITER //
 CREATE PROCEDURE getClubRequestInfoByRequestId(IN requestId varchar(50))
@@ -67,8 +93,14 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE deleteClub(IN deleteClubID VARCHAR(50))
 BEGIN
+  DELETE FROM eventRegistrationDetails WHERE eventID IN ( 
+			SELECT ERD.eventID 
+            FROM eventRegistrationDetails ERD 
+            INNER JOIN events EVNT 
+            ON ERD.eventID = EVNT.eventID 
+            WHERE EVNT.clubID = deleteClubID
+		);
   DELETE FROM events WHERE clubID=deleteClubID;
-  
   DELETE FROM club WHERE clubID=deleteClubID;
 END //
 DELIMITER ;
@@ -90,7 +122,6 @@ BEGIN
 END //
 DELIMITER ;
 
-
 -- Procedure for retrieving the latest Event Id from events table
 DELIMITER //
 CREATE PROCEDURE getLatestEventId()
@@ -108,4 +139,24 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Procedure to get those events in which a user had registered
+DELIMITER //
+CREATE PROCEDURE getEventsByUserEmailID(IN userEmailID VARCHAR(255))
+BEGIN
+    SELECT c.clubName,e.eventName,e.eventTopic, e.description, e.venue, e.startDate, e.endDate,
+	e.startTime, e.startTime, e.organizerEmailID
+    FROM events e
+    INNER JOIN eventRegistrationDetails erd ON e.eventID = erd.eventID
+    INNER JOIN club c ON c.clubID=e.clubID 
+    WHERE erd.emailID = userEmailID;
+END//
+DELIMITER ;
 
+
+-- Procedure to insert a record when user registers for an event
+DELIMITER //
+CREATE PROCEDURE registerEvents(IN eventID VARCHAR(50), IN emailID VARCHAR(255))
+BEGIN
+    INSERT INTO eventRegistrationDetails VALUES (eventID, emailID);
+END //    
+DELIMITER ;

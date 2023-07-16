@@ -47,4 +47,28 @@ public class EventController {
         logger.info("Exiting Controller: Returning response status to Frontend via POST /createEvent");
         return resultResponse;
     }
+
+     * This method returns a list of events that user has registered in
+     * @param userEmailId is the email id of the user using which they signed up to DalClubs
+     * @return list of events to the frontend
+     */
+    @RequestMapping(method = RequestMethod.GET, value="/getAllEvents/{userEmailId}")
+    public List<Event> getEventsByUser(@PathVariable("userEmailId") String userEmailId)
+    {
+        logger.info("Controller Entered: Received request to get all events by userEmailID");
+        logger.info("getAllEvents- Calling getEventsByUser() of ServiceLayer");
+        List<Event> listOfAllEvents=iEventServiceLayer.getEventsByUser(userEmailId);
+        logger.info("Exiting Controller: Returning list of events to Frontend via GET /getEventsByUser");
+        return listOfAllEvents;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/registerEvents/eventID/{eventID}/emailID/{emailID}")
+    public boolean registerEvents(@PathVariable String eventID, @PathVariable String emailID)
+    {
+        logger.info("Controller Entered: Received request for register events");
+        logger.info("registerEvents- Calling registerEvents() of ServiceLayer");
+        boolean resultStatus= iEventServiceLayer.registerEvents(eventID, emailID);
+        logger.info("Exiting Controller: Returning status for insert data via POST /registerEvents");
+        return resultStatus;
+    }
 }
