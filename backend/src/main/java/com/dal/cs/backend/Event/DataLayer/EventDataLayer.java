@@ -140,7 +140,32 @@ public class EventDataLayer implements IEventDataLayer
 
     @Override
     public List<Event> getEventDetails(String nameOfEvent) throws SQLException {
-        return null;
+        callProcedure = "{CALL getEventDetails(?)}";
+        callableStatement = connection.prepareCall(callProcedure);
+        callableStatement.setString(1, nameOfEvent);
+        boolean procedureCallStatus = callableStatement.execute();
+        ResultSet resultSet = callableStatement.getResultSet();
+        List<Event> eventDetails = new ArrayList<>();
+        if (procedureCallStatus) {
+            while (resultSet.next()) {
+                Event event = new Event();
+                event.setOrganizerEmailID(resultSet.getString(1));
+                event.setEventName(resultSet.getString(2));
+                event.setDescription(resultSet.getString(3));
+                event.setVenue(resultSet.getString(4));
+                event.setStartDate(resultSet.getString(5));
+                event.setEndDate(resultSet.getString(6));
+                event.setStartTime(resultSet.getString(7));
+                event.setEndTime(resultSet.getString(8));
+                event.setEventTopic(resultSet.getString(9));
+                eventDetails.add(event);
+            }
+            return eventDetails;
+        }
+        else
+        {
+            return null;
+        }
     }
 
 
