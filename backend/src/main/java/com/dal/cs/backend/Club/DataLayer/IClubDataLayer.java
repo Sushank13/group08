@@ -13,6 +13,8 @@ public interface IClubDataLayer
 
    public ArrayList<HashMap<String, String>> getAllClubCategories() throws SQLException;
    public List<Club> getAllClubs() throws SQLException;
+   public List<Club> getClubsByName(String name);
+   public List<Club> getClubsByCategory(String category);
    public boolean insertUpdatedClubDetails(String requestId, Club club, String requestType, String requestStatus) throws SQLException;
    public Club getClubDetailsFromClubRequest(String reqId) throws SQLException;
    public boolean createClub(Club club) throws SQLException;
