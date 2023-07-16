@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface IEventServiceLayer {
     public List<Event> getAllEvents();
+    public List<Event> getEventsByUser(String userEmailId);
 
 }

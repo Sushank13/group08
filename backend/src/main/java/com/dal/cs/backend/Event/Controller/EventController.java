@@ -6,10 +6,7 @@ import com.dal.cs.backend.Event.ServiceLayer.IEventServiceLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:3001")
@@ -30,6 +27,21 @@ public class EventController
         logger.info("getAllEvents- Calling getAllEvents() of ServiceLayer");
         List<Event> listOfAllEvents=iEventServiceLayer.getAllEvents();
         logger.info("Exiting Controller: Returning list of events to Frontend via GET /getAllEvents");
+        return listOfAllEvents;
+    }
+
+    /**
+     * This method returns a list of events that user has registered in
+     * @param userEmailId is the email id of the user using which they signed up to DalClubs
+     * @return list of events to the frontend
+     */
+    @RequestMapping(method = RequestMethod.GET, value="/getAllEvents/{userEmailId}")
+    public List<Event> getEventsByUser(@PathVariable("userEmailId") String userEmailId)
+    {
+        logger.info("Controller Entered: Received request to get all events by userEmaiID");
+        logger.info("getAllEvents- Calling getEventsByUser() of ServiceLayer");
+        List<Event> listOfAllEvents=iEventServiceLayer.getEventsByUser(userEmailId);
+        logger.info("Exiting Controller: Returning list of events to Frontend via GET /getEventsByUser");
         return listOfAllEvents;
     }
 }
