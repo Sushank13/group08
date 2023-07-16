@@ -12,4 +12,6 @@ public interface IEventServiceLayer {
 
     boolean registerEvents(String eventID, String emailID);
 
+    List<Event> getEventDetails(String nameOfEvent);
+
 }

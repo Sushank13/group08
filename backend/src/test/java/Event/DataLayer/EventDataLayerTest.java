@@ -98,4 +98,30 @@ public class EventDataLayerTest {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
     }
+
+    @Test
+    public void getEventDetails() {
+        try {
+            List<Event> eventDetails = iEventDataLayer.getEventDetails("GALA");
+            System.out.println("Event Details: \n" + eventDetails);
+            int i;
+            for (i = 0; i < eventDetails.size(); i++) {
+                Event event = eventDetails.get(i);
+                System.out.println(event.getEventName());
+                System.out.println(event.getEventTopic());
+                System.out.println(event.getDescription());
+                System.out.println(event.getStartDate());
+                System.out.println(event.getEndDate());
+                System.out.println(event.getStartTime());
+                System.out.println(event.getEndTime());
+                System.out.println(event.getVenue());
+                System.out.println(event.getOrganizerEmailID());
+
+            }
+
+        }
+        catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
+    }
 }
