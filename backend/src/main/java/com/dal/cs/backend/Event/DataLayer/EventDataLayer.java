@@ -107,23 +107,34 @@ public class EventDataLayer implements IEventDataLayer
         }
     }
 
+    /**
+     * retrieve the latest event id by calling a stored procedure
+     * @return event id of the latest event to add into table
+     */
     @Override
     public String getLatestEventId() {
         try {
+            logger.info("Entered DataLayer: Entered getLatestEventId)");
             callProcedure = "{CALL getLatestEventId()}";
             callableStatement = connection.prepareCall(callProcedure);
             boolean procedureCallStatus = callableStatement.execute();
+            logger.info("getLatestEventId- Procedure call to get latest event id");
             if (procedureCallStatus) {
                 ResultSet resultSet = callableStatement.getResultSet();
                 boolean resultStatus = resultSet.next();
                 if (resultStatus) {
                     String latestEventId = resultSet.getString("eventID");
+                    logger.info("Latest event id fetched is: "+latestEventId);
+                    logger.info("Exiting Datalayer: returning latest event id to Service Layer");
                     return latestEventId;
                 }
             }
         } catch (SQLException e) {
+            logger.info("Exiting DataLayer: returning event id as null to Service Layer");
             System.out.println(e.getMessage());
+            return null;
         }
+        logger.info("Exiting DataLayer: returning event id as null to Service Layer");
         return null;
     }
 }

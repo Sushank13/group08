@@ -71,6 +71,11 @@ public class EventServiceLayer implements  IEventServiceLayer{
             return false;
         }
     }
+
+    /**
+     * This method retrieves the new incremented event id when a new event creation is to be executed.
+     * @return the new latest eventid String
+     */
     private String generateEventId() {
         logger.info("generateEventId- Entered generateEventId- Calling Data layer getLatestEventId");
         String newEventId = iEventDataLayer.getLatestEventId();
