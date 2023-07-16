@@ -12,4 +12,6 @@ public interface IEventDataLayer
     List<Event> getAllEvents() throws SQLException;
 
     boolean createEvent(Event event) throws SQLException;
+
+    String getLatestEventId();
 }

@@ -106,4 +106,24 @@ public class EventDataLayer implements IEventDataLayer
             return false;
         }
     }
+
+    @Override
+    public String getLatestEventId() {
+        try {
+            callProcedure = "{CALL getLatestEventId()}";
+            callableStatement = connection.prepareCall(callProcedure);
+            boolean procedureCallStatus = callableStatement.execute();
+            if (procedureCallStatus) {
+                ResultSet resultSet = callableStatement.getResultSet();
+                boolean resultStatus = resultSet.next();
+                if (resultStatus) {
+                    String latestEventId = resultSet.getString("eventID");
+                    return latestEventId;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }

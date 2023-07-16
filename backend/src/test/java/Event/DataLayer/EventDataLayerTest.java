@@ -69,4 +69,9 @@ public class EventDataLayerTest {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
     }
+    @Test
+    public void getLatestEventIdTest() {
+        String result = iEventDataLayer.getLatestEventId();
+        System.out.println("result = "+result);
+    }
 }

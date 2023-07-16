@@ -66,6 +66,15 @@ public class EventServiceLayer implements  IEventServiceLayer{
             logger.info("Exiting Service Layer: Returning error message to Controller");
             return false;
         }
-
+    }
+    private String generateEventId()
+    {
+        String newEventId = iEventDataLayer.getLatestEventId();
+        if(newEventId != null)
+        {
+            return newEventId;
+        }
+        String firstEventId = "EVNT_1";
+        return firstEventId;
     }
 }
