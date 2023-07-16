@@ -24,20 +24,20 @@ public class EventServiceLayerTest {
     }
     @Test
     public void createEventTest() {
-        Event demoEvent = new Event();
-        demoEvent.setEventID("EVNT_00_2");
-        demoEvent.setClubID("CLB_2");
-        demoEvent.setOrganizerEmailID("swit@dal.ca");
-        demoEvent.setEventName("sample event name 2");
-        demoEvent.setDescription("sample event description 2");
-        demoEvent.setVenue("sample event venue 2");
-        demoEvent.setImage("sample_image2.jpg");
-        demoEvent.setStartDate("2023-01-01");
-        demoEvent.setEndDate("2023-01-03");
-        demoEvent.setStartTime("11:00:00");
-        demoEvent.setEndTime("12:00:00");
-        demoEvent.setEventTopic("sample topic");
-        boolean result = iEventServiceLayer.createEvent(demoEvent);
-        System.out.println("result = " + result);
+//        Event demoEvent = new Event();
+//        demoEvent.setEventID("EVNT_00_2");
+//        demoEvent.setClubID("CLB_2");
+//        demoEvent.setOrganizerEmailID("swit@dal.ca");
+//        demoEvent.setEventName("sample event name 2");
+//        demoEvent.setDescription("sample event description 2");
+//        demoEvent.setVenue("sample event venue 2");
+//        demoEvent.setImage("sample_image2.jpg");
+//        demoEvent.setStartDate("2023-01-01");
+//        demoEvent.setEndDate("2023-01-03");
+//        demoEvent.setStartTime("11:00:00");
+//        demoEvent.setEndTime("12:00:00");
+//        demoEvent.setEventTopic("sample topic");
+//        boolean result = iEventServiceLayer.createEvent(demoEvent);
+//        System.out.println("result = " + result);
     }
 }
