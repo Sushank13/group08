@@ -115,6 +115,14 @@ public class EventDataLayer implements IEventDataLayer
 
     }
 
+    /**
+     * This method register the events
+     * @param eventID is the event id of  any event host by the club
+     * @param emailID is the email id of the user using which they signed up to DalClubs
+     * @return true if events successfully register
+     * @throws SQLException
+     */
+
     @Override
     public boolean registerEvents(String eventID, String emailID) throws SQLException {
         logger.info("Entered DataLayer: Entered registerEvents()");
@@ -138,12 +146,20 @@ public class EventDataLayer implements IEventDataLayer
 
     }
 
+    /**
+     * This method returns the details of event
+     * @param nameOfEvent it will take the name of event user searching for
+     * @return all the details of the event user search for
+     * @throws SQLException
+     */
     @Override
     public List<Event> getEventDetails(String nameOfEvent) throws SQLException {
+        logger.info("Entered DataLayer: Entered getEventDetails()");
         callProcedure = "{CALL getEventDetails(?)}";
         callableStatement = connection.prepareCall(callProcedure);
         callableStatement.setString(1, nameOfEvent);
         boolean procedureCallStatus = callableStatement.execute();
+        logger.info("Stored procedure for getEventDetails() executed with status "+procedureCallStatus);
         ResultSet resultSet = callableStatement.getResultSet();
         List<Event> eventDetails = new ArrayList<>();
         if (procedureCallStatus) {
@@ -160,6 +176,9 @@ public class EventDataLayer implements IEventDataLayer
                 event.setEventTopic(resultSet.getString(9));
                 eventDetails.add(event);
             }
+            logger.info("getEventDetails(): get the list of all events details successfully");
+            logger.info("Exiting DataLayer: returning list of all events details to Service Layer");
+
             return eventDetails;
         }
         else
