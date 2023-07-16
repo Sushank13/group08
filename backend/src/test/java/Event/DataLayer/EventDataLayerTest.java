@@ -80,15 +80,15 @@ public class EventDataLayerTest {
             int i;
             for (i = 0; i < eventDetails.size(); i++) {
                 Event event = eventDetails.get(i);
-                System.out.println(event.getOrganizerEmailID());
                 System.out.println(event.getEventName());
+                System.out.println(event.getEventTopic());
                 System.out.println(event.getDescription());
-                System.out.println(event.getVenue());
                 System.out.println(event.getStartDate());
                 System.out.println(event.getEndDate());
                 System.out.println(event.getStartTime());
                 System.out.println(event.getEndTime());
-                System.out.println(event.getEventTopic());
+                System.out.println(event.getVenue());
+                System.out.println(event.getOrganizerEmailID());
 
             }
 

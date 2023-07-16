@@ -165,15 +165,15 @@ public class EventDataLayer implements IEventDataLayer
         if (procedureCallStatus) {
             while (resultSet.next()) {
                 Event event = new Event();
-                event.setOrganizerEmailID(resultSet.getString(1));
-                event.setEventName(resultSet.getString(2));
+                event.setEventName(resultSet.getString(1));
+                event.setEventTopic(resultSet.getString(2));
                 event.setDescription(resultSet.getString(3));
-                event.setVenue(resultSet.getString(4));
-                event.setStartDate(resultSet.getString(5));
-                event.setEndDate(resultSet.getString(6));
-                event.setStartTime(resultSet.getString(7));
-                event.setEndTime(resultSet.getString(8));
-                event.setEventTopic(resultSet.getString(9));
+                event.setStartDate(resultSet.getString(4));
+                event.setEndDate(resultSet.getString(5));
+                event.setStartTime(resultSet.getString(6));
+                event.setEndTime(resultSet.getString(7));
+                event.setVenue(resultSet.getString(8));
+                event.setOrganizerEmailID(resultSet.getString(9));
                 eventDetails.add(event);
             }
             logger.info("getEventDetails(): get the list of all events details successfully");
