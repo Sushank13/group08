@@ -54,4 +54,11 @@ public class EventController
         logger.info("Exiting Controller: Returning status for insert data via POST /registerEvents");
         return resultStatus;
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getEventDetails/{nameOfEvent}")
+    public List<Event> getEventDetails(@PathVariable("nameOfEvent") String nameOfEvent)
+    {
+        List<Event> eventDetails=iEventServiceLayer.getEventDetails(nameOfEvent);
+        return eventDetails;
+    }
 }
