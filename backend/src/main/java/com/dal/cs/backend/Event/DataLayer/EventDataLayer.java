@@ -138,4 +138,10 @@ public class EventDataLayer implements IEventDataLayer
 
     }
 
+    @Override
+    public List<Event> getEventDetails(String nameOfEvent) throws SQLException {
+        return null;
+    }
+
+
 }
