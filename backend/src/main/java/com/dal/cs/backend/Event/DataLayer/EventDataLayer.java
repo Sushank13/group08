@@ -114,4 +114,28 @@ public class EventDataLayer implements IEventDataLayer
         }
 
     }
+
+    @Override
+    public boolean registerEvents(String eventID, String emailID) throws SQLException {
+        logger.info("Entered DataLayer: Entered registerEvents()");
+        callProcedure = "{CALL registerEvents(?,?)}";
+        callableStatement = connection.prepareCall(callProcedure);
+        callableStatement.setString(1,eventID);
+        callableStatement.setString(2,emailID);
+        int  procedureCallStatus = callableStatement.executeUpdate();
+        logger.info("Stored procedure for registerEvents() executed with status "+procedureCallStatus);
+        if (procedureCallStatus > 0)
+        {
+            logger.info("registerEvents(): event register successfully");
+            logger.info("Exiting DataLayer: returning boolean status Service Layer");
+            return true;
+        }
+        else
+        {
+            logger.error("Problem with procedure call or database connection");
+            return false;
+        }
+
+    }
+
 }

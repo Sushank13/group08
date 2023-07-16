@@ -61,5 +61,21 @@ public class EventServiceLayer implements  IEventServiceLayer{
         return null;
     }
 
+    @Override
+    public boolean registerEvents(String eventID, String emailID){
+        logger.info("Service Layer Entered: Entered registerEvents()- Calling Data layer registerEvents()");
+        try
+        {
+            boolean resultStatus= iEventDataLayer.registerEvents(eventID,emailID);
+            return resultStatus;
+        }
+        catch (SQLException e)
+        {
+            logger.error("getEventsByUser()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
+        }
+        logger.info("ServiceLayer: registerEvents() returned false to Controller");
+        return false;
+    }
+
 
 }
