@@ -12,6 +12,7 @@ public class Club
     private String location;
     private String meetingTime;
     private String clubImage;
+    private String rules;
 
     public Club(String clubID, String clubName, String description, String presidentEmailID, String facebookLink, String instagramLink, String categoryID, String location, String meetingTime, String clubImage, String rules)
     {
@@ -27,8 +28,6 @@ public class Club
         this.clubImage = clubImage;
         this.rules = rules;
     }
-
-    private String rules;
     public String getClubID() {
         return clubID;
     }
