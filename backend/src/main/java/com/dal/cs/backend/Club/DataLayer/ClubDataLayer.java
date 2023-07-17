@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ObjectBuilder.ClubBuilder;
 import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
 
@@ -186,18 +187,7 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         {
             while(resultSet.next())
             {
-                Club club=new Club();
-                club.setClubID(resultSet.getString(1));
-                club.setClubName(resultSet.getString(2));
-                club.setDescription(resultSet.getString(3));
-                club.setPresidentEmailID(resultSet.getString(4));
-                club.setFacebookLink(resultSet.getString(5));
-                club.setInstagramLink(resultSet.getString(6));
-                club.setCategoryID(resultSet.getString(7));
-                club.setLocation(resultSet.getString(8));
-                club.setMeetingTime(resultSet.getString(9));
-                club.setClubImage(resultSet.getString(10));
-                club.setRules(resultSet.getString(11));
+                Club club=new ClubBuilder().setClubID(resultSet.getString(1)).setClubName(resultSet.getString(2)).setDescription(resultSet.getString(3)).setPresidentEmailID(resultSet.getString(4)).setFacebookLink(resultSet.getString(5)).setClubImage(resultSet.getString(10)).setInstagramLink(resultSet.getString(6)).setLocation(resultSet.getString(8)).setCategoryID(resultSet.getString(7)).setMeetingTime(resultSet.getString(9)).setRules(resultSet.getString(11)).createClub();
                 listOfAllClubs.add(club);
             }
             logger.info("getAllClubs(): list of all clubs created successfully");
