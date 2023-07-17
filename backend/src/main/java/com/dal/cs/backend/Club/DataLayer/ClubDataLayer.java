@@ -259,18 +259,7 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         if(procedureCallStatus)
         {
             resultSet.next();
-            Club club=new Club();
-            club.setClubID(resultSet.getString(2));
-            club.setPresidentEmailID(resultSet.getString(3));
-            club.setCategoryID(resultSet.getString(4));
-            club.setClubName(resultSet.getString(5));
-            club.setDescription(resultSet.getString(6));
-            club.setFacebookLink(resultSet.getString(7));
-            club.setInstagramLink(resultSet.getString(8));
-            club.setLocation(resultSet.getString(9));
-            club.setMeetingTime(resultSet.getString(10));
-            club.setClubImage(resultSet.getString(11));
-            club.setRules(resultSet.getString(12));
+            Club club=new ClubBuilder().setClubID(resultSet.getString(2)).setClubName(resultSet.getString(5)).setDescription(resultSet.getString(6)).setPresidentEmailID(resultSet.getString(3)).setFacebookLink(resultSet.getString(7)).setClubImage(resultSet.getString(10)).setInstagramLink(resultSet.getString(8)).setLocation(resultSet.getString(9)).setCategoryID(resultSet.getString(4)).setMeetingTime(resultSet.getString(11)).setRules(resultSet.getString(12)).createClub();
             logger.info("Exiting DataLayer: returning club details to Service Layer for request id "+reqId);
             return club;
         }
