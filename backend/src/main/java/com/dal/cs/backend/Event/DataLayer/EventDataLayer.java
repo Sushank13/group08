@@ -253,5 +253,23 @@ public class EventDataLayer implements IEventDataLayer
         }
     }
 
+    @Override
+    public boolean deleteEvent(String eventID) throws SQLException {
+        logger.info("Entered DataLayer: Entered deleteEvent()");
+        callProcedure = "{CALL deleteEvent(?)}";
+        callableStatement = connection.prepareCall(callProcedure);
+        callableStatement.setString(1, eventID);
+        int procedureCallStatus = callableStatement.executeUpdate();
+        logger.info("Stored procedure for deleteEvent() executed with status " + procedureCallStatus);
+        if (procedureCallStatus > 0) {
+            logger.info("deleteEvent(): event deleted successfully");
+            logger.info("Exiting DataLayer: returning boolean status Service Layer");
+            return true;
+        } else {
+            logger.error("Problem with procedure call or database connection");
+            return false;
+        }
+    }
+
 
 }
