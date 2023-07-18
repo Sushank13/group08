@@ -1,6 +1,5 @@
 package com.dal.cs.backend.Event.DataLayer;
 
-import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
 import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
@@ -16,7 +15,7 @@ import java.util.List;
 
 public class EventDataLayer implements IEventDataLayer
 {
-    private static final Logger logger= LogManager.getLogger(ClubDataLayer.class);
+    private static final Logger logger= LogManager.getLogger(EventDataLayer.class);
     private IDatabaseConnection iDatabaseConnection;
     private Connection connection;
     private String callProcedure;
@@ -255,6 +254,7 @@ public class EventDataLayer implements IEventDataLayer
 
     @Override
     public boolean updateEventDetails(Event event) throws SQLException {
+        logger.info("Entered DataLayer: Entered updateEventDetails)");
 
         if (connection != null) {
             String callProcedure = "{CALL updateEvent(?,?,?,?,?,?,?,?,?,?,?,?)}";
@@ -296,9 +296,12 @@ public class EventDataLayer implements IEventDataLayer
 
             int result = callableStatement.executeUpdate();
             boolean resultStatus = (result == 1);
+            logger.info("updateEventDetails- Procedure execution call successful, resultStatus = " + resultStatus);
+            logger.info("Exiting Data Layer: Returning boolean result status to Service Layer");
             return resultStatus;
         }
         else {
+            logger.error("Exception: Database Connection not established.");
             return false;
         }
     }

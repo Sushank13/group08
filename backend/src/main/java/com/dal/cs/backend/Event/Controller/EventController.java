@@ -1,5 +1,4 @@
 package com.dal.cs.backend.Event.Controller;
-import com.dal.cs.backend.Club.Controller.ClubController;
 import com.dal.cs.backend.Event.EventObject.Event;
 import com.dal.cs.backend.Event.ServiceLayer.IEventServiceLayer;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +13,7 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:3001")
 @RestController
 public class EventController {
-    private static final Logger logger = LogManager.getLogger(ClubController.class);
+    private static final Logger logger = LogManager.getLogger(EventController.class);
     @Autowired
     IEventServiceLayer iEventServiceLayer;
 
@@ -97,9 +96,12 @@ public class EventController {
 
     @RequestMapping(method = RequestMethod.POST, value="/updateEventDetails")
     public Map<String, Boolean> updateEventDetails(@RequestBody Event event) {
+        logger.info("Controller Entered: Received request for updating a existing event");
+        logger.info("createEvent- Calling Service layer updateEventDetails");
         Map<String, Boolean> resultResponse = new HashMap<>();
         boolean result = iEventServiceLayer.updateEventDetails(event);
         resultResponse.put("status", result);
+        logger.info("Exiting Controller: Returning response status to Frontend via POST /updateEventDetails");
         return resultResponse;
     }
 }
