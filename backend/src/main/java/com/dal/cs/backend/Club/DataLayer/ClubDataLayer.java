@@ -332,11 +332,12 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         }
     }
 
-    public boolean searchClubByName(String name) throws SQLException {
-        if (connection != null) {
+    public List<Club> getClubsByName(String name) throws SQLException {
             logger.info("Data Layer Entered: Entered searchClubByName()");
             callProcedure = "{CALL searchClubByName(?)}";
             callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1,name);
+            boolean procedureCallStatus=callableStatement.execute();
             ResultSet resultSet=callableStatement.getResultSet();
             List<Club> listOfAllClubs=new ArrayList<>();
             if(procedureCallStatus)
@@ -361,18 +362,20 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
                 logger.info("Exiting DataLayer: returning search club by name to Service Layer");
                 return listOfAllClubs;
             }
-        }
-        else {
+        else
+        {
             logger.error("Exception: Database Connection not established.");
-            return false;
+            return null;
         }
     }
 
-    public boolean searchClubByCategory(String category) throws SQLException {
-        if (connection != null) {
+    public List<Club> getClubsByCategory(String category) throws SQLException
+    {
             logger.info("Data Layer Entered: Entered searchClubByCategory()");
             callProcedure = "{CALL searchClubByCategory(?)}";
             callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1,category);
+            boolean procedureCallStatus=callableStatement.execute();
             ResultSet resultSet=callableStatement.getResultSet();
             List<Club> listOfAllClubs=new ArrayList<>();
             if(procedureCallStatus)
@@ -397,10 +400,9 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
                 logger.info("Exiting DataLayer: returning list of all clubs by category to Service Layer");
                 return listOfAllClubs;
             }
-        }
         else {
             logger.error("Exception: Database Connection not established.");
-            return false;
+            return null;
         }
     }
 

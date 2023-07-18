@@ -67,7 +67,7 @@ public class ClubController
     public List<Club> getClubsByName(@RequestParam String name){
         logger.info("Controller Entered: Received request to get clubs by name.");
         logger.info("getAllClubs- Calling getClubsByName() of ServiceLayer");
-        List<Club> listOfAllClubs=iClubServiceLayer.getClubsByName();
+        List<Club> listOfAllClubs=iClubServiceLayer.getClubsByName(name);
         logger.info("Exiting Controller: Returning list of clubs to Frontend via GET /search?name={club1}");
         return listOfAllClubs;
     }
@@ -75,7 +75,7 @@ public class ClubController
     public List<Club> getClubsByCategory(@RequestParam String category){
         logger.info("Controller Entered: Received request to get clubs by category.");
         logger.info("getAllClubs- Calling getClubsByCategory() of ServiceLayer");
-        List<Club> listOfAllClubs=iClubServiceLayer.getClubsByCategory();
+        List<Club> listOfAllClubs=iClubServiceLayer.getClubsByCategory(category);
         logger.info("Exiting Controller: Returning list of clubs to Frontend via GET /search?category={club1}");
         return listOfAllClubs;
     }
