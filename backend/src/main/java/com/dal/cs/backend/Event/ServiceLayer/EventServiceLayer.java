@@ -153,5 +153,18 @@ public class EventServiceLayer implements  IEventServiceLayer{
         return null;
     }
 
-
+    @Override
+    public boolean updateEventDetails(Event event) {
+        try {
+            boolean eventStatus = iEventDataLayer.updateEventDetails(event);
+            if (eventStatus) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        } catch (SQLException e) {
+            return false;
+        }
+    }
 }
