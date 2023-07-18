@@ -253,5 +253,53 @@ public class EventDataLayer implements IEventDataLayer
         }
     }
 
+    @Override
+    public boolean updateEventDetails(Event event) throws SQLException {
 
+        if (connection != null) {
+            String callProcedure = "{CALL updateEvent(?,?,?,?,?,?,?,?,?,?,?,?)}";
+            CallableStatement callableStatement = connection.prepareCall(callProcedure);
+
+            callableStatement.setString(1, event.getEventID());
+            callableStatement.setString(2, event.getClubID());
+            callableStatement.setString(3, event.getOrganizerEmailID());
+            callableStatement.setString(4, event.getEventName());
+            callableStatement.setString(5, event.getDescription());
+            callableStatement.setString(6, event.getVenue());
+            callableStatement.setString(7, event.getImage());
+
+            if (event.getStartDate() != null) {
+                callableStatement.setDate(8, java.sql.Date.valueOf(event.getStartDate()));
+            } else {
+                callableStatement.setNull(8, java.sql.Types.DATE);
+            }
+
+            if (event.getEndDate() != null) {
+                callableStatement.setDate(9, java.sql.Date.valueOf(event.getEndDate()));
+            } else {
+                callableStatement.setNull(9, java.sql.Types.DATE);
+            }
+
+            if (event.getStartTime() != null) {
+                callableStatement.setTime(10, java.sql.Time.valueOf(event.getStartTime()));
+            } else {
+                callableStatement.setNull(10, java.sql.Types.TIME);
+            }
+
+            if (event.getEndTime() != null) {
+                callableStatement.setTime(11, java.sql.Time.valueOf(event.getEndTime()));
+            } else {
+                callableStatement.setNull(11, java.sql.Types.TIME);
+            }
+
+            callableStatement.setString(12, event.getEventTopic());
+
+            int result = callableStatement.executeUpdate();
+            boolean resultStatus = (result == 1);
+            return resultStatus;
+        }
+        else {
+            return false;
+        }
+    }
 }
