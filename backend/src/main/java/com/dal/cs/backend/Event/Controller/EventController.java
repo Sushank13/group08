@@ -94,4 +94,12 @@ public class EventController {
         logger.info("Exiting Controller: Returning status for get data via GET /getEventDetails");
         return eventDetails;
     }
+
+    @RequestMapping(method = RequestMethod.POST, value="/updateEventDetails")
+    public Map<String, Boolean> updateEventDetails(@RequestBody Event event) {
+        Map<String, Boolean> resultResponse = new HashMap<>();
+        boolean result = iEventServiceLayer.updateEventDetails(event);
+        resultResponse.put("status", result);
+        return resultResponse;
+    }
 }
