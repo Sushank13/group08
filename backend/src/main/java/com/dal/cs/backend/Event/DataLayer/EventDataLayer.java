@@ -252,6 +252,12 @@ public class EventDataLayer implements IEventDataLayer
         }
     }
 
+    /**
+     * This method calls the stored procedure which updates the event details from the database table.
+     * @param event This is event object having the event details that needs to be updated.
+     * @return true if the event details are updated successfully, else return false
+     * @throws SQLException
+     */
     @Override
     public boolean updateEventDetails(Event event) throws SQLException {
         logger.info("Entered DataLayer: Entered updateEventDetails)");
