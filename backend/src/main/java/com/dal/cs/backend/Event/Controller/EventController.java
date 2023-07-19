@@ -1,5 +1,4 @@
 package com.dal.cs.backend.Event.Controller;
-import com.dal.cs.backend.Club.Controller.ClubController;
 import com.dal.cs.backend.Event.EventObject.Event;
 import com.dal.cs.backend.Event.ServiceLayer.IEventServiceLayer;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +13,7 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:3001")
 @RestController
 public class EventController {
-    private static final Logger logger = LogManager.getLogger(ClubController.class);
+    private static final Logger logger = LogManager.getLogger(EventController.class);
     @Autowired
     IEventServiceLayer iEventServiceLayer;
 
@@ -80,11 +79,10 @@ public class EventController {
     }
 
     /**
-     *This method returns the details of event
+     * This method returns the details of event
      * @param nameOfEvent is the name of event user is searching detail for
      * @return list of event details user searched for
      */
-
     @RequestMapping(method = RequestMethod.GET, value = "/getEventDetails/{nameOfEvent}")
     public List<Event> getEventDetails(@PathVariable("nameOfEvent") String nameOfEvent)
     {
@@ -93,5 +91,21 @@ public class EventController {
         List<Event> eventDetails=iEventServiceLayer.getEventDetails(nameOfEvent);
         logger.info("Exiting Controller: Returning status for get data via GET /getEventDetails");
         return eventDetails;
+    }
+
+    /**
+     * This method accepts the Event details that are to be updated. It calls the service layer to perform the update operation.
+     * @param event It is the entity which only has all details which are updated in an event by the user.
+     * @return result response about the success of creating event. true if event details updated successfully, else false.
+     */
+    @RequestMapping(method = RequestMethod.POST, value="/updateEventDetails")
+    public Map<String, Boolean> updateEventDetails(@RequestBody Event event) {
+        logger.info("Controller Entered: Received request for updating a existing event");
+        logger.info("createEvent- Calling Service layer updateEventDetails");
+        Map<String, Boolean> resultResponse = new HashMap<>();
+        boolean result = iEventServiceLayer.updateEventDetails(event);
+        resultResponse.put("status", result);
+        logger.info("Exiting Controller: Returning response status to Frontend via POST /updateEventDetails");
+        return resultResponse;
     }
 }

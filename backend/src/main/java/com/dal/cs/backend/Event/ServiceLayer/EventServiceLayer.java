@@ -153,5 +153,30 @@ public class EventServiceLayer implements  IEventServiceLayer{
         return null;
     }
 
-
+    /**
+     * This method is responsible for calling teh data layer function to perform the event details update operation.
+     * @param event It is the Event object which holds ony that event detail which needs to be updated.
+     * @return boolean status result: return true if the event details were updated successfully, else false.
+     */
+    @Override
+    public boolean updateEventDetails(Event event) {
+        logger.info("Service Layer Entered: Entered updateEventDetails- Calling Data layer updateEventDetails");
+        String errorMessage = null;
+        try {
+            logger.info("updateEventDetails- Calling Data layer updateEventDetails");
+            boolean eventStatus = iEventDataLayer.updateEventDetails(event);
+            if (eventStatus) {
+                logger.info("Exiting Service Layer: Returning boolean result status=true to Controller");
+                return true;
+            }
+            else {
+                errorMessage = "Unable to update event details in database table.";
+                logger.warn("Exiting Service Layer: Returning boolean result status=false to Controller");
+                return false;
+            }
+        } catch (SQLException e) {
+            logger.error("updateEventDetails- SQL exception occurred while getting response from Data Layer"+e.getMessage());
+            return false;
+        }
+    }
 }
