@@ -159,5 +159,26 @@ public class EventServiceLayer implements  IEventServiceLayer{
         return null;
     }
 
-
+    /**
+     * Deletes event and registration
+     *
+     * @param eventID ID of event to be deleted
+     * @return true if deleted successfully, false otherwise
+     */
+    @Override
+    public boolean deleteEvent(String eventID) {
+        logger.info("Service Layer Entered: Entered deleteEvent- Calling Data layer deleteEvent");
+        boolean resultStatus;
+        String errorMessage = null;
+        try {
+            resultStatus = iEventDataLayer.deleteEvent(eventID);
+            logger.info("Exiting Service Layer: Returning boolean resultStatus to Controller");
+            return resultStatus;
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
+            logger.error("Exception occurred in 'deleteEvent': " + errorMessage);
+        }
+        logger.info("Exiting Service Layer: Returning error message to Controller");
+        return false;
+    }
 }

@@ -248,6 +248,13 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         }
     }
 
+    /**
+     * Deletes event and registrations table using event ID through stored SQL procedures
+     *
+     * @param eventID ID of event to be deleted
+     * @return true if deleted successfully, false otherwise
+     * @throws SQLException if event not found
+     */
     @Override
     public boolean deleteEvent(String eventID) throws SQLException {
         logger.info("Entered DataLayer: Entered deleteEvent()");

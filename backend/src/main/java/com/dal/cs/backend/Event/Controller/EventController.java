@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3001")
 @RestController
 public class EventController {
     private static final Logger logger = LogManager.getLogger(ClubController.class);
@@ -98,5 +97,22 @@ public class EventController {
         List<Event> eventDetails=iEventServiceLayer.getEventDetails(nameOfEvent);
         logger.info("Exiting Controller: Returning status for get data via GET /getEventDetails");
         return eventDetails;
+    }
+
+    /**
+     * Deletes event and clears all registrations for event
+     *
+     * @param eventID ID of event to be deleted
+     * @return boolean response result, which returns true if record deleted successfully, else returns false
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/deleteEvent")
+    public Map<String, Boolean> deleteEvent(String eventID) {
+        logger.info("Controller Entered: Received request for deleting event");
+        logger.info("createEvent- Calling Service layer createEvent");
+        Map<String, Boolean> resultResponse = new HashMap<>();
+        boolean result = iEventServiceLayer.deleteEvent(eventID);
+        resultResponse.put("status", result);
+        logger.info("Exiting Controller: Returning response status to Frontend via POST /deleteEvent");
+        return resultResponse;
     }
 }
