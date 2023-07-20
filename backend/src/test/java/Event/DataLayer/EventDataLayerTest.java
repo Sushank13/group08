@@ -3,6 +3,8 @@ package Event.DataLayer;
 import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
 import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
+import com.dal.cs.backend.database.DatabaseConnection;
+import com.dal.cs.backend.database.IDatabaseConnection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,8 +18,8 @@ public class EventDataLayerTest {
 
     @BeforeEach
     public void beforeTestRun() {
-
-        iEventDataLayer = new EventDataLayer();
+        IDatabaseConnection iDatabaseConnection = DatabaseConnection.getInstance();
+        iEventDataLayer = EventDataLayer.getInstance(iDatabaseConnection);
     }
 
     @Test
@@ -123,5 +125,16 @@ public class EventDataLayerTest {
         catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
+    }
+
+    @Test
+    public void deleteEventTest() {
+//        try {
+//            String eventID = "EVNT_00_1";
+//            boolean result = iEventDataLayer.deleteEvent(eventID);
+//            System.out.println("result = " + result);
+//        } catch (SQLException e) {
+//            fail("Test failed: Exception occurred- " + e.getMessage());
+//        }
     }
 }

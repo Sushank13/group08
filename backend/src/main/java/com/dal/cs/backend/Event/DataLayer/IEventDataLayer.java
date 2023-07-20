@@ -1,6 +1,5 @@
 package com.dal.cs.backend.Event.DataLayer;
 
-import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Event.EventObject.Event;
 
 import java.sql.SQLException;
@@ -21,5 +20,4 @@ public interface IEventDataLayer
     List<Event> getEventDetails(String nameOfEvent) throws  SQLException;
 
     boolean deleteEvent(String eventID) throws SQLException;
-
 }

@@ -15,8 +15,13 @@ import java.util.Map;
 @RestController
 public class EventController {
     private static final Logger logger = LogManager.getLogger(ClubController.class);
-    @Autowired
+
     IEventServiceLayer iEventServiceLayer;
+
+    @Autowired
+    public EventController(IEventServiceLayer iEventServiceLayer) {
+        this.iEventServiceLayer = iEventServiceLayer;
+    }
 
     /**
      * This receives request to retrieve a list of all events in DalClubs
