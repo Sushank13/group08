@@ -121,7 +121,6 @@ public class EventController {
     @RequestMapping(method = RequestMethod.POST, value = "/deleteEvent")
     public Map<String, Boolean> deleteEvent(String eventID) {
         logger.info("Controller Entered: Received request for deleting event");
-        logger.info("createEvent- Calling Service layer createEvent");
         Map<String, Boolean> resultResponse = new HashMap<>();
         boolean result = iEventServiceLayer.deleteEvent(eventID);
         resultResponse.put("status", result);
