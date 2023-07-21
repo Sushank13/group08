@@ -19,5 +19,7 @@ public interface IEventDataLayer
     boolean registerEvents(String eventID, String emailID) throws SQLException;
     List<Event> getEventDetails(String nameOfEvent) throws  SQLException;
 
+    boolean updateEventDetails(Event event) throws SQLException;
+
     boolean deleteEvent(String eventID) throws SQLException;
 }

@@ -1,6 +1,5 @@
 package com.dal.cs.backend.Event.DataLayer;
 
-import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
 import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @Component
 public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
-    private static final Logger logger = LogManager.getLogger(ClubDataLayer.class);
+    private static final Logger logger = LogManager.getLogger(EventDataLayer.class);
     private String callProcedure;
     private CallableStatement callableStatement;
 
@@ -249,6 +248,66 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
     }
 
     /**
+     * This method calls the stored procedure which updates the event details from the database table.
+     * @param event This is event object having the event details that needs to be updated.
+     * @return true if the event details are updated successfully, else return false
+     * @throws SQLException
+     */
+    @Override
+    public boolean updateEventDetails(Event event) throws SQLException {
+        logger.info("Entered DataLayer: Entered updateEventDetails)");
+
+        if (connection != null) {
+            String callProcedure = "{CALL updateEvent(?,?,?,?,?,?,?,?,?,?,?,?)}";
+            CallableStatement callableStatement = connection.prepareCall(callProcedure);
+
+            callableStatement.setString(1, event.getEventID());
+            callableStatement.setString(2, event.getClubID());
+            callableStatement.setString(3, event.getOrganizerEmailID());
+            callableStatement.setString(4, event.getEventName());
+            callableStatement.setString(5, event.getDescription());
+            callableStatement.setString(6, event.getVenue());
+            callableStatement.setString(7, event.getImage());
+
+            if (event.getStartDate() != null) {
+                callableStatement.setDate(8, java.sql.Date.valueOf(event.getStartDate()));
+            } else {
+                callableStatement.setNull(8, java.sql.Types.DATE);
+            }
+
+            if (event.getEndDate() != null) {
+                callableStatement.setDate(9, java.sql.Date.valueOf(event.getEndDate()));
+            } else {
+                callableStatement.setNull(9, java.sql.Types.DATE);
+            }
+
+            if (event.getStartTime() != null) {
+                callableStatement.setTime(10, java.sql.Time.valueOf(event.getStartTime()));
+            } else {
+                callableStatement.setNull(10, java.sql.Types.TIME);
+            }
+
+            if (event.getEndTime() != null) {
+                callableStatement.setTime(11, java.sql.Time.valueOf(event.getEndTime()));
+            } else {
+                callableStatement.setNull(11, java.sql.Types.TIME);
+            }
+
+            callableStatement.setString(12, event.getEventTopic());
+
+            int result = callableStatement.executeUpdate();
+            boolean resultStatus = (result == 1);
+            logger.info("updateEventDetails- Procedure execution call successful, resultStatus = " + resultStatus);
+            logger.info("Exiting Data Layer: Returning boolean result status to Service Layer");
+            return resultStatus;
+        }
+        else {
+            logger.error("Exception: Database Connection not established.");
+            return false;
+        }
+    }
+
+    /**
      * Deletes event and registrations table using event ID through stored SQL procedures
      *
      * @param eventID ID of event to be deleted
@@ -272,6 +331,4 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
             return false;
         }
     }
-
-
 }

@@ -15,5 +15,7 @@ public interface IEventServiceLayer {
 
     List<Event> getEventDetails(String nameOfEvent);
 
+    boolean updateEventDetails(Event event);
+
     boolean deleteEvent(String eventID);
 }

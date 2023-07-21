@@ -171,6 +171,39 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Procedure to update event details which are not null fields
+DELIMITER //
+CREATE PROCEDURE updateEvent(
+    IN updatedEventID VARCHAR(50),
+    IN updatedClubID VARCHAR(50),
+    IN updatedOrganizerEmailID VARCHAR(255),
+    IN updatedEventName VARCHAR(255),
+    IN updatedDescription VARCHAR(255),
+    IN updatedVenue VARCHAR(255),
+    IN updatedImage VARCHAR(255),
+    IN updatedStartDate DATE,
+    IN updatedEndDate DATE,
+    IN updatedStartTime TIME,
+    IN updatedEndTime TIME,
+    IN updatedEventTopic VARCHAR(255)
+)
+BEGIN
+    UPDATE events
+    SET
+        organizerEmailID = IFNULL(updatedOrganizerEmailID, organizerEmailID),
+        eventName = IFNULL(updatedEventName, eventName),
+        description = IFNULL(updatedDescription, description),
+        venue = IFNULL(updatedVenue, venue),
+        image = IFNULL(updatedImage, image),
+        startDate = IFNULL(updatedStartDate, startDate),
+        endDate = IFNULL(updatedEndDate, endDate),
+        startTime = IFNULL(updatedStartTime, startTime),
+        endTime = IFNULL(updatedEndTime, endTime),
+        eventTopic = IFNULL(updatedEventTopic, eventTopic)
+    WHERE eventID = updatedEventID AND clubID = updatedClubID;
+END //
+DELIMITER ;
+
 -- Procedure to delete an event and its registrations based on eventID
 DELIMITER //
 CREATE PROCEDURE deleteEvent(IN eventID VARCHAR(50))

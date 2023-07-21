@@ -85,7 +85,17 @@ public class EventServiceLayerTest {
             System.out.println(event.getEndTime());
             System.out.println(event.getVenue());
             System.out.println(event.getOrganizerEmailID());
-
         }
+    }
+
+    @Test
+    public void updateEventDetails() {
+        Event mockEvent = new Event();
+        mockEvent.setEventID("EVNT_3");
+        mockEvent.setClubID("CLB_3");
+        mockEvent.setEventName("Dalhousie outdoor society Spring AGM");
+        mockEvent.setEventTopic("Outdoor recreational activity");
+        boolean eventStatus = iEventServiceLayer.updateEventDetails(mockEvent);
+        System.out.println("eventStatus = " + eventStatus);
     }
 }

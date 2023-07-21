@@ -118,13 +118,27 @@ public class EventDataLayerTest {
                 System.out.println(event.getEndTime());
                 System.out.println(event.getVenue());
                 System.out.println(event.getOrganizerEmailID());
-
             }
-
         }
         catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
+    }
+
+    @Test
+    public void updateEventDetailsTest () {
+        Event mockEvent = new Event();
+        mockEvent.setEventID("EVNT_3");
+        mockEvent.setClubID("CLB_3");
+        mockEvent.setEventName("Dalhousie outdoor society Spring AGM");
+        mockEvent.setEventTopic("Outdoor recreational activity");
+        try {
+            boolean eventStatus = iEventDataLayer.updateEventDetails(mockEvent);
+            System.out.println("eventStatus = " + eventStatus);
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
+
     }
 
     @Test
