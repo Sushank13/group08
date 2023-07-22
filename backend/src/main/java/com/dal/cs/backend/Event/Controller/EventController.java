@@ -14,8 +14,12 @@ import java.util.Map;
 @RestController
 public class EventController {
     private static final Logger logger = LogManager.getLogger(EventController.class);
-    @Autowired
     IEventServiceLayer iEventServiceLayer;
+
+    @Autowired
+    public EventController(IEventServiceLayer iEventServiceLayer) {
+        this.iEventServiceLayer = iEventServiceLayer;
+    }
 
     /**
      * This receives request to retrieve a list of all events in DalClubs
@@ -106,6 +110,22 @@ public class EventController {
         boolean result = iEventServiceLayer.updateEventDetails(event);
         resultResponse.put("status", result);
         logger.info("Exiting Controller: Returning response status to Frontend via POST /updateEventDetails");
+        return resultResponse;
+    }
+
+    /**
+     * Deletes event and clears all registrations for event
+     *
+     * @param eventID ID of event to be deleted
+     * @return boolean response result, which returns true if record deleted successfully, else returns false
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/deleteEvent")
+    public Map<String, Boolean> deleteEvent(String eventID) {
+        logger.info("Controller Entered: Received request for deleting event");
+        Map<String, Boolean> resultResponse = new HashMap<>();
+        boolean result = iEventServiceLayer.deleteEvent(eventID);
+        resultResponse.put("status", result);
+        logger.info("Exiting Controller: Returning response status to Frontend via POST /deleteEvent");
         return resultResponse;
     }
 }

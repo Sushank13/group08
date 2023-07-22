@@ -1,9 +1,9 @@
 package com.dal.cs.backend.Event.ServiceLayer;
-import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
 import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -14,9 +14,15 @@ public class EventServiceLayer implements  IEventServiceLayer{
     private static final Logger logger= LogManager.getLogger(EventServiceLayer.class);
     IEventDataLayer iEventDataLayer;
 
-    public EventServiceLayer() {
-        iEventDataLayer = new EventDataLayer();
+    @Autowired
+    public EventServiceLayer(IEventDataLayer iEventDataLayer) {
+        this.iEventDataLayer = iEventDataLayer;
     }
+
+    public static IEventServiceLayer getInstance(IEventDataLayer iEventDataLayer) {
+        return new EventServiceLayer(iEventDataLayer);
+    }
+
     /**
      * This method fetches all the events
      * @return list of all events
@@ -178,5 +184,28 @@ public class EventServiceLayer implements  IEventServiceLayer{
             logger.error("updateEventDetails- SQL exception occurred while getting response from Data Layer"+e.getMessage());
             return false;
         }
+    }
+
+    /**
+     * Deletes event and registration
+     *
+     * @param eventID ID of event to be deleted
+     * @return true if deleted successfully, false otherwise
+     */
+    @Override
+    public boolean deleteEvent(String eventID) {
+        logger.info("Service Layer Entered: Entered deleteEvent- Calling Data layer deleteEvent");
+        boolean resultStatus;
+        String errorMessage = null;
+        try {
+            resultStatus = iEventDataLayer.deleteEvent(eventID);
+            logger.info("Exiting Service Layer: Returning boolean resultStatus to Controller");
+            return resultStatus;
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
+            logger.error("Exception occurred in 'deleteEvent': " + errorMessage);
+        }
+        logger.info("Exiting Service Layer: Returning error message to Controller");
+        return false;
     }
 }
