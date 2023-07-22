@@ -188,16 +188,17 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
             {
                 Club club=new Club();
                 club.setClubID(resultSet.getString(1));
-                club.setClubName(resultSet.getString(2));
-                club.setDescription(resultSet.getString(3));
-                club.setPresidentEmailID(resultSet.getString(4));
-                club.setFacebookLink(resultSet.getString(5));
-                club.setInstagramLink(resultSet.getString(6));
-                club.setCategoryID(resultSet.getString(7));
-                club.setLocation(resultSet.getString(8));
-                club.setMeetingTime(resultSet.getString(9));
-                club.setClubImage(resultSet.getString(10));
-                club.setRules(resultSet.getString(11));
+                club.setCategoryID(resultSet.getString(2));
+                club.setClubName(resultSet.getString(3));
+                club.setCategoryName(resultSet.getString(4));
+                club.setDescription(resultSet.getString(5));
+                club.setPresidentEmailID(resultSet.getString(6));
+                club.setFacebookLink(resultSet.getString(7));
+                club.setInstagramLink(resultSet.getString(8));
+                club.setLocation(resultSet.getString(9));
+                club.setMeetingTime(resultSet.getString(10));
+                club.setClubImage(resultSet.getString(11));
+                club.setRules(resultSet.getString(12));
                 listOfAllClubs.add(club);
             }
             logger.info("getAllClubs(): list of all clubs created successfully");

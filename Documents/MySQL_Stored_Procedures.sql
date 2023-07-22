@@ -26,7 +26,10 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getAllClubs()
 BEGIN 
-      SELECT * from club;
+      SELECT clubID, club.categoryID, clubName, categoryName, description, presidentEmailID, facebookLink, instagramLink, location, meetingTime, clubImage, rules 
+      FROM club 
+      INNER JOIN category 
+      on club.categoryID = category.categoryID;
 END //
 DELIMITER ;
 
@@ -165,7 +168,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getEventDetails(IN nameOfEvent VARCHAR(255))
 BEGIN
-    SELECT organizerEmailID,eventName, description, venue, startDate, endDate, startTime, endTime, eventTopic
+    SELECT eventID, clubID, organizerEmailID, eventName, description, venue, image, startDate, endDate, startTime, endTime, eventTopic
     FROM events
     WHERE eventName LIKE CONCAT('%', nameOfEvent, '%');
 END //
@@ -201,6 +204,14 @@ BEGIN
         endTime = IFNULL(updatedEndTime, endTime),
         eventTopic = IFNULL(updatedEventTopic, eventTopic)
     WHERE eventID = updatedEventID AND clubID = updatedClubID;
+END //
+DELIMITER ;
+
+-- Procedure to get all events
+DELIMITER //
+CREATE PROCEDURE getAllEvents()
+BEGIN
+    SELECT eventID, clubID, organizerEmailID, eventName, description, venue, image, startDate, endDate, startTime, endTime, eventTopic FROM events;
 END //
 DELIMITER ;
 
