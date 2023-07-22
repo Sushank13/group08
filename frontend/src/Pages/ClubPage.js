@@ -33,12 +33,14 @@ function ClubPage() {
         <Flex position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)">
           <Box bg="white" p="5px" textAlign="center">
             <Text fontSize="xl" fontWeight="bold">
-              {clubName.toUpperCase()}
+              {clubDetails.clubName.toUpperCase()}
             </Text>
             
           </Box>
         </Flex>
         
+        
+
       </Box>
     </>
   );
