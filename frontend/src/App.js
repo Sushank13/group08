@@ -4,6 +4,7 @@ import { ChakraProvider, theme } from '@chakra-ui/react';
 import LayoutNavbar from './Pages/LayoutNavbar';
 import Home from './Pages/Home';
 import FindAllClubs from './Pages/FindAllClubs';
+import ClubPage from './Pages/ClubPage';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
         path: "/FindClubs",
         element: <FindAllClubs />
       },
+      {
+        path: "/club/:clubName",
+        element: <ClubPage />
+      }
     ]
   }
 ]);
