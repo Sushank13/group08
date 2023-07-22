@@ -5,6 +5,9 @@ import com.dal.cs.backend.member.MemberObject.Member;
 
 import java.time.LocalDate;
 
+/**
+ * This class represents the implementation of the builder pattern for the Member object.
+ */
 public class MemberBuilder
 {
     private String emailId;

@@ -2,6 +2,9 @@ package com.dal.cs.backend.Event.ObjectBuilder;
 
 import com.dal.cs.backend.Event.EventObject.Event;
 
+/**
+ * This class represents the implementation of the builder pattern for the Event object.
+ */
 public class EventBuilder
 {
     private String eventID;

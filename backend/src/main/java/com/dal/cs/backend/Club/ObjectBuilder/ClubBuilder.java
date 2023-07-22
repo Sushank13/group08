@@ -3,6 +3,9 @@ package com.dal.cs.backend.Club.ObjectBuilder;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
 
+/**
+ * This class represents the implementation of the builder pattern for the Club object.
+ */
 public class ClubBuilder
 {
     private String clubID;
