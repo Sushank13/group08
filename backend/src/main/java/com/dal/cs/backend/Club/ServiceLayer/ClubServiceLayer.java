@@ -170,7 +170,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
     @Override
     public List<Club> getClubsByName(String name)
     {
-        logger.info("Service Layer Entered: Entered getAllClubs()- Calling Data layer getAllClubs()");
+        logger.info("Service Layer Entered: Entered getClubsByName()- Calling Data layer getClubsByName()");
         try{
             List<Club> listClubsByName=iClubDataLayer.getClubsByName(name);
             return listClubsByName;
@@ -184,7 +184,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
 
     @Override
     public List<Club> getClubsByCategory(String category) {
-        logger.info("Service Layer Entered: Entered getClubsByCategory()- Calling Data layer getAllClubs()");
+        logger.info("Service Layer Entered: Entered getClubsByCategory()- Calling Data layer getClubsByCategory()");
         try{
             List<Club> listClubsByCategory=iClubDataLayer.getClubsByCategory(category);
             return listClubsByCategory;

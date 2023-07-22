@@ -186,6 +186,7 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         {
             while(resultSet.next())
             {
+
                 Club club=new Club();
                 club.setClubID(resultSet.getString(1));
                 club.setClubName(resultSet.getString(2));

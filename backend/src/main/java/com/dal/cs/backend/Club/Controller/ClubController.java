@@ -63,8 +63,9 @@ public class ClubController
         return listOfAllClubs;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value="/search")
-    public List<Club> getClubsByName(@RequestParam String name){
+    @RequestMapping(method = RequestMethod.GET, value="/clubs/search", params = {"name"})
+    public List<Club> getClubsByName(@RequestParam("name") String name)
+    {
         logger.info("Controller Entered: Received request to get clubs by name.");
         logger.info("getAllClubs- Calling getClubsByName() of ServiceLayer");
         List<Club> listOfAllClubs=iClubServiceLayer.getClubsByName(name);
@@ -72,7 +73,9 @@ public class ClubController
         return listOfAllClubs;
     }
 
-    public List<Club> getClubsByCategory(@RequestParam String category){
+    @RequestMapping(method = RequestMethod.GET, value="/clubs/search", params = {"category"})
+    public List<Club> getClubsByCategory(@RequestParam("category") String category)
+    {
         logger.info("Controller Entered: Received request to get clubs by category.");
         logger.info("getAllClubs- Calling getClubsByCategory() of ServiceLayer");
         List<Club> listOfAllClubs=iClubServiceLayer.getClubsByCategory(category);
