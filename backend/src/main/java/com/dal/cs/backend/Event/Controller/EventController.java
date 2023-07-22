@@ -83,8 +83,8 @@ public class EventController {
      * @param nameOfEvent is the name of event user is searching detail for
      * @return list of event details user searched for
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/getEventDetails")
-    public List<Event> getEventDetails(String nameOfEvent)
+    @RequestMapping(method = RequestMethod.GET, value = "/getEventDetails/{nameOfEvent}")
+    public List<Event> getEventDetails(@PathVariable("nameOfEvent") String nameOfEvent)
     {
         logger.info("Controller Entered: Received request for get event details");
         logger.info("registerEvents- Calling getEventDetails() of ServiceLayer");

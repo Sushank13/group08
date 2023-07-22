@@ -47,16 +47,18 @@ public class EventDataLayer implements IEventDataLayer
             while(resultSet.next())
             {
                 Event event = new Event();
-                event.setOrganizerEmailID(resultSet.getString(1));
-                event.setEventName(resultSet.getString(2));
-                event.setDescription(resultSet.getString(3));
-                event.setVenue(resultSet.getString(4));
-                event.setImage(resultSet.getString(5));
-                event.setStartDate(resultSet.getString(6));
-                event.setEndDate(resultSet.getString(7));
-                event.setStartTime(resultSet.getString(8));
-                event.setEndTime(resultSet.getString(9));
-                event.setEventTopic(resultSet.getString(10));
+                event.setEventID(resultSet.getString(1));
+                event.setClubID(resultSet.getString(2));
+                event.setOrganizerEmailID(resultSet.getString(3));
+                event.setEventName(resultSet.getString(4));
+                event.setDescription(resultSet.getString(5));
+                event.setVenue(resultSet.getString(6));
+                event.setImage(resultSet.getString(7));
+                event.setStartDate(resultSet.getString(8));
+                event.setEndDate(resultSet.getString(9));
+                event.setStartTime(resultSet.getString(10));
+                event.setEndTime(resultSet.getString(11));
+                event.setEventTopic(resultSet.getString(12));
                 listOfAllEvents.add(event);
             }
             logger.info("getAllEvents(): list of all events created successfully");
