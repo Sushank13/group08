@@ -167,6 +167,36 @@ public class ClubServiceLayer implements  IClubServiceLayer
         return null;
     }
 
+    @Override
+    public List<Club> getClubsByName(String name)
+    {
+        logger.info("Service Layer Entered: Entered getClubsByName()- Calling Data layer getClubsByName()");
+        try{
+            List<Club> listClubsByName=iClubDataLayer.getClubsByName(name);
+            return listClubsByName;
+        } catch(SQLException e)
+        {
+            logger.error("getClubsByName()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
+        }
+        logger.info("ServiceLayer: getClubsByName() returned null to Controller");
+        return null;
+    }
+
+    @Override
+    public List<Club> getClubsByCategory(String category) {
+        logger.info("Service Layer Entered: Entered getClubsByCategory()- Calling Data layer getClubsByCategory()");
+        try{
+            List<Club> listClubsByCategory=iClubDataLayer.getClubsByCategory(category);
+            return listClubsByCategory;
+        } catch(SQLException e)
+        {
+            logger.error("getClubsByCategory()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
+        }
+        logger.info("ServiceLayer: getClubsByCategory() returned null to Controller");
+        return null;
+    }
+
+
     /**
      * Inserts the updated club details into the request table by invoking the corresponding data layer function.
      * @param club The club object containing the new details.

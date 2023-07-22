@@ -33,6 +33,24 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Procedure for searching the club by name
+DELIMITER //
+CREATE PROCEDURE searchClubByName(IN name VARCHAR(50) )
+BEGIN
+      SELECT * FROM club WHERE clubName LIKE CONCAT('%', name , '%');
+END //
+DELIMITER ;
+
+-- Procedure for searching the club by category
+
+DELIMITER //
+CREATE PROCEDURE searchClubByCategory(IN category VARCHAR(50) )
+BEGIN
+      SELECT * FROM club WHERE categoryID LIKE CONCAT('%', category , '%');
+END //
+DELIMITER ;
+
+
 -- Procedure for inserting new club create request details into NewAndUpdateClubRequest
 DELIMITER //
 CREATE PROCEDURE insertIntoNewAndUpdateClubRequest (IN requestID VARCHAR(50),IN clubID VARCHAR(50),IN requestorEmailID VARCHAR(50),IN categoryID VARCHAR(50),IN clubName VARCHAR(50), IN clubDescription VARCHAR(50),IN facebookLink VARCHAR(50),IN instagramLink VARCHAR(50), IN location VARCHAR(50), IN meetingTime VARCHAR(50),IN clubImage VARCHAR(50),IN rules VARCHAR(50),IN requestType VARCHAR(50), IN requestStatus VARCHAR(50))

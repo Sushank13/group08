@@ -186,6 +186,7 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         {
             while(resultSet.next())
             {
+
                 Club club=new Club();
                 club.setClubID(resultSet.getString(1));
                 club.setCategoryID(resultSet.getString(2));
@@ -330,6 +331,80 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
             logger.error("Problem with procedure call or database connection");
             logger.info("Exiting datalayer: returning false to ServiceLayer");
             return false;
+        }
+    }
+
+    public List<Club> getClubsByName(String name) throws SQLException {
+            logger.info("Data Layer Entered: Entered searchClubByName()");
+            callProcedure = "{CALL searchClubByName(?)}";
+            callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1,name);
+            boolean procedureCallStatus=callableStatement.execute();
+            ResultSet resultSet=callableStatement.getResultSet();
+            List<Club> listOfAllClubs=new ArrayList<>();
+            if(procedureCallStatus)
+            {
+                while(resultSet.next())
+                {
+                    Club club=new Club();
+                    club.setClubID(resultSet.getString(1));
+                    club.setClubName(resultSet.getString(2));
+                    club.setDescription(resultSet.getString(3));
+                    club.setPresidentEmailID(resultSet.getString(4));
+                    club.setFacebookLink(resultSet.getString(5));
+                    club.setInstagramLink(resultSet.getString(6));
+                    club.setCategoryID(resultSet.getString(7));
+                    club.setLocation(resultSet.getString(8));
+                    club.setMeetingTime(resultSet.getString(9));
+                    club.setClubImage(resultSet.getString(10));
+                    club.setRules(resultSet.getString(11));
+                    listOfAllClubs.add(club);
+                }
+                logger.info("searchClubByName(): list of all clubs based on name");
+                logger.info("Exiting DataLayer: returning search club by name to Service Layer");
+                return listOfAllClubs;
+            }
+        else
+        {
+            logger.error("Exception: Database Connection not established.");
+            return null;
+        }
+    }
+
+    public List<Club> getClubsByCategory(String category) throws SQLException
+    {
+            logger.info("Data Layer Entered: Entered searchClubByCategory()");
+            callProcedure = "{CALL searchClubByCategory(?)}";
+            callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1,category);
+            boolean procedureCallStatus=callableStatement.execute();
+            ResultSet resultSet=callableStatement.getResultSet();
+            List<Club> listOfAllClubs=new ArrayList<>();
+            if(procedureCallStatus)
+            {
+                while(resultSet.next())
+                {
+                    Club club=new Club();
+                    club.setClubID(resultSet.getString(1));
+                    club.setClubName(resultSet.getString(2));
+                    club.setDescription(resultSet.getString(3));
+                    club.setPresidentEmailID(resultSet.getString(4));
+                    club.setFacebookLink(resultSet.getString(5));
+                    club.setInstagramLink(resultSet.getString(6));
+                    club.setCategoryID(resultSet.getString(7));
+                    club.setLocation(resultSet.getString(8));
+                    club.setMeetingTime(resultSet.getString(9));
+                    club.setClubImage(resultSet.getString(10));
+                    club.setRules(resultSet.getString(11));
+                    listOfAllClubs.add(club);
+                }
+                logger.info("searchClubByCategory(): list of all clubs based on category");
+                logger.info("Exiting DataLayer: returning list of all clubs by category to Service Layer");
+                return listOfAllClubs;
+            }
+        else {
+            logger.error("Exception: Database Connection not established.");
+            return null;
         }
     }
 
