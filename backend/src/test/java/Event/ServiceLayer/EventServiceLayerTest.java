@@ -1,8 +1,12 @@
 package Event.ServiceLayer;
 
+import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
+import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
 import com.dal.cs.backend.Event.ServiceLayer.EventServiceLayer;
 import com.dal.cs.backend.Event.ServiceLayer.IEventServiceLayer;
+import com.dal.cs.backend.database.DatabaseConnection;
+import com.dal.cs.backend.database.IDatabaseConnection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +17,9 @@ public class EventServiceLayerTest {
 
     @BeforeEach
     public void beforeTestRun() {
-        iEventServiceLayer = new EventServiceLayer() ;
+        IDatabaseConnection iDatabaseConnection = DatabaseConnection.getInstance();
+        IEventDataLayer iEventDataLayer = EventDataLayer.getInstance(iDatabaseConnection);
+        iEventServiceLayer = EventServiceLayer.getInstance(iEventDataLayer) ;
     }
 
     @Test

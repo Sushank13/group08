@@ -16,7 +16,10 @@ public abstract class BaseDataLayer implements IBaseDataLayer{
     }
 
     protected String getProcedureCallString(String procedureName, int numberOfParameters) {
-        String procedureParameter = "?,".repeat(numberOfParameters).substring(0, 2 * numberOfParameters - 1);
+        String procedureParameter = "?,".repeat(numberOfParameters);
+        if (!procedureParameter.equals("")) {
+            procedureParameter = procedureParameter.substring(0, 2 * numberOfParameters - 1);
+        }
         return String.format("{CALL %s(%s)}", procedureName, procedureParameter);
     }
 }

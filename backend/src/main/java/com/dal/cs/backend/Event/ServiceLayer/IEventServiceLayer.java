@@ -2,12 +2,12 @@ package com.dal.cs.backend.Event.ServiceLayer;
 
 import com.dal.cs.backend.Event.EventObject.Event;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface IEventServiceLayer {
-    public List<Event> getAllEvents();
-    public List<Event> getEventsByUser(String userEmailId);
+    List<Event> getAllEvents();
+
+    List<Event> getEventsByUser(String userEmailId);
 
     boolean createEvent(Event event);
 
@@ -16,4 +16,6 @@ public interface IEventServiceLayer {
     List<Event> getEventDetails(String nameOfEvent);
 
     boolean updateEventDetails(Event event);
+
+    boolean deleteEvent(String eventID);
 }

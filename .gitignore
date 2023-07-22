@@ -37,3 +37,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/dalClubApp.log
+/dalClubApp-2023-07-16-1.log

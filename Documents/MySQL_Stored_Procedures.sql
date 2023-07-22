@@ -203,3 +203,14 @@ BEGIN
     WHERE eventID = updatedEventID AND clubID = updatedClubID;
 END //
 DELIMITER ;
+
+-- Procedure to delete an event and its registrations based on eventID
+DELIMITER //
+CREATE PROCEDURE deleteEvent(IN eventID VARCHAR(50))
+BEGIN
+    DELETE FROM eventRegistrationDetails
+    WHERE eventRegistrationDetails.eventID = eventID;
+
+    DELETE FROM events WHERE events.eventID = eventID;
+END //
+DELIMITER ;
