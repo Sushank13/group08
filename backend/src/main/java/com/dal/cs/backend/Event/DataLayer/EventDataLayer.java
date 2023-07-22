@@ -2,6 +2,7 @@ package com.dal.cs.backend.Event.DataLayer;
 
 import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
+import com.dal.cs.backend.Event.ObjectBuilder.EventBuilder;
 import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import org.apache.logging.log4j.LogManager;
@@ -47,17 +48,7 @@ public class EventDataLayer implements IEventDataLayer
         {
             while(resultSet.next())
             {
-                Event event = new Event();
-                event.setOrganizerEmailID(resultSet.getString(1));
-                event.setEventName(resultSet.getString(2));
-                event.setDescription(resultSet.getString(3));
-                event.setVenue(resultSet.getString(4));
-                event.setImage(resultSet.getString(5));
-                event.setStartDate(resultSet.getString(6));
-                event.setEndDate(resultSet.getString(7));
-                event.setStartTime(resultSet.getString(8));
-                event.setEndTime(resultSet.getString(9));
-                event.setEventTopic(resultSet.getString(10));
+                Event event = new EventBuilder().setOrganizerEmailID(resultSet.getString(1)).setEventName(resultSet.getString(2)).setDescription(resultSet.getString(3)).setVenue(resultSet.getString(4)).setStartDate(resultSet.getString(6)).setEndDate(resultSet.getString(7)).setStartTime(resultSet.getString(8)).setEndTime(resultSet.getString(9)).setEventTopic(resultSet.getString(10)).createEvent();
                 listOfAllEvents.add(event);
             }
             logger.info("getAllEvents(): list of all events created successfully");

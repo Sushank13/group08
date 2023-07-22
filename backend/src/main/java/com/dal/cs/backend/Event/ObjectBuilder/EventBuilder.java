@@ -14,6 +14,18 @@ public class EventBuilder
     private String startDate;
     private String endDate;
     private String startTime;
+    private String endTime;
+    private String eventTopic;
+
+    public EventBuilder setEndTime(String endTime) {
+        this.endTime = endTime;
+        return  this;
+    }
+
+    public EventBuilder setEventTopic(String eventTopic) {
+        this.eventTopic = eventTopic;
+        return this;
+    }
 
     public EventBuilder setEventID(String eventID) {
         this.eventID = eventID;
@@ -66,6 +78,6 @@ public class EventBuilder
     }
     public Event createEvent()
     {
-        return new Event(eventID,clubID,organizerEmailID,eventName,description,venue,image,startDate,endDate,startTime);
+        return new Event(eventID,clubID,organizerEmailID,eventName,description,venue,image,startDate,endDate,startTime,endTime,eventTopic);
     }
 }

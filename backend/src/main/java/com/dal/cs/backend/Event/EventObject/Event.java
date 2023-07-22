@@ -11,6 +11,8 @@ public class Event {
     private String startDate;
     private String endDate;
     private String startTime;
+    private String endTime;
+    private String eventTopic;
 
     public Event(String eventID, String clubID, String organizerEmailID, String eventName, String description, String venue, String image, String startDate, String endDate, String startTime, String endTime, String eventTopic)
     {
@@ -124,7 +126,5 @@ public class Event {
         this.eventTopic = eventTopic;
     }
 
-    private String endTime;
-    private String eventTopic;
 
 }
