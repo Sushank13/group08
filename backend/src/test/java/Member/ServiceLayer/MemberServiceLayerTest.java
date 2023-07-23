@@ -6,7 +6,7 @@ import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import com.dal.cs.backend.member.DataLayer.IMemberDataLayer;
 import com.dal.cs.backend.member.DataLayer.MemberDataLayer;
-import com.dal.cs.backend.member.MemberObject.MemberWithLoginCredential;
+import com.dal.cs.backend.member.MemberObject.Member;
 import com.dal.cs.backend.member.ServiceLayer.MemberServiceLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,7 +35,7 @@ public class MemberServiceLayerTest {
 
     @Test
     public void createNewMemberRequestTest() {
-        MemberWithLoginCredential newMember = RandomGenerator.generateRandomDalClubMemberWithLoginCredential();
+        Member newMember = RandomGenerator.generateRandomDalClubMember();
         logger.info("[Test][Member][Service] Created test member with emailId: " + newMember.getEmailId());
         Assertions.assertNotNull(memberServiceLayer.createNewMemberRequest(newMember));
 

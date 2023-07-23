@@ -14,11 +14,13 @@ public class Member {
     private String mobile;
     private LocalDate dob;
 
+    private String password;
+
     public Member(String emailId) {
         this.emailId = emailId;
     }
 
-    public Member(String emailId, String firstName, String lastName, MemberType memberType, String program, int term, String mobile, LocalDate dob) {
+    public Member(String emailId, String firstName, String lastName, MemberType memberType, String program, int term, String mobile, LocalDate dob, String password) {
         this.emailId = emailId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -27,6 +29,7 @@ public class Member {
         this.term = term;
         this.mobile = mobile;
         this.dob = dob;
+        this.password = password;
     }
 
     public String getEmailId() {
@@ -91,5 +94,13 @@ public class Member {
 
     public void setDob(LocalDate dob) {
         this.dob = dob;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
