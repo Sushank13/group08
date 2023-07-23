@@ -63,23 +63,33 @@ public class ClubController
         return listOfAllClubs;
     }
 
+    /**
+     * This method retrieves the clubs filtered by the search keywords
+     * @param name string value containing the search keyword value
+     * @return list of clubs filtered by name
+     */
     @RequestMapping(method = RequestMethod.GET, value="/getClubByName/{name}")
     public List<Club> getClubsByName(@PathVariable("name") String name)
     {
         logger.info("Controller Entered: Received request to get clubs by name.");
-        logger.info("getAllClubs- Calling getClubsByName() of ServiceLayer");
+        logger.info("getClubsByName- Calling getClubsByName() of ServiceLayer");
         List<Club> listOfAllClubs=iClubServiceLayer.getClubsByName(name);
-        logger.info("Exiting Controller: Returning list of clubs to Frontend via GET /search?name={club1}");
+        logger.info("Exiting Controller: Returning list of clubs to Frontend via GET /getClubByName/{name}");
         return listOfAllClubs;
     }
 
+    /**
+     * This method retrieves the clubs filtered by category name
+     * @param category string value containing the category name value
+     * @return list of clubs filtered by category name
+     */
     @RequestMapping(method = RequestMethod.GET, value="/getClubByCategory/{category}")
     public List<Club> getClubsByCategory(@PathVariable("category") String category)
     {
         logger.info("Controller Entered: Received request to get clubs by category.");
-        logger.info("getAllClubs- Calling getClubsByCategory() of ServiceLayer");
+        logger.info("getClubsByCategory- Calling getClubsByCategory() of ServiceLayer");
         List<Club> listOfAllClubs=iClubServiceLayer.getClubsByCategory(category);
-        logger.info("Exiting Controller: Returning list of clubs to Frontend via GET /search?category={club1}");
+        logger.info("Exiting Controller: Returning list of clubs to Frontend via GET /getClubByCategory/{category}");
         return listOfAllClubs;
     }
 
