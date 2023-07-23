@@ -45,22 +45,7 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         ResultSet resultSet = callableStatement.getResultSet();
         List<Event> listOfAllEvents = new ArrayList<>();
         if (procedureCallStatus) {
-            while (resultSet.next()) {
-                Event event = new Event();
-                event.setEventID(resultSet.getString(1));
-                event.setClubID(resultSet.getString(2));
-                event.setOrganizerEmailID(resultSet.getString(3));
-                event.setEventName(resultSet.getString(4));
-                event.setDescription(resultSet.getString(5));
-                event.setVenue(resultSet.getString(6));
-                event.setImage(resultSet.getString(7));
-                event.setStartDate(resultSet.getString(8));
-                event.setEndDate(resultSet.getString(9));
-                event.setStartTime(resultSet.getString(10));
-                event.setEndTime(resultSet.getString(11));
-                event.setEventTopic(resultSet.getString(12));
-                listOfAllEvents.add(event);
-            }
+            setEventFromResultSet(resultSet, listOfAllEvents);
             logger.info("getAllEvents(): list of all events created successfully");
             logger.info("Exiting DataLayer: returning list of all events to Service Layer");
             return listOfAllEvents;
@@ -227,28 +212,38 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         ResultSet resultSet = callableStatement.getResultSet();
         List<Event> eventDetails = new ArrayList<>();
         if (procedureCallStatus) {
-            while (resultSet.next()) {
-                Event event = new Event();
-                event.setEventID(resultSet.getString(1));
-                event.setClubID(resultSet.getString(2));
-                event.setOrganizerEmailID(resultSet.getString(3));
-                event.setEventName(resultSet.getString(4));
-                event.setDescription(resultSet.getString(5));
-                event.setVenue(resultSet.getString(6));
-                event.setImage(resultSet.getString(7));
-                event.setStartDate(resultSet.getString(8));
-                event.setEndDate(resultSet.getString(9));
-                event.setStartTime(resultSet.getString(10));
-                event.setEndTime(resultSet.getString(11));
-                event.setEventTopic(resultSet.getString(12));
-                eventDetails.add(event);
-            }
+            setEventFromResultSet(resultSet, eventDetails);
             logger.info("getEventDetails(): get the list of all events details successfully");
             logger.info("Exiting DataLayer: returning list of all events details to Service Layer");
 
             return eventDetails;
         } else {
             return null;
+        }
+    }
+
+    /**
+     * This function populates the Event List by reading the result set obtained from procedure call
+     * @param resultSet the Result set received after procedure call
+     * @param eventDetails list in which Event objects are to be added
+     * @throws SQLException
+     */
+    private void setEventFromResultSet(ResultSet resultSet, List<Event> eventDetails) throws SQLException {
+        while (resultSet.next()) {
+            Event event = new Event();
+            event.setEventID(resultSet.getString(1));
+            event.setClubID(resultSet.getString(2));
+            event.setOrganizerEmailID(resultSet.getString(3));
+            event.setEventName(resultSet.getString(4));
+            event.setDescription(resultSet.getString(5));
+            event.setVenue(resultSet.getString(6));
+            event.setImage(resultSet.getString(7));
+            event.setStartDate(resultSet.getString(8));
+            event.setEndDate(resultSet.getString(9));
+            event.setStartTime(resultSet.getString(10));
+            event.setEndTime(resultSet.getString(11));
+            event.setEventTopic(resultSet.getString(12));
+            eventDetails.add(event);
         }
     }
 

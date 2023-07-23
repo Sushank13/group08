@@ -167,6 +167,11 @@ public class ClubServiceLayer implements  IClubServiceLayer
         return null;
     }
 
+    /**
+     * This method retrieves the club based on the search name keyword
+     * @param name string value containing search name keyword
+     * @return list of all clubs filtered on the search name keyword condition
+     */
     @Override
     public List<Club> getClubsByName(String name)
     {
@@ -182,6 +187,11 @@ public class ClubServiceLayer implements  IClubServiceLayer
         return null;
     }
 
+    /**
+     * This method retrievs the club based on the category name
+     * @param category string value containing category name
+     * @return list of all clubs filtered on the category condition
+     */
     @Override
     public List<Club> getClubsByCategory(String category) {
         logger.info("Service Layer Entered: Entered getClubsByCategory()- Calling Data layer getClubsByCategory()");
@@ -195,7 +205,6 @@ public class ClubServiceLayer implements  IClubServiceLayer
         logger.info("ServiceLayer: getClubsByCategory() returned null to Controller");
         return null;
     }
-
 
     /**
      * Inserts the updated club details into the request table by invoking the corresponding data layer function.
