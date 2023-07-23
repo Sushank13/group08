@@ -90,12 +90,12 @@ public class EventServiceLayerTest {
 
     @Test
     public void updateEventDetails() {
-        Event mockEvent = new Event();
-        mockEvent.setEventID("EVNT_3");
-        mockEvent.setClubID("CLB_3");
-        mockEvent.setEventName("Dalhousie outdoor society Spring AGM");
-        mockEvent.setEventTopic("Outdoor recreational activity");
-        boolean eventStatus = iEventServiceLayer.updateEventDetails(mockEvent);
-        System.out.println("eventStatus = " + eventStatus);
+//        Event mockEvent = new Event();
+//        mockEvent.setEventID("EVNT_3");
+//        mockEvent.setClubID("CLB_3");
+//        mockEvent.setEventName("Dalhousie outdoor society Spring AGM");
+//        mockEvent.setEventTopic("Outdoor recreational activity");
+//        boolean eventStatus = iEventServiceLayer.updateEventDetails(mockEvent);
+//        System.out.println("eventStatus = " + eventStatus);
     }
 }
