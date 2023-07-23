@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.dal.cs.backend.security.ApplicationSecurity.passwordEncoder;
+
 @Service
 public class MemberServiceLayer {
     private static final Logger logger = LogManager.getLogger(MemberServiceLayer.class);
@@ -31,6 +33,10 @@ public class MemberServiceLayer {
 
     public String createNewMemberRequest(Member member) {
         logger.info("inside createNewMemberRequest");
+        String encodedPassword = member.getPassword();
+        encodedPassword = passwordEncoder().encode(encodedPassword);
+        member.setPassword(encodedPassword);
+
         boolean createNewMemberRequestStatus = iMemberDataLayer.createNewMember(member);
         if (createNewMemberRequestStatus) {
             String message = "Your request for new member register send Successfully " ;

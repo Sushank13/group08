@@ -2,14 +2,14 @@
 DELIMITER //
 CREATE PROCEDURE selectAllFromCategory ()
 BEGIN
-	SELECT categoryID, categoryName FROM category;	
+	SELECT categoryID, categoryName FROM category;
 END //
 DELIMITER ;
 
 -- Procedure for getting the club ID of the last row in the table
 DELIMITER //
 CREATE PROCEDURE getLatestClubId()
-BEGIN 
+BEGIN
       SELECT CONCAT('CLB_',(SELECT CAST(SUBSTRING_INDEX(clubID , '_', -1) AS UNSIGNED) AS clubID FROM newAndUpdateClubRequest ORDER BY clubID DESC LIMIT 1)) AS clubID FROM newAndUpdateClubRequest LIMIT 1;
 END //
 DELIMITER ;
@@ -17,7 +17,7 @@ DELIMITER ;
 -- Procedure for getting the requeest ID of the last row in the table
 DELIMITER //
 CREATE PROCEDURE getLatestRequestId()
-BEGIN 
+BEGIN
       SELECT CONCAT('REQ_',(SELECT CAST(SUBSTRING_INDEX(requestID, '_', -1) AS UNSIGNED) AS requestID FROM newAndUpdateClubRequest ORDER BY requestID DESC LIMIT 1)) AS requestID FROM newAndUpdateClubRequest LIMIT 1;
 END //
 DELIMITER ;
@@ -25,10 +25,10 @@ DELIMITER ;
 -- Procedure for getting all the clubs from Club table
 DELIMITER //
 CREATE PROCEDURE getAllClubs()
-BEGIN 
-      SELECT clubID, club.categoryID, clubName, categoryName, description, presidentEmailID, facebookLink, instagramLink, location, meetingTime, clubImage, rules 
-      FROM club 
-      INNER JOIN category 
+BEGIN
+      SELECT clubID, club.categoryID, clubName, categoryName, description, presidentEmailID, facebookLink, instagramLink, location, meetingTime, clubImage, rules
+      FROM club
+      INNER JOIN category
       on club.categoryID = category.categoryID;
 END //
 DELIMITER ;
@@ -54,7 +54,7 @@ DELIMITER ;
 -- Procedure for inserting new club create request details into NewAndUpdateClubRequest
 DELIMITER //
 CREATE PROCEDURE insertIntoNewAndUpdateClubRequest (IN requestID VARCHAR(50),IN clubID VARCHAR(50),IN requestorEmailID VARCHAR(50),IN categoryID VARCHAR(50),IN clubName VARCHAR(50), IN clubDescription VARCHAR(50),IN facebookLink VARCHAR(50),IN instagramLink VARCHAR(50), IN location VARCHAR(50), IN meetingTime VARCHAR(50),IN clubImage VARCHAR(50),IN rules VARCHAR(50),IN requestType VARCHAR(50), IN requestStatus VARCHAR(50))
-BEGIN 
+BEGIN
       INSERT INTO newAndUpdateClubRequest values (requestID, clubID,requestorEmailID,categoryID,clubName,clubDescription,facebookLink,instagramLink,location,meetingTime,clubImage,rules,requestType,requestStatus);
 END //
 DELIMITER ;
@@ -72,7 +72,17 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE MemberGetMemberDetails (IN emailID VARCHAR(255))
 BEGIN
-    SELECT * FROM member WHERE member.emailID = emailID;
+    SELECT firstName,
+           lastName,
+           userType,
+           program,
+           term,
+           mobileNumber,
+           DOB,
+           password
+    FROM member
+             INNER JOIN login ON member.emailID = login.emailId
+    WHERE member.emailID = emailID;
 END //
 DELIMITER ;
 
@@ -115,11 +125,11 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE deleteClub(IN deleteClubID VARCHAR(50))
 BEGIN
-  DELETE FROM eventRegistrationDetails WHERE eventID IN ( 
-			SELECT ERD.eventID 
-            FROM eventRegistrationDetails ERD 
-            INNER JOIN events EVNT 
-            ON ERD.eventID = EVNT.eventID 
+  DELETE FROM eventRegistrationDetails WHERE eventID IN (
+			SELECT ERD.eventID
+            FROM eventRegistrationDetails ERD
+            INNER JOIN events EVNT
+            ON ERD.eventID = EVNT.eventID
             WHERE EVNT.clubID = deleteClubID
 		);
   DELETE FROM events WHERE clubID=deleteClubID;
@@ -169,7 +179,7 @@ BEGIN
 	e.startTime, e.startTime, e.organizerEmailID
     FROM events e
     INNER JOIN eventRegistrationDetails erd ON e.eventID = erd.eventID
-    INNER JOIN club c ON c.clubID=e.clubID 
+    INNER JOIN club c ON c.clubID=e.clubID
     WHERE erd.emailID = userEmailID;
 END//
 DELIMITER ;
@@ -180,7 +190,7 @@ DELIMITER //
 CREATE PROCEDURE registerEvents(IN eventID VARCHAR(50), IN emailID VARCHAR(255))
 BEGIN
     INSERT INTO eventRegistrationDetails VALUES (eventID, emailID);
-END //    
+END //
 DELIMITER ;
 
 -- Procedure to get event details by event name

@@ -85,7 +85,7 @@ public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
                     member.setTerm(resultSet.getInt("term"));
                     member.setMobile(resultSet.getString("mobileNumber"));
                     member.setDob(resultSet.getDate("DOB").toLocalDate());
-
+                    member.setPassword(resultSet.getString("password"));
                     return member;
                 }
             }
