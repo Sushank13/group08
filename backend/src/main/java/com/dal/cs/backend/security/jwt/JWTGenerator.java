@@ -1,14 +1,14 @@
 package com.dal.cs.backend.security.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
 import java.util.Date;
 
 import static com.dal.cs.backend.security.jwt.SecurityConstants.issuer;
@@ -16,7 +16,14 @@ import static com.dal.cs.backend.security.jwt.SecurityConstants.issuer;
 @Component
 public class JWTGenerator {
     //private static final KeyPair = Keys.keyPairFor(SignatureAlgorithm.RS256);
-    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
+
+    private SecurityConstants securityConstants;
+
+    @Autowired
+    public JWTGenerator(SecurityConstants securityConstants) {
+        this.securityConstants = securityConstants;
+    }
 
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
@@ -27,26 +34,30 @@ public class JWTGenerator {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(expireDate)
-                .signWith(key, SignatureAlgorithm.HS512)
+                .setIssuer(issuer)
+                .signWith(SignatureAlgorithm.HS512, securityConstants.secret)
                 .compact();
         System.out.println("New token :");
         System.out.println(token);
+        printStructure(token);
         return token;
     }
 
     public String getUsernameFromJWT(String token) {
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
+                .setSigningKey(securityConstants.secret)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+
         return claims.getSubject();
     }
 
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
-                    .setSigningKey(key)
+                    .setSigningKey(securityConstants.secret)
+                    .requireIssuer(issuer)
                     .build()
                     .parseClaimsJws(token);
             return true;
@@ -55,4 +66,13 @@ public class JWTGenerator {
         }
     }
 
+    public void printStructure(String token) {
+        Jws
+
+                parseClaimsJws = Jwts.parser().setSigningKey(securityConstants.secret)
+                .parseClaimsJws(token);
+        System.out.println("Header     : " + parseClaimsJws.getHeader());
+        System.out.println("Body       : " + parseClaimsJws.getBody());
+        System.out.println("Signature  : " + parseClaimsJws.getSignature());
+    }
 }

@@ -61,7 +61,7 @@ DELIMITER ;
 
 -- Procedure for inserting data of new member request with login credentials
 DELIMITER //
-CREATE PROCEDURE `MemberSaveNewMember` (IN emailId VARCHAR(255), IN firstName VARCHAR(255), IN lastName VARCHAR(255), IN userType VARCHAR(255), IN program VARCHAR(255), IN term INT(11), IN mobileNumber VARCHAR(255), IN DOB DATE, IN password VARCHAR(255))
+CREATE PROCEDURE MemberSaveNewMember (IN emailId VARCHAR(255), IN firstName VARCHAR(255), IN lastName VARCHAR(255), IN userType VARCHAR(255), IN program VARCHAR(255), IN term INT(11), IN mobileNumber VARCHAR(255), IN DOB DATE, IN password VARCHAR(255))
 BEGIN
 	INSERT INTO member VALUES (emailID, firstName, lastName, userType, program, term, mobileNumber, DOB);
     INSERT INTO login VALUES (emailID, password);
