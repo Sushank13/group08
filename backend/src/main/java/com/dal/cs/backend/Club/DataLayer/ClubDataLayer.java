@@ -334,33 +334,24 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         }
     }
 
+    /**
+     * This method calls the stored procedure that finds the clubs based on the name keyword condition
+     * @param name string value containing the keyword upon which the search is to be made
+     * @return A list of club details filtered based on the name condition.
+     * @throws SQLException
+     */
     public List<Club> getClubsByName(String name) throws SQLException {
-            logger.info("Data Layer Entered: Entered searchClubByName()");
+            logger.info("Data Layer Entered: Entered getClubsByName()");
             callProcedure = "{CALL searchClubByName(?)}";
             callableStatement = connection.prepareCall(callProcedure);
             callableStatement.setString(1,name);
             boolean procedureCallStatus=callableStatement.execute();
+            logger.info("getClubsByName- Procedure execution call successful, resultStatus = " + procedureCallStatus);
             ResultSet resultSet=callableStatement.getResultSet();
             List<Club> listOfAllClubs=new ArrayList<>();
             if(procedureCallStatus)
             {
-                while(resultSet.next())
-                {
-                    Club club=new Club();
-                    club.setClubID(resultSet.getString(1));
-                    club.setClubName(resultSet.getString(2));
-                    club.setDescription(resultSet.getString(3));
-                    club.setPresidentEmailID(resultSet.getString(4));
-                    club.setFacebookLink(resultSet.getString(5));
-                    club.setInstagramLink(resultSet.getString(6));
-                    club.setCategoryID(resultSet.getString(7));
-                    club.setLocation(resultSet.getString(8));
-                    club.setMeetingTime(resultSet.getString(9));
-                    club.setClubImage(resultSet.getString(10));
-                    club.setRules(resultSet.getString(11));
-                    listOfAllClubs.add(club);
-                }
-                logger.info("searchClubByName(): list of all clubs based on name");
+                setClubFromResultSet(resultSet, listOfAllClubs);
                 logger.info("Exiting DataLayer: returning search club by name to Service Layer");
                 return listOfAllClubs;
             }
@@ -371,40 +362,56 @@ public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
         }
     }
 
+    /**
+     * This method calls the stored procedure that finds the clubs based on the category value
+     * @param category string value containing the category name upon which the search is to be made
+     * @return A list of club details filtered based on the category name
+     * @throws SQLException
+     */
     public List<Club> getClubsByCategory(String category) throws SQLException
     {
-            logger.info("Data Layer Entered: Entered searchClubByCategory()");
+            logger.info("Data Layer Entered: Entered getClubsByCategory()");
             callProcedure = "{CALL searchClubByCategory(?)}";
             callableStatement = connection.prepareCall(callProcedure);
             callableStatement.setString(1,category);
             boolean procedureCallStatus=callableStatement.execute();
             ResultSet resultSet=callableStatement.getResultSet();
+            logger.info("getClubsByCategory- Procedure execution call successful, resultStatus = " + procedureCallStatus);
             List<Club> listOfAllClubs=new ArrayList<>();
             if(procedureCallStatus)
             {
-                while(resultSet.next())
-                {
-                    Club club=new Club();
-                    club.setClubID(resultSet.getString(1));
-                    club.setClubName(resultSet.getString(2));
-                    club.setDescription(resultSet.getString(3));
-                    club.setPresidentEmailID(resultSet.getString(4));
-                    club.setFacebookLink(resultSet.getString(5));
-                    club.setInstagramLink(resultSet.getString(6));
-                    club.setCategoryID(resultSet.getString(7));
-                    club.setLocation(resultSet.getString(8));
-                    club.setMeetingTime(resultSet.getString(9));
-                    club.setClubImage(resultSet.getString(10));
-                    club.setRules(resultSet.getString(11));
-                    listOfAllClubs.add(club);
-                }
-                logger.info("searchClubByCategory(): list of all clubs based on category");
+                setClubFromResultSet(resultSet, listOfAllClubs);
                 logger.info("Exiting DataLayer: returning list of all clubs by category to Service Layer");
                 return listOfAllClubs;
             }
         else {
             logger.error("Exception: Database Connection not established.");
             return null;
+        }
+    }
+
+    /**
+     * This function populates the Club Arraylist by reading the result set obtained from procedure call
+     * @param resultSet the Result set received after procedure call
+     * @param listOfAllClubs list in which Club objects are to be added
+     * @throws SQLException
+     */
+    private void setClubFromResultSet(ResultSet resultSet, List<Club> listOfAllClubs) throws SQLException {
+        while(resultSet.next())
+        {
+            Club club=new Club();
+            club.setClubID(resultSet.getString(1));
+            club.setClubName(resultSet.getString(2));
+            club.setDescription(resultSet.getString(3));
+            club.setPresidentEmailID(resultSet.getString(4));
+            club.setFacebookLink(resultSet.getString(5));
+            club.setInstagramLink(resultSet.getString(6));
+            club.setCategoryID(resultSet.getString(7));
+            club.setLocation(resultSet.getString(8));
+            club.setMeetingTime(resultSet.getString(9));
+            club.setClubImage(resultSet.getString(10));
+            club.setRules(resultSet.getString(11));
+            listOfAllClubs.add(club);
         }
     }
 
