@@ -42,7 +42,6 @@ public class MemberDataLayerTest {
     }
 
     @Test
-    @Tag("SkipCleanUp")
     public void getMemberTest() {
         logger.info("[Test][Member][Service] Created test member with emailId: " + randomMember.getEmailId());
         memberDataLayer.createNewMember(randomMember);
