@@ -25,7 +25,7 @@ public class ClubController
      * @return a message to the user with the request id in case request is submitted or an error message
      * if the request is not submitted
      */
-    @RequestMapping(method = RequestMethod.POST,value="/registerClub")
+    @RequestMapping(method = RequestMethod.POST,value="/member/registerClub")
     public String createClubRequest(@RequestBody Club club)
     {
         logger.info("Controller Entered: Received a new request for club creation");
@@ -40,7 +40,7 @@ public class ClubController
      *
      * @return A list of maps containing category names and corresponding category IDs.
      */
-    @RequestMapping(method = RequestMethod.GET, value="/getAllClubCategory")
+    @RequestMapping(method = RequestMethod.GET, value="/unauthenticated/getAllClubCategory")
     public ArrayList<HashMap<String, String>> getAllClubCategories() {
         logger.info("Controller Entered: Received request for getting all club categories.");
         logger.info("getAllClubCategories- Calling Service layer getAllClubCategories");
@@ -53,7 +53,7 @@ public class ClubController
      * This receives request to retrieve a list of all clubs in DalClubs
      * @return list of clubs
      */
-    @RequestMapping(method = RequestMethod.GET, value="/getAllClubs")
+    @RequestMapping(method = RequestMethod.GET, value="/unauthenticated/getAllClubs")
     public List<Club> getAllClubs()
     {
         logger.info("Controller Entered: Received request to get all clubs.");
@@ -68,7 +68,7 @@ public class ClubController
      * @param name string value containing the search keyword value
      * @return list of clubs filtered by name
      */
-    @RequestMapping(method = RequestMethod.GET, value="/getClubByName/{name}")
+    @RequestMapping(method = RequestMethod.GET, value="/unauthenticated/getClubByName/{name}")
     public List<Club> getClubsByName(@PathVariable("name") String name)
     {
         logger.info("Controller Entered: Received request to get clubs by name.");
@@ -83,7 +83,7 @@ public class ClubController
      * @param category string value containing the category name value
      * @return list of clubs filtered by category name
      */
-    @RequestMapping(method = RequestMethod.GET, value="/getClubByCategory/{category}")
+    @RequestMapping(method = RequestMethod.GET, value="/unauthenticated/getClubByCategory/{category}")
     public List<Club> getClubsByCategory(@PathVariable("category") String category)
     {
         logger.info("Controller Entered: Received request to get clubs by category.");
@@ -98,7 +98,7 @@ public class ClubController
      * @param club The club object containing the new details.
      * @return A string response result, upon success returns newly generated request ID and upon failure returns error message.
      */
-    @RequestMapping(method = RequestMethod.POST, value="/updateClubDetails")
+    @RequestMapping(method = RequestMethod.POST, value="/president/updateClubDetails")
     public String updateClubDetails(@RequestBody Club club) {
         logger.info("Controller Entered: Received request for updating club details.");
         logger.info("updateClubDetails- Calling Service layer updateClubDetails");
@@ -112,7 +112,7 @@ public class ClubController
      * @param reqId is the request id of the club update or new club request
      * @return a message
      */
-    @RequestMapping(method = RequestMethod.PUT,value="/approveClubRequest/{reqId}")
+        @RequestMapping(method = RequestMethod.PUT,value="/admin/approveClubRequest/{reqId}")
      public String approveClubRequest(@PathVariable("reqId") String reqId )
     {
         logger.info("Controller Entered: Received request to approve the new club or update club request.");
@@ -136,7 +136,7 @@ public class ClubController
      * @param reqId is the request id of the club update or new club request
      * @return a message
      */
-    @RequestMapping(method = RequestMethod.PUT,value="/rejectClubRequest/{reqId}")
+    @RequestMapping(method = RequestMethod.PUT,value="/admin/rejectClubRequest/{reqId}")
     public String rejectClubRequest(@PathVariable("reqId") String reqId )
     {
         logger.info("Controller Entered: Received request to reject the new club or update club request.");
@@ -162,7 +162,7 @@ public class ClubController
      * @param clubID The clubID value for the club record to delete
      * @return A boolean response result, which returns true if record deleted successfully, else returns false
      */
-    @RequestMapping(method = RequestMethod.POST, value="/deleteClub")
+    @RequestMapping(method = RequestMethod.POST, value="/admin/deleteClub")
     public boolean deleteClub(String clubID) {
         logger.info("Controller Entered: Received request for deleting the club based on its ID column.");
         logger.info("deleteClub- Calling Service layer deleteClub");

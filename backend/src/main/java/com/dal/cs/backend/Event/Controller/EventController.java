@@ -26,7 +26,7 @@ public class EventController {
      *
      * @return list of events
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/getAllEvents")
+    @RequestMapping(method = RequestMethod.GET, value = "/unauthenticated/getAllEvents")
     public List<Event> getAllEvents() {
         logger.info("Controller Entered: Received request to get all events.");
         logger.info("getAllEvents- Calling getAllEvents() of ServiceLayer");
@@ -40,7 +40,7 @@ public class EventController {
      * @param event It is the entity which has all the event information entered by the user.
      * @return result response about the success of creating event. true if event created successfully, else false.
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/createEvent")
+    @RequestMapping(method = RequestMethod.POST, value = "/president/createEvent")
     public Map<String, Boolean> createEvent(@RequestBody Event event) {
         logger.info("Controller Entered: Received request for creating a new event");
         logger.info("createEvent- Calling Service layer createEvent");
@@ -56,7 +56,7 @@ public class EventController {
      * @param userEmailId is the email id of the user using which they signed up to DalClubs
      * @return list of events to the frontend
      */
-    @RequestMapping(method = RequestMethod.GET, value="/getAllEvents/{userEmailId}")
+    @RequestMapping(method = RequestMethod.GET, value="/unauthenticated/getAllEvents/{userEmailId}")
     public List<Event> getEventsByUser(@PathVariable("userEmailId") String userEmailId)
     {
         logger.info("Controller Entered: Received request to get all events by userEmailID");
@@ -72,7 +72,7 @@ public class EventController {
      * @param emailID  is the email id of the user using which they signed up to DalClubs
      * @return true if registered successfully
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/registerEvents/eventID/{eventID}/emailID/{emailID}")
+    @RequestMapping(method = RequestMethod.POST, value = "/member/registerEvents/eventID/{eventID}/emailID/{emailID}")
     public boolean registerEvents(@PathVariable String eventID, @PathVariable String emailID)
     {
         logger.info("Controller Entered: Received request for register events");
@@ -87,7 +87,7 @@ public class EventController {
      * @param nameOfEvent is the name of event user is searching detail for
      * @return list of event details user searched for
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/getEventDetails/{nameOfEvent}")
+    @RequestMapping(method = RequestMethod.GET, value = "/unauthenticated/getEventDetails/{nameOfEvent}")
     public List<Event> getEventDetails(@PathVariable("nameOfEvent") String nameOfEvent)
     {
         logger.info("Controller Entered: Received request for get event details");
@@ -102,7 +102,7 @@ public class EventController {
      * @param event It is the entity which only has all details which are updated in an event by the user.
      * @return result response about the success of creating event. true if event details updated successfully, else false.
      */
-    @RequestMapping(method = RequestMethod.POST, value="/updateEventDetails")
+    @RequestMapping(method = RequestMethod.POST, value="/president/updateEventDetails")
     public Map<String, Boolean> updateEventDetails(@RequestBody Event event) {
         logger.info("Controller Entered: Received request for updating a existing event");
         logger.info("createEvent- Calling Service layer updateEventDetails");
@@ -119,7 +119,7 @@ public class EventController {
      * @param eventID ID of event to be deleted
      * @return boolean response result, which returns true if record deleted successfully, else returns false
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/deleteEvent")
+    @RequestMapping(method = RequestMethod.POST, value = "/president/deleteEvent")
     public Map<String, Boolean> deleteEvent(String eventID) {
         logger.info("Controller Entered: Received request for deleting event");
         Map<String, Boolean> resultResponse = new HashMap<>();

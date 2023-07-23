@@ -1,5 +1,6 @@
 package com.dal.cs.backend.security;
 
+import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.security.ServiceLayer.CustomUserDetailsService;
 import com.dal.cs.backend.security.jwt.JWTAuthenticationFilter;
 import com.dal.cs.backend.security.jwt.JwtAuthEntryPoint;
@@ -38,7 +39,12 @@ public class ApplicationSecurity {
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/auth/**").permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/unauthenticated/**").permitAll()
+                        .requestMatchers("/member/**").hasAuthority(MemberType.member.name())
+                        .requestMatchers("/president/**").hasAuthority(MemberType.president.name())
+                        .requestMatchers("/admin/**").hasAuthority(MemberType.admin.name())
+                        .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
