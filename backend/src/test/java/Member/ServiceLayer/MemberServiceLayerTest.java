@@ -1,7 +1,5 @@
 package Member.ServiceLayer;
 
-import com.dal.cs.backend.authentication.dataLayer.ILoginDataLayer;
-import com.dal.cs.backend.authentication.dataLayer.LoginDataLayer;
 import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import com.dal.cs.backend.member.DataLayer.IMemberDataLayer;
@@ -28,9 +26,8 @@ public class MemberServiceLayerTest {
     public void beforeAll() {
         IDatabaseConnection databaseConnection = DatabaseConnection.getInstance();
         memberDataLayer = MemberDataLayer.getInstance(databaseConnection);
-        ILoginDataLayer loginDataLayer = LoginDataLayer.getInstance(databaseConnection);
 
-        memberServiceLayer = MemberServiceLayer.getInstance(memberDataLayer, loginDataLayer);
+        memberServiceLayer = MemberServiceLayer.getInstance(memberDataLayer);
     }
 
     @Test

@@ -1,6 +1,5 @@
 package com.dal.cs.backend.member.ServiceLayer;
 
-import com.dal.cs.backend.authentication.dataLayer.ILoginDataLayer;
 import com.dal.cs.backend.member.DataLayer.IMemberDataLayer;
 import com.dal.cs.backend.member.MemberObject.Member;
 import org.apache.logging.log4j.LogManager;
@@ -14,16 +13,13 @@ public class MemberServiceLayer {
 
     IMemberDataLayer iMemberDataLayer;
 
-    ILoginDataLayer iLoginDataLayer;
-
     @Autowired
-    public MemberServiceLayer(IMemberDataLayer iMemberDataLayer, ILoginDataLayer iLoginDataLayer) {
+    public MemberServiceLayer(IMemberDataLayer iMemberDataLayer) {
         this.iMemberDataLayer = iMemberDataLayer;
-        this.iLoginDataLayer = iLoginDataLayer;
     }
 
-    public static MemberServiceLayer getInstance(IMemberDataLayer iMemberDataLayer, ILoginDataLayer iLoginDataLayer) {
-        return new MemberServiceLayer(iMemberDataLayer, iLoginDataLayer);
+    public static MemberServiceLayer getInstance(IMemberDataLayer iMemberDataLayer) {
+        return new MemberServiceLayer(iMemberDataLayer);
     }
 
     /**
@@ -36,8 +32,7 @@ public class MemberServiceLayer {
     public String createNewMemberRequest(Member member) {
         logger.info("inside createNewMemberRequest");
         boolean createNewMemberRequestStatus = iMemberDataLayer.createNewMember(member);
-        boolean setPasswordStatus = iLoginDataLayer.createLoginCredential(member.getEmailId(), member.getPassword());
-        if (createNewMemberRequestStatus && setPasswordStatus) {
+        if (createNewMemberRequestStatus) {
             String message = "Your request for new member register send Successfully " ;
             logger.info("new member request created successfully");
             return message;
