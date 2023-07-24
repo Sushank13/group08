@@ -128,4 +128,11 @@ public class EventController {
         logger.info("Exiting Controller: Returning response status to Frontend via POST /deleteEvent");
         return resultResponse;
     }
+
+    @RequestMapping(method = RequestMethod.GET, value="/getEventByClub/{clubID}")
+    public List<Event> getEventsByClub(@PathVariable("clubID") String clubID)
+    {
+        List<Event> listOfAllEvents=iEventServiceLayer.getEventsByClub(clubID);
+        return listOfAllEvents;
+    }
 }
