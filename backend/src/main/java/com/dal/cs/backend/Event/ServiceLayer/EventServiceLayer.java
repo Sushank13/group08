@@ -208,4 +208,19 @@ public class EventServiceLayer implements  IEventServiceLayer{
         logger.info("Exiting Service Layer: Returning error message to Controller");
         return false;
     }
+
+    @Override
+    public List<Event> getEventsByClub(String clubID)
+    {
+        try
+        {
+            List<Event> listOfAllEvents = iEventDataLayer.getEventsByClub(clubID);
+            return listOfAllEvents;
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }
