@@ -162,7 +162,6 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
             logger.error("Problem with procedure call or database connection");
             return null;
         }
-
     }
 
     /**
@@ -329,6 +328,22 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         } else {
             logger.error("Problem with procedure call or database connection");
             return false;
+        }
+    }
+
+    @Override
+    public List<Event> getEventsByClub(String clubID) throws SQLException {
+        callProcedure = getProcedureCallString("getEventsByClubID", 1);
+        callableStatement = connection.prepareCall(callProcedure);
+        callableStatement.setString(1, clubID);
+        boolean procedureCallStatus = callableStatement.execute();
+        ResultSet resultSet = callableStatement.getResultSet();
+        List<Event> listOfAllEvents = new ArrayList<>();
+        if (procedureCallStatus) {
+            setEventFromResultSet(resultSet, listOfAllEvents);
+            return listOfAllEvents;
+        } else {
+            return null;
         }
     }
 }
