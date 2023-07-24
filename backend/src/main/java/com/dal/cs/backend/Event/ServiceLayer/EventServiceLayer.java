@@ -209,18 +209,26 @@ public class EventServiceLayer implements  IEventServiceLayer{
         return false;
     }
 
+    /**
+     * This method returns the details of event filtered on club id
+     * @param clubID the club id condition on which the event details are to be retrieved
+     * @return list of event details filtered on club ID
+     */
     @Override
     public List<Event> getEventsByClub(String clubID)
     {
+        logger.info("Service Layer Entered: Entered getEventsByClub()- Calling Data layer getEventsByClub()");
         try
         {
             List<Event> listOfAllEvents = iEventDataLayer.getEventsByClub(clubID);
+            logger.warn("Exiting Service Layer: Returning list of event details to Controller");
             return listOfAllEvents;
         }
         catch(SQLException e)
         {
-            System.out.println(e.getMessage());
+            logger.error("getEventsByClub()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
         }
+        logger.warn("Exiting Service Layer: Returning boolean result status=false to Controller");
         return null;
     }
 }

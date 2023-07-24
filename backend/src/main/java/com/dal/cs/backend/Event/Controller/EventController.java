@@ -129,10 +129,18 @@ public class EventController {
         return resultResponse;
     }
 
+    /**
+     * This method returns the event details filtered by club id
+     * @param clubID is the club id on which the event details are to be filtered
+     * @return list of event details filtered based on club ID
+     */
     @RequestMapping(method = RequestMethod.GET, value="/getEventByClub/{clubID}")
     public List<Event> getEventsByClub(@PathVariable("clubID") String clubID)
     {
+        logger.info("Controller Entered: Received request to get events by clubID");
+        logger.info("getEventsByClub- Calling getEventsByClub() of ServiceLayer");
         List<Event> listOfAllEvents=iEventServiceLayer.getEventsByClub(clubID);
+        logger.info("Exiting Controller: Returning list of events to Frontend via GET /getEventsByClub/{clubID}");
         return listOfAllEvents;
     }
 }
