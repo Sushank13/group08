@@ -72,7 +72,7 @@ public class EventController {
      * @param emailID  is the email id of the user using which they signed up to DalClubs
      * @return true if registered successfully
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/registerEvents/eventID/{eventID}/emailID/{emailID}")
+    @RequestMapping(method = RequestMethod.POST, value = "/registerEvents/{eventID}/{emailID}")
     public boolean registerEvents(@PathVariable String eventID, @PathVariable String emailID)
     {
         logger.info("Controller Entered: Received request for register events");
