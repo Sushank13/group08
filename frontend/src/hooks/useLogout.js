@@ -5,6 +5,7 @@ const useLogout = () => {
 
     const logout = async () => {
         setAuth({});
+        localStorage.setItem("emailID",undefined);
         try {
             await axios('/unauthenticated/logout', {
                 withCredentials: true

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../axiosConfiguration';
+import axios, { axiosPrivate } from '../axiosConfiguration';
 import { useParams, NavLink } from 'react-router-dom';
 import { Box, Flex, Text, Button, useToast } from '@chakra-ui/react';
 
@@ -16,7 +16,7 @@ const fetchEventDetails = async (eventName) => {
 const registerEventHandler = async (eventID) => {
   try {
     var emailID = "swit@dal.ca";
-    const response = await axios.post(`/registerEvents/${eventID}/${emailID}`);
+    const response = await axiosPrivate.post(`/member/registerEvents/${eventID}/${emailID}`);
     console.log(response.data);
     return response.data; 
   } catch (error) {

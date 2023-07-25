@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../axiosConfiguration';
+import axios, { axiosPrivate } from '../axiosConfiguration';
 import { useParams, NavLink } from 'react-router-dom';
 import { Box, Flex, Text, Link,  Icon, Divider, Button, useToast } from '@chakra-ui/react';
 import { BsFacebook, BsInstagram } from 'react-icons/bs';
@@ -25,20 +25,23 @@ const fetchEventDetailsByClub = async (clubID) => {
   }
 };
 
-// const joinClubHandler = async (clubID) => {
-//   try {
-//     const response = await axios.get(`/joinClub/${clubID}/${emailID}`);
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//     return null;
-//   }
-// };
+const joinClubHandler = async (clubID, emailID) => {
+  console.log(clubID +" clb user " + emailID);
+  try {
+    console.log(clubID +" clb user " + emailID);
+    const response = await axiosPrivate.get(`/member/joinClub/${clubID}/${emailID}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
 
 function ClubPage() {
   const { clubName } = useParams(); 
   const [clubDetails, setClubDetails] = useState([]);
   const [eventDetails, setEventDetails] = useState([]);
+  const emailID = localStorage.getItem("emailID") || null;
 
   useEffect(() => {
     const getClubDetails = async () => {
@@ -54,8 +57,19 @@ function ClubPage() {
   }, [clubName]); 
 
   const toast = useToast();
-  const handleRegistration = async () => {
-    var response = (Math.random() < 0.5);
+  const handleRegistration = (clubDetails, emailID) => {
+    console.log(emailID + " " + !emailID)
+    if (!emailID) {
+        toast({
+          title: 'Oops!',
+          description: 'Unable to register for this club at the given time. Please sign in.',
+          status: 'error',
+          duration: 10000,
+          isClosable: true,
+        });
+        return;
+    }
+    var response = joinClubHandler(clubDetails.clubID, emailID)
 
     if (response) {
       toast({
@@ -122,7 +136,7 @@ function ClubPage() {
           </Box>
 
           <Flex mt="50px">
-            <Button left="50%" transform="translateX(-50%)" width="200px" onClick={() => handleRegistration(clubDetails)} color="white" bg={global.DalClubCommons.black}>JOIN CLUB</Button>
+            <Button left="50%" transform="translateX(-50%)" width="200px" onClick={() => handleRegistration(clubDetails, emailID)} color="white" bg={global.DalClubCommons.black}>JOIN CLUB</Button>
           </Flex>
           <Text mt="25px" mb="15px" fontWeight="bold">Ongoing and Upcoming Events: </Text>
           <Divider />

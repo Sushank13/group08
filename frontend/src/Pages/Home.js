@@ -5,9 +5,13 @@ import useLogout from '../hooks/useLogout';
 
 import { useNavigate } from 'react-router-dom';
 function Home() {
+  console.log("In home")
   const navigate = useNavigate();
   const { auth } = useAuth();
   console.log("home auth" + auth.user);
+  if (auth.user !== undefined) {
+    localStorage.setItem("emailID", auth.user)
+  }
   const logout = useLogout();
 
     const signOut = async () => {

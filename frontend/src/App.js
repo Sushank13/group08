@@ -31,7 +31,7 @@ function App() {
           <Route path="unauthorized" element={<Unauthorized />} />
 
           <Route path="FindEvents" element={<FindAllEvents />} />
-          <Route path="FindAllEvents" element={<EventPage />} />
+          <Route path="event/:eventName" element={<EventPage />} />
 
           <Route path="FindClubs" element={<FindAllClubs />} />
           <Route path="club/:clubName" element={<ClubPage />} />
