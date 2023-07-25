@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ObjectBuilder.ClubBuilder;
 import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
 
@@ -189,20 +190,7 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
         {
             while(resultSet.next())
             {
-
-                Club club=new Club();
-                club.setClubID(resultSet.getString(1));
-                club.setCategoryID(resultSet.getString(2));
-                club.setClubName(resultSet.getString(3));
-                club.setCategoryName(resultSet.getString(4));
-                club.setDescription(resultSet.getString(5));
-                club.setPresidentEmailID(resultSet.getString(6));
-                club.setFacebookLink(resultSet.getString(7));
-                club.setInstagramLink(resultSet.getString(8));
-                club.setLocation(resultSet.getString(9));
-                club.setMeetingTime(resultSet.getString(10));
-                club.setClubImage(resultSet.getString(11));
-                club.setRules(resultSet.getString(12));
+                Club club=new ClubBuilder().setClubID(resultSet.getString(1)).setClubName(resultSet.getString(2)).setDescription(resultSet.getString(3)).setPresidentEmailID(resultSet.getString(4)).setFacebookLink(resultSet.getString(5)).setClubImage(resultSet.getString(10)).setInstagramLink(resultSet.getString(6)).setLocation(resultSet.getString(8)).setCategoryID(resultSet.getString(7)).setMeetingTime(resultSet.getString(9)).setRules(resultSet.getString(11)).createClub();
                 listOfAllClubs.add(club);
             }
             logger.info("getAllClubs(): list of all clubs created successfully");
@@ -274,18 +262,7 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
         if(procedureCallStatus)
         {
             resultSet.next();
-            Club club=new Club();
-            club.setClubID(resultSet.getString(2));
-            club.setPresidentEmailID(resultSet.getString(3));
-            club.setCategoryID(resultSet.getString(4));
-            club.setClubName(resultSet.getString(5));
-            club.setDescription(resultSet.getString(6));
-            club.setFacebookLink(resultSet.getString(7));
-            club.setInstagramLink(resultSet.getString(8));
-            club.setLocation(resultSet.getString(9));
-            club.setMeetingTime(resultSet.getString(10));
-            club.setClubImage(resultSet.getString(11));
-            club.setRules(resultSet.getString(12));
+            Club club=new ClubBuilder().setClubID(resultSet.getString(2)).setClubName(resultSet.getString(5)).setDescription(resultSet.getString(6)).setPresidentEmailID(resultSet.getString(3)).setFacebookLink(resultSet.getString(7)).setClubImage(resultSet.getString(10)).setInstagramLink(resultSet.getString(8)).setLocation(resultSet.getString(9)).setCategoryID(resultSet.getString(4)).setMeetingTime(resultSet.getString(11)).setRules(resultSet.getString(12)).createClub();
             logger.info("Exiting DataLayer: returning club details to Service Layer for request id "+reqId);
             return club;
         }
@@ -402,18 +379,19 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
     private void setClubFromResultSet(ResultSet resultSet, List<Club> listOfAllClubs) throws SQLException {
         while(resultSet.next())
         {
-            Club club=new Club();
-            club.setClubID(resultSet.getString(1));
-            club.setClubName(resultSet.getString(2));
-            club.setDescription(resultSet.getString(3));
-            club.setPresidentEmailID(resultSet.getString(4));
-            club.setFacebookLink(resultSet.getString(5));
-            club.setInstagramLink(resultSet.getString(6));
-            club.setCategoryID(resultSet.getString(7));
-            club.setLocation(resultSet.getString(8));
-            club.setMeetingTime(resultSet.getString(9));
-            club.setClubImage(resultSet.getString(10));
-            club.setRules(resultSet.getString(11));
+            Club club = new ClubBuilder()
+                    .setClubID(resultSet.getString(1))
+                    .setClubName(resultSet.getString(2))
+                    .setDescription(resultSet.getString(3))
+                    .setPresidentEmailID(resultSet.getString(4))
+                    .setFacebookLink(resultSet.getString(5))
+                    .setInstagramLink(resultSet.getString(6))
+                    .setCategoryID(resultSet.getString(7))
+                    .setLocation(resultSet.getString(8))
+                    .setMeetingTime(resultSet.getString(9))
+                    .setClubImage(resultSet.getString(10))
+                    .setRules(resultSet.getString(11))
+                    .createClub();
             listOfAllClubs.add(club);
         }
     }

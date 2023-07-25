@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Event.DataLayer;
 
 import com.dal.cs.backend.Event.EventObject.Event;
+import com.dal.cs.backend.Event.ObjectBuilder.EventBuilder;
 import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import org.apache.logging.log4j.LogManager;
@@ -38,14 +39,19 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
     @Override
     public List<Event> getAllEvents() throws SQLException {
         logger.info("Entered DataLayer: Entered getAllEvents()");
-        callProcedure = getProcedureCallString("getAllEvents", 0);
-        callableStatement = connection.prepareCall(callProcedure);
-        boolean procedureCallStatus = callableStatement.execute();
-        logger.info("Stored procedure for getAllEvents() executed with status " + procedureCallStatus);
-        ResultSet resultSet = callableStatement.getResultSet();
-        List<Event> listOfAllEvents = new ArrayList<>();
-        if (procedureCallStatus) {
-            setEventFromResultSet(resultSet, listOfAllEvents);
+        callProcedure="{CALL getAllEvents()}";
+        callableStatement=connection.prepareCall(callProcedure);
+        boolean procedureCallStatus=callableStatement.execute();
+        logger.info("Stored procedure for getAllEvents() executed with status "+procedureCallStatus);
+        ResultSet resultSet=callableStatement.getResultSet();
+        List<Event> listOfAllEvents=new ArrayList<>();
+        if(procedureCallStatus)
+        {
+            while(resultSet.next())
+            {
+                Event event = new EventBuilder().setOrganizerEmailID(resultSet.getString(1)).setEventName(resultSet.getString(2)).setDescription(resultSet.getString(3)).setVenue(resultSet.getString(4)).setStartDate(resultSet.getString(6)).setEndDate(resultSet.getString(7)).setStartTime(resultSet.getString(8)).setEndTime(resultSet.getString(9)).setEventTopic(resultSet.getString(10)).createEvent();
+                listOfAllEvents.add(event);
+            }
             logger.info("getAllEvents(): list of all events created successfully");
             logger.info("Exiting DataLayer: returning list of all events to Service Layer");
             return listOfAllEvents;
@@ -142,17 +148,7 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         List<Event> listOfAllEvents = new ArrayList<>();
         if (procedureCallStatus) {
             while (resultSet.next()) {
-                Event event = new Event();
-                event.setOrganizerEmailID(resultSet.getString(1));
-                event.setEventName(resultSet.getString(2));
-                event.setDescription(resultSet.getString(3));
-                event.setVenue(resultSet.getString(4));
-                event.setImage(resultSet.getString(5));
-                event.setStartDate(resultSet.getString(6));
-                event.setEndDate(resultSet.getString(7));
-                event.setStartTime(resultSet.getString(8));
-                event.setEndTime(resultSet.getString(9));
-                event.setEventTopic(resultSet.getString(10));
+                Event event = new EventBuilder().setOrganizerEmailID(resultSet.getString(1)).setEventName(resultSet.getString(2)).setDescription(resultSet.getString(3)).setVenue(resultSet.getString(4)).setStartDate(resultSet.getString(6)).setEndDate(resultSet.getString(7)).setStartTime(resultSet.getString(8)).setEndTime(resultSet.getString(9)).setEventTopic(resultSet.getString(10)).createEvent();
                 listOfAllEvents.add(event);
             }
             logger.info("getEventsByUser(): list of all events created successfully");
@@ -211,7 +207,10 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         ResultSet resultSet = callableStatement.getResultSet();
         List<Event> eventDetails = new ArrayList<>();
         if (procedureCallStatus) {
-            setEventFromResultSet(resultSet, eventDetails);
+            while (resultSet.next()) {
+                Event event = new EventBuilder().setOrganizerEmailID(resultSet.getString(9)).setEventName(resultSet.getString(1)).setDescription(resultSet.getString(3)).setVenue(resultSet.getString(8)).setStartDate(resultSet.getString(4)).setEndDate(resultSet.getString(5)).setStartTime(resultSet.getString(6)).setEndTime(resultSet.getString(7)).setEventTopic(resultSet.getString(2)).createEvent();
+                eventDetails.add(event);
+            }
             logger.info("getEventDetails(): get the list of all events details successfully");
             logger.info("Exiting DataLayer: returning list of all events details to Service Layer");
 
@@ -229,19 +228,19 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
      */
     private void setEventFromResultSet(ResultSet resultSet, List<Event> eventDetails) throws SQLException {
         while (resultSet.next()) {
-            Event event = new Event();
-            event.setEventID(resultSet.getString(1));
-            event.setClubID(resultSet.getString(2));
-            event.setOrganizerEmailID(resultSet.getString(3));
-            event.setEventName(resultSet.getString(4));
-            event.setDescription(resultSet.getString(5));
-            event.setVenue(resultSet.getString(6));
-            event.setImage(resultSet.getString(7));
-            event.setStartDate(resultSet.getString(8));
-            event.setEndDate(resultSet.getString(9));
-            event.setStartTime(resultSet.getString(10));
-            event.setEndTime(resultSet.getString(11));
-            event.setEventTopic(resultSet.getString(12));
+            Event event = new EventBuilder()
+                    .setEventID(resultSet.getString(1))
+                    .setClubID(resultSet.getString(2))
+                    .setOrganizerEmailID(resultSet.getString(3))
+                    .setEventName(resultSet.getString(4))
+                    .setDescription(resultSet.getString(5))
+                    .setVenue(resultSet.getString(6))
+                    .setImage(resultSet.getString(7))
+                    .setStartDate(resultSet.getString(8))
+                    .setEndDate(resultSet.getString(9))
+                    .setStartTime(resultSet.getString(10))
+                    .setEndTime(resultSet.getString(11))
+                    .setEventTopic(resultSet.getString(12)).createEvent();
             eventDetails.add(event);
         }
     }

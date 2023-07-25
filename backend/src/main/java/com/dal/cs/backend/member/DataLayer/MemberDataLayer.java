@@ -4,6 +4,7 @@ import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.member.MemberObject.Member;
+import com.dal.cs.backend.member.ObjectBuilder.MemberBuilder;
 import com.dal.cs.backend.member.ServiceLayer.MemberServiceLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,16 +77,17 @@ public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
                 ResultSet resultSet = callableStatement.getResultSet();
                 if (resultSet.next()) {
                     logger.info("[Member][Data] Found member");
-                    Member member = new Member(emailId);
-                    member.setFirstName(resultSet.getString("firstName"));
-                    member.setLastName(resultSet.getString("lastName"));
                     MemberType memberType = MemberType.fromString(resultSet.getString("userType"));
-                    member.setMemberType(memberType);
-                    member.setProgram(resultSet.getString("program"));
-                    member.setTerm(resultSet.getInt("term"));
-                    member.setMobile(resultSet.getString("mobileNumber"));
-                    member.setDob(resultSet.getDate("DOB").toLocalDate());
-                    member.setPassword(resultSet.getString("password"));
+                    Member member = new MemberBuilder()
+                            .setFirstName(resultSet.getString("firstName"))
+                            .setLastName(resultSet.getString("lastName"))
+                            .setMemberType(memberType)
+                            .setProgram(resultSet.getString("program"))
+                            .setTerm(resultSet.getInt("term"))
+                            .setMobile(resultSet.getString("mobileNumber"))
+                            .setDob(resultSet.getDate("DOB").toLocalDate())
+                            .setPassword(resultSet.getString("password"))
+                            .createMember();
                     return member;
                 }
             }
