@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 @PropertySource("classpath:security.properties")
 public class SecurityConstants {
-    public static final long JWT_EXPIRATION = 7000000;
+    public static final long JWT_EXPIRATION = 10000;
     public static final String issuer = "Dal Clubs";
     //TODO: Replace static secret to @Value
     @Value("${JWT_SECRET}")

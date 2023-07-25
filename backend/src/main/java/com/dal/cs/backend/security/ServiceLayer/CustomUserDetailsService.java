@@ -41,4 +41,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.name())).collect(Collectors.toList());
     }
+
+    public Collection<GrantedAuthority> getMemberAuthorities(String emailId) {
+        Member member = iMemberDataLayer.getMember(emailId);
+        return mapRoleToAuthority(member.getMemberType());
+    }
 }
