@@ -1,10 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
-import useAuth from "../hooks/useAuth";
-import axios from '../axiosConfiguration';
+import useAuth from '../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import '../css/login.module.css';
-const LOGIN_URL = '/unauthenticated/login';
 
+import axios from '../api/axios';
+const LOGIN_URL = '/auth';
 
 const Login = () => {
     const { setAuth, persist, setPersist } = useAuth();
@@ -33,7 +32,7 @@ const Login = () => {
 
         try {
             const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ emailID: user, password: pwd }),
+                JSON.stringify({ user, pwd }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -49,7 +48,6 @@ const Login = () => {
             navigate(from, { replace: true });
         } catch (err) {
             if (!err?.response) {
-                console.log(err)
                 setErrMsg('No Server Response');
             } else if (err.response?.status === 400) {
                 setErrMsg('Missing Username or Password');
@@ -61,7 +59,7 @@ const Login = () => {
             errRef.current.focus();
         }
     }
-    
+
     const togglePersist = () => {
         setPersist(prev => !prev);
     }

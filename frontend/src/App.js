@@ -10,6 +10,7 @@ import { Routes, Route } from 'react-router-dom';
 import Unauthorized from './Pages/Unauthorized';
 import Missing from './Pages/Missing';
 import AdminHomePage from './Pages/AdminHomePage';
+import PersistLogin from './Components/PersistLogin';
 
 const ROLES = {
   'member': 'member',
@@ -26,15 +27,16 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="unauthorized" element={<Unauthorized />} />
-          
+
           <Route path="FindClubs" element={<FindAllClubs />} />
           <Route path="club/:clubName" element={<ClubPage />} />
 
           {/* we want to protect these routes */}
-          <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>
-            <Route path="admin" element={<AdminHomePage />} />
+          <Route element={<PersistLogin />}>
+            <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>
+              <Route path="admin" element={<AdminHomePage />} />
+            </Route>
           </Route>
-
           {/* catch all */}
           <Route path="*" element={<Missing />} />
         </Route>
