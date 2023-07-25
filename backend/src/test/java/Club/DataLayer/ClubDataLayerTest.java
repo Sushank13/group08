@@ -7,6 +7,7 @@ import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
 import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -121,11 +122,11 @@ public class ClubDataLayerTest {
 
     @Test
     public void getAllJoinClubRequestsTest() {
-        //TODO: Add assertion for list of club requests
+        //TODO: Add club random generator for club creation
         try {
-            List<JoinClubRequest> joinClubRequestList = iclubDataLayer.getAllJoinClubRequests();
+            List<JoinClubRequest> joinClubRequestList = iclubDataLayer.getAllJoinClubRequests("CLB_2");
             System.out.println("List of request and email: \n" + joinClubRequestList.get(0).getRequestID() + " " + joinClubRequestList.get(0).getRequesterEmailID());
-            ;
+            Assertions.assertTrue(joinClubRequestList.size() > 0);
         } catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }

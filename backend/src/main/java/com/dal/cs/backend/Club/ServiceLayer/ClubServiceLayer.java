@@ -365,11 +365,15 @@ public class ClubServiceLayer implements  IClubServiceLayer
         return resultStatus;
     }
 
+    /**
+     * Gets list of all join club requests for a particular club
+     * @return
+     */
     @Override
-    public List<JoinClubRequest> getAllJoinClubRequests() {
+    public List<JoinClubRequest> getAllJoinClubRequests(String clubID) {
         try {
             logger.info("Service Layer Entered: Entered getAllJoinClubRequests- Calling Data layer getAllJoinClubRequests");
-            List<JoinClubRequest> joinClubRequestList = iClubDataLayer.getAllJoinClubRequests();
+            List<JoinClubRequest> joinClubRequestList = iClubDataLayer.getAllJoinClubRequests(clubID);
             logger.info("Exiting Service Layer: Returning join club requests to Controller");
             return joinClubRequestList;
         } catch (SQLException e) {

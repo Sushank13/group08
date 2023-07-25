@@ -489,11 +489,12 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
     }
 
     @Override
-    public List<JoinClubRequest> getAllJoinClubRequests() throws SQLException {
+    public List<JoinClubRequest> getAllJoinClubRequests(String clubID) throws SQLException {
         if (connection != null) {
             logger.info("Data Layer Entered: Entered getAllJoinClubRequests()");
-            callProcedure = getProcedureCallString("getAllJoinClubRequests", 0);
+            callProcedure = getProcedureCallString("getAllJoinClubRequests", 1);
             callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1, clubID);
             boolean procedureCallStatus = callableStatement.execute();
             ResultSet resultSet = callableStatement.getResultSet();
             List<JoinClubRequest> joinClubRequests = new ArrayList<>();

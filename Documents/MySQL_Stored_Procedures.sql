@@ -255,12 +255,13 @@ BEGIN
 END //
 DELIMITER ;
 
--- Procedure to get all join club requests
+-- Procedure to get all join club requests with club ID
 DELIMITER //
-CREATE PROCEDURE getAllJoinClubRequests()
+CREATE PROCEDURE getAllJoinClubRequests(IN clubID VARCHAR(50))
 BEGIN
     SELECT requestID, requestorEmailID, clubID, joiningReason, requestStatus
-    FROM joinClubRequest;
+    FROM joinClubRequest
+    WHERE joinClubRequest.clubID = clubID;
 END //
 DELIMITER ;
 
