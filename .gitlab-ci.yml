@@ -33,6 +33,9 @@ build_frontend:
         - npm install
         - npm run build 
         - echo "Completed - React Build stage"    
+    tags:
+        - grad
+
 # Executing tests in backend project
 test_backend:
     stage: test_stage
@@ -67,6 +70,9 @@ deploy_backend:
         - envsubst < src/main/resources/database.properties | sponge src/main/resources/database.properties
         - curl -s "https://api.render.com/deploy/srv-${RENDER_DEPLOY_KEY_1}?key=${RENDER_DEPLOY_KEY_2}" 
         - echo "Completed - Deploying Springboot"
+    tags:
+        - grad
+
     # Execute Deploy only when commits are made on production 'main' branch
     only:
         - main
