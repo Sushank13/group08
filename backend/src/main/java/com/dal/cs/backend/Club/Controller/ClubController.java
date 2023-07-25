@@ -176,6 +176,13 @@ public class ClubController
         logger.info("Exiting Controller: Returning service layer response result to Frontend via POST /deleteClub");
         return responseResult;
     }
+
+    /**
+     * This method receives the api call to submit a request for joining a club.
+     * @param joinClubRequest is the entity to which the details of a join club request are mapped
+     * @return a message with the request id if the request is submitted or an error message if
+     * request could not be submitted.
+     */
     @RequestMapping(method = RequestMethod.POST,value="/member/joinClubRequest")
     public String submitJoinClubRequest(@RequestBody JoinClubRequest joinClubRequest)
     {
