@@ -486,7 +486,7 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
     }
 
     /**
-     * This method calls a procedure that fetches the Latest Join Club RequestId.
+     * This method calls a stored procedure that fetches the Latest Join Club RequestId.
      * @return the latest request id else return null
      * @throws SQLException
      */
