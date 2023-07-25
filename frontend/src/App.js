@@ -5,6 +5,8 @@ import LayoutNavbar from './Pages/LayoutNavbar';
 import Home from './Pages/Home';
 import FindAllClubs from './Pages/FindAllClubs';
 import ClubPage from './Pages/ClubPage';
+import FindAllEvents from './Pages/FindAllEvents';
+import EventPage from './Pages/EventPage';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +23,14 @@ const router = createBrowserRouter([
       {
         path: "/club/:clubName",
         element: <ClubPage />
+      },
+      {
+        path: "/FindEvents",
+        element: <FindAllEvents />
+      },
+      {
+        path: "/event/:eventName",
+        element: <EventPage />
       }
     ]
   }

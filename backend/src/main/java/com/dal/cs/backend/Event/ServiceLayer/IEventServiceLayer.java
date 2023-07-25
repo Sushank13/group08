@@ -18,4 +18,6 @@ public interface IEventServiceLayer {
     boolean updateEventDetails(Event event);
 
     boolean deleteEvent(String eventID);
+
+    List<Event> getEventsByClub(String clubId);
 }
