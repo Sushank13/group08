@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.ObjectBuilder.ClubBuilder;
 import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
@@ -480,6 +481,57 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
         }
         else {
             logger.error("Exception: Database Connection not established.");
+            return false;
+        }
+    }
+    @Override
+    public String getLatestJoinClubRequestId() throws SQLException
+    {
+        logger.info("Entered Datalayer: inside getLatestJoinClubRequestId() ");
+        logger.info("Executing stored procedure to get latest join club request id");
+        callProcedure="{CALL getLatestJoinClubRequestId()}";
+        callableStatement=connection.prepareCall(callProcedure);
+        boolean procedureCallStatus=callableStatement.execute();
+        logger.info("Procedure to get latest join club request id called with status "+procedureCallStatus);
+        if(procedureCallStatus)
+        {
+            ResultSet resultSet = callableStatement.getResultSet();
+            boolean resultStatus = resultSet.next();
+            if (resultStatus)
+            {
+                String latestRequestId = resultSet.getString("requestID");
+                logger.info("Latest join club request id fetched is: "+latestRequestId);
+                logger.info("Exiting Datalayer: returning latest join club request id to Service Layer");
+                return latestRequestId;
+            }
+        }
+        logger.info("Exiting DataLayer: returning join club request id as null to Service Layer");
+        return  null;
+    }
+    public boolean insertJoinClubRequest(JoinClubRequest joinClubRequest) throws SQLException
+    {
+        logger.info("Datalayer: Entered insertJoinClubRequest in DataLayer");
+        callProcedure="{CALL insertJoinClubRequestDetails(?,?,?,?,?)}";
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1,joinClubRequest.getRequestID());
+        callableStatement.setString(2,joinClubRequest.getRequesterEmailID());
+        callableStatement.setString(3,joinClubRequest.getClubID());
+        callableStatement.setString(4,joinClubRequest.getJoiningReason());
+        callableStatement.setString(5,joinClubRequest.getRequestStatus());
+        logger.info("Calling stored procedure to insert Join Club Request");
+        int procedureCallStatus=callableStatement.executeUpdate();
+        if(procedureCallStatus>0)
+        {
+            logger.info("stored procedure called successfully");
+            logger.info("join club request with request id: "+joinClubRequest.getRequestID()+ "inserted successfully");
+            logger.info("Exiting datalayer: returning true to ServiceLayer");
+            return true;
+        }
+        else
+        {
+            logger.info("join club request not inserted.");
+            logger.error("Problem with procedure call or database connection");
+            logger.info("Exiting datalayer: returning false to ServiceLayer");
             return false;
         }
     }

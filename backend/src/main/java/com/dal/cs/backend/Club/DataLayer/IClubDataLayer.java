@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,4 +21,5 @@ public interface IClubDataLayer
    public boolean updateClubRequestStatusToApproved(String requestId) throws  SQLException;
    public boolean updateClubRequestStatusToRejected(String requestId) throws SQLException;
    public boolean deleteClub(String clubID) throws SQLException;
+   public boolean insertJoinClubRequest(JoinClubRequest joinClubRequest) throws  SQLException;
 }
