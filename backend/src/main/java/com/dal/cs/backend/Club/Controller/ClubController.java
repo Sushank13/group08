@@ -183,7 +183,7 @@ public class ClubController
      * @param presidentEmailID String
      * @return List of all join club requests of club managed by president
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/unauthenticated/getAllJoinClubRequests")
+    @RequestMapping(method = RequestMethod.GET, value = "/president/getAllJoinClubRequests")
     public List<JoinClubRequest> getAllJoinClubRequests(String clubID, String presidentEmailID) {
         logger.info("Controller Entered: Received request for getting all join club requests based on club ID.");
         List<JoinClubRequest> joinClubRequestList = iClubServiceLayer.getAllJoinClubRequests(clubID, presidentEmailID);
