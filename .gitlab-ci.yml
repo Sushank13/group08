@@ -22,6 +22,9 @@ build_backend:
             - target/*.jar
     tags:
         - dalfcs_gitlab_docker_ci
+    rules:
+        - changes: 
+            - backend/*
 # Building the frontend project
 build_frontend:
     stage: build_stage
@@ -35,6 +38,9 @@ build_frontend:
         - echo "Completed - React Build stage"    
     tags:
         - dalfcs_gitlab_docker_ci
+    rules:
+        - changes: 
+            - frontend/*   
 
 # Executing tests in backend project
 test_backend:
@@ -56,6 +62,9 @@ test_backend:
             - target/*.jar
     tags:
         - dalfcs_gitlab_docker_ci
+    rules:
+        - changes: 
+            - backend/*
 # Deploy the backend build on Render.com
 deploy_backend:
     stage: deploy_stage
