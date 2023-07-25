@@ -17,7 +17,7 @@ const fetchClubDetails = async (clubName) => {
 
 const fetchEventDetailsByClub = async (clubID) => {
   try {
-    const response = await axios.get(`/getEventByClub/${clubID}`);
+    const response = await axios.get(`/unauthenticated/getEventByClub/${clubID}`);
     return response.data;
   } catch (error) {
     console.log(error);

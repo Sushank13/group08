@@ -134,7 +134,7 @@ public class EventController {
      * @param clubID is the club id on which the event details are to be filtered
      * @return list of event details filtered based on club ID
      */
-    @RequestMapping(method = RequestMethod.GET, value="/getEventByClub/{clubID}")
+    @RequestMapping(method = RequestMethod.GET, value="/unauthenticated/getEventByClub/{clubID}")
     public List<Event> getEventsByClub(@PathVariable("clubID") String clubID)
     {
         logger.info("Controller Entered: Received request to get events by clubID");
