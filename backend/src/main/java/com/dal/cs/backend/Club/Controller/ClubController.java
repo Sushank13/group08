@@ -16,8 +16,13 @@ import java.util.List;
 public class ClubController
 {
     private static final Logger logger= LogManager.getLogger(ClubController.class);
-    @Autowired
+
     IClubServiceLayer iClubServiceLayer;
+
+    @Autowired
+    public ClubController(IClubServiceLayer iClubServiceLayer) {
+        this.iClubServiceLayer = iClubServiceLayer;
+    }
 
     /**
      * This method accepts the club details  for a new club request.
