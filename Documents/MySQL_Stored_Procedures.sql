@@ -255,6 +255,20 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Procedure to get all join club requests with club ID
+DELIMITER //
+CREATE PROCEDURE getAllJoinClubRequests(IN clubID VARCHAR(50), IN presidentEmailID VARCHAR(255))
+BEGIN
+    SELECT requestID, requestorEmailID, clubID, joiningReason, requestStatus
+    FROM joinClubRequest
+    INNER JOIN club
+    ON joinClubRequest.clubID = club.clubID
+    WHERE joinClubRequest.clubID = clubID
+    AND club.presidentEmailID = presidentEmailID;
+END //
+DELIMITER ;
+
+
 -- Procedure to get the latest join club request id
 DELIMITER //
 CREATE PROCEDURE getLatestJoinClubRequestId()
@@ -276,7 +290,7 @@ DELIMITER //
 CREATE PROCEDURE updateJoinClubRequestStatusToApproved(IN requestId VARCHAR(50))
 BEGIN
      UPDATE joinClubRequest as jcr
-     SET requestStatus="APPROVED" 
+     SET requestStatus="APPROVED"
      WHERE jcr.requestID=requestId;
 END //
 DELIMITER ;

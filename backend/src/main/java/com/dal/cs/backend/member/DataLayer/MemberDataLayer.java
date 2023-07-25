@@ -1,5 +1,6 @@
 package com.dal.cs.backend.member.DataLayer;
 
+import com.dal.cs.backend.baseUtils.Enum.EnumUtils;
 import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import com.dal.cs.backend.member.Enum.MemberType;
@@ -77,8 +78,9 @@ public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
                 ResultSet resultSet = callableStatement.getResultSet();
                 if (resultSet.next()) {
                     logger.info("[Member][Data] Found member");
-                    MemberType memberType = MemberType.fromString(resultSet.getString("userType"));
+                    MemberType memberType = EnumUtils.fromString(MemberType.class, resultSet.getString("userType"));
                     Member member = new MemberBuilder()
+                            .setEmailId(emailId)
                             .setFirstName(resultSet.getString("firstName"))
                             .setLastName(resultSet.getString("lastName"))
                             .setMemberType(memberType)

@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Club.Controller;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.ServiceLayer.IClubServiceLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -174,6 +175,20 @@ public class ClubController
         boolean responseResult = iClubServiceLayer.deleteClub(clubID);
         logger.info("Exiting Controller: Returning service layer response result to Frontend via POST /deleteClub");
         return responseResult;
+    }
+
+    /**
+     * Get all join club requests using club ID and president email ID
+     * @param clubID String
+     * @param presidentEmailID String
+     * @return List of all join club requests of club managed by president
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/president/getAllJoinClubRequests")
+    public List<JoinClubRequest> getAllJoinClubRequests(String clubID, String presidentEmailID) {
+        logger.info("Controller Entered: Received request for getting all join club requests based on club ID.");
+        List<JoinClubRequest> joinClubRequestList = iClubServiceLayer.getAllJoinClubRequests(clubID, presidentEmailID);
+        logger.info("Exiting Controller: Returning service layer response result to Frontend via POST /deleteClub");
+        return joinClubRequestList;
     }
 
 }
