@@ -285,3 +285,21 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Procedure to update join club request status to approved
+DELIMITER //
+CREATE PROCEDURE updateJoinClubRequestStatusToApproved(IN requestId VARCHAR(50))
+BEGIN
+     UPDATE joinClubRequest as jcr
+     SET requestStatus="APPROVED"
+     WHERE jcr.requestID=requestId;
+END //
+DELIMITER ;
+
+-- Procedure to delete join club request on rejection
+DELIMITER //
+CREATE PROCEDURE deleteJoinClubRequest(IN requestId VARCHAR(50))
+BEGIN
+   DELETE FROM joinClubRequest
+   WHERE joinClubRequest.requestID=requestId;
+END //
+DELIMITER ;
