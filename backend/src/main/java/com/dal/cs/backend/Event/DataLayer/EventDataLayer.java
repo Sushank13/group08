@@ -25,7 +25,7 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         super(iDatabaseConnection);
     }
 
-    public static IEventDataLayer getInstance(IDatabaseConnection iDatabaseConnection) {
+    public static EventDataLayer getInstance(IDatabaseConnection iDatabaseConnection) {
         return new EventDataLayer(iDatabaseConnection);
     }
 

@@ -1,13 +1,13 @@
 package com.dal.cs.backend.Club.ServiceLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
-import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
 import com.dal.cs.backend.Club.Enum.RequestStatus;
 import com.dal.cs.backend.Club.Enum.RequestType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -23,9 +23,14 @@ public class ClubServiceLayer implements  IClubServiceLayer
     IClubDataLayer iClubDataLayer;
     IClubSecondDataLayer iClubSecondDataLayer;
 
-    public ClubServiceLayer() {
-        iClubDataLayer = new ClubDataLayer();
-        iClubSecondDataLayer = new ClubDataLayer();
+    @Autowired
+    public ClubServiceLayer(IClubDataLayer iClubDataLayer, IClubSecondDataLayer iClubSecondDataLayer) {
+        this.iClubDataLayer = iClubDataLayer;
+        this.iClubSecondDataLayer = iClubSecondDataLayer;
+    }
+
+    public static ClubServiceLayer getInstance(IClubDataLayer iClubDataLayer, IClubSecondDataLayer iClubSecondDataLayer) {
+        return new ClubServiceLayer(iClubDataLayer, iClubSecondDataLayer);
     }
 
     /**

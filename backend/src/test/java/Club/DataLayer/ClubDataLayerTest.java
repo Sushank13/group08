@@ -4,6 +4,8 @@ import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
+import com.dal.cs.backend.database.DatabaseConnection;
+import com.dal.cs.backend.database.IDatabaseConnection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ClubDataLayerTest {
@@ -22,9 +23,9 @@ public class ClubDataLayerTest {
 
     @BeforeEach
     public void beforeTestRun() {
-
-        iclubDataLayer = new ClubDataLayer();
-        iclubSecondDataLayer = new ClubDataLayer();
+        IDatabaseConnection iDatabaseConnection = DatabaseConnection.getInstance();
+        iclubDataLayer = ClubDataLayer.getInstance(iDatabaseConnection);
+        iclubSecondDataLayer = ClubDataLayer.getInstance(iDatabaseConnection);
     }
 
     @Test

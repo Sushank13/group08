@@ -1,8 +1,13 @@
 package Club.ServiceLayer;
 
+import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
+import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
+import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
 import com.dal.cs.backend.Club.ServiceLayer.ClubServiceLayer;
 import com.dal.cs.backend.Club.ServiceLayer.IClubServiceLayer;
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.database.DatabaseConnection;
+import com.dal.cs.backend.database.IDatabaseConnection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,8 +24,12 @@ public class ClubServiceLayerTest
 
     @BeforeEach
     public void beforeTestRun() {
-        iclubServiceLayer = new ClubServiceLayer() ;
+        IDatabaseConnection iDatabaseConnection = DatabaseConnection.getInstance();
+        IClubDataLayer iClubDataLayer =  ClubDataLayer.getInstance(iDatabaseConnection);
+        IClubSecondDataLayer iClubSecondDataLayer = ClubDataLayer.getInstance(iDatabaseConnection);
+        iclubServiceLayer = ClubServiceLayer.getInstance(iClubDataLayer, iClubSecondDataLayer) ;
     }
+
     @Test
     public void getAllClubCategoriesTest() {
         try {
