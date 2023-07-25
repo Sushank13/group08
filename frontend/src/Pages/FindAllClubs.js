@@ -9,7 +9,7 @@ function FindAllClubs() {
 
   const getAllClubs = async () => {
     try {
-      const response = await axios.get('/getAllClubs');
+      const response = await axios.get('/unauthenticated/getAllClubs');
       setClubsData(response.data);
     } catch (error) {
       console.log(error);
@@ -18,7 +18,7 @@ function FindAllClubs() {
 
   const findClubByName = async () => {
     try {
-      const response = await axios.get('/getClubByName/'+searchQuery);
+      const response = await axios.get('/unauthenticated/getClubByName/'+searchQuery);
       setClubsData(response.data);
     } catch (error) {
       console.log(error);

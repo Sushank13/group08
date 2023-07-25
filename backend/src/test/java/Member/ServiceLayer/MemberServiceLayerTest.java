@@ -1,12 +1,10 @@
 package Member.ServiceLayer;
 
-import com.dal.cs.backend.authentication.dataLayer.ILoginDataLayer;
-import com.dal.cs.backend.authentication.dataLayer.LoginDataLayer;
 import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import com.dal.cs.backend.member.DataLayer.IMemberDataLayer;
 import com.dal.cs.backend.member.DataLayer.MemberDataLayer;
-import com.dal.cs.backend.member.MemberObject.MemberWithLoginCredential;
+import com.dal.cs.backend.member.MemberObject.Member;
 import com.dal.cs.backend.member.ServiceLayer.MemberServiceLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,18 +26,17 @@ public class MemberServiceLayerTest {
     public void beforeAll() {
         IDatabaseConnection databaseConnection = DatabaseConnection.getInstance();
         memberDataLayer = MemberDataLayer.getInstance(databaseConnection);
-        ILoginDataLayer loginDataLayer = LoginDataLayer.getInstance(databaseConnection);
 
-        memberServiceLayer = MemberServiceLayer.getInstance(memberDataLayer, loginDataLayer);
+        memberServiceLayer = MemberServiceLayer.getInstance(memberDataLayer);
     }
 
     @Test
     public void createNewMemberRequestTest() {
-//        MemberWithLoginCredential newMember = RandomGenerator.generateRandomDalClubMemberWithLoginCredential();
-//        logger.info("[Test][Member][Service] Created test member with emailId: " + newMember.getEmailId());
-//        Assertions.assertNotNull(memberServiceLayer.createNewMemberRequest(newMember));
-//
-//        //Clean up
-//        memberDataLayer.deleteMember(newMember.getEmailId());
+        Member newMember = RandomGenerator.generateRandomDalClubMember();
+        logger.info("[Test][Member][Service] Created test member with emailId: " + newMember.getEmailId());
+        Assertions.assertNotNull(memberServiceLayer.createNewMemberRequest(newMember));
+
+        //Clean up
+        memberDataLayer.deleteMember(newMember.getEmailId());
     }
 }

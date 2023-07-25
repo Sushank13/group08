@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../axiosConfiguration';
+import axios, { axiosPrivate } from '../axiosConfiguration';
 import { useParams, NavLink } from 'react-router-dom';
-import { Box, Flex, Text, Link,  Icon, Divider, Button, useToast } from '@chakra-ui/react'; 
+import { Box, Flex, Text, Link,  Icon, Divider, Button, useToast } from '@chakra-ui/react';
 import { BsFacebook, BsInstagram } from 'react-icons/bs';
-
+import { getEmailID } from '../hooks/useEmail';
 // https://chakra-ui.com/docs/components/link
 const fetchClubDetails = async (clubName) => {
   try {
-    const response = await axios.get(`/getClubByName/${clubName}`);
+    const response = await axios.get(`/unauthenticated/getClubByName/${clubName}`);
     return response.data[0];
   } catch (error) {
     console.log(error);
@@ -17,7 +17,7 @@ const fetchClubDetails = async (clubName) => {
 
 const fetchEventDetailsByClub = async (clubID) => {
   try {
-    const response = await axios.get(`/getEventByClub/${clubID}`);
+    const response = await axios.get(`/unauthenticated/getEventByClub/${clubID}`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -25,27 +25,30 @@ const fetchEventDetailsByClub = async (clubID) => {
   }
 };
 
-// const joinClubHandler = async (clubID) => {
-//   try {
-//     const response = await axios.get(`/joinClub/${clubID}/${emailID}`);
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//     return null;
-//   }
-// };
+const joinClubHandler = async (clubID, emailID) => {
+  console.log(clubID +" clb user " + emailID);
+  try {
+    console.log(clubID +" clb user " + emailID);
+    const response = await axiosPrivate.get(`/member/joinClub/${clubID}/${emailID}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
 
 function ClubPage() {
   const { clubName } = useParams(); 
   const [clubDetails, setClubDetails] = useState([]);
   const [eventDetails, setEventDetails] = useState([]);
+  const emailID = getEmailID() || null;
 
   useEffect(() => {
     const getClubDetails = async () => {
       const clubDetails = await fetchClubDetails(clubName);
       console.log(clubDetails);
       setClubDetails(clubDetails);
-      
+
       const eventsResponse = await fetchEventDetailsByClub(clubDetails.clubID)
       console.log(eventsResponse);
       setEventDetails(eventsResponse);
@@ -54,9 +57,20 @@ function ClubPage() {
   }, [clubName]); 
 
   const toast = useToast();
-  const handleRegistration = async () => {
-    var response = (Math.random() < 0.5);
-  
+  const handleRegistration = (clubDetails, emailID) => {
+    console.log(emailID + " " + !emailID)
+    if (!emailID) {
+        toast({
+          title: 'Oops!',
+          description: 'Unable to register for this club at the given time. Please sign in.',
+          status: 'error',
+          duration: 10000,
+          isClosable: true,
+        });
+        return;
+    }
+    var response = joinClubHandler(clubDetails.clubID, emailID)
+
     if (response) {
       toast({
         title: 'Successful',
@@ -93,13 +107,13 @@ function ClubPage() {
             </Text>
             <Text fontSize="md" pt="50px">
               <Text fontWeight="bold">Overview: </Text>  {clubDetails.description}</Text>
-            
+
             <Text fontSize="md" pt="20px">
               <Text display="inline" fontWeight="bold">President Email ID: </Text> {clubDetails.presidentEmailID}
             </Text>
-            
-            <Text fontSize="md" pt="20px" pb="20px"> 
-              You can reach out to us on our Socials: 
+
+            <Text fontSize="md" pt="20px" pb="20px">
+              You can reach out to us on our Socials:
             </Text>
             <Text ml="25px" color={global.DalClubCommons.green}>
               <Link href={clubDetails.facebookLink} isExternal display="flex" alignItems="center" align="center">
@@ -122,21 +136,21 @@ function ClubPage() {
           </Box>
 
           <Flex mt="50px">
-            <Button left="50%" transform="translateX(-50%)" width="200px" onClick={() => handleRegistration(clubDetails)} color="white" bg={global.DalClubCommons.black}>JOIN CLUB</Button>
+            <Button left="50%" transform="translateX(-50%)" width="200px" onClick={() => handleRegistration(clubDetails, emailID)} color="white" bg={global.DalClubCommons.black}>JOIN CLUB</Button>
           </Flex>
           <Text mt="25px" mb="15px" fontWeight="bold">Ongoing and Upcoming Events: </Text>
           <Divider />
           {eventDetails.map((eventDetails, index) => (
           <Box key={index} borderWidth="1px" borderRadius="lg" overflow="hidden" m="20px">
                <Box key={index}  bg="white" p="20px" rounded="md">
-               <Text fontSize="14px" color={global.DalClubCommons.gray}> 
+               <Text fontSize="14px" color={global.DalClubCommons.gray}>
                 {eventDetails.eventTopic}
               </Text>
 
-              <Text fontSize="xl" margin="12px 0" > 
+              <Text fontSize="xl" margin="12px 0" >
                 {eventDetails.eventName.toUpperCase()}
               </Text>
-              
+
               <Text fontSize="md" lineHeight="1.6em" margin="12px 0" color={global.DalClubCommons.textColor} >
                 {eventDetails.description}
               </Text>
