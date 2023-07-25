@@ -7,12 +7,16 @@ import FindAllClubs from './Pages/FindAllClubs';
 import ClubPage from './Pages/ClubPage';
 import FindAllEvents from './Pages/FindAllEvents';
 import EventPage from './Pages/EventPage';
+import Admin from './Pages/Admin';
+import NewClubRequest from './Pages/NewClubRequest';
+import NewClubRequestForm from './Pages/NewClubRequestForm';
+import ClubMembershipForm from './Pages/ClubMembershipForm';
 
 const router = createBrowserRouter([
   {
     element: <LayoutNavbar />,
     children: [
-      { 
+      {
         path: "/",
         element: <Home />
       },
@@ -31,6 +35,22 @@ const router = createBrowserRouter([
       {
         path: "/event/:eventName",
         element: <EventPage />
+      },
+      {
+        path: "/Admin",
+        element: <Admin />
+      },
+      {
+        path: "/newclubrequest",
+        element: <NewClubRequest />
+      },
+      {
+        path: "/newclubrequestform",
+        element: <NewClubRequestForm />
+      },
+      {
+        path: "/clubmembershipform",
+        element: <ClubMembershipForm />
       }
     ]
   }
@@ -39,7 +59,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <ChakraProvider theme={theme}>
-        <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </ChakraProvider>
   );
 }

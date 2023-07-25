@@ -55,7 +55,7 @@ function FindAllClubs() {
             </Box>
           </Flex>
 
-          {clubsData.map((club, index) => (
+          {clubsData?.map((club, index) => (
             <Box key={index} mt="20px" bg="white" p="20px" rounded="md">
               <Text fontSize="14px" color="rgba(26,26,26,.4)"> 
                 {club.categoryName}

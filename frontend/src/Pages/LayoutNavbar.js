@@ -28,7 +28,12 @@ function LayoutNavbar() {
                     <NavLink to='/FindEvents'>
                     <Text>Find Events</Text>
                     </NavLink>
-                </Box>               
+                </Box>  
+                <Box>
+                    <NavLink to='/Admin'>
+                    <Text>Admin</Text>
+                    </NavLink>
+                </Box>              
             </Flex>
 
             <Outlet />
