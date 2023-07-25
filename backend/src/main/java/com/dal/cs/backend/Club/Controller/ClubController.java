@@ -183,7 +183,7 @@ public class ClubController
      * @return a message with the request id if the request is submitted or an error message if
      * request could not be submitted.
      */
-    @RequestMapping(method = RequestMethod.POST,value="/member/joinClubRequest")
+    @RequestMapping(method = RequestMethod.POST,value="/unauthenticated/joinClubRequest")
     public String submitJoinClubRequest(@RequestBody JoinClubRequest joinClubRequest)
     {
         logger.info("Controller Entered: Received request for joining a club");
