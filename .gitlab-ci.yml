@@ -20,6 +20,8 @@ build_backend:
     artifacts:
         paths:
             - target/*.jar
+    tags:
+        - grad
 # Building the frontend project
 build_frontend:
     stage: build_stage
@@ -49,6 +51,8 @@ test_backend:
     artifacts:
         paths:
             - target/*.jar
+    tags:
+        - grad
 # Deploy the backend build on Render.com
 deploy_backend:
     stage: deploy_stage
@@ -79,3 +83,5 @@ deploy_frontend:
     # Execute Deploy only when commits are made on production 'main' branch
     only:
         - main
+    tags:
+        - grad
