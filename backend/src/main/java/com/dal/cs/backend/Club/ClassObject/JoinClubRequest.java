@@ -8,6 +8,14 @@ public class JoinClubRequest
     private String joiningReason;
     private String requestStatus;
 
+    public JoinClubRequest(String requestID, String requesterEmailID, String clubID, String joiningReason, String requestStatus) {
+        this.requestID = requestID;
+        this.requesterEmailID = requesterEmailID;
+        this.clubID = clubID;
+        this.joiningReason = joiningReason;
+        this.requestStatus = requestStatus;
+    }
+
     public String getRequestID() {
         return requestID;
     }

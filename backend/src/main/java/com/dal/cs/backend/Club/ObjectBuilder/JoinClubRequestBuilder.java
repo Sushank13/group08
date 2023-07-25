@@ -1,5 +1,7 @@
 package com.dal.cs.backend.Club.ObjectBuilder;
 
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
+
 public class JoinClubRequestBuilder
 {
     private String requestID;
@@ -31,5 +33,9 @@ public class JoinClubRequestBuilder
     public JoinClubRequestBuilder setRequestStatus(String requestStatus) {
         this.requestStatus = requestStatus;
         return this;
+    }
+    public JoinClubRequest createJoinClubRequest()
+    {
+        return new JoinClubRequest(requestID,requesterEmailID,clubID,joiningReason,requestStatus);
     }
 }
