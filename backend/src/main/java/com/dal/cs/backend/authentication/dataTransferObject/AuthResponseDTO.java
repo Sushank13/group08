@@ -1,11 +1,16 @@
 package com.dal.cs.backend.authentication.dataTransferObject;
 
+import java.util.List;
+
 public class AuthResponseDTO {
     private String accessToken;
     private String tokenType = "Bearer ";
 
-    public AuthResponseDTO(String accessToken) {
+    private List<String> roles;
+
+    public AuthResponseDTO(String accessToken, List<String> roles) {
         this.accessToken = accessToken;
+        this.roles = roles;
     }
 
     public String getAccessToken() {
@@ -22,5 +27,13 @@ public class AuthResponseDTO {
 
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }
