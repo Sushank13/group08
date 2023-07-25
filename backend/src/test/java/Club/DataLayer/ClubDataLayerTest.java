@@ -124,9 +124,7 @@ public class ClubDataLayerTest {
     public void getAllJoinClubRequestsTest() {
         //TODO: Add club random generator for club creation
         try {
-            List<JoinClubRequest> joinClubRequestList = iclubDataLayer.getAllJoinClubRequests("CLB_2");
-            System.out.println("List of request and email: \n" + joinClubRequestList.get(0).getRequestID() + " " + joinClubRequestList.get(0).getRequesterEmailID());
-            Assertions.assertTrue(joinClubRequestList.size() > 0);
+            Assertions.assertTrue(iclubDataLayer.getAllJoinClubRequests("CLB_2", "user@dal.ca").size() > 0);
         } catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }

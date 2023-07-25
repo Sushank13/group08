@@ -370,10 +370,10 @@ public class ClubServiceLayer implements  IClubServiceLayer
      * @return
      */
     @Override
-    public List<JoinClubRequest> getAllJoinClubRequests(String clubID) {
+    public List<JoinClubRequest> getAllJoinClubRequests(String clubID, String presidentEmailID) {
         try {
             logger.info("Service Layer Entered: Entered getAllJoinClubRequests- Calling Data layer getAllJoinClubRequests");
-            List<JoinClubRequest> joinClubRequestList = iClubDataLayer.getAllJoinClubRequests(clubID);
+            List<JoinClubRequest> joinClubRequestList = iClubDataLayer.getAllJoinClubRequests(clubID ,presidentEmailID);
             logger.info("Exiting Service Layer: Returning join club requests to Controller");
             return joinClubRequestList;
         } catch (SQLException e) {
