@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Club.Controller;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.ServiceLayer.IClubServiceLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -174,6 +175,15 @@ public class ClubController
         boolean responseResult = iClubServiceLayer.deleteClub(clubID);
         logger.info("Exiting Controller: Returning service layer response result to Frontend via POST /deleteClub");
         return responseResult;
+    }
+    @RequestMapping(method = RequestMethod.POST,value="/member/joinClubRequest")
+    public String submitJoinClubRequest(@RequestBody JoinClubRequest joinClubRequest)
+    {
+        logger.info("Controller Entered: Received request for joining a club");
+        logger.info("submitJoinClubRequest(): calling submitJoinClubRequest() of ServiceLayer");
+        String message=iClubServiceLayer.submitJoinClubRequest(joinClubRequest);
+        logger.info("Exiting Controller: returning message if create join club request submitted or not");
+        return message;
     }
 
 }
