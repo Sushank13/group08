@@ -1,3 +1,5 @@
+default:
+  image: maven
 stages:
     - build_stage
     - test_stage
