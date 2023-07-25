@@ -2,7 +2,6 @@ package testUtils;
 
 import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.member.MemberObject.Member;
-import com.dal.cs.backend.member.MemberObject.MemberWithLoginCredential;
 
 import java.time.LocalDate;
 import java.util.Random;
@@ -61,15 +60,8 @@ public class RandomGenerator {
         int term = generateRandomInteger(8);
         String mobile = generateRandomPhoneNumber();
         LocalDate date = generateRandomDate();
-
-        Member  newMember = new Member(email, firstName, lastName, MemberType.member, program, term, mobile, date);
+        String password = generateRandomString(10);
+        Member  newMember = new Member(email, firstName, lastName, MemberType.member, program, term, mobile, date, password);
         return newMember;
     }
-
-    public static MemberWithLoginCredential generateRandomDalClubMemberWithLoginCredential() {
-        Member member = generateRandomDalClubMember();
-        String password = generateRandomString(10);
-        return new MemberWithLoginCredential(member, password);
-    }
-
 }

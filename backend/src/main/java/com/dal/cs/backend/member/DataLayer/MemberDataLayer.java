@@ -40,7 +40,8 @@ public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
 
     public boolean createNewMember(Member member) {
         try {
-            CallableStatement cs = connection.prepareCall("{call MemberSaveNewMember(?,?,?,?,?,?,?,?)}");
+            String procedure = getProcedureCallString("MemberSaveNewMember", 9);
+            CallableStatement cs = connection.prepareCall(procedure);
             cs.setString(1, member.getEmailId());
             cs.setString(2, member.getFirstName());
             cs.setString(3, member.getLastName());
@@ -49,6 +50,7 @@ public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
             cs.setInt(6, member.getTerm());
             cs.setString(7, member.getMobile());
             cs.setDate(8, Date.valueOf(member.getDob()));
+            cs.setString(9, member.getPassword());
             cs.execute();
 
         } catch (SQLException e) {

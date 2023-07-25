@@ -9,7 +9,7 @@ function FindAllEvents() {
 
   const getAllEvents = async () => {
     try {
-      const response = await axios.get('/getAllEvents');
+      const response = await axios.get('/unauthenticated/getAllEvents');
       console.log(response.data); 
       setEventsData(response.data); 
     } catch (error) {
@@ -20,7 +20,7 @@ function FindAllEvents() {
   const findEventByName = async () => {
     try {
       console.log('/getEventDetails/'+searchQuery);
-      const response = await axios.get('/getEventDetails/'+searchQuery);
+      const response = await axios.get('/unauthenticated/getEventDetails/'+searchQuery);
       console.log(response.data);  
       setEventsData(response.data); 
     } catch (error) {

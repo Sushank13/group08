@@ -14,6 +14,7 @@ build_backend:
         - apt-get update
         - apt-get install gettext-base moreutils -y
         - envsubst < src/main/resources/database.properties | sponge src/main/resources/database.properties
+        - envsubst < src/main/resources/security.properties | sponge src/main/resources/security.properties
         - mvn clean install # compile, package, and install
         - echo "Completed - Maven Build stage"
     artifacts:
@@ -42,6 +43,7 @@ test_backend:
         - apt-get update
         - apt-get install gettext-base moreutils -y
         - envsubst < src/main/resources/database.properties | sponge src/main/resources/database.properties
+        - envsubst < src/main/resources/security.properties | sponge src/main/resources/security.properties
         - mvn test
         - echo "Completed - Testing Maven Build"
     artifacts:
