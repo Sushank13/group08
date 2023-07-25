@@ -1,9 +1,9 @@
 package Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
-import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
 import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,8 +24,8 @@ public class ClubDataLayerTest {
     @BeforeEach
     public void beforeTestRun() {
         IDatabaseConnection iDatabaseConnection = DatabaseConnection.getInstance();
-        iclubDataLayer = (IClubDataLayer) EventDataLayer.getInstance(iDatabaseConnection);
-        iclubSecondDataLayer = (IClubSecondDataLayer) EventDataLayer.getInstance(iDatabaseConnection);
+        iclubDataLayer = ClubDataLayer.getInstance(iDatabaseConnection);
+        iclubSecondDataLayer = ClubDataLayer.getInstance(iDatabaseConnection);
     }
 
     @Test
