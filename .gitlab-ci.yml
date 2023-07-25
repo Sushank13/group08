@@ -23,7 +23,7 @@ build_backend:
         paths:
             - target/*.jar
     tags:
-        - grad
+        - dalfcs_gitlab_docker_ci
 # Building the frontend project
 build_frontend:
     stage: build_stage
@@ -36,7 +36,7 @@ build_frontend:
         - npm run build 
         - echo "Completed - React Build stage"    
     tags:
-        - grad
+        - dalfcs_gitlab_docker_ci
 
 # Executing tests in backend project
 test_backend:
@@ -57,7 +57,7 @@ test_backend:
         paths:
             - target/*.jar
     tags:
-        - grad
+        - dalfcs_gitlab_docker_ci
 # Deploy the backend build on Render.com
 deploy_backend:
     stage: deploy_stage
@@ -73,7 +73,7 @@ deploy_backend:
         - curl -s "https://api.render.com/deploy/srv-${RENDER_DEPLOY_KEY_1}?key=${RENDER_DEPLOY_KEY_2}" 
         - echo "Completed - Deploying Springboot"
     tags:
-        - grad
+        - dalfcs_gitlab_docker_ci
 
     # Execute Deploy only when commits are made on production 'main' branch
     only:
@@ -92,4 +92,4 @@ deploy_frontend:
     only:
         - main
     tags:
-        - grad
+        - dalfcs_gitlab_docker_ci
