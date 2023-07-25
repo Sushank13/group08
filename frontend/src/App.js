@@ -1,42 +1,40 @@
-import { ChakraProvider, theme } from '@chakra-ui/react';
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Admin from './Pages/Admin';
-import ClubMembershipForm from './Pages/ClubMembershipForm';
-import CreateEventForm from './Pages/CreateEventForm';
-import Layout from './Pages/layout';
-import NewClubRequest from './Pages/NewClubRequest';
-import Subscribe from './Pages/Subscribe';
+import { ChakraProvider, theme } from '@chakra-ui/react';
+import LayoutNavbar from './Pages/LayoutNavbar';
+import Home from './Pages/Home';
+import FindAllClubs from './Pages/FindAllClubs';
+import ClubPage from './Pages/ClubPage';
+import FindAllEvents from './Pages/FindAllEvents';
+import EventPage from './Pages/EventPage';
 
-const router = createBrowserRouter(
-  [
-    {
-      element: <Layout/>,
-      children:[
-        { 
+const router = createBrowserRouter([
+  {
+    element: <LayoutNavbar />,
+    children: [
+      { 
         path: "/",
-        element: <Admin />
-        },
-        {
-          path: "/NewClubRequest",
-          element: <NewClubRequest />
-        },
-        {
-          path:"/subscribe",
-          element: <Subscribe />
-        },
-        {
-          path:"/clubmembershipform",
-          element: <ClubMembershipForm />
-        },
-        {
-          path:"/createeventform",
-          element: <CreateEventForm />
-        }
-      ]
-    }
-  ]
-);
+        element: <Home />
+      },
+      {
+        path: "/FindClubs",
+        element: <FindAllClubs />
+      },
+      {
+        path: "/club/:clubName",
+        element: <ClubPage />
+      },
+      {
+        path: "/FindEvents",
+        element: <FindAllEvents />
+      },
+      {
+        path: "/event/:eventName",
+        element: <EventPage />
+      }
+    ]
+  }
+]);
 
 function App() {
   return (
@@ -45,7 +43,5 @@ function App() {
     </ChakraProvider>
   );
 }
-
-
 
 export default App;

@@ -4,6 +4,7 @@ public class Club
 {
     private String clubID;
     private String clubName;
+    private String categoryName;
     private String description;
     private String presidentEmailID;
     private String facebookLink;
@@ -13,7 +14,6 @@ public class Club
     private String meetingTime;
     private String clubImage;
     private String rules;
-
     public String getClubID() {
         return clubID;
     }
@@ -26,8 +26,16 @@ public class Club
         return clubName;
     }
 
+    public String getCategoryName() {
+        return categoryName;
+    }
+
     public void setClubName(String clubName) {
         this.clubName = clubName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getDescription() {
