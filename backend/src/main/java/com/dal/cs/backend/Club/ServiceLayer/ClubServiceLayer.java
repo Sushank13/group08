@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Club.ServiceLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
 import com.dal.cs.backend.Club.Enum.RequestStatus;
@@ -362,5 +363,18 @@ public class ClubServiceLayer implements  IClubServiceLayer
         }
         logger.info("Exiting Service Layer: Returning error message to Controller");
         return resultStatus;
+    }
+
+    @Override
+    public List<JoinClubRequest> getAllJoinClubRequests() {
+        try {
+            logger.info("Service Layer Entered: Entered getAllJoinClubRequests- Calling Data layer getAllJoinClubRequests");
+            List<JoinClubRequest> joinClubRequestList = iClubDataLayer.getAllJoinClubRequests();
+            logger.info("Exiting Service Layer: Returning join club requests to Controller");
+            return joinClubRequestList;
+        } catch (SQLException e) {
+            logger.error("getAllJoinClubRequests- SQL Exception occurred while getting response from Data layer" + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }
