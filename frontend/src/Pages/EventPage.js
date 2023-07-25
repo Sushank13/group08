@@ -5,7 +5,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 
 const fetchEventDetails = async (eventName) => {
   try {
-    const response = await axios.get(`/getEventDetails/${eventName}`);
+    const response = await axios.get(`/unauthenticated/getEventDetails/${eventName}`);
     return response.data[0]; 
   } catch (error) {
     console.log(error);

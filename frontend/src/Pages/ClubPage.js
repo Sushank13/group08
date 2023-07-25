@@ -5,7 +5,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 
 const fetchClubDetails = async (clubName) => {
   try {
-    const response = await axios.get(`/findClubByName/${clubName}`);
+    const response = await axios.get(`/unauthenticated/findClubByName/${clubName}`);
     return response.data[0];
   } catch (error) {
     console.log(error);

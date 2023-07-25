@@ -1,7 +1,10 @@
 import { Box } from '@chakra-ui/react';
 import '../DalClubCommons';
+import useAuth from "../hooks/useAuth";
 
 function Home() {
+  const { auth } = useAuth();
+  console.log("home auth" + auth.user);
   return (
     <>
     <Box position="relative">
