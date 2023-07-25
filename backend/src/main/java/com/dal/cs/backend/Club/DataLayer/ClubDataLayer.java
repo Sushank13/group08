@@ -488,6 +488,13 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
         }
     }
 
+    /**
+     * Gets list of club requests by joining club and join club request with club id and verifies president
+     * @param clubID String
+     * @param presidentEmailID String
+     * @return List of join club requests for a club managed by the president
+     * @throws SQLException
+     */
     @Override
     public List<JoinClubRequest> getAllJoinClubRequests(String clubID, String presidentEmailID) throws SQLException {
         if (connection != null) {

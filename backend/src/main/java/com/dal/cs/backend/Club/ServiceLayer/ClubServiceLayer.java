@@ -366,8 +366,10 @@ public class ClubServiceLayer implements  IClubServiceLayer
     }
 
     /**
-     * Gets list of all join club requests for a particular club
-     * @return
+     * Get list of all join club requests filtered using club id and president email id
+     * @param clubID String
+     * @param presidentEmailID String
+     * @return List of join club requests for a club managed by the president
      */
     @Override
     public List<JoinClubRequest> getAllJoinClubRequests(String clubID, String presidentEmailID) {
