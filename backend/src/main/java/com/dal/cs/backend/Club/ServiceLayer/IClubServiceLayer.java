@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Club.ServiceLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,4 +20,5 @@ public interface IClubServiceLayer
   public boolean approveClubRequest(String reqId);
   public boolean rejectClubRequest(String reqId);
   public boolean deleteClub(String clubID);
+  public String submitJoinClubRequest(JoinClubRequest joinClubRequest);
 }

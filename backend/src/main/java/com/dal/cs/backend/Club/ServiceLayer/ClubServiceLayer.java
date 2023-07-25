@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Club.ServiceLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
 import com.dal.cs.backend.Club.Enum.RequestStatus;
@@ -362,5 +363,79 @@ public class ClubServiceLayer implements  IClubServiceLayer
         }
         logger.info("Exiting Service Layer: Returning error message to Controller");
         return resultStatus;
+    }
+
+    /**
+     * This method first call a method to generate a new request id. This request id is added to the
+     * joinClubRequest object. Finally, the  joinClubRequest object is passed to the insertion method in
+     * datalayer.
+     * @param joinClubRequest is the real word entity that contains the join club request details
+     * @return a success message if request submitted else return a failure message.
+     */
+    @Override
+    public String submitJoinClubRequest(JoinClubRequest joinClubRequest)
+    {
+        logger.info("Entered ServiceLayer: submitJoinClubRequest() entered ");
+        logger.info("ServiceLayer:Calling generateJoinClubRequestId()");
+        String joinClubRequestId=generateJoinClubRequestId();
+        joinClubRequest.setRequestID(joinClubRequestId);
+        String requestStatus=String.valueOf(RequestStatus.PENDING);
+        joinClubRequest.setRequestStatus(requestStatus);
+        try
+        {
+            logger.info("ServiceLayer: calling insertJoinClubRequest() of the DataLayer");
+            boolean insertJoinClubRequestStatus=iClubDataLayer.insertJoinClubRequest(joinClubRequest);
+            if(insertJoinClubRequestStatus)
+            {
+                String message = "Your request for joining club has been submitted to the club president with request id: " + joinClubRequestId;
+                logger.info("ServiceLayer: new join club request created successfully");
+                logger.info("Exiting ServiceLayer: Returning success message to the Controller");
+                return message;
+            }
+
+        }
+        catch(SQLException e)
+        {
+            logger.error(e.getMessage());
+        }
+        catch (Exception e)
+        {
+            logger.error(e.getMessage());
+        }
+        String errorMessage = "There was a problem submitting your request. Please raise a new request.";
+        logger.info("Exiting ServiceLayer: returning error message to the Controller");
+        return errorMessage;
+
+    }
+
+    /**
+     * This method fetches the latest join club request id  and increments it by one to generate a
+     * new request id
+     * @return the new generated request id
+     */
+    private String generateJoinClubRequestId()
+    {
+        logger.info("ServiceLayer: inside generateJoinClubRequestId() ");
+        try
+        {
+            final int one=1;
+            logger.info(("ServiceLayer: calling getLatestJoinClubRequestId() of Datalayer"));
+            String latestRequestId = iClubSecondDataLayer.getLatestJoinClubRequestId();
+            if(latestRequestId != null)
+            {
+                List<String> splitLatestRequestId = List.of(latestRequestId.split("_"));
+                int requestNumber= Integer.parseInt(splitLatestRequestId.get(1));
+                int newRequestNumber=requestNumber+one;
+                String newRequestId=splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
+                return newRequestId;
+            }
+            String firstRequestId = "REQ_1";
+            return firstRequestId;
+        }
+        catch (SQLException e)
+        {
+            logger.error(e.getMessage());
+        }
+        return "";
     }
 }

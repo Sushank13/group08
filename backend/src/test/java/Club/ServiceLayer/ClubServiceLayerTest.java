@@ -89,4 +89,5 @@ public class ClubServiceLayerTest
 //        boolean result = iclubServiceLayer.deleteClub("CLB_1");
 //        System.out.println("result = " + result);
     }
+
 }
