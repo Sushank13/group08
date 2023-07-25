@@ -78,7 +78,16 @@ public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
                 if (resultSet.next()) {
                     logger.info("[Member][Data] Found member");
                     MemberType memberType = MemberType.fromString(resultSet.getString("userType"));
-                    Member member = new MemberBuilder().setFirstName(resultSet.getString("firstName")).setLastName(resultSet.getString("lastName")).setMemberType(memberType).setProgram(resultSet.getString("program")).setTerm(resultSet.getInt("term")).setMobile(resultSet.getString("mobileNumber")).setDob(resultSet.getDate("DOB").toLocalDate()).createMember();
+                    Member member = new MemberBuilder()
+                            .setFirstName(resultSet.getString("firstName"))
+                            .setLastName(resultSet.getString("lastName"))
+                            .setMemberType(memberType)
+                            .setProgram(resultSet.getString("program"))
+                            .setTerm(resultSet.getInt("term"))
+                            .setMobile(resultSet.getString("mobileNumber"))
+                            .setDob(resultSet.getDate("DOB").toLocalDate())
+                            .setPassword(resultSet.getString("password"))
+                            .createMember();
                     return member;
                 }
             }

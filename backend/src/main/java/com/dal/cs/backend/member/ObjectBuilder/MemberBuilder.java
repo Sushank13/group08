@@ -18,6 +18,7 @@ public class MemberBuilder
     private int term;
     private String mobile;
     private LocalDate dob;
+    private String password;
 
     public MemberBuilder setEmailId(String emailId) {
         this.emailId = emailId;
@@ -58,8 +59,14 @@ public class MemberBuilder
         this.dob = dob;
         return this;
     }
+
+    public MemberBuilder setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
     public Member createMember()
     {
-        return new Member(emailId,firstName,lastName,memberType, program,term,mobile,dob);
+        return new Member(emailId,firstName,lastName,memberType, program,term,mobile,dob, password);
     }
 }

@@ -2,7 +2,7 @@ package com.dal.cs.backend.Event.DataLayer;
 
 import com.dal.cs.backend.Event.EventObject.Event;
 import com.dal.cs.backend.Event.ObjectBuilder.EventBuilder;
-import com.dal.cs.backend.database.DatabaseConnection;
+import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -228,19 +228,19 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
      */
     private void setEventFromResultSet(ResultSet resultSet, List<Event> eventDetails) throws SQLException {
         while (resultSet.next()) {
-            Event event = new Event();
-            event.setEventID(resultSet.getString(1));
-            event.setClubID(resultSet.getString(2));
-            event.setOrganizerEmailID(resultSet.getString(3));
-            event.setEventName(resultSet.getString(4));
-            event.setDescription(resultSet.getString(5));
-            event.setVenue(resultSet.getString(6));
-            event.setImage(resultSet.getString(7));
-            event.setStartDate(resultSet.getString(8));
-            event.setEndDate(resultSet.getString(9));
-            event.setStartTime(resultSet.getString(10));
-            event.setEndTime(resultSet.getString(11));
-            event.setEventTopic(resultSet.getString(12));
+            Event event = new EventBuilder()
+                    .setEventID(resultSet.getString(1))
+                    .setClubID(resultSet.getString(2))
+                    .setOrganizerEmailID(resultSet.getString(3))
+                    .setEventName(resultSet.getString(4))
+                    .setDescription(resultSet.getString(5))
+                    .setVenue(resultSet.getString(6))
+                    .setImage(resultSet.getString(7))
+                    .setStartDate(resultSet.getString(8))
+                    .setEndDate(resultSet.getString(9))
+                    .setStartTime(resultSet.getString(10))
+                    .setEndTime(resultSet.getString(11))
+                    .setEventTopic(resultSet.getString(12)).createEvent();
             eventDetails.add(event);
         }
     }
