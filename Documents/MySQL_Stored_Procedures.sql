@@ -257,11 +257,14 @@ DELIMITER ;
 
 -- Procedure to get all join club requests with club ID
 DELIMITER //
-CREATE PROCEDURE getAllJoinClubRequests(IN clubID VARCHAR(50))
+CREATE PROCEDURE getAllJoinClubRequests(IN clubID VARCHAR(50), IN presidentEmailID VARCHAR(255))
 BEGIN
     SELECT requestID, requestorEmailID, clubID, joiningReason, requestStatus
     FROM joinClubRequest
-    WHERE joinClubRequest.clubID = clubID;
+    INNER JOIN club
+    ON joinClubRequest.clubID = club.clubID
+    WHERE joinClubRequest.clubID = clubID
+    AND club.presidentEmailID = presidentEmailID;
 END //
 DELIMITER ;
 
