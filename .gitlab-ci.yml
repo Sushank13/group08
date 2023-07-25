@@ -1,5 +1,3 @@
-default:
-  image: maven
 stages:
     - build_stage
     - test_stage
@@ -7,7 +5,7 @@ stages:
 # Building the backend project
 build_backend:
     stage: build_stage
-    image: maven:3.8.2-eclipse-temurin-17
+    image: maven:latest
     before_script:
         - cd backend
     script:
@@ -41,7 +39,7 @@ build_frontend:
 # Executing tests in backend project
 test_backend:
     stage: test_stage
-    image: maven:3.8.2-eclipse-temurin-17
+    image: maven:latest
     before_script:
         - cd backend
     script:
