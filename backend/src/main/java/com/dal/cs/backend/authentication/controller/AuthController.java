@@ -15,12 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,15 +26,11 @@ import java.util.List;
 public class AuthController {
 
     private AuthenticationManager authenticationManager;
-    private IMemberDataLayer iMemberDataLayer;
-    private PasswordEncoder passwordEncoder;
     private JWTGenerator jwtGenerator;
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, IMemberDataLayer iMemberDataLayer, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator) {
-        this.authenticationManager = authenticationManager;
-        this.iMemberDataLayer = iMemberDataLayer;
-        this.passwordEncoder = passwordEncoder;
+    public AuthController(AuthenticationManager authenticationManager, JWTGenerator jwtGenerator) {
+        this.authenticationManager = authenticationManager;;
         this.jwtGenerator = jwtGenerator;
     }
 
@@ -67,5 +59,17 @@ public class AuthController {
         cookie.setPath("/");
         response.addCookie(cookie);
         return new ResponseEntity<>(new AuthResponseDTO(token, roles), HttpStatus.OK);
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity logout(HttpServletResponse response){
+
+        Cookie cookie = new Cookie("jwt", null);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
