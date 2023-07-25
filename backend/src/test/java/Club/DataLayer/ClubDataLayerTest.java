@@ -1,6 +1,7 @@
 package Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
@@ -115,6 +116,18 @@ public class ClubDataLayerTest {
         catch(SQLException e)
         {
             fail("Test failed: Exception occurred- "+e.getMessage());
+        }
+    }
+
+    @Test
+    public void getAllJoinClubRequestsTest() {
+        //TODO: Add assertion for list of club requests
+        try {
+            List<JoinClubRequest> joinClubRequestList = iclubDataLayer.getAllJoinClubRequests();
+            System.out.println("List of request and email: \n" + joinClubRequestList.get(0).getRequestID() + " " + joinClubRequestList.get(0).getRequesterEmailID());
+            ;
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
         }
     }
 }

@@ -255,6 +255,16 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Procedure to get all join club requests
+DELIMITER //
+CREATE PROCEDURE getAllJoinClubRequests()
+BEGIN
+    SELECT requestID, requestorEmailID, clubID, joiningReason, requestStatus
+    FROM joinClubRequest;
+END //
+DELIMITER ;
+
+
 -- Procedure to get the latest join club request id
 DELIMITER //
 CREATE PROCEDURE getLatestJoinClubRequestId()
@@ -270,3 +280,4 @@ BEGIN
      INSERT INTO joinClubRequest VALUES (requestID,requestorEmailID,clubID,joiningReason,requestStatus);
 END //
 DELIMITER ;
+
