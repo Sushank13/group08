@@ -1,11 +1,12 @@
 package com.dal.cs.backend.Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
-import com.dal.cs.backend.database.DatabaseConnection;
+import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -14,17 +15,19 @@ import java.util.HashMap;
 import java.util.List;
 
 @Component
-public class ClubDataLayer implements IClubDataLayer, IClubSecondDataLayer
+public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClubSecondDataLayer
 {
     private static final Logger logger= LogManager.getLogger(ClubDataLayer.class);
-    private IDatabaseConnection iDatabaseConnection;
-    private Connection connection;
     private String callProcedure;
     private  CallableStatement callableStatement;
-    public ClubDataLayer()
+    @Autowired
+    public ClubDataLayer(IDatabaseConnection iDatabaseConnection)
     {
-        iDatabaseConnection=new DatabaseConnection();
-        connection=iDatabaseConnection.getDatabaseConnection();
+        super(iDatabaseConnection);
+    }
+
+    public static ClubDataLayer getInstance(IDatabaseConnection iDatabaseConnection) {
+        return new ClubDataLayer(iDatabaseConnection);
     }
 
     /**
