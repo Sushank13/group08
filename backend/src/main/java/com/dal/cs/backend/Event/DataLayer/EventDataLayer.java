@@ -162,7 +162,6 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
             logger.error("Problem with procedure call or database connection");
             return null;
         }
-
     }
 
     /**
@@ -329,6 +328,31 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         } else {
             logger.error("Problem with procedure call or database connection");
             return false;
+        }
+    }
+
+    /**
+     * This method returns the event details filtered by club id
+     * @param clubID is the club id on which the event details are to be filtered
+     * @return list of all event details filtered based on club ID
+     * @throws SQLException
+     */
+    @Override
+    public List<Event> getEventsByClub(String clubID) throws SQLException {
+        logger.info("Entered DataLayer: Entered getEventsByClub()");
+        callProcedure = getProcedureCallString("getEventsByClubID", 1);
+        callableStatement = connection.prepareCall(callProcedure);
+        callableStatement.setString(1, clubID);
+        boolean resultStatus = callableStatement.execute();
+        logger.info("getEventsByClub- Procedure execution call successful, resultStatus = " + resultStatus);
+        ResultSet resultSet = callableStatement.getResultSet();
+        List<Event> listOfAllEvents = new ArrayList<>();
+        if (resultStatus) {
+            setEventFromResultSet(resultSet, listOfAllEvents);
+            logger.info("Exiting DataLayer: returning list of all events details to Service Layer");
+            return listOfAllEvents;
+        } else {
+            return null;
         }
     }
 }

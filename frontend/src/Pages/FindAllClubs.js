@@ -18,7 +18,7 @@ function FindAllClubs() {
 
   const findClubByName = async () => {
     try {
-      const response = await axios.get('/unauthenticated/findClubByName/'+searchQuery);
+      const response = await axios.get('/unauthenticated/getClubByName/'+searchQuery);
       setClubsData(response.data);
     } catch (error) {
       console.log(error);

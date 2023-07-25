@@ -11,6 +11,8 @@ import Unauthorized from './Pages/Unauthorized';
 import Missing from './Pages/Missing';
 import AdminHomePage from './Pages/AdminHomePage';
 import PersistLogin from './Components/PersistLogin';
+import FindAllEvents from './Pages/FindAllEvents';
+import EventPage from './Pages/EventPage';
 
 const ROLES = {
   'member': 'member',
@@ -27,6 +29,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="unauthorized" element={<Unauthorized />} />
+
+          <Route path="FindEvents" element={<FindAllEvents />} />
+          <Route path="FindAllEvents" element={<EventPage />} />
 
           <Route path="FindClubs" element={<FindAllClubs />} />
           <Route path="club/:clubName" element={<ClubPage />} />

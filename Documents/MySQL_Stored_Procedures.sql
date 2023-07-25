@@ -254,3 +254,19 @@ BEGIN
     DELETE FROM events WHERE events.eventID = eventID;
 END //
 DELIMITER ;
+
+-- Procedure to get the latest join club request id
+DELIMITER //
+CREATE PROCEDURE getLatestJoinClubRequestId()
+BEGIN
+      SELECT CONCAT('REQ_',(SELECT CAST(SUBSTRING_INDEX(requestID, '_', -1) AS UNSIGNED) AS requestID FROM joinClubRequest ORDER BY requestID DESC LIMIT 1)) AS requestID FROM joinClubRequest LIMIT 1;
+END //
+DELIMITER ;
+
+-- Procedure to insert joib club request details
+DELIMITER //
+CREATE PROCEDURE insertJoinClubRequestDetails(IN requestID VARCHAR(50),IN requestorEmailID VARCHAR(255),IN clubID VARCHAR(50),IN joiningReason VARCHAR (255),IN requestStatus VARCHAR(255) )
+BEGIN
+     INSERT INTO joinClubRequest VALUES (requestID,requestorEmailID,clubID,joiningReason,requestStatus);
+END //
+DELIMITER ;

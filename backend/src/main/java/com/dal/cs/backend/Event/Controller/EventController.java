@@ -72,7 +72,7 @@ public class EventController {
      * @param emailID  is the email id of the user using which they signed up to DalClubs
      * @return true if registered successfully
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/member/registerEvents/eventID/{eventID}/emailID/{emailID}")
+    @RequestMapping(method = RequestMethod.POST, value = "/member/registerEvents/{eventID}/{emailID}")
     public boolean registerEvents(@PathVariable String eventID, @PathVariable String emailID)
     {
         logger.info("Controller Entered: Received request for register events");
@@ -127,5 +127,20 @@ public class EventController {
         resultResponse.put("status", result);
         logger.info("Exiting Controller: Returning response status to Frontend via POST /deleteEvent");
         return resultResponse;
+    }
+
+    /**
+     * This method returns the event details filtered by club id
+     * @param clubID is the club id on which the event details are to be filtered
+     * @return list of event details filtered based on club ID
+     */
+    @RequestMapping(method = RequestMethod.GET, value="/getEventByClub/{clubID}")
+    public List<Event> getEventsByClub(@PathVariable("clubID") String clubID)
+    {
+        logger.info("Controller Entered: Received request to get events by clubID");
+        logger.info("getEventsByClub- Calling getEventsByClub() of ServiceLayer");
+        List<Event> listOfAllEvents=iEventServiceLayer.getEventsByClub(clubID);
+        logger.info("Exiting Controller: Returning list of events to Frontend via GET /getEventsByClub/{clubID}");
+        return listOfAllEvents;
     }
 }
