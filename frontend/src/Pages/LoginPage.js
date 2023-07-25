@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import useAuth from "../hooks/useAuth";
 import axios from '../axiosConfiguration';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { getEmailID, setEmailID } from '../hooks/useEmail';
 import '../css/login.module.css';
 const LOGIN_URL = '/unauthenticated/login';
 
@@ -43,7 +44,8 @@ const Login = () => {
             //console.log(JSON.stringify(response));
             const accessToken = response?.data?.accessToken;
             const roles = response?.data?.roles;
-            setAuth({ user, pwd, roles, accessToken });
+            setAuth({ user, roles, accessToken });
+            setEmailID(user);
             setUser('');
             setPwd('');
             navigate(from, { replace: true });

@@ -1,11 +1,12 @@
 import useAuth from "./useAuth";
-import axios from "axios";
+import axios from "../axiosConfiguration";
+import { removeEmailID } from "./useEmail";
 const useLogout = () => {
     const { setAuth } = useAuth();
 
     const logout = async () => {
         setAuth({});
-        localStorage.setItem("emailID",undefined);
+        removeEmailID();
         try {
             await axios('/unauthenticated/logout', {
                 withCredentials: true

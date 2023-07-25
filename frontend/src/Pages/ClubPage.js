@@ -3,7 +3,7 @@ import axios, { axiosPrivate } from '../axiosConfiguration';
 import { useParams, NavLink } from 'react-router-dom';
 import { Box, Flex, Text, Link,  Icon, Divider, Button, useToast } from '@chakra-ui/react';
 import { BsFacebook, BsInstagram } from 'react-icons/bs';
-
+import { getEmailID } from '../hooks/useEmail';
 // https://chakra-ui.com/docs/components/link
 const fetchClubDetails = async (clubName) => {
   try {
@@ -41,7 +41,7 @@ function ClubPage() {
   const { clubName } = useParams(); 
   const [clubDetails, setClubDetails] = useState([]);
   const [eventDetails, setEventDetails] = useState([]);
-  const emailID = localStorage.getItem("emailID") || null;
+  const emailID = getEmailID() || null;
 
   useEffect(() => {
     const getClubDetails = async () => {
