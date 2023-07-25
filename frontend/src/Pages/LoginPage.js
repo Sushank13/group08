@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import useAuth from "../hooks/useAuth";
 import axios from '../axiosConfiguration';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { getEmailID, setEmailID } from '../hooks/useEmail';
+import { setEmailID } from '../hooks/useEmail';
 import '../css/login.module.css';
 const LOGIN_URL = '/unauthenticated/login';
 

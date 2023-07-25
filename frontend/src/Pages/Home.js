@@ -1,6 +1,5 @@
 import { Box } from '@chakra-ui/react';
 import '../DalClubCommons';
-import useAuth from "../hooks/useAuth";
 import useLogout from '../hooks/useLogout';
 
 import { useNavigate } from 'react-router-dom';
