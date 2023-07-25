@@ -1,35 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
-import axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ChakraProvider, theme } from '@chakra-ui/react';
+import LayoutNavbar from './Pages/LayoutNavbar';
+import Home from './Pages/Home';
+import FindAllClubs from './Pages/FindAllClubs';
+import ClubPage from './Pages/ClubPage';
+import FindAllEvents from './Pages/FindAllEvents';
+import EventPage from './Pages/EventPage';
 
-axios.defaults.baseURL = 'https://sample-boot-service.onrender.com';
-axios.defaults.headers.common['Content-Type'] = 'application/json;charset=utf-8';
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+const router = createBrowserRouter([
+  {
+    element: <LayoutNavbar />,
+    children: [
+      { 
+        path: "/",
+        element: <Home />
+      },
+      {
+        path: "/FindClubs",
+        element: <FindAllClubs />
+      },
+      {
+        path: "/club/:clubName",
+        element: <ClubPage />
+      },
+      {
+        path: "/FindEvents",
+        element: <FindAllEvents />
+      },
+      {
+        path: "/event/:eventName",
+        element: <EventPage />
+      }
+    ]
+  }
+]);
 
 function App() {
-	const [responseData, setResponseData] = useState(null);
-
-const handleButtonClick = () => {
-    axios.get('/welcome')
-      .then(response => {
-        console.log(response);
-        setResponseData(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" height="100" />
-        
-        <button style={{ padding: '32px 16px' }} onClick={handleButtonClick}>Test Welcome API</button>
-        {responseData && <div>{responseData.message}</div>}
-      </header>
-    </div>
+    <ChakraProvider theme={theme}>
+        <RouterProvider router={router} />
+    </ChakraProvider>
   );
 }
 

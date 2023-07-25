@@ -13,6 +13,8 @@ public interface IClubServiceLayer
 
   public ArrayList<HashMap<String, String>> getAllClubCategories();
   public List<Club> getAllClubs();
+  public List<Club> getClubsByName(String name);
+  public List<Club> getClubsByCategory(String category);
   public String updateClubDetails(Club club);
   public boolean approveClubRequest(String reqId);
   public boolean rejectClubRequest(String reqId);

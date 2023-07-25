@@ -1,8 +1,12 @@
 package Event.ServiceLayer;
 
+import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
+import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
 import com.dal.cs.backend.Event.ServiceLayer.EventServiceLayer;
 import com.dal.cs.backend.Event.ServiceLayer.IEventServiceLayer;
+import com.dal.cs.backend.database.DatabaseConnection;
+import com.dal.cs.backend.database.IDatabaseConnection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +17,9 @@ public class EventServiceLayerTest {
 
     @BeforeEach
     public void beforeTestRun() {
-        iEventServiceLayer = new EventServiceLayer() ;
+        IDatabaseConnection iDatabaseConnection = DatabaseConnection.getInstance();
+        IEventDataLayer iEventDataLayer = EventDataLayer.getInstance(iDatabaseConnection);
+        iEventServiceLayer = EventServiceLayer.getInstance(iEventDataLayer) ;
     }
 
     @Test
@@ -43,7 +49,7 @@ public class EventServiceLayerTest {
     }
 
     @Test
-    public  void getEventsByUserTest(){
+    public void getEventsByUserTest(){
         List<Event> listOfAllEvents=iEventServiceLayer.getEventsByUser("swit@dal.ca");
         System.out.println("List of Events by user id: ");
         for (int i = 0; i < listOfAllEvents.size(); i++) {
@@ -79,7 +85,37 @@ public class EventServiceLayerTest {
             System.out.println(event.getEndTime());
             System.out.println(event.getVenue());
             System.out.println(event.getOrganizerEmailID());
+        }
+    }
 
+    @Test
+    public void updateEventDetails() {
+//        Event mockEvent = new Event();
+//        mockEvent.setEventID("EVNT_3");
+//        mockEvent.setClubID("CLB_3");
+//        mockEvent.setEventName("Dalhousie outdoor society Spring AGM");
+//        mockEvent.setEventTopic("Outdoor recreational activity");
+//        boolean eventStatus = iEventServiceLayer.updateEventDetails(mockEvent);
+//        System.out.println("eventStatus = " + eventStatus);
+    }
+
+    @Test
+    public void getEventsByClubTest(){
+        List<Event> listOfAllEvents = iEventServiceLayer.getEventsByClub("CLB_2");
+        System.out.println("List of all Events by Club (CLB_2): ");
+        for (int i = 0; i < listOfAllEvents.size(); i++) {
+            System.out.println("Event ID: "+listOfAllEvents.get(i).getEventID());
+            System.out.println("ClubID: "+listOfAllEvents.get(i).getClubID());
+            System.out.println("OrganizerEmailID: "+listOfAllEvents.get(i).getOrganizerEmailID());
+            System.out.println("EventName: "+listOfAllEvents.get(i).getEventName());
+            System.out.println("Description: "+listOfAllEvents.get(i).getDescription());
+            System.out.println("Venue: "+listOfAllEvents.get(i).getVenue());
+            System.out.println("Image: "+listOfAllEvents.get(i).getImage());
+            System.out.println("StartDate: "+listOfAllEvents.get(i).getStartDate());
+            System.out.println("EndDate: "+listOfAllEvents.get(i).getEndDate());
+            System.out.println("StartTime: "+listOfAllEvents.get(i).getStartTime());
+            System.out.println("EndTime: "+listOfAllEvents.get(i).getEndTime());
+            System.out.println("EventTopic: "+listOfAllEvents.get(i).getEventTopic());
         }
     }
 }

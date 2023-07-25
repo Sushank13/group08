@@ -26,9 +26,30 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getAllClubs()
 BEGIN 
-      SELECT * from club;
+      SELECT clubID, club.categoryID, clubName, categoryName, description, presidentEmailID, facebookLink, instagramLink, location, meetingTime, clubImage, rules 
+      FROM club 
+      INNER JOIN category 
+      on club.categoryID = category.categoryID;
 END //
 DELIMITER ;
+
+-- Procedure for searching the club by name
+DELIMITER //
+CREATE PROCEDURE searchClubByName(IN name VARCHAR(50) )
+BEGIN
+      SELECT * FROM club WHERE clubName LIKE CONCAT('%', name , '%');
+END //
+DELIMITER ;
+
+-- Procedure for searching the club by category
+
+DELIMITER //
+CREATE PROCEDURE searchClubByCategory(IN category VARCHAR(50) )
+BEGIN
+      SELECT * FROM club WHERE categoryID LIKE CONCAT('%', category , '%');
+END //
+DELIMITER ;
+
 
 -- Procedure for inserting new club create request details into NewAndUpdateClubRequest
 DELIMITER //
@@ -165,8 +186,76 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getEventDetails(IN nameOfEvent VARCHAR(255))
 BEGIN
-    SELECT organizerEmailID,eventName, description, venue, startDate, endDate, startTime, endTime, eventTopic
+    SELECT eventID, clubID, organizerEmailID, eventName, description, venue, image, startDate, endDate, startTime, endTime, eventTopic
     FROM events
     WHERE eventName LIKE CONCAT('%', nameOfEvent, '%');
+END //
+DELIMITER ;
+
+-- Procedure to update event details which are not null fields
+DELIMITER //
+CREATE PROCEDURE updateEvent(
+    IN updatedEventID VARCHAR(50),
+    IN updatedClubID VARCHAR(50),
+    IN updatedOrganizerEmailID VARCHAR(255),
+    IN updatedEventName VARCHAR(255),
+    IN updatedDescription VARCHAR(255),
+    IN updatedVenue VARCHAR(255),
+    IN updatedImage VARCHAR(255),
+    IN updatedStartDate DATE,
+    IN updatedEndDate DATE,
+    IN updatedStartTime TIME,
+    IN updatedEndTime TIME,
+    IN updatedEventTopic VARCHAR(255)
+)
+BEGIN
+    UPDATE events
+    SET
+        organizerEmailID = IFNULL(updatedOrganizerEmailID, organizerEmailID),
+        eventName = IFNULL(updatedEventName, eventName),
+        description = IFNULL(updatedDescription, description),
+        venue = IFNULL(updatedVenue, venue),
+        image = IFNULL(updatedImage, image),
+        startDate = IFNULL(updatedStartDate, startDate),
+        endDate = IFNULL(updatedEndDate, endDate),
+        startTime = IFNULL(updatedStartTime, startTime),
+        endTime = IFNULL(updatedEndTime, endTime),
+        eventTopic = IFNULL(updatedEventTopic, eventTopic)
+    WHERE eventID = updatedEventID AND clubID = updatedClubID;
+END //
+DELIMITER ;
+
+-- Procedure to get all events
+DELIMITER //
+CREATE PROCEDURE getAllEvents()
+BEGIN
+    SELECT eventID, clubID, organizerEmailID, eventName, description, venue, image, startDate, endDate, startTime, endTime, eventTopic FROM events;
+END //
+DELIMITER ;
+
+-- Procedure to delete an event and its registrations based on eventID
+DELIMITER //
+CREATE PROCEDURE deleteEvent(IN eventID VARCHAR(50))
+BEGIN
+    DELETE FROM eventRegistrationDetails
+    WHERE eventRegistrationDetails.eventID = eventID;
+
+    DELETE FROM events WHERE events.eventID = eventID;
+END //
+DELIMITER ;
+
+-- Procedure to get the latest join club request id
+DELIMITER //
+CREATE PROCEDURE getLatestJoinClubRequestId()
+BEGIN
+      SELECT CONCAT('REQ_',(SELECT CAST(SUBSTRING_INDEX(requestID, '_', -1) AS UNSIGNED) AS requestID FROM joinClubRequest ORDER BY requestID DESC LIMIT 1)) AS requestID FROM joinClubRequest LIMIT 1;
+END //
+DELIMITER ;
+
+-- Procedure to insert joib club request details
+DELIMITER //
+CREATE PROCEDURE insertJoinClubRequestDetails(IN requestID VARCHAR(50),IN requestorEmailID VARCHAR(255),IN clubID VARCHAR(50),IN joiningReason VARCHAR (255),IN requestStatus VARCHAR(255) )
+BEGIN
+     INSERT INTO joinClubRequest VALUES (requestID,requestorEmailID,clubID,joiningReason,requestStatus);
 END //
 DELIMITER ;

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3001")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class ClubController
 {
@@ -60,6 +60,36 @@ public class ClubController
         logger.info("getAllClubs- Calling getAllClubs() of ServiceLayer");
         List<Club> listOfAllClubs=iClubServiceLayer.getAllClubs();
         logger.info("Exiting Controller: Returning list of clubs to Frontend via GET /getAllClubs");
+        return listOfAllClubs;
+    }
+
+    /**
+     * This method retrieves the clubs filtered by the search keywords
+     * @param name string value containing the search keyword value
+     * @return list of clubs filtered by name
+     */
+    @RequestMapping(method = RequestMethod.GET, value="/getClubByName/{name}")
+    public List<Club> getClubsByName(@PathVariable("name") String name)
+    {
+        logger.info("Controller Entered: Received request to get clubs by name.");
+        logger.info("getClubsByName- Calling getClubsByName() of ServiceLayer");
+        List<Club> listOfAllClubs=iClubServiceLayer.getClubsByName(name);
+        logger.info("Exiting Controller: Returning list of clubs to Frontend via GET /getClubByName/{name}");
+        return listOfAllClubs;
+    }
+
+    /**
+     * This method retrieves the clubs filtered by category name
+     * @param category string value containing the category name value
+     * @return list of clubs filtered by category name
+     */
+    @RequestMapping(method = RequestMethod.GET, value="/getClubByCategory/{category}")
+    public List<Club> getClubsByCategory(@PathVariable("category") String category)
+    {
+        logger.info("Controller Entered: Received request to get clubs by category.");
+        logger.info("getClubsByCategory- Calling getClubsByCategory() of ServiceLayer");
+        List<Club> listOfAllClubs=iClubServiceLayer.getClubsByCategory(category);
+        logger.info("Exiting Controller: Returning list of clubs to Frontend via GET /getClubByCategory/{category}");
         return listOfAllClubs;
     }
 

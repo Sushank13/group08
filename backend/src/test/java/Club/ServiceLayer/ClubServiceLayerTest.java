@@ -75,7 +75,6 @@ public class ClubServiceLayerTest
         assertFalse(iclubServiceLayer.approveClubRequest(reqId));
     }
 
-
     @Test
     public void deleteClubTest() {
 //        boolean result = iclubServiceLayer.deleteClub("CLB_1");
