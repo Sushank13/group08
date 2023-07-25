@@ -484,6 +484,12 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             return false;
         }
     }
+
+    /**
+     * This method calls a procedure that fetches the Latest Join Club RequestId.
+     * @return the latest request id else return null
+     * @throws SQLException
+     */
     @Override
     public String getLatestJoinClubRequestId() throws SQLException
     {
@@ -508,6 +514,13 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
         logger.info("Exiting DataLayer: returning join club request id as null to Service Layer");
         return  null;
     }
+
+    /**
+     * This method calls a stored procedure that inserts the join club request details to the database table
+     * @param joinClubRequest is the real word entity that contains the join club request details
+     * @return true if the record is inserted else return false
+     * @throws SQLException
+     */
     public boolean insertJoinClubRequest(JoinClubRequest joinClubRequest) throws SQLException
     {
         logger.info("Datalayer: Entered insertJoinClubRequest in DataLayer");
