@@ -47,11 +47,7 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         List<Event> listOfAllEvents=new ArrayList<>();
         if(procedureCallStatus)
         {
-            while(resultSet.next())
-            {
-                Event event = new EventBuilder().setOrganizerEmailID(resultSet.getString(1)).setEventName(resultSet.getString(2)).setDescription(resultSet.getString(3)).setVenue(resultSet.getString(4)).setStartDate(resultSet.getString(6)).setEndDate(resultSet.getString(7)).setStartTime(resultSet.getString(8)).setEndTime(resultSet.getString(9)).setEventTopic(resultSet.getString(10)).createEvent();
-                listOfAllEvents.add(event);
-            }
+            listOfAllEvents = setEventFromResultSet(resultSet, listOfAllEvents);
             logger.info("getAllEvents(): list of all events created successfully");
             logger.info("Exiting DataLayer: returning list of all events to Service Layer");
             return listOfAllEvents;
@@ -148,7 +144,18 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         List<Event> listOfAllEvents = new ArrayList<>();
         if (procedureCallStatus) {
             while (resultSet.next()) {
-                Event event = new EventBuilder().setOrganizerEmailID(resultSet.getString(1)).setEventName(resultSet.getString(2)).setDescription(resultSet.getString(3)).setVenue(resultSet.getString(4)).setStartDate(resultSet.getString(6)).setEndDate(resultSet.getString(7)).setStartTime(resultSet.getString(8)).setEndTime(resultSet.getString(9)).setEventTopic(resultSet.getString(10)).createEvent();
+                Event event = new EventBuilder()
+                        .setOrganizerEmailID(resultSet.getString(1))
+                        .setEventName(resultSet.getString(2))
+                        .setDescription(resultSet.getString(3))
+                        .setVenue(resultSet.getString(4))
+                        .setImage(resultSet.getString(5))
+                        .setStartDate(resultSet.getString(6))
+                        .setEndDate(resultSet.getString(7))
+                        .setStartTime(resultSet.getString(8))
+                        .setEndTime(resultSet.getString(9))
+                        .setEventTopic(resultSet.getString(10))
+                        .createEvent();
                 listOfAllEvents.add(event);
             }
             logger.info("getEventsByUser(): list of all events created successfully");
@@ -207,10 +214,7 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         ResultSet resultSet = callableStatement.getResultSet();
         List<Event> eventDetails = new ArrayList<>();
         if (procedureCallStatus) {
-            while (resultSet.next()) {
-                Event event = new EventBuilder().setOrganizerEmailID(resultSet.getString(9)).setEventName(resultSet.getString(1)).setDescription(resultSet.getString(3)).setVenue(resultSet.getString(8)).setStartDate(resultSet.getString(4)).setEndDate(resultSet.getString(5)).setStartTime(resultSet.getString(6)).setEndTime(resultSet.getString(7)).setEventTopic(resultSet.getString(2)).createEvent();
-                eventDetails.add(event);
-            }
+            eventDetails = setEventFromResultSet(resultSet, eventDetails);
             logger.info("getEventDetails(): get the list of all events details successfully");
             logger.info("Exiting DataLayer: returning list of all events details to Service Layer");
 
@@ -226,7 +230,7 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
      * @param eventDetails list in which Event objects are to be added
      * @throws SQLException
      */
-    private void setEventFromResultSet(ResultSet resultSet, List<Event> eventDetails) throws SQLException {
+    private List<Event> setEventFromResultSet(ResultSet resultSet, List<Event> eventDetails) throws SQLException {
         while (resultSet.next()) {
             Event event = new EventBuilder()
                     .setEventID(resultSet.getString(1))
@@ -243,6 +247,7 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
                     .setEventTopic(resultSet.getString(12)).createEvent();
             eventDetails.add(event);
         }
+        return eventDetails;
     }
 
     /**
@@ -347,7 +352,7 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         ResultSet resultSet = callableStatement.getResultSet();
         List<Event> listOfAllEvents = new ArrayList<>();
         if (resultStatus) {
-            setEventFromResultSet(resultSet, listOfAllEvents);
+            listOfAllEvents = setEventFromResultSet(resultSet, listOfAllEvents);
             logger.info("Exiting DataLayer: returning list of all events details to Service Layer");
             return listOfAllEvents;
         } else {

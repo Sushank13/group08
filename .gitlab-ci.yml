@@ -20,11 +20,9 @@ build_backend:
     artifacts:
         paths:
             - target/*.jar
-    tags:
-        - dalfcs_gitlab_docker_ci
     rules:
         - changes: 
-            - backend/*
+            - backend/**/*
 # Building the frontend project
 build_frontend:
     stage: build_stage
@@ -36,11 +34,9 @@ build_frontend:
         - npm install
         - npm run build 
         - echo "Completed - React Build stage"    
-    tags:
-        - dalfcs_gitlab_docker_ci
     rules:
         - changes: 
-            - frontend/*   
+            - frontend/**/*
 
 # Executing tests in backend project
 test_backend:
@@ -60,11 +56,9 @@ test_backend:
     artifacts:
         paths:
             - target/*.jar
-    tags:
-        - dalfcs_gitlab_docker_ci
     rules:
         - changes: 
-            - backend/*
+            - backend/**/*
 # Deploy the backend build on Render.com
 deploy_backend:
     stage: deploy_stage
@@ -79,8 +73,6 @@ deploy_backend:
         - envsubst < src/main/resources/database.properties | sponge src/main/resources/database.properties
         - curl -s "https://api.render.com/deploy/srv-${RENDER_DEPLOY_KEY_1}?key=${RENDER_DEPLOY_KEY_2}" 
         - echo "Completed - Deploying Springboot"
-    tags:
-        - dalfcs_gitlab_docker_ci
 
     # Execute Deploy only when commits are made on production 'main' branch
     only:

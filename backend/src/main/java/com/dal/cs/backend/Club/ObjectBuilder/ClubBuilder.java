@@ -19,6 +19,7 @@ public class ClubBuilder
     private String meetingTime;
     private String clubImage;
     private String rules;
+    private  String categoryName;
 
     public ClubBuilder setClubID(String clubID) {
         this.clubID = clubID;
@@ -74,8 +75,14 @@ public class ClubBuilder
         this.rules = rules;
         return this;
     }
+
+    public ClubBuilder setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+        return this;
+    }
+
     public Club createClub()
     {
-        return new Club(clubID,clubName,description,presidentEmailID,facebookLink,instagramLink,categoryID,location,meetingTime,clubImage,rules);
+        return new Club(clubID,clubName,description,presidentEmailID,facebookLink,instagramLink,categoryID,location,meetingTime,clubImage,rules, categoryName);
     }
 }

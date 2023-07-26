@@ -194,7 +194,20 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
         {
             while(resultSet.next())
             {
-                Club club=new ClubBuilder().setClubID(resultSet.getString(1)).setClubName(resultSet.getString(2)).setDescription(resultSet.getString(3)).setPresidentEmailID(resultSet.getString(4)).setFacebookLink(resultSet.getString(5)).setClubImage(resultSet.getString(10)).setInstagramLink(resultSet.getString(6)).setLocation(resultSet.getString(8)).setCategoryID(resultSet.getString(7)).setMeetingTime(resultSet.getString(9)).setRules(resultSet.getString(11)).createClub();
+                Club club=new ClubBuilder()
+                        .setClubID(resultSet.getString(1))
+                        .setCategoryID(resultSet.getString(2))
+                        .setClubName(resultSet.getString(3))
+                        .setCategoryName(resultSet.getString(4))
+                        .setDescription(resultSet.getString(5))
+                        .setPresidentEmailID(resultSet.getString(6))
+                        .setFacebookLink(resultSet.getString(7))
+                        .setInstagramLink(resultSet.getString(8))
+                        .setLocation(resultSet.getString(9))
+                        .setMeetingTime(resultSet.getString(10))
+                        .setClubImage(resultSet.getString(11))
+                        .setRules(resultSet.getString(12))
+                        .createClub();
                 listOfAllClubs.add(club);
             }
             logger.info("getAllClubs(): list of all clubs created successfully");
@@ -266,7 +279,19 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
         if(procedureCallStatus)
         {
             resultSet.next();
-            Club club=new ClubBuilder().setClubID(resultSet.getString(2)).setClubName(resultSet.getString(5)).setDescription(resultSet.getString(6)).setPresidentEmailID(resultSet.getString(3)).setFacebookLink(resultSet.getString(7)).setClubImage(resultSet.getString(10)).setInstagramLink(resultSet.getString(8)).setLocation(resultSet.getString(9)).setCategoryID(resultSet.getString(4)).setMeetingTime(resultSet.getString(11)).setRules(resultSet.getString(12)).createClub();
+            Club club=new ClubBuilder()
+                    .setClubID(resultSet.getString(2))
+                    .setPresidentEmailID(resultSet.getString(3))
+                    .setCategoryID(resultSet.getString(4))
+                    .setClubName(resultSet.getString(5))
+                    .setDescription(resultSet.getString(6))
+                    .setFacebookLink(resultSet.getString(7))
+                    .setInstagramLink(resultSet.getString(8))
+                    .setLocation(resultSet.getString(9))
+                    .setMeetingTime(resultSet.getString(10))
+                    .setClubImage(resultSet.getString(11))
+                    .setRules(resultSet.getString(12))
+                    .createClub();
             logger.info("Exiting DataLayer: returning club details to Service Layer for request id "+reqId);
             return club;
         }
@@ -335,7 +360,7 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             List<Club> listOfAllClubs=new ArrayList<>();
             if(procedureCallStatus)
             {
-                setClubFromResultSet(resultSet, listOfAllClubs);
+                listOfAllClubs = setClubFromResultSet(resultSet, listOfAllClubs);
                 logger.info("Exiting DataLayer: returning search club by name to Service Layer");
                 return listOfAllClubs;
             }
@@ -364,7 +389,7 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             List<Club> listOfAllClubs=new ArrayList<>();
             if(procedureCallStatus)
             {
-                setClubFromResultSet(resultSet, listOfAllClubs);
+                listOfAllClubs = setClubFromResultSet(resultSet, listOfAllClubs);
                 logger.info("Exiting DataLayer: returning list of all clubs by category to Service Layer");
                 return listOfAllClubs;
             }
@@ -380,7 +405,7 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
      * @param listOfAllClubs list in which Club objects are to be added
      * @throws SQLException
      */
-    private void setClubFromResultSet(ResultSet resultSet, List<Club> listOfAllClubs) throws SQLException {
+    private List<Club> setClubFromResultSet(ResultSet resultSet, List<Club> listOfAllClubs) throws SQLException {
         while(resultSet.next())
         {
             Club club = new ClubBuilder()
@@ -398,6 +423,7 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
                     .createClub();
             listOfAllClubs.add(club);
         }
+        return listOfAllClubs;
     }
 
     /**
