@@ -121,6 +121,20 @@ public class ClubDataLayerTest {
     }
 
     @Test
+    public void getLatestJoinClubRequestIdTest()
+    {
+        try
+        {
+           String latestRequestId= iclubSecondDataLayer.getLatestJoinClubRequestId();
+            System.out.println(latestRequestId);
+        }
+        catch (SQLException e)
+        {
+            fail("Test failed: Exception occurred- "+e.getMessage());
+        }
+    }
+
+    @Test
     public void getAllJoinClubRequestsTest() {
         //TODO: Add club random generator for club creation
 //        try {

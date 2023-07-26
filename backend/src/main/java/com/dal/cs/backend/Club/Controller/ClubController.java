@@ -178,6 +178,21 @@ public class ClubController
     }
 
     /**
+     * This method receives the api call to submit a request for joining a club.
+     * @param joinClubRequest is the entity to which the details of a join club request are mapped
+     * @return a message with the request id if the request is submitted or an error message if
+     * request could not be submitted.
+     */
+    @RequestMapping(method = RequestMethod.POST,value="/unauthenticated/joinClubRequest")
+    public String submitJoinClubRequest(@RequestBody JoinClubRequest joinClubRequest)
+    {
+        logger.info("Controller Entered: Received request for joining a club");
+        logger.info("submitJoinClubRequest(): calling submitJoinClubRequest() of ServiceLayer");
+        String message=iClubServiceLayer.submitJoinClubRequest(joinClubRequest);
+        logger.info("Exiting Controller: returning message if create join club request submitted or not");
+        return message;
+    }
+     /**
      * Get all join club requests using club ID and president email ID
      * @param clubID String
      * @param presidentEmailID String
