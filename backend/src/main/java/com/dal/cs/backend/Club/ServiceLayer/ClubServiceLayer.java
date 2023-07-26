@@ -498,10 +498,35 @@ public class ClubServiceLayer implements  IClubServiceLayer
     }
     public boolean rejectJoinClubRequest(String reqId)
     {
+        logger.info("Entered ServiceLayer: Entered rejectJoinClubRequest()");
+        logger.info("rejectJoinClubRequest(): performing input validation for request id");
         if(reqId==null||reqId.equals(""))
         {
             return false;
         }
-        return true;
+        logger.info("rejectJoinClubRequest(): input validation for request id passed");
+        logger.info("rejectJoinClubRequest(): calling deleteJoinClubRequest() of datalayer");
+        try
+        {
+            boolean rejectJoinClubRequestStatus = iClubDataLayer.deleteJoinClubRequest(reqId);
+            if (rejectJoinClubRequestStatus)
+            {
+                logger.info("ServiceLayer: join club request rejected.");
+                logger.info("Exiting ServiceLayer: returning true to the Controller.");
+                return true;
+            }
+            else
+            {
+                logger.info("ServiceLayer: join club request could not be rejected.");
+                logger.info("Exiting ServiceLayer: returning false to the Controller.");
+                return false;
+            }
+        }
+        catch(SQLException e)
+        {
+            logger.error("ServiceLayer: SQL exception occurred while calling deleteJoinClubRequest()"+e.getMessage());
+            logger.info("Exiting ServiceLayer: returning false to the Controller.");
+            return false;
+        }
     }
 }
