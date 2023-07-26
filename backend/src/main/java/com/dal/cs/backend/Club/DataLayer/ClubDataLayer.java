@@ -626,8 +626,19 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
      * @return true if the record is updated else return false
      */
     @Override
-    public boolean updateJoinClubRequestStatusToApproved(String reqId)
+    public boolean updateJoinClubRequestStatusToApproved(String reqId) throws  SQLException
     {
-        return false;
+        callProcedure="{CALL updateJoinClubRequestStatusToApproved(?)}";
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1,reqId);
+        int procedureCallStatus=callableStatement.executeUpdate();
+        if(procedureCallStatus>0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
