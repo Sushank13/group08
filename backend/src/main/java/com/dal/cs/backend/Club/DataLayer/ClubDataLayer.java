@@ -619,4 +619,34 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             return null;
         }
     }
+
+    /**
+     * This method calls the stored procedure that updates the request status of a join club request to approved
+     * @param reqId is the request id of the join club request of the member
+     * @return true if the record is updated else return false
+     */
+    @Override
+    public boolean updateJoinClubRequestStatusToApproved(String reqId) throws SQLException
+    {
+        logger.info("Entered Datalayer: inside updateJoinClubRequestStatusToApproved()");
+        logger.info("updateJoinClubRequestStatusToApproved(): calling stored procedure");
+        callProcedure="{CALL updateJoinClubRequestStatusToApproved(?)}";
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1,reqId);
+        int procedureCallStatus=callableStatement.executeUpdate();
+        if(procedureCallStatus>0)
+        {
+            logger.info("stored procedure called successfully");
+            logger.info("request status of join club request with request id: "+ reqId+ "updated to approved successfully");
+            logger.info("Exiting datalayer: returning true to ServiceLayer");
+            return true;
+        }
+        else
+        {
+            logger.info("request status of join club request with request id: "+ reqId+ " not updated to approved successfully");
+            logger.error("Problem with procedure call or database connection");
+            logger.info("Exiting datalayer: returning false to ServiceLayer");
+            return false;
+        }
+    }
 }

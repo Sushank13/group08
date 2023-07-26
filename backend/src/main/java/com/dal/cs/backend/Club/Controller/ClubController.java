@@ -206,4 +206,28 @@ public class ClubController
         return joinClubRequestList;
     }
 
+    /**
+     *  This method receives the api call to approve a member's join club request by the president of the club
+     * @param reqId is the request id of the join club request of the member
+     * @return a message to the frontend
+     */
+    @RequestMapping(method =RequestMethod.PUT,value="president/approveJoinClubRequest/{reqId}")
+    public String approveJoinClubRequest(@PathVariable("reqId") String reqId)
+    {
+        String message;
+        logger.info(" Entered Controller: received request to approve a join club request");
+        logger.info("Controller: Inside approveJoinClubRequest() ");
+        logger.info("approveJoinClubRequest(): Calling approveJoinClubRequest() in the service layer");
+        boolean approveJoinClubRequestStatus=iClubServiceLayer.approveJoinClubRequest(reqId);
+        if(approveJoinClubRequestStatus)
+        {
+            message="Join Club Request with request id: "+reqId+" was approved";
+        }
+        else
+        {
+            message="Join Club Request with request id: "+reqId+"could not be approved";
+        }
+        logger.info("Controller: Exiting Controller. Returning approval message");
+        return message;
+    }
 }
