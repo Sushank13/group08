@@ -604,7 +604,7 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
                     RequestStatus requestStatus = EnumUtils.fromString(RequestStatus.class, resultSet.getString(5));
                     joinClubRequestBuilder.setRequestStatus(requestStatus);
 
-                    joinClubRequests.add(joinClubRequestBuilder.CreateJoinClubRequest());
+                    joinClubRequests.add(joinClubRequestBuilder.createJoinClubRequest());
                 }
                 logger.info("getAllJoinClubRequest(): list of all join club requests created successfully");
                 logger.info("Exiting DataLayer: returning list of all join club request to Service Layer");
