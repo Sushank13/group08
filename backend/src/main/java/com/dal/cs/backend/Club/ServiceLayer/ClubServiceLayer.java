@@ -473,16 +473,25 @@ public class ClubServiceLayer implements  IClubServiceLayer
         }
         logger.info("approveJoinClubRequest(): input validation for request id passed");
         logger.info("approveJoinClubRequest(): calling updateJoinClubRequestStatusToApproved() of datalayer");
-        boolean approveJoinClubRequestStatus=iClubDataLayer.updateJoinClubRequestStatusToApproved(reqId);
-        if(approveJoinClubRequestStatus)
+        try
         {
-            logger.info("ServiceLayer: join club request approved.");
-            logger.info("Exiting ServiceLayer: returning true to the Controller.");
-            return true;
+            boolean approveJoinClubRequestStatus = iClubDataLayer.updateJoinClubRequestStatusToApproved(reqId);
+            if (approveJoinClubRequestStatus)
+            {
+                logger.info("ServiceLayer: join club request approved.");
+                logger.info("Exiting ServiceLayer: returning true to the Controller.");
+                return true;
+            }
+            else
+            {
+                logger.info("ServiceLayer: join club request could not be approved.");
+                logger.info("Exiting ServiceLayer: returning false to the Controller.");
+                return false;
+            }
         }
-        else
+        catch(SQLException e)
         {
-            logger.info("ServiceLayer: join club request could not be approved.");
+            logger.error("ServiceLayer: SQL exception occurred while calling updateJoinClubRequestStatusToApproved()"+e.getMessage());
             logger.info("Exiting ServiceLayer: returning false to the Controller.");
             return false;
         }
