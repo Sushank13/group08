@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Club.ObjectBuilder;
 
 import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
+import com.dal.cs.backend.Club.Enum.RequestStatus;
 
 public class JoinClubRequestBuilder
 {
