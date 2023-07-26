@@ -42,7 +42,6 @@ END //
 DELIMITER ;
 
 -- Procedure for searching the club by category
-
 DELIMITER //
 CREATE PROCEDURE searchClubByCategory(IN category VARCHAR(50) )
 BEGIN
@@ -112,7 +111,6 @@ BEGIN
 END //
 DELIMITER ;
 
-
 -- Procedure to create a club by inserting record in Club table
 DELIMITER //
 CREATE PROCEDURE createClub(IN clubID VARCHAR(50),IN clubName VARCHAR(255),IN clubDescription VARCHAR(255),IN presidentEmailID VARCHAR(255),IN facebookLink VARCHAR(255),IN instagramLink VARCHAR(255),IN categoryID VARCHAR(50),IN location VARCHAR(255), IN meetingTime VARCHAR(255),IN clubImage VARCHAR(255),IN rules VARCHAR(255))
@@ -145,7 +143,6 @@ BEGIN
 END //
 DELIMITER ;
 
-
 -- Procedure to update club request status to rejected
 DELIMITER //
 CREATE PROCEDURE updateClubRequestStatusToRejected(IN requestId VARCHAR(50))
@@ -161,7 +158,6 @@ BEGIN
 	SELECT CONCAT('EVNT_',(SELECT CAST(SUBSTRING_INDEX(eventID, '_', -1) AS UNSIGNED)+1 AS eventID FROM events ORDER BY eventID DESC LIMIT 1)) AS eventID FROM events LIMIT 1;
 END //
 DELIMITER ;
-
 
 -- Procedure to create event by inserting event record into event table
 DELIMITER //
@@ -183,7 +179,6 @@ BEGIN
     WHERE erd.emailID = userEmailID;
 END//
 DELIMITER ;
-
 
 -- Procedure to insert a record when user registers for an event
 DELIMITER //
@@ -268,7 +263,6 @@ BEGIN
 END //
 DELIMITER ;
 
-
 -- Procedure to get the latest join club request id
 DELIMITER //
 CREATE PROCEDURE getLatestJoinClubRequestId()
@@ -303,3 +297,13 @@ BEGIN
    WHERE joinClubRequest.requestID=requestId;
 END //
 DELIMITER ;
+
+-- Procedure to retrieve clubs by their club id
+DELIMITER //
+CREATE PROCEDURE getEventsByClubID(IN club_Id VARCHAR(50))
+BEGIN
+   SELECT eventID, clubID, organizerEmailID, eventName, description, venue, image, startDate, endDate, startTime, endTime, eventTopic FROM events WHERE clubID = club_Id;
+END //
+DELIMITER ;
+
+
