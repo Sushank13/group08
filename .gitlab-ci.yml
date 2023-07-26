@@ -90,5 +90,3 @@ deploy_frontend:
     # Execute Deploy only when commits are made on production 'main' branch
     only:
         - main
-    tags:
-        - dalfcs_gitlab_docker_ci
