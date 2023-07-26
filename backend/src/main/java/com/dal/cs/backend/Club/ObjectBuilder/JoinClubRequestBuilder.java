@@ -9,7 +9,6 @@ public class JoinClubRequestBuilder
     private String requesterEmailID;
     private String clubID;
     private String joiningReason;
-    private String requestStatus;
     private RequestStatus requestStatus;
 
     public JoinClubRequestBuilder setRequestID(String requestID) 
