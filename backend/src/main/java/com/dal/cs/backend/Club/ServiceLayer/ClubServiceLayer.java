@@ -469,6 +469,14 @@ public class ClubServiceLayer implements  IClubServiceLayer
         {
             return false;
         }
-        return false;
+        boolean approveJoinClubRequestStatus=iClubDataLayer.updateJoinClubRequestStatusToApproved(reqId);
+        if(approveJoinClubRequestStatus)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
