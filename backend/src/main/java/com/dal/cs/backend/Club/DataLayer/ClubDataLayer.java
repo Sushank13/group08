@@ -2,8 +2,6 @@ package com.dal.cs.backend.Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
-<<<<<<< backend/src/main/java/com/dal/cs/backend/Club/DataLayer/ClubDataLayer.java
-=======
 import com.dal.cs.backend.Club.Enum.RequestStatus;
 import com.dal.cs.backend.Club.ObjectBuilder.ClubBuilder;
 import com.dal.cs.backend.Club.ObjectBuilder.JoinClubRequestBuilder;
