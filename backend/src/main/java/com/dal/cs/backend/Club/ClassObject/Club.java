@@ -15,7 +15,7 @@ public class Club
     private String clubImage;
     private String rules;
 
-    public Club(String clubID, String clubName, String description, String presidentEmailID, String facebookLink, String instagramLink, String categoryID, String location, String meetingTime, String clubImage, String rules)
+    public Club(String clubID, String clubName, String description, String presidentEmailID, String facebookLink, String instagramLink, String categoryID, String location, String meetingTime, String clubImage, String rules, String categoryName)
     {
         this.clubID = clubID;
         this.clubName = clubName;
@@ -28,6 +28,7 @@ public class Club
         this.meetingTime = meetingTime;
         this.clubImage = clubImage;
         this.rules = rules;
+        this.categoryName = categoryName;
     }
     public String getClubID() {
         return clubID;
