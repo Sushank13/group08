@@ -93,4 +93,11 @@ public class ClubServiceLayerTest
     public void getAllJoinClubRequestsTest() {
 //        assertNotEquals(iclubServiceLayer.getAllJoinClubRequests("CLB_2", "user@dal.ca").size(), 0);
     }
+
+    @Test
+    public void approveJoinClubRequestWhenReqIdIsNullTest()
+    {
+        String reqId=null;
+        assertFalse(iclubServiceLayer.approveClubRequest(reqId));
+    }
 }
