@@ -649,4 +649,29 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             return false;
         }
     }
+    @Override
+    public boolean deleteJoinClubRequest(String reqId) throws SQLException
+    {
+        logger.info("Entered Datalayer: deleteJoinClubRequest()");
+        logger.info("deleteJoinClubRequest(): calling stored procedure");
+        callProcedure="{CALL deleteJoinClubRequest(?)}";
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1,reqId);
+        int procedureCallStatus=callableStatement.executeUpdate();
+        if(procedureCallStatus>0)
+        {
+            logger.info("stored procedure called successfully");
+            logger.info("join club request with request id: "+ reqId+ " deleted");
+            logger.info("Exiting datalayer: returning true to ServiceLayer");
+            return true;
+        }
+        else
+        {
+            logger.info("join club request with request id: "+ reqId+ " not deleted");
+            logger.error("Problem with procedure call or database connection");
+            logger.info("Exiting datalayer: returning false to ServiceLayer");
+            return false;
+        }
+    }
+
 }

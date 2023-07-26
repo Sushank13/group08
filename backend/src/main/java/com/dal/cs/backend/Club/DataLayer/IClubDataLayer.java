@@ -24,4 +24,5 @@ public interface IClubDataLayer
    public boolean insertJoinClubRequest(JoinClubRequest joinClubRequest) throws  SQLException;
    public List<JoinClubRequest> getAllJoinClubRequests(String clubID, String presidentEmailID) throws SQLException;
    public boolean updateJoinClubRequestStatusToApproved(String reqId) throws SQLException;
+   public boolean deleteJoinClubRequest(String reqId) throws SQLException;
 }
