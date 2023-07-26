@@ -456,4 +456,13 @@ public class ClubServiceLayer implements  IClubServiceLayer
             throw new RuntimeException(e);
         }
     }
+    @Override
+    public boolean approveJoinClubRequest(String reqId)
+    {
+        if(reqId==null)
+        {
+            return false;
+        }
+        return false;
+    }
 }
