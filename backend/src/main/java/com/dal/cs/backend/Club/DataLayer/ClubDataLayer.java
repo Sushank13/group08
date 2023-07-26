@@ -5,7 +5,6 @@ import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.Enum.RequestStatus;
 import com.dal.cs.backend.Club.ObjectBuilder.ClubBuilder;
 import com.dal.cs.backend.Club.ObjectBuilder.JoinClubRequestBuilder;
-import com.dal.cs.backend.baseUtils.Enum.EnumUtils;
 import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
 
