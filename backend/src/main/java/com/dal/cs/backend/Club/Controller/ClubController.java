@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Club.Controller;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.ServiceLayer.IClubServiceLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,8 +17,13 @@ import java.util.List;
 public class ClubController
 {
     private static final Logger logger= LogManager.getLogger(ClubController.class);
-    @Autowired
+
     IClubServiceLayer iClubServiceLayer;
+
+    @Autowired
+    public ClubController(IClubServiceLayer iClubServiceLayer) {
+        this.iClubServiceLayer = iClubServiceLayer;
+    }
 
     /**
      * This method accepts the club details  for a new club request.
@@ -25,7 +31,7 @@ public class ClubController
      * @return a message to the user with the request id in case request is submitted or an error message
      * if the request is not submitted
      */
-    @RequestMapping(method = RequestMethod.POST,value="/registerClub")
+    @RequestMapping(method = RequestMethod.POST,value="/member/registerClub")
     public String createClubRequest(@RequestBody Club club)
     {
         logger.info("Controller Entered: Received a new request for club creation");
@@ -40,7 +46,7 @@ public class ClubController
      *
      * @return A list of maps containing category names and corresponding category IDs.
      */
-    @RequestMapping(method = RequestMethod.GET, value="/getAllClubCategory")
+    @RequestMapping(method = RequestMethod.GET, value="/unauthenticated/getAllClubCategory")
     public ArrayList<HashMap<String, String>> getAllClubCategories() {
         logger.info("Controller Entered: Received request for getting all club categories.");
         logger.info("getAllClubCategories- Calling Service layer getAllClubCategories");
@@ -53,7 +59,7 @@ public class ClubController
      * This receives request to retrieve a list of all clubs in DalClubs
      * @return list of clubs
      */
-    @RequestMapping(method = RequestMethod.GET, value="/getAllClubs")
+    @RequestMapping(method = RequestMethod.GET, value="/unauthenticated/getAllClubs")
     public List<Club> getAllClubs()
     {
         logger.info("Controller Entered: Received request to get all clubs.");
@@ -68,7 +74,7 @@ public class ClubController
      * @param name string value containing the search keyword value
      * @return list of clubs filtered by name
      */
-    @RequestMapping(method = RequestMethod.GET, value="/getClubByName/{name}")
+    @RequestMapping(method = RequestMethod.GET, value="/unauthenticated/getClubByName/{name}")
     public List<Club> getClubsByName(@PathVariable("name") String name)
     {
         logger.info("Controller Entered: Received request to get clubs by name.");
@@ -83,7 +89,7 @@ public class ClubController
      * @param category string value containing the category name value
      * @return list of clubs filtered by category name
      */
-    @RequestMapping(method = RequestMethod.GET, value="/getClubByCategory/{category}")
+    @RequestMapping(method = RequestMethod.GET, value="/unauthenticated/getClubByCategory/{category}")
     public List<Club> getClubsByCategory(@PathVariable("category") String category)
     {
         logger.info("Controller Entered: Received request to get clubs by category.");
@@ -98,7 +104,7 @@ public class ClubController
      * @param club The club object containing the new details.
      * @return A string response result, upon success returns newly generated request ID and upon failure returns error message.
      */
-    @RequestMapping(method = RequestMethod.POST, value="/updateClubDetails")
+    @RequestMapping(method = RequestMethod.POST, value="/president/updateClubDetails")
     public String updateClubDetails(@RequestBody Club club) {
         logger.info("Controller Entered: Received request for updating club details.");
         logger.info("updateClubDetails- Calling Service layer updateClubDetails");
@@ -112,7 +118,7 @@ public class ClubController
      * @param reqId is the request id of the club update or new club request
      * @return a message
      */
-    @RequestMapping(method = RequestMethod.PUT,value="/approveClubRequest/{reqId}")
+        @RequestMapping(method = RequestMethod.PUT,value="/admin/approveClubRequest/{reqId}")
      public String approveClubRequest(@PathVariable("reqId") String reqId )
     {
         logger.info("Controller Entered: Received request to approve the new club or update club request.");
@@ -136,7 +142,7 @@ public class ClubController
      * @param reqId is the request id of the club update or new club request
      * @return a message
      */
-    @RequestMapping(method = RequestMethod.PUT,value="/rejectClubRequest/{reqId}")
+    @RequestMapping(method = RequestMethod.PUT,value="/admin/rejectClubRequest/{reqId}")
     public String rejectClubRequest(@PathVariable("reqId") String reqId )
     {
         logger.info("Controller Entered: Received request to reject the new club or update club request.");
@@ -162,7 +168,7 @@ public class ClubController
      * @param clubID The clubID value for the club record to delete
      * @return A boolean response result, which returns true if record deleted successfully, else returns false
      */
-    @RequestMapping(method = RequestMethod.POST, value="/deleteClub")
+    @RequestMapping(method = RequestMethod.POST, value="/admin/deleteClub")
     public boolean deleteClub(String clubID) {
         logger.info("Controller Entered: Received request for deleting the club based on its ID column.");
         logger.info("deleteClub- Calling Service layer deleteClub");
@@ -171,4 +177,57 @@ public class ClubController
         return responseResult;
     }
 
+    /**
+     * This method receives the api call to submit a request for joining a club.
+     * @param joinClubRequest is the entity to which the details of a join club request are mapped
+     * @return a message with the request id if the request is submitted or an error message if
+     * request could not be submitted.
+     */
+    @RequestMapping(method = RequestMethod.POST,value="/unauthenticated/joinClubRequest")
+    public String submitJoinClubRequest(@RequestBody JoinClubRequest joinClubRequest)
+    {
+        logger.info("Controller Entered: Received request for joining a club");
+        logger.info("submitJoinClubRequest(): calling submitJoinClubRequest() of ServiceLayer");
+        String message=iClubServiceLayer.submitJoinClubRequest(joinClubRequest);
+        logger.info("Exiting Controller: returning message if create join club request submitted or not");
+        return message;
+    }
+     /**
+     * Get all join club requests using club ID and president email ID
+     * @param clubID String
+     * @param presidentEmailID String
+     * @return List of all join club requests of club managed by president
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/president/getAllJoinClubRequests")
+    public List<JoinClubRequest> getAllJoinClubRequests(String clubID, String presidentEmailID) {
+        logger.info("Controller Entered: Received request for getting all join club requests based on club ID.");
+        List<JoinClubRequest> joinClubRequestList = iClubServiceLayer.getAllJoinClubRequests(clubID, presidentEmailID);
+        logger.info("Exiting Controller: Returning service layer response result to Frontend via POST /deleteClub");
+        return joinClubRequestList;
+    }
+
+    /**
+     *  This method receives the api call to approve a member's join club request by the president of the club
+     * @param reqId is the request id of the join club request of the member
+     * @return a message to the frontend
+     */
+    @RequestMapping(method =RequestMethod.PUT,value="president/approveJoinClubRequest/{reqId}")
+    public String approveJoinClubRequest(@PathVariable("reqId") String reqId)
+    {
+        String message;
+        logger.info(" Entered Controller: received request to approve a join club request");
+        logger.info("Controller: Inside approveJoinClubRequest() ");
+        logger.info("approveJoinClubRequest(): Calling approveJoinClubRequest() in the service layer");
+        boolean approveJoinClubRequestStatus=iClubServiceLayer.approveJoinClubRequest(reqId);
+        if(approveJoinClubRequestStatus)
+        {
+            message="Join Club Request with request id: "+reqId+" was approved";
+        }
+        else
+        {
+            message="Join Club Request with request id: "+reqId+"could not be approved";
+        }
+        logger.info("Controller: Exiting Controller. Returning approval message");
+        return message;
+    }
 }

@@ -1,8 +1,13 @@
 package Club.ServiceLayer;
 
+import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
+import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
+import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
 import com.dal.cs.backend.Club.ServiceLayer.ClubServiceLayer;
 import com.dal.cs.backend.Club.ServiceLayer.IClubServiceLayer;
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.database.DatabaseConnection;
+import com.dal.cs.backend.database.IDatabaseConnection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,8 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ClubServiceLayerTest
 {
@@ -19,8 +23,12 @@ public class ClubServiceLayerTest
 
     @BeforeEach
     public void beforeTestRun() {
-        iclubServiceLayer = new ClubServiceLayer() ;
+        IDatabaseConnection iDatabaseConnection = DatabaseConnection.getInstance();
+        IClubDataLayer iClubDataLayer =  ClubDataLayer.getInstance(iDatabaseConnection);
+        IClubSecondDataLayer iClubSecondDataLayer = ClubDataLayer.getInstance(iDatabaseConnection);
+        iclubServiceLayer = ClubServiceLayer.getInstance(iClubDataLayer, iClubSecondDataLayer) ;
     }
+
     @Test
     public void getAllClubCategoriesTest() {
         try {
@@ -79,5 +87,23 @@ public class ClubServiceLayerTest
     public void deleteClubTest() {
 //        boolean result = iclubServiceLayer.deleteClub("CLB_1");
 //        System.out.println("result = " + result);
+    }
+
+    @Test
+    public void getAllJoinClubRequestsTest() {
+//        assertNotEquals(iclubServiceLayer.getAllJoinClubRequests("CLB_2", "user@dal.ca").size(), 0);
+    }
+
+    @Test
+    public void approveJoinClubRequestWhenReqIdIsNullTest()
+    {
+        String reqId=null;
+        assertFalse(iclubServiceLayer.approveClubRequest(reqId));
+    }
+    @Test
+    public void approveJoinClubRequestWhenReqIdIsEmptyTest()
+    {
+        String reqId="";
+        assertFalse(iclubServiceLayer.approveClubRequest(reqId));
     }
 }

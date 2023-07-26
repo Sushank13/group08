@@ -1,9 +1,11 @@
 package com.dal.cs.backend.member.DataLayer;
 
+import com.dal.cs.backend.baseUtils.Enum.EnumUtils;
 import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.member.MemberObject.Member;
+import com.dal.cs.backend.member.ObjectBuilder.MemberBuilder;
 import com.dal.cs.backend.member.ServiceLayer.MemberServiceLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,7 +41,8 @@ public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
 
     public boolean createNewMember(Member member) {
         try {
-            CallableStatement cs = connection.prepareCall("{call MemberSaveNewMember(?,?,?,?,?,?,?,?)}");
+            String procedure = getProcedureCallString("MemberSaveNewMember", 9);
+            CallableStatement cs = connection.prepareCall(procedure);
             cs.setString(1, member.getEmailId());
             cs.setString(2, member.getFirstName());
             cs.setString(3, member.getLastName());
@@ -48,6 +51,7 @@ public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
             cs.setInt(6, member.getTerm());
             cs.setString(7, member.getMobile());
             cs.setDate(8, Date.valueOf(member.getDob()));
+            cs.setString(9, member.getPassword());
             cs.execute();
 
         } catch (SQLException e) {
@@ -74,16 +78,18 @@ public class MemberDataLayer extends BaseDataLayer implements IMemberDataLayer {
                 ResultSet resultSet = callableStatement.getResultSet();
                 if (resultSet.next()) {
                     logger.info("[Member][Data] Found member");
-                    Member member = new Member(emailId);
-                    member.setFirstName(resultSet.getString("firstName"));
-                    member.setLastName(resultSet.getString("lastName"));
-                    MemberType memberType = MemberType.fromString(resultSet.getString("userType"));
-                    member.setMemberType(memberType);
-                    member.setProgram(resultSet.getString("program"));
-                    member.setTerm(resultSet.getInt("term"));
-                    member.setMobile(resultSet.getString("mobileNumber"));
-                    member.setDob(resultSet.getDate("DOB").toLocalDate());
-
+                    MemberType memberType = EnumUtils.fromString(MemberType.class, resultSet.getString("userType"));
+                    Member member = new MemberBuilder()
+                            .setEmailId(emailId)
+                            .setFirstName(resultSet.getString("firstName"))
+                            .setLastName(resultSet.getString("lastName"))
+                            .setMemberType(memberType)
+                            .setProgram(resultSet.getString("program"))
+                            .setTerm(resultSet.getInt("term"))
+                            .setMobile(resultSet.getString("mobileNumber"))
+                            .setDob(resultSet.getDate("DOB").toLocalDate())
+                            .setPassword(resultSet.getString("password"))
+                            .createMember();
                     return member;
                 }
             }
