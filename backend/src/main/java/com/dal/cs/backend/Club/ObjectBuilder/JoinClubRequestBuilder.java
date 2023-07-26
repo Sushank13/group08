@@ -33,7 +33,7 @@ public class JoinClubRequestBuilder
         this.joiningReason = joiningReason;
         return this;
     }
-    public JoinClubRequestBuilder setRequestStatus(String requestStatus) 
+    public JoinClubRequestBuilder setRequestStatus(RequestStatus requestStatus) 
     {
         this.requestStatus = requestStatus;
         return this;
