@@ -498,6 +498,10 @@ public class ClubServiceLayer implements  IClubServiceLayer
     }
     public boolean rejectJoinClubRequest(String reqId)
     {
+        if(reqId==null)
+        {
+            return false;
+        }
         return true;
     }
 }
