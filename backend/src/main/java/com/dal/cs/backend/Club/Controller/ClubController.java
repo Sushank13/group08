@@ -206,6 +206,11 @@ public class ClubController
         return joinClubRequestList;
     }
 
+    /**
+     *  This method receives the api call to approve a member's join club request by the president of the club
+     * @param reqId is the request id of the join club request of the member
+     * @return a message to the frontend
+     */
     @RequestMapping(method =RequestMethod.PUT,value="president/approveJoinClubRequest/{reqId}")
     public String approveJoinClubRequest(@PathVariable("reqId") String reqId)
     {
