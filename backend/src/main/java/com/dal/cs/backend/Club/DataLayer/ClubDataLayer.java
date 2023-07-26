@@ -601,7 +601,7 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
                             .setRequestID(resultSet.getString(1))
                             .setRequesterEmailID(resultSet.getString(2))
                             .setClubID(resultSet.getString(3)).setJoiningReason(resultSet.getString(4));
-                    RequestStatus requestStatus = EnumUtils.fromString(RequestStatus.class, resultSet.getString(5));
+                    RequestStatus requestStatus = RequestStatus.valueOf(resultSet.getString(5));
                     joinClubRequestBuilder.setRequestStatus(requestStatus);
 
                     joinClubRequests.add(joinClubRequestBuilder.createJoinClubRequest());
