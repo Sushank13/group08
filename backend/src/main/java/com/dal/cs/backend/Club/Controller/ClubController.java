@@ -43,7 +43,6 @@ public class ClubController
 
     /**
      * Retrieves all club categories.
-     *
      * @return A list of maps containing category names and corresponding category IDs.
      */
     @RequestMapping(method = RequestMethod.GET, value="/unauthenticated/getAllClubCategory")
