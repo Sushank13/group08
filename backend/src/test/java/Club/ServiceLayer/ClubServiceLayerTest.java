@@ -103,7 +103,7 @@ public class ClubServiceLayerTest
     @Test
     public void approveJoinClubRequestWhenReqIdIsEmptyTest()
     {
-        String reqId=" ";
+        String reqId="";
         assertFalse(iclubServiceLayer.approveClubRequest(reqId));
     }
 }
