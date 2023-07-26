@@ -221,7 +221,7 @@ public class ClubController
         boolean approveJoinClubRequestStatus=iClubServiceLayer.approveJoinClubRequest(reqId);
         if(approveJoinClubRequestStatus)
         {
-            message="Join Club Request with request id: "+reqId+"was approved";
+            message="Join Club Request with request id: "+reqId+" was approved";
         }
         else
         {
