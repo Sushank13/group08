@@ -10,13 +10,13 @@
 */
 
 -- Use Development database
-USE CSCI5308_8_DEVINT;
+-- USE CSCI5308_8_DEVINT;
 
 -- Use Test database
 -- USE CSCI5308_8_TEST;
 
 -- Use Production database
--- USE CSCI5308_8_PRODUCTION; 
+USE CSCI5308_8_PRODUCTION; 
 
 -- Create Tables for Dal Clubs Database
 CREATE TABLE category (
@@ -109,6 +109,13 @@ CREATE TABLE newAndUpdateClubRequest (
   PRIMARY KEY (requestID),
   FOREIGN KEY (requestorEmailID) REFERENCES member(emailID),
   FOREIGN KEY (categoryID) REFERENCES category(categoryID)
+);
+
+CREATE TABLE eventRegistrationDetails (
+  eventID varchar(50) DEFAULT NULL,
+  emailID varchar(255) DEFAULT NULL,
+  FOREIGN KEY (eventID) REFERENCES events (eventID),
+  FOREIGN KEY (emailID) REFERENCES member (emailID)
 );
 
 -- INSERT DATA INTO TABLES:
