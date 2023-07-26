@@ -2,7 +2,12 @@ package com.dal.cs.backend.Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
+<<<<<<< backend/src/main/java/com/dal/cs/backend/Club/DataLayer/ClubDataLayer.java
+=======
+import com.dal.cs.backend.Club.Enum.RequestStatus;
 import com.dal.cs.backend.Club.ObjectBuilder.ClubBuilder;
+import com.dal.cs.backend.Club.ObjectBuilder.JoinClubRequestBuilder;
+import com.dal.cs.backend.baseUtils.Enum.EnumUtils;
 import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
 
@@ -546,6 +551,48 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             logger.error("Problem with procedure call or database connection");
             logger.info("Exiting datalayer: returning false to ServiceLayer");
             return false;
+        }
+    }
+     /**
+     * Gets list of club requests by joining club and join club request with club id and verifies president
+     * @param clubID String
+     * @param presidentEmailID String
+     * @return List of join club requests for a club managed by the president
+     * @throws SQLException
+     */
+    @Override
+    public List<JoinClubRequest> getAllJoinClubRequests(String clubID, String presidentEmailID) throws SQLException {
+        if (connection != null) {
+            logger.info("Data Layer Entered: Entered getAllJoinClubRequests()");
+            callProcedure = getProcedureCallString("getAllJoinClubRequests", 2);
+            callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1, clubID);
+            callableStatement.setString(2, presidentEmailID);
+            boolean procedureCallStatus = callableStatement.execute();
+            ResultSet resultSet = callableStatement.getResultSet();
+            List<JoinClubRequest> joinClubRequests = new ArrayList<>();
+            if (procedureCallStatus) {
+                while (resultSet.next()) {
+                    JoinClubRequestBuilder joinClubRequestBuilder = new JoinClubRequestBuilder()
+                            .setRequestID(resultSet.getString(1))
+                            .setRequesterEmailID(resultSet.getString(2))
+                            .setClubID(resultSet.getString(3)).setJoiningReason(resultSet.getString(4));
+                    RequestStatus requestStatus = EnumUtils.fromString(RequestStatus.class, resultSet.getString(5));
+                    joinClubRequestBuilder.setRequestStatus(requestStatus);
+
+                    joinClubRequests.add(joinClubRequestBuilder.CreateJoinClubRequest());
+                }
+                logger.info("getAllJoinClubRequest(): list of all join club requests created successfully");
+                logger.info("Exiting DataLayer: returning list of all join club request to Service Layer");
+                return joinClubRequests;
+            } else {
+                logger.error("Problem with procedure call or database connection");
+                return null;
+            }
+        }
+        else {
+            logger.error("Exception: Database Connection not established.");
+            return null;
         }
     }
 }

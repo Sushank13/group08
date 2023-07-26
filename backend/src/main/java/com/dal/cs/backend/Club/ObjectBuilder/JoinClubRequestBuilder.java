@@ -9,28 +9,32 @@ public class JoinClubRequestBuilder
     private String clubID;
     private String joiningReason;
     private String requestStatus;
+    private RequestStatus requestStatus;
 
-    public JoinClubRequestBuilder setRequestID(String requestID) {
+    public JoinClubRequestBuilder setRequestID(String requestID) 
+    {
         this.requestID = requestID;
         return this;
     }
 
-    public JoinClubRequestBuilder setRequesterEmailID(String requesterEmailID) {
+    public JoinClubRequestBuilder setRequesterEmailID(String requesterEmailID) 
+    {
         this.requesterEmailID = requesterEmailID;
         return this;
     }
 
-    public JoinClubRequestBuilder setClubID(String clubID) {
+    public JoinClubRequestBuilder setClubID(String clubID) 
+    {
         this.clubID = clubID;
         return this;
     }
-
-    public JoinClubRequestBuilder setJoiningReason(String joiningReason) {
+    public JoinClubRequestBuilder setJoiningReason(String joiningReason) 
+    {
         this.joiningReason = joiningReason;
         return this;
     }
-
-    public JoinClubRequestBuilder setRequestStatus(String requestStatus) {
+    public JoinClubRequestBuilder setRequestStatus(String requestStatus) 
+    {
         this.requestStatus = requestStatus;
         return this;
     }
@@ -38,4 +42,5 @@ public class JoinClubRequestBuilder
     {
         return new JoinClubRequest(requestID,requesterEmailID,clubID,joiningReason,requestStatus);
     }
+
 }

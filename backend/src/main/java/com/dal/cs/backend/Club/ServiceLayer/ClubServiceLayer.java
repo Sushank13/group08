@@ -438,4 +438,22 @@ public class ClubServiceLayer implements  IClubServiceLayer
         }
         return "";
     }
+     /**
+     * Get list of all join club requests filtered using club id and president email id
+     * @param clubID String
+     * @param presidentEmailID String
+     * @return List of join club requests for a club managed by the president
+     */
+    @Override
+    public List<JoinClubRequest> getAllJoinClubRequests(String clubID, String presidentEmailID) {
+        try {
+            logger.info("Service Layer Entered: Entered getAllJoinClubRequests- Calling Data layer getAllJoinClubRequests");
+            List<JoinClubRequest> joinClubRequestList = iClubDataLayer.getAllJoinClubRequests(clubID ,presidentEmailID);
+            logger.info("Exiting Service Layer: Returning join club requests to Controller");
+            return joinClubRequestList;
+        } catch (SQLException e) {
+            logger.error("getAllJoinClubRequests- SQL Exception occurred while getting response from Data layer" + e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
 }

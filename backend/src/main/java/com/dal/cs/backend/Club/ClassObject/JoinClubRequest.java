@@ -1,7 +1,8 @@
 package com.dal.cs.backend.Club.ClassObject;
 
-public class JoinClubRequest
-{
+import com.dal.cs.backend.Club.Enum.RequestStatus;
+
+public class JoinClubRequest {
     private String requestID;
     private String requesterEmailID;
     private String clubID;

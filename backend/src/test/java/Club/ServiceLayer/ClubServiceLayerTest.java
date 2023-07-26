@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ClubServiceLayerTest
 {
@@ -90,4 +89,8 @@ public class ClubServiceLayerTest
 //        System.out.println("result = " + result);
     }
 
+    @Test
+    public void getAllJoinClubRequestsTest() {
+//        assertNotEquals(iclubServiceLayer.getAllJoinClubRequests("CLB_2", "user@dal.ca").size(), 0);
+    }
 }
