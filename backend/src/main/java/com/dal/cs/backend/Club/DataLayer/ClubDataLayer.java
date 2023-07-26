@@ -619,4 +619,15 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             return null;
         }
     }
+
+    /**
+     * This method calls the stored procedure that updates the request status of a join club request to approved
+     * @param reqId is the request id of the join club request of the member
+     * @return true if the record is updated else return false
+     */
+    @Override
+    public boolean updateJoinClubRequestStatusToApproved(String reqId)
+    {
+        return false;
+    }
 }
