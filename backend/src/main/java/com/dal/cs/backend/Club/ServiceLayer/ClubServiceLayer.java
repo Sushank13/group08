@@ -496,6 +496,12 @@ public class ClubServiceLayer implements  IClubServiceLayer
             return false;
         }
     }
+
+    /**
+     * This method calls the method in datalayer to delete the join club request
+     * @param reqId is the request id of the join club request of the member
+     * @return true if the join club request deleted  else return false
+     */
     public boolean rejectJoinClubRequest(String reqId)
     {
         logger.info("Entered ServiceLayer: Entered rejectJoinClubRequest()");
