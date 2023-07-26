@@ -22,4 +22,5 @@ public interface IClubServiceLayer
   public String submitJoinClubRequest(JoinClubRequest joinClubRequest);
   public List<JoinClubRequest> getAllJoinClubRequests(String clubID, String presidentEmailID);
   public boolean approveJoinClubRequest(String reqId);
+  public boolean rejectJoinClubRequest(String reqId);
 }

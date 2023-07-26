@@ -106,4 +106,10 @@ public class ClubServiceLayerTest
         String reqId="";
         assertFalse(iclubServiceLayer.approveClubRequest(reqId));
     }
+    @Test
+    public void rejectJoinClubRequestWhenReqIdIsNullTest()
+    {
+        String reqId=null;
+        assertFalse(iclubServiceLayer.rejectClubRequest(reqId));
+    }
 }
