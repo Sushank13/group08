@@ -379,7 +379,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
         logger.info("ServiceLayer:Calling generateJoinClubRequestId()");
         String joinClubRequestId=generateJoinClubRequestId();
         joinClubRequest.setRequestID(joinClubRequestId);
-        String requestStatus=String.valueOf(RequestStatus.PENDING);
+        RequestStatus requestStatus=RequestStatus.PENDING;
         joinClubRequest.setRequestStatus(requestStatus);
         try
         {

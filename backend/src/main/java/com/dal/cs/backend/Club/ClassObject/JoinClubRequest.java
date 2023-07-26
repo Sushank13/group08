@@ -7,9 +7,9 @@ public class JoinClubRequest {
     private String requesterEmailID;
     private String clubID;
     private String joiningReason;
-    private String requestStatus;
+    private RequestStatus requestStatus;
 
-    public JoinClubRequest(String requestID, String requesterEmailID, String clubID, String joiningReason, String requestStatus) {
+    public JoinClubRequest(String requestID, String requesterEmailID, String clubID, String joiningReason, RequestStatus requestStatus) {
         this.requestID = requestID;
         this.requesterEmailID = requesterEmailID;
         this.clubID = clubID;
@@ -49,11 +49,11 @@ public class JoinClubRequest {
         this.joiningReason = joiningReason;
     }
 
-    public String getRequestStatus() {
+    public RequestStatus getRequestStatus() {
         return requestStatus;
     }
 
-    public void setRequestStatus(String requestStatus) {
+    public void setRequestStatus(RequestStatus requestStatus) {
         this.requestStatus = requestStatus;
     }
 }

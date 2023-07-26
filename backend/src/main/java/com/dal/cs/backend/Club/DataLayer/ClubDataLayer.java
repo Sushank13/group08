@@ -559,7 +559,7 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
         callableStatement.setString(2,joinClubRequest.getRequesterEmailID());
         callableStatement.setString(3,joinClubRequest.getClubID());
         callableStatement.setString(4,joinClubRequest.getJoiningReason());
-        callableStatement.setString(5,joinClubRequest.getRequestStatus());
+        callableStatement.setString(5,joinClubRequest.getRequestStatus().toString());
         logger.info("Calling stored procedure to insert Join Club Request");
         int procedureCallStatus=callableStatement.executeUpdate();
         if(procedureCallStatus>0)
