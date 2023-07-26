@@ -456,6 +456,12 @@ public class ClubServiceLayer implements  IClubServiceLayer
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * This method calls the method in datalayer to update the request status to approved
+     * @param reqId is the request id of the join club request of the member
+     * @return true if the request status changed  to approved else return false
+     */
     @Override
     public boolean approveJoinClubRequest(String reqId)
     {
