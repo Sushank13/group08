@@ -230,6 +230,12 @@ public class ClubController
         logger.info("Controller: Exiting Controller. Returning approval message");
         return message;
     }
+
+    /**
+     *  This method receives the api call to reject a member's join club request by the president of the club
+     * @param reqId is the request id of the join club request of the member
+     * @return a message to the frontend
+     */
     @RequestMapping(method =RequestMethod.PUT,value="unauthenticated/rejectJoinClubRequest/{reqId}")
     public String rejectJoinClubRequest(@PathVariable("reqId") String reqId)
     {
