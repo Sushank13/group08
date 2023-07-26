@@ -215,9 +215,9 @@ public class ClubController
     public String approveJoinClubRequest(@PathVariable("reqId") String reqId)
     {
         String message;
-        logger.info("Controller: received request to approve a join club request");
+        logger.info(" Entered Controller: received request to approve a join club request");
         logger.info("Controller: Inside approveJoinClubRequest() ");
-        logger.info("Controller: Calling approveJoinClubRequest() in the service layer");
+        logger.info("approveJoinClubRequest(): Calling approveJoinClubRequest() in the service layer");
         boolean approveJoinClubRequestStatus=iClubServiceLayer.approveJoinClubRequest(reqId);
         if(approveJoinClubRequestStatus)
         {
