@@ -230,4 +230,23 @@ public class ClubController
         logger.info("Controller: Exiting Controller. Returning approval message");
         return message;
     }
+    @RequestMapping(method =RequestMethod.PUT,value="unauthenticated/rejectJoinClubRequest/{reqId}")
+    public String rejectJoinClubRequest(@PathVariable("reqId") String reqId)
+    {
+        String message;
+        logger.info(" Entered Controller: received request to reject a join club request");
+        logger.info("Controller: Inside rejectJoinClubRequest() ");
+        logger.info("rejectJoinClubRequest(): Calling rejectJoinClubRequest() in the service layer");
+        boolean rejectJoinClubRequestStatus=iClubServiceLayer.rejectJoinClubRequest(reqId);
+        if(rejectJoinClubRequestStatus)
+        {
+            message="Join Club Request with request id: "+reqId+" was rejected successfully";
+        }
+        else
+        {
+            message="Join Club Request with request id: "+reqId+"could not be rejected";
+        }
+        logger.info("Controller: Exiting Controller. Returning rejection message");
+        return message;
+    }
 }
