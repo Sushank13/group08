@@ -1,7 +1,10 @@
 package com.dal.cs.backend.Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
 import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
+import com.dal.cs.backend.Club.Enum.RequestStatus;
+import com.dal.cs.backend.Club.Enum.RequestType;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,4 +28,5 @@ public interface IClubDataLayer
    public List<JoinClubRequest> getAllJoinClubRequests(String clubID, String presidentEmailID) throws SQLException;
    public boolean updateJoinClubRequestStatusToApproved(String reqId) throws SQLException;
    public boolean deleteJoinClubRequest(String reqId) throws SQLException;
+   public List<ClubUpdateRequest> getAllClubRequests(RequestType requestType, RequestStatus requestStatus) throws SQLException;
 }

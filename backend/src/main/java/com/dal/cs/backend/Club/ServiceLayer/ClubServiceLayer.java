@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Club.ServiceLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
 import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
@@ -533,6 +534,43 @@ public class ClubServiceLayer implements  IClubServiceLayer
             logger.error("ServiceLayer: SQL exception occurred while calling deleteJoinClubRequest()"+e.getMessage());
             logger.info("Exiting ServiceLayer: returning false to the Controller.");
             return false;
+        }
+    }
+
+    /**
+     * Get list of all new club requests based on request status
+     * @param requestStatus filter requests
+     * @return list of new club requests filtered with requestStatus
+     */
+    @Override
+    public List<ClubUpdateRequest> getAllNewClubRequests(RequestStatus requestStatus) {
+        try {
+            logger.info("Service Layer Entered: Entered getAllNewClubRequests- Calling Data layer getAllNewClubRequests");
+            List<ClubUpdateRequest> clubUpdateRequests = iClubDataLayer.getAllClubRequests(RequestType.NEW_REQUEST ,requestStatus);
+            logger.info("Exiting Service Layer: Returning new club requests to Controller");
+            return clubUpdateRequests;
+        } catch (SQLException e) {
+            logger.error("getAllNewClubRequests- SQL Exception occurred while getting response from Data layer" + e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    /**
+     * Get list of all club update requests based on request status
+     * @param requestStatus filter requests
+     * @return list of club update requests filtered with requestStatus
+     */
+    @Override
+    public List<ClubUpdateRequest> getAllUpdateClubRequests(RequestStatus requestStatus) {
+        try {
+            logger.info("Service Layer Entered: Entered getAllUpdateClubRequests- Calling Data layer getAllUpdateClubRequests");
+            List<ClubUpdateRequest> clubUpdateRequests = iClubDataLayer.getAllClubRequests(RequestType.UPDATE_REQUEST ,requestStatus);
+            logger.info("Exiting Service Layer: Returning update club requests to Controller");
+            return clubUpdateRequests;
+        } catch (SQLException e) {
+            logger.error("getAllUpdateClubRequests- SQL Exception occurred while getting response from Data layer" + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 }
