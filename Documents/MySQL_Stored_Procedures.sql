@@ -259,7 +259,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE getAllJoinClubRequests(IN clubID VARCHAR(50), IN presidentEmailID VARCHAR(255))
 BEGIN
-    SELECT requestID, requestorEmailID, clubID, joiningReason, requestStatus
+    SELECT requestID, requestorEmailID, club.clubName, joiningReason, requestStatus
     FROM joinClubRequest
     INNER JOIN club
     ON joinClubRequest.clubID = club.clubID
