@@ -10,6 +10,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+/**
+ * This class implements the IEmailServiceLayer and provides the business logic for the sendEmail()
+ * @link :https://www.geeksforgeeks.org/spring-boot-sending-email-via-smtp/
+ */
 @Service
 public class EmailServiceLayer implements  IEmailServiceLayer
 {
@@ -18,6 +22,11 @@ public class EmailServiceLayer implements  IEmailServiceLayer
     private JavaMailSender javaMailSender;
     @Value("${spring.mail.username}")
     private String sender;
+
+    /**
+     * This method creates email by setting the to, from, subject and body details of the email.
+     * @param email is the real world entity that represents the details of an email
+     */
     @Override
     public void sendEmail(Email email)
     {
