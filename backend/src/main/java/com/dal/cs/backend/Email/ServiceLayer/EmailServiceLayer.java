@@ -2,6 +2,7 @@ package com.dal.cs.backend.Email.ServiceLayer;
 
 import com.dal.cs.backend.Club.ServiceLayer.ClubServiceLayer;
 import com.dal.cs.backend.Email.ClassObject.Email;
+import com.dal.cs.backend.Email.Exceptions.CustomEmailException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,15 @@ public class EmailServiceLayer implements  IEmailServiceLayer
     @Override
     public void sendEmail(Email email)
     {
-        SimpleMailMessage simpleMailMessage=new SimpleMailMessage();
+        logger.info("EmailServiceLayer: entered sendEmail()");
+        logger.info("sendEmail(): setting email to, from,subject and body");
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom(sender);
         simpleMailMessage.setTo(email.getEmailRecipient());
         simpleMailMessage.setSubject(email.getEmailSubject());
         simpleMailMessage.setText(email.getEmailBody());
+        logger.info("sendEmail():email to, from,subject and body set successfully");
+        logger.info("sendEmail():sending email");
         javaMailSender.send(simpleMailMessage);
     }
 }

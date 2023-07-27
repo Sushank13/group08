@@ -1,4 +1,4 @@
-package Exceptions;
+package com.dal.cs.backend.Email.Exceptions;
 
 public class CustomEmailException extends Exception
 {
