@@ -303,3 +303,19 @@ BEGIN
    WHERE joinClubRequest.requestID=requestId;
 END //
 DELIMITER ;
+
+
+-- Procedure to get all new and update club requests
+DELIMITER //
+CREATE PROCEDURE getAllClubRequests(IN requestType VARCHAR(255), IN requestStatus VARCHAR(255))
+BEGIN
+    SELECT requestID, newAndUpdateClubRequest.clubID, requestorEmailID, newAndUpdateClubRequest.categoryID, categoryName, newAndUpdateClubRequest.clubName, newAndUpdateClubRequest.description, newAndUpdateClubRequest.facebookLink, newAndUpdateClubRequest.instagramLink, newAndUpdateClubRequest.location, newAndUpdateClubRequest.meetingTime, newAndUpdateClubRequest.clubImage, newAndUpdateClubRequest.rules, newAndUpdateClubRequest.requestType, newAndUpdateClubRequest.requestStatus
+    FROM club
+    INNER JOIN newAndUpdateClubRequest
+        ON club.clubID = newAndUpdateClubRequest.clubID
+    INNER JOIN category
+        ON newAndUpdateClubRequest.categoryID = category.categoryID
+    WHERE newAndUpdateClubRequest.requestType = requestType
+    AND newAndUpdateClubRequest.requestStatus = requestStatus;
+END //
+DELIMITER ;

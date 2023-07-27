@@ -1,11 +1,13 @@
 package com.dal.cs.backend.Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
 import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.Enum.RequestStatus;
+import com.dal.cs.backend.Club.Enum.RequestType;
 import com.dal.cs.backend.Club.ObjectBuilder.ClubBuilder;
+import com.dal.cs.backend.Club.ObjectBuilder.ClubUpdateRequestBuilder;
 import com.dal.cs.backend.Club.ObjectBuilder.JoinClubRequestBuilder;
-import com.dal.cs.backend.baseUtils.Enum.EnumUtils;
 import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
 
@@ -671,6 +673,44 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             logger.error("Problem with procedure call or database connection");
             logger.info("Exiting datalayer: returning false to ServiceLayer");
             return false;
+        }
+    }
+
+    /**
+     * Gets all update clubs requests based on request type from database
+     * @param requestType Filter request on type
+     * @param requestStatus Filter
+     * @return List of new club requests
+     * @throws SQLException
+     */
+    @Override
+    public List<ClubUpdateRequest>  getAllClubRequests(RequestType requestType, RequestStatus requestStatus) throws SQLException {
+        if (connection != null) {
+            logger.info("Entered getAllClubRequests()");
+            callProcedure = getProcedureCallString("getAllClubRequests", 2);
+            callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1, requestType.name());
+            callableStatement.setString(2, requestStatus.name());
+            boolean procedureCallStatus = callableStatement.execute();
+            ResultSet resultSet = callableStatement.getResultSet();
+            List<ClubUpdateRequest> clubUpdateRequests = new ArrayList<>();
+            if (procedureCallStatus) {
+                while (resultSet.next()) {
+                    ClubUpdateRequest clubUpdateRequest = new ClubUpdateRequestBuilder()
+                            .createClubUpdateRequest();
+                    clubUpdateRequests.add(clubUpdateRequest);;
+                }
+                logger.info("getAllClubRequests(): list of all club requests created successfully");
+                logger.info("Exiting DataLayer: returning list of all club request");
+                return clubUpdateRequests;
+            } else {
+                logger.error("Problem with procedure call or database connection");
+                return null;
+            }
+        }
+        else {
+            logger.error("Exception: Database Connection not established.");
+            return null;
         }
     }
 
