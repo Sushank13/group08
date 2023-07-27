@@ -1,6 +1,6 @@
 package com.dal.cs.backend.member.Controller;
 
-import com.dal.cs.backend.member.MemberObject.MemberWithLoginCredential;
+import com.dal.cs.backend.member.MemberObject.Member;
 import com.dal.cs.backend.member.ServiceLayer.MemberServiceLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,16 +24,16 @@ public class MemberController {
 
     /**
      * This method accepts the member details  for a new member register request.
-     * @param memberWithLoginCredential is the entity to which all the member details submitted by the user are mapped.
+     * @param member is the entity to which all the member details submitted by the user are mapped.
      * @return a message to the user with the request id in case request is submitted or an error message
      * if the request is not submitted
      */
     @RequestMapping(method = RequestMethod.POST,value="/api/registerMember")
-    public String createMemberRequest(@RequestBody MemberWithLoginCredential memberWithLoginCredential)
+    public String createMemberRequest(@RequestBody Member member)
     {
         logger.info("New request received for Member creation");
         logger.info("Inside method createMemberRequest() in MemberController");
-        String message = iMemberServiceLayer.createNewMemberRequest(memberWithLoginCredential);
+        String message = iMemberServiceLayer.createNewMemberRequest(member);
         logger.info("Exiting method createMemberRequest() in MemberController");
         return message;
     }

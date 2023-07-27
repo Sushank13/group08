@@ -11,6 +11,24 @@ public class Event {
     private String startDate;
     private String endDate;
     private String startTime;
+    private String endTime;
+    private String eventTopic;
+
+    public Event(String eventID, String clubID, String organizerEmailID, String eventName, String description, String venue, String image, String startDate, String endDate, String startTime, String endTime, String eventTopic)
+    {
+        this.eventID = eventID;
+        this.clubID = clubID;
+        this.organizerEmailID = organizerEmailID;
+        this.eventName = eventName;
+        this.description = description;
+        this.venue = venue;
+        this.image = image;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.eventTopic = eventTopic;
+    }
 
     public String getEventID() {
         return eventID;
@@ -108,7 +126,5 @@ public class Event {
         this.eventTopic = eventTopic;
     }
 
-    private String endTime;
-    private String eventTopic;
 
 }

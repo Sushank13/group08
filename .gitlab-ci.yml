@@ -5,7 +5,7 @@ stages:
 # Building the backend project
 build_backend:
     stage: build_stage
-    image: maven:3.8.2-eclipse-temurin-17
+    image: maven:latest
     before_script:
         - cd backend
     script:
@@ -14,11 +14,15 @@ build_backend:
         - apt-get update
         - apt-get install gettext-base moreutils -y
         - envsubst < src/main/resources/database.properties | sponge src/main/resources/database.properties
+        - envsubst < src/main/resources/security.properties | sponge src/main/resources/security.properties
         - mvn clean install # compile, package, and install
         - echo "Completed - Maven Build stage"
     artifacts:
         paths:
             - target/*.jar
+    rules:
+        - changes: 
+            - backend/**/*
 # Building the frontend project
 build_frontend:
     stage: build_stage
@@ -30,10 +34,14 @@ build_frontend:
         - npm install
         - npm run build 
         - echo "Completed - React Build stage"    
+    rules:
+        - changes: 
+            - frontend/**/*
+
 # Executing tests in backend project
 test_backend:
     stage: test_stage
-    image: maven:3.8.2-eclipse-temurin-17
+    image: maven:latest
     before_script:
         - cd backend
     script:
@@ -42,11 +50,15 @@ test_backend:
         - apt-get update
         - apt-get install gettext-base moreutils -y
         - envsubst < src/main/resources/database.properties | sponge src/main/resources/database.properties
+        - envsubst < src/main/resources/security.properties | sponge src/main/resources/security.properties
         - mvn test
         - echo "Completed - Testing Maven Build"
     artifacts:
         paths:
             - target/*.jar
+    rules:
+        - changes: 
+            - backend/**/*
 # Deploy the backend build on Render.com
 deploy_backend:
     stage: deploy_stage
@@ -61,6 +73,7 @@ deploy_backend:
         - envsubst < src/main/resources/database.properties | sponge src/main/resources/database.properties
         - curl -s "https://api.render.com/deploy/srv-${RENDER_DEPLOY_KEY_1}?key=${RENDER_DEPLOY_KEY_2}" 
         - echo "Completed - Deploying Springboot"
+
     # Execute Deploy only when commits are made on production 'main' branch
     only:
         - main

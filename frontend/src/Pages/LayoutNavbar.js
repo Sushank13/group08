@@ -11,29 +11,29 @@ function LayoutNavbar() {
             <Flex as="nav" align="center" justify="space-between" padding="1rem" bg="white" h="1vh" top="25%" left="0" right="0" color='#605c51'>
                 <Box>
                     <NavLink to='/'>
-                    <Text>About</Text>
+                        <Text>About</Text>
                     </NavLink>
                 </Box>
                 <Box>
                     <NavLink to='/'>
-                    <Text>Home</Text>
+                        <Text>Home</Text>
                     </NavLink>
                 </Box>
                 <Box>
                     <NavLink to='/FindClubs'>
-                    <Text>Find Clubs</Text>
+                        <Text>Find Clubs</Text>
                     </NavLink>
                 </Box>
                 <Box>
                     <NavLink to='/FindEvents'>
-                    <Text>Find Events</Text>
+                        <Text>Find Events</Text>
                     </NavLink>
-                </Box>  
+                </Box>
                 <Box>
-                    <NavLink to='/Admin'>
-                    <Text>Admin</Text>
+                    <NavLink to='/admin'>
+                        <Text>Admin</Text>
                     </NavLink>
-                </Box>              
+                </Box>
             </Flex>
 
             <Outlet />
