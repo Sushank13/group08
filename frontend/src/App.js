@@ -14,9 +14,12 @@ import PersistLogin from './Components/PersistLogin';
 import FindAllEvents from './Pages/FindAllEvents';
 import EventPage from './Pages/EventPage';
 import Admin from './Pages/Admin';
-import NewClubRequest from './Pages/NewClubRequest';
+import NewClubRequest from './Pages/ReviewNewClubRequest';
 import NewClubRequestForm from './Pages/NewClubRequestForm';
 import ClubMembershipForm from './Pages/ClubMembershipForm';
+import SignupPage from './Pages/SignupPage';
+import CreateEventForm from './Pages/CreateEventForm';
+import ReviewNewClubRequest from './Pages/ReviewNewClubRequest';
 
 const ROLES = {
   'member': 'member',
@@ -33,15 +36,22 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="unauthorized" element={<Unauthorized />} />
+          <Route path="admin" element={<Admin />} />
 
           <Route path="FindEvents" element={<FindAllEvents />} />
           <Route path="event/:eventName" element={<EventPage />} />
 
           <Route path="FindClubs" element={<FindAllClubs />} />
           <Route path="club/:clubName" element={<ClubPage />} />
+          <Route path="reviewnewclubrequest" element={<ReviewNewClubRequest />} />
+          <Route path="reviewclubupdaterequest" element={<ReviewNewClubRequest />} />
 
           <Route path="newclubrequestform" element={<NewClubRequestForm />} />
           <Route path="clubmembershipform" element={<ClubMembershipForm />} />
+          <Route path="signuppage" element={<SignupPage />} />
+          <Route path="createeventform" element={<CreateEventForm />} />
+
+          {/* <Route path="createeventform" element={<ClubMembershipForm />} /> */}
 
           {/* we want to protect these routes */}
           <Route element={<PersistLogin />}>
