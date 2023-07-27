@@ -697,6 +697,21 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             if (procedureCallStatus) {
                 while (resultSet.next()) {
                     ClubUpdateRequest clubUpdateRequest = new ClubUpdateRequestBuilder()
+                            .setRequestID(resultSet.getString(1))
+                            .setClubID(resultSet.getString(2))
+                            .setRequesterEmailID(resultSet.getString(3))
+                            .setClubID(resultSet.getString(4))
+                            .setCategoryName(resultSet.getString(5))
+                            .setClubName(resultSet.getString(6))
+                            .setDescription(resultSet.getString(7))
+                            .setFacebookLink(resultSet.getString(8))
+                            .setInstagramLink(resultSet.getString(9))
+                            .setLocation(resultSet.getString(10))
+                            .setMeetingTime(resultSet.getString(11))
+                            .setClubImage(resultSet.getString(12))
+                            .setRules(resultSet.getString(13))
+                            .setRequestType(RequestType.valueOf(resultSet.getString(14)))
+                            .setRequestStatus(RequestStatus.valueOf(resultSet.getString(15)))
                             .createClubUpdateRequest();
                     clubUpdateRequests.add(clubUpdateRequest);;
                 }
