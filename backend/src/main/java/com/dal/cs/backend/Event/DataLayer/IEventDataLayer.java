@@ -24,4 +24,5 @@ public interface IEventDataLayer
     boolean deleteEvent(String eventID) throws SQLException;
 
     List<Event> getEventsByClub(String clubID) throws SQLException;
+    Event getEventByEventId(String eventID) throws  SQLException;
 }
