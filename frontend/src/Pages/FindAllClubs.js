@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Flex, Button, Input, Text } from '@chakra-ui/react';
-import axios from '../axiosConfiguration'
+import axios from '../axiosConfiguration';
 import { NavLink } from 'react-router-dom';
 
 function FindAllClubs() {
