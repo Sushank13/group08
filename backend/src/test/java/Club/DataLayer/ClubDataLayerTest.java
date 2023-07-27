@@ -137,10 +137,14 @@ public class ClubDataLayerTest {
     @Test
     public void getAllJoinClubRequestsTest() {
         //TODO: Add club random generator for club creation
-//        try {
-//            Assertions.assertTrue(iclubDataLayer.getAllJoinClubRequests("CLB_2", "user@dal.ca").size() > 0);
-//        } catch (SQLException e) {
-//            fail("Test failed: Exception occurred- " + e.getMessage());
-//        }
+        try
+        {
+        List<JoinClubRequest> list=iclubDataLayer.getAllJoinClubRequests("CLB_1","bikectr@dal.ca");
+        System.out.println(list.get(0).getRequestID());
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 }
