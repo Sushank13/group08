@@ -7,9 +7,6 @@ function UpdateEventDetails() {
   const [description, setDescription] = useState('A sample event description');
   const [venue, setVenue] = useState('Sample Venue');
   const [image, setImage] = useState(''); // Assuming it's a file upload field
-
-  const [updateEventID, setUpdateEventID] = useState(false);
-  const [updateClubID, setUpdateClubID] = useState(false);
   const [updateOrganizerEmailID, setUpdateOrganizerEmailID] = useState(false);
   const [updateEventName, setUpdateEventName] = useState(false);
   const [updateDescription, setUpdateDescription] = useState(false);
