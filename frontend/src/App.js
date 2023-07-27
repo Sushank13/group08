@@ -13,7 +13,7 @@ import AdminHomePage from './Pages/AdminHomePage';
 import PersistLogin from './Components/PersistLogin';
 import FindAllEvents from './Pages/FindAllEvents';
 import EventPage from './Pages/EventPage';
-
+import UpdateEventDetails from './Pages/UpdateEventDetails';
 const ROLES = {
   'member': 'member',
   'president': 'president',
@@ -35,7 +35,7 @@ function App() {
 
           <Route path="FindClubs" element={<FindAllClubs />} />
           <Route path="club/:clubName" element={<ClubPage />} />
-
+          <Route path="updateEvent/:eventName" element={<UpdateEventDetails />} />
           {/* we want to protect these routes */}
           <Route element={<PersistLogin />}>
             <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>
