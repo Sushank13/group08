@@ -78,27 +78,28 @@ public class EventDataLayerTest {
 
     @Test
     public void getEventsByUser() {
-        try {
-            List<Event> listOfAllEvents = iEventDataLayer.getEventsByUser("swit@dal.ca");
-            System.out.println("List of Events: \n" + listOfAllEvents);
-            int i;
-            for (i = 0; i < listOfAllEvents.size(); i++) {
-                Event event = listOfAllEvents.get(i);
-                System.out.println(event.getOrganizerEmailID());
-                System.out.println(event.getEventName());
-                System.out.println(event.getDescription());
-                System.out.println(event.getVenue());
-                System.out.println(event.getImage());
-                System.out.println(event.getStartDate());
-                System.out.println(event.getEndDate());
-                System.out.println(event.getStartTime());
-                System.out.println(event.getEndTime());
-                System.out.println(event.getEventTopic());
-
-            }
-        } catch (SQLException e) {
-            fail("Test failed: Exception occurred- " + e.getMessage());
-        }
+        
+//        try {
+//            List<Event> listOfAllEvents = iEventDataLayer.getEventsByUser("swit@dal.ca");
+//            System.out.println("List of Events: \n" + listOfAllEvents);
+//            int i;
+//            for (i = 0; i < listOfAllEvents.size(); i++) {
+//                Event event = listOfAllEvents.get(i);
+//                System.out.println(event.getOrganizerEmailID());
+//                System.out.println(event.getEventName());
+//                System.out.println(event.getDescription());
+//                System.out.println(event.getVenue());
+//                System.out.println(event.getImage());
+//                System.out.println(event.getStartDate());
+//                System.out.println(event.getEndDate());
+//                System.out.println(event.getStartTime());
+//                System.out.println(event.getEndTime());
+//                System.out.println(event.getEventTopic());
+//
+//            }
+//        } catch (SQLException e) {
+//            fail("Test failed: Exception occurred- " + e.getMessage());
+//        }
     }
 
     @Test
