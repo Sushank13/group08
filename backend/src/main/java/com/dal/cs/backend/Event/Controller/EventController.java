@@ -80,7 +80,7 @@ public class EventController {
         logger.info("registerEvents- Calling registerEvents() of ServiceLayer");
         boolean resultStatus= iEventServiceLayer.registerEvents(eventID, emailID);
         String message;
-        if(resultStatus)
+        if(resultStatus==true)
         {
             message="Successfully registered for the event";
         }
