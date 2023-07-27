@@ -304,6 +304,14 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Procedure to get event by even id
+DELIMITER //
+CREATE PROCEDURE getEventByEventId(IN eventId VARCHAR(50))
+BEGIN
+   select * from events where events.eventID=eventId;
+END //
+DELIMITER ;
+
 
 -- Procedure to get all new and update club requests
 DELIMITER //
