@@ -50,7 +50,7 @@ function NewClubRequestForm() {
         }
     }
     return (
-        <Flex align="center" justify="start" direction='column' fontSize='2rem' h="90vh">
+        <Flex w="100%" align="center" justify="start" direction='column' fontSize='2rem' h="90vh">
             <Flex alignItems="end" justifyContent="center" h="20vh" bgColor='black' width='100%' >
                 <Flex h="18vh" bgColor='white' width='60%' alignItems='center' justifyContent='center'>
                     <Flex h='10vh' bgColor='#ECC94B' width='40%' justifyContent='center' alignItems='center'>
