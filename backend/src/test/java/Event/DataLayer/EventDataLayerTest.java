@@ -150,13 +150,18 @@ public class EventDataLayerTest extends BaseTest {
 
     @Test
     public void deleteEventTest() {
-//        try {
-//            String eventID = "EVNT_00_1";
-//            boolean result = iEventDataLayer.deleteEvent(eventID);
-//            System.out.println("result = " + result);
-//        } catch (SQLException e) {
-//            fail("Test failed: Exception occurred- " + e.getMessage());
-//        }
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        Event event = createEvent(true, president.getEmailId(), club.getClubID());
+        try {
+            Assertions.assertTrue(iEventDataLayer.deleteEvent(event.getEventID()));
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
+
+        //Remove from clean up stack
+        popCleanUpStack();
     }
 
     @Test
