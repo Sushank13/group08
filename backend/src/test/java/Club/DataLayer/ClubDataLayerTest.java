@@ -315,6 +315,23 @@ public class ClubDataLayerTest extends BaseTest {
     }
 
     @Test
+    public void updateJoinClubRequestStatusToApproved() {
+        Member member = createMember(true, MemberType.member);
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        JoinClubRequest joinClubRequest = createNewJoinClubRequest(true, member.getEmailId(), club.getClubID());
+
+        try {
+            Assertions.assertTrue(iClubDataLayer.getJoinClubRequest(joinClubRequest.getRequestID()).getRequestStatus().equals(RequestStatus.PENDING));
+            Assertions.assertTrue(iClubDataLayer.updateJoinClubRequestStatusToApproved(joinClubRequest.getRequestID()));
+            Assertions.assertTrue(iClubDataLayer.getJoinClubRequest(joinClubRequest.getRequestID()).getRequestStatus().equals(RequestStatus.APPROVED));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
     public void deleteJoinClubRequestTest() {
         Member member = createMember(true, MemberType.member);
         Member president = createMember(true, MemberType.president);

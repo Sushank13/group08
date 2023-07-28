@@ -580,6 +580,42 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             return false;
         }
     }
+
+    /**
+     * Gets join club request
+     * @param requestID String
+     * @return Join club requests for a club managed by the president
+     * @throws SQLException
+     */
+    @Override
+    public JoinClubRequest getJoinClubRequest(String requestID) throws SQLException {
+        if (connection != null) {
+            logger.info("Data Layer Entered: Entered getJoinClubRequest()");
+            callProcedure = getProcedureCallString("getJoinClubRequest", 1);
+            callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1, requestID);
+            boolean procedureCallStatus = callableStatement.execute();
+            ResultSet resultSet = callableStatement.getResultSet();
+            if (procedureCallStatus) {
+                while (resultSet.next()) {
+                    JoinClubRequestBuilder joinClubRequestBuilder = new JoinClubRequestBuilder()
+                            .setRequestID(resultSet.getString(1))
+                            .setRequesterEmailID(resultSet.getString(2))
+                            .setClubID(resultSet.getString(3))
+                            .setJoiningReason(resultSet.getString(4));
+                    RequestStatus requestStatus = RequestStatus.valueOf(resultSet.getString(5));
+                    joinClubRequestBuilder.setRequestStatus(requestStatus);
+                    logger.info("Exiting DataLayer: returning join club request to Service Layer");
+                    return joinClubRequestBuilder.createJoinClubRequest();
+                }
+            }
+            logger.error("Problem with procedure call or database connection");
+            return null;
+        }
+        logger.error("Exception: Database Connection not established.");
+        return null;
+    }
+
      /**
      * Gets list of club requests by joining club and join club request with club id and verifies president
      * @param clubID String

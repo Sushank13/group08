@@ -255,6 +255,16 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Procedure to get join club requests with requestID
+DELIMITER //
+CREATE PROCEDURE getJoinClubRequest(IN requestID VARCHAR(50))
+BEGIN
+    SELECT requestID, requestorEmailID, clubID, joiningReason, requestStatus
+    FROM joinClubRequest
+    WHERE joinClubRequest.requestID = requestID;
+END //
+DELIMITER ;
+
 -- Procedure to get all join club requests with club ID
 DELIMITER //
 CREATE PROCEDURE getAllJoinClubRequests(IN clubID VARCHAR(50), IN presidentEmailID VARCHAR(255))
