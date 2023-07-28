@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Box, Heading, Text, Link as ChakraLink } from '@chakra-ui/react';
+import { Box, Text, Link as ChakraLink } from '@chakra-ui/react';
 
 const Missing = () => {
   return (
@@ -8,7 +8,7 @@ const Missing = () => {
         OOPS!
       </Text>
       <Text fontSize="xl" mb="4">
-        You are trying to find a page that does not exist!
+        Unfortunately! You are trying to find a page that does not exist!
       </Text>
       <Box flexGrow={1}>
         <ChakraLink as={Link} to="/" color="blue.500">

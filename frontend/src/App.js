@@ -41,8 +41,8 @@ function App() {
          
           <Route path="recommend" element={<RecommenderPage />} />
 
-          <Route path="updateEvent/:eventName" element={<UpdateEventDetails />} />
-          <Route path="updateClub/:clubName" element={<UpdateClubDetails />} />
+          <Route path="updateEvent/:eventNameParam" element={<UpdateEventDetails />} />
+          <Route path="updateClub/:clubNameParam" element={<UpdateClubDetails />} />
           
           {/* we want to protect these routes */}
           <Route element={<PersistLogin />}>

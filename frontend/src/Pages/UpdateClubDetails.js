@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Box, Flex, Text, Input, Button, Checkbox, useToast } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router';
+import axios, { axiosPrivate } from '../axiosConfiguration';
 
 function UpdateClubDetails() {
-  const [clubName, setClubName] = useState('Dal Club');
-  const [clubPicture, setClubPicture] = useState(''); // Assuming it's a file upload field
-  const [description, setDescription] = useState('A club for students');
-  const [location, setLocation] = useState('Dalhousie University');
-  const [meetingTimes, setMeetingTimes] = useState('Mondays at 5 PM');
-  const [facebookLink, setFacebookLink] = useState('https://www.facebook.com/dalclub');
-  const [instagramLink, setInstagramLink] = useState('https://www.instagram.com/dalclub');
+  const { clubNameParam } = useParams(); 
+  const [clubDetails, setClubDetails] = useState([]); 
+  
+  const [loading, setLoading] = useState(true);
+
+  const [clubName, setClubName] = useState(''); 
+  const [clubPicture, setClubPicture] = useState(''); 
+  const [description, setDescription] = useState('');
+  const [location, setLocation] = useState('');
+  const [meetingTimes, setMeetingTimes] = useState('');
+  const [facebookLink, setFacebookLink] = useState('');
+  const [instagramLink, setInstagramLink] = useState('');
   const [updateClubName, setUpdateClubName] = useState(false);
   const [updateClubPicture, setUpdateClubPicture] = useState(false);
   const [updateDescription, setUpdateDescription] = useState(false);
@@ -19,64 +27,142 @@ function UpdateClubDetails() {
 
   const [toastError, setToastError] = useState('');
   const toast = useToast();
+  const navigate = useNavigate();
+
+  const getClubDetails = async () => {
+    try {
+
+      console.log(clubNameParam);
+      const response = await axios.get(`/unauthenticated/getClubByName/${clubNameParam}`);
+
+      setClubDetails(response.data[0]);
+      console.log(response.data[0]);
+      setClubName(clubDetails.clubName);
+      setDescription(clubDetails.description);
+      setLocation(clubDetails.location);
+      setMeetingTimes(clubDetails.meetingTime);
+      setFacebookLink(clubDetails.facebookLink);
+      setInstagramLink(clubDetails.instagramLink);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const updateClubDetails = async () => {
+    try {
+      const clubObject = { clubID: clubDetails.clubID, clubName: null, categoryName: null, description: null, presidentEmailID: null, facebookLink: null, instagramLink: null, categoryID: null, location: null, meetingTime: null, clubImage: null, rules: null};
+      if (updateClubName) {
+        clubObject.clubName = clubName;
+      } if (updateDescription ) {
+        clubObject.description = description;
+      } if (updateLocation ) {
+        clubObject.location = location;
+      } if (updateMeetingTimes ) {
+        clubObject.meetingTime = meetingTimes;
+      } if (updateFacebookLink ) {
+        clubObject.facebookLink = facebookLink;
+      } if (updateInstagramLink ) {
+        clubObject.instagramLink = instagramLink;
+      } if (updateClubPicture) {
+        const base64String = await getBase64StringFromImage(clubPicture);
+        clubObject.clubImage = base64String;
+        console.log(base64String);
+      }
+
+      console.log(JSON.stringify(clubObject));
+      /*const response = await axiosPrivate.post('/president/updateClubDetails',
+              JSON.stringify(clubObject)
+      );
+      console.log(response);
+	*/
+      navigate(`/club/${clubDetails.clubName}`);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getClubDetails();
+  }, [loading]);
 
   const handleUpdate = () => {
-    let updated = false; // Flag to track if any field has been updated
-
-    if (updateClubName && clubName === 'Dal Club') {
-      setToastError('Please update Club Name');
-    } else if (updateClubPicture && clubPicture === '') {
-      setToastError('Please update Club Picture');
-    } else if (updateDescription && description === 'A club for students') {
-      setToastError('Please update Description');
-    } else if (updateLocation && location === 'Dalhousie University') {
-      setToastError('Please update Location');
-    } else if (updateMeetingTimes && meetingTimes === 'Mondays at 5 PM') {
-      setToastError('Please update Meeting Times');
-    } else if (updateFacebookLink && facebookLink === 'https://www.facebook.com/dalclub') {
-      setToastError('Please update Facebook Link');
-    } else if (updateInstagramLink && instagramLink === 'https://www.instagram.com/dalclub') {
-      setToastError('Please update Instagram Link');
-    } else {
-      // At least one field has been updated successfully
-      updated = true;
-      setToastError(''); // Clear the error message
+    let updated = false; 
+    let isError = false; 
+    let errMessage = "";
+    if (updateClubName || updateClubPicture || updateDescription || updateLocation || updateMeetingTimes || updateFacebookLink || updateInstagramLink) {
+      if (updateClubName && clubName === clubDetails.clubName) {
+        errMessage += ('Please update Club Name field. The updated Club Name is same as existing value.<br />');
+        isError=true;
+      } if (updateClubPicture && clubPicture === '') {
+        errMessage += ('Please add a Club Image.');
+        isError=true;
+      } if (updateDescription && description === clubDetails.description) {
+        errMessage += ('Please update Description field. The updated Description is same as existing value.\n <br /> \n');
+        isError=true;
+      } if (updateLocation && location === clubDetails.location) {
+        errMessage += ('Please update Location field. The updated Location is same as existing value.\n');
+        isError=true;
+      } if (updateMeetingTimes && meetingTimes === clubDetails.meetingTime) {
+        errMessage += ('Please update Meeting Times field. The updated Meeting Times is same as existing value.\n');
+        isError=true;
+      } if (updateFacebookLink && facebookLink === clubDetails.facebookLink) {
+        errMessage += ('Please update Facebook Link field. The updated Facebook Link is same as existing value.\n');
+        isError=true;
+      } if (updateInstagramLink && instagramLink === clubDetails.instagramLink) {
+        errMessage += ('Please update Instagram Link field. The updated Instagram Link is same as existing value.\n');
+        isError=true;
+      } 
+      setToastError(errMessage);
+      if (!isError) {
+        updated = true;
+        setToastError(''); 
+        updateClubDetails();
+      }
     }
 
     if (updated) {
       toast({
         title: 'Update Successful',
-        description: 'Club details updated successfully!',
+        description: 'Updated club details request raised successfully! Please check back in some time to view your club updates.',
         status: 'success',
         duration: 5000,
         isClosable: true,
       });
-
-      // Implement the rest of the update logic here
-
-      console.log('Club Name:', updateClubName ? clubName : 'Not Updated');
-      console.log('Club Picture:', updateClubPicture ? clubPicture : 'Not Updated');
-      console.log('Description:', updateDescription ? description : 'Not Updated');
-      console.log('Location:', updateLocation ? location : 'Not Updated');
-      console.log('Meeting Times:', updateMeetingTimes ? meetingTimes : 'Not Updated');
-      console.log('Facebook Link:', updateFacebookLink ? facebookLink : 'Not Updated');
-      console.log('Instagram Link:', updateInstagramLink ? instagramLink : 'Not Updated');
+    } else {
+      toast({
+        title: 'Oops!',
+        description: 'Please select a field to update by checking the update box! Looks like you are trying to update a field value without updating it.',
+        status: 'error',
+        duration: 10000,
+        isClosable: true,
+      });
     }
+  };
+
+  const getBase64StringFromImage = (imageFile) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(imageFile);
+    });
   };
 
   return (
     <Box position="relative">
-
         <img src="/formBackground.jpg" alt="" style={{ width: '100%', height: '400px', objectFit: 'cover' }} />
         <Box position="absolute" top="50px"  left="50%" transform="translateX(-50%)" width="60%" bg="white" p="20px" rounded="md" h="100%">
-    <Flex align="center" justify="center" h="100vh">
+    <Flex align="center" justify="center" h="75vh">
 
-      <Box p="20px" bg="white" rounded="md">
+      <Box  bg="white" rounded="md" width="80%">
         <Text fontSize="4xl" fontWeight="bold" textAlign="center" mb="10px" color="yellow.500">
           UPDATE CLUB DETAILS
         </Text>
         <Text fontSize="md" textAlign="center" mb="20px">
-          Please select and update the values as required!
+          Please select the checkbox of the field value requiring updation.
         </Text>
   
         <Box>
@@ -99,7 +185,6 @@ function UpdateClubDetails() {
             <Checkbox isChecked={updateClubPicture} onChange={(e) => setUpdateClubPicture(e.target.checked)}>
               Update
             </Checkbox>
-            {/* Assuming it's a file input */}
             <Input type="file" onChange={(e) => setClubPicture(e.target.files[0])} ml="10px" disabled={!updateClubPicture} />
           </Flex>
         </Box>
@@ -174,7 +259,7 @@ function UpdateClubDetails() {
   
         <Box mt="20px">
           <Button colorScheme="yellow" onClick={handleUpdate} width="100%">
-            Update Club Details
+            UPDATE CLUB DETAILS
           </Button>
         </Box>
       </Box>
