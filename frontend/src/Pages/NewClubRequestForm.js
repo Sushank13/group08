@@ -1,8 +1,8 @@
-import { Button, Container, Flex, FormControl, FormLabel, Grid, HStack, Input, Menu, MenuButton, MenuItem, MenuList, Text, useToast } from '@chakra-ui/react';
+import { Button, Flex, FormControl, FormLabel, Input, Menu, MenuButton, MenuItem, MenuList, Text, useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 
+import { NavLink } from 'react-router-dom';
 
 
 function NewClubRequestForm() {
@@ -17,7 +17,7 @@ function NewClubRequestForm() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get(`/getAllClubCategory`);
+                const response = await axios.get(`unauthenticated/getAllClubCategory`);
                 const data = await response.data
                 setCategory(data)
             }
@@ -32,7 +32,7 @@ function NewClubRequestForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`/registerClub`, clubRequest);
+            const response = await axios.post(`/member/registerClub`, clubRequest);
             if (response.status === 200) {
                 toast({
                     title: 'Successful',
@@ -50,7 +50,7 @@ function NewClubRequestForm() {
         }
     }
     return (
-        <Flex align="center" justify="start" direction='column' fontSize='2rem' h="90vh">
+        <Flex w="100%" align="center" justify="start" direction='column' fontSize='2rem' h="90vh">
             <Flex alignItems="end" justifyContent="center" h="20vh" bgColor='black' width='100%' >
                 <Flex h="18vh" bgColor='white' width='60%' alignItems='center' justifyContent='center'>
                     <Flex h='10vh' bgColor='#ECC94B' width='40%' justifyContent='center' alignItems='center'>
@@ -157,7 +157,7 @@ function NewClubRequestForm() {
                                             ...clubRequest,
                                             iLink: event.target.value
                                         })
-                                    }} width='320' type="email" placeholder="Enter Instagram URL" />
+                                    }} width='320' type="text" placeholder="Enter Instagram URL" />
                             </FormControl>
                         </Flex>
                         <Flex justify='center' alignItems="center">
@@ -231,8 +231,9 @@ function NewClubRequestForm() {
                             </FormControl>
                         </Flex>
 
-
+          <NavLink to={`/`} >
                         <Button mt='40px' type="submit" onSubmit={handleSubmit}>Submit</Button>
+              </NavLink>
                     </form>
                 </Flex>
 

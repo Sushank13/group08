@@ -11,8 +11,8 @@ function LayoutNavbar() {
             <Box bg="black"> {/* Add a black background */}
                 <Flex as="nav" align="center" justify="space-between" padding="1rem" h="1vh" top="25%" left="0" right="0" color='white'>
                     <Box>
-                        <NavLink to='/'>
-                            <Text color="white">Home</Text>
+                        <NavLink to='/Login'>
+                            <Text color="white">Login</Text>
                         </NavLink>
                     </Box>
                     <Box>

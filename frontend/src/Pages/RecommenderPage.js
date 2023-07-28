@@ -137,7 +137,7 @@ function RecommenderPage() {
                   <br />
                   Take the initiative and create your own!
                 </Text>
-                <NavLink to={`/recommend`}>
+                <NavLink to={`/newclubrequestform`}>
                   <Button bg={global.DalClubCommons.yellow} color={global.DalClubCommons.black} ml="2">
                     CREATE YOUR CLUB 
                   </Button>
