@@ -2,14 +2,15 @@ package testUtils;
 
 import com.dal.cs.backend.Club.ClassObject.Category;
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
+import com.dal.cs.backend.Club.Enum.RequestStatus;
+import com.dal.cs.backend.Club.Enum.RequestType;
 import com.dal.cs.backend.Event.EventObject.Event;
 import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.member.MemberObject.Member;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.AbstractMap;
-import java.util.Map;
 import java.util.Random;
 
 public class RandomGenerator {
@@ -97,6 +98,10 @@ public class RandomGenerator {
     }
 
 
+    public static String generateRandomRequestID() {
+        return "REQ_" + generateRandomInteger(1000, 10000);
+    }
+
     public static Member generateRandomDalClubMember() {
         String email = RandomGenerator.generateRandomEmail();
         String firstName = generateRandomString(10);
@@ -132,6 +137,25 @@ public class RandomGenerator {
         String meetingTime = generateRandomString(10);
         String rules = generateRandomString(100);
         return new Club(clubID, clubName, description, presidentEmailID, facebookLink, instagramLink, category.getCategoryID(), location, meetingTime, null, rules, category.getCategoryName());
+    }
+
+    public static ClubUpdateRequest generateRandomNewClubRequest(Club clubDetails) {
+        String requestID = generateRandomRequestID();
+        return new ClubUpdateRequest(requestID,
+                clubDetails.getClubID(),
+                clubDetails.getPresidentEmailID(),
+                clubDetails.getCategoryID(),
+                clubDetails.getCategoryName(),
+                clubDetails.getClubName(),
+                clubDetails.getDescription(),
+                clubDetails.getFacebookLink(),
+                clubDetails.getInstagramLink(),
+                clubDetails.getLocation(),
+                clubDetails.getMeetingTime(),
+                clubDetails.getClubImage(),
+                clubDetails.getRules(),
+                RequestType.NEW_REQUEST,
+                RequestStatus.PENDING);
     }
 
     public static Event generateRandomEvent(String organiserEmailID, String clubID, String eventID) {

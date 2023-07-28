@@ -2,6 +2,9 @@ package Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Category;
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
+import com.dal.cs.backend.Club.Enum.RequestStatus;
+import com.dal.cs.backend.Club.Enum.RequestType;
 import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.member.MemberObject.Member;
 import org.junit.jupiter.api.AfterAll;
@@ -16,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
+import static testUtils.RandomGenerator.generateRandomRequestID;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ClubDataLayerTest extends BaseTest {
@@ -95,16 +99,6 @@ public class ClubDataLayerTest extends BaseTest {
     }
 
     @Test
-    public void deleteClubTest() {
-//        try {
-//            boolean result = iClubDataLayer.deleteClub("CLB_3");
-//            System.out.println("result = " + result);
-//        } catch (SQLException e) {
-//            fail("Test failed: Exception occurred- "+e.getMessage());
-//        }
-    }
-
-    @Test
     public void getClubDetailsFromClubRequestTest() {
         try {
             String reqId = "REQ_1";
@@ -172,7 +166,40 @@ public class ClubDataLayerTest extends BaseTest {
     }
 
     @Test
-    public void createClub() {
+    public void createNewClubRequestTest() {
+        Member member = createMember(true, MemberType.member);
+        Category category = createCategory(true);
+        Club club = createClub(false, member.getEmailId(), category);
+        ClubUpdateRequest newClubRequest = createNewClubRequest(false, club);
+        //Clean up
+        addToStack(ClubUpdateRequest.class, newClubRequest.getRequestID());
+
+        try {
+            Assertions.assertTrue(iClubDataLayer.createNewClubRequest(newClubRequest.getRequestID(), club, RequestType.NEW_REQUEST.name(), RequestStatus.PENDING.name()));
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void deleteNewClubRequestTest() {
+        Member member = createMember(true, MemberType.member);
+        Category category = createCategory(true);
+        Club club = createClub(true, member.getEmailId(), category);
+        ClubUpdateRequest newClubRequest = createNewClubRequest(true, club);
+
+        try {
+            Assertions.assertTrue(iClubDataLayer.deleteClubRequest(newClubRequest.getRequestID()));
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
+
+        //Remove from cleanup stack
+        popCleanUpStack();
+    }
+
+    @Test
+    public void createClubTest() {
         Member president = createMember(true, MemberType.president);
         Category category = createCategory(true);
         Club club = createClub(false, president.getEmailId(), category);
@@ -188,7 +215,7 @@ public class ClubDataLayerTest extends BaseTest {
     }
 
     @Test
-    public void deleteClub() {
+    public void deleteClubTest() {
         Member president = createMember(true, MemberType.president);
         Category category = createCategory(true);
         Club club = createClub(true, president.getEmailId(), category);

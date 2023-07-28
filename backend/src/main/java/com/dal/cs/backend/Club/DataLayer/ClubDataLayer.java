@@ -128,9 +128,9 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
         callableStatement.setString(13,requestType);
         callableStatement.setString(14,requestStatus);
         logger.info("Executing stored procedure to create a new record for new club request");
-        boolean procedureCallStatus=callableStatement.execute();
+        int procedureCallStatus=callableStatement.executeUpdate();
         logger.info("Procedure to create a new club request called with status "+procedureCallStatus);
-        if(procedureCallStatus)
+        if(procedureCallStatus > 0)
         {
             logger.info("Exiting DataLayer: returning true to Service Layer");
             return true;
@@ -767,6 +767,26 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
         else
         {
             logger.error("Failed to delete category with id "+ categoryID );
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteClubRequest(String requestID) throws SQLException {
+        logger.info("Entered Datalayer: deleteClubRequest()");
+        logger.info("deleteClubRequest(): calling stored procedure");
+        callProcedure=getProcedureCallString("deleteClubRequest", 1);
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1, requestID);
+        int procedureCallStatus=callableStatement.executeUpdate();
+        if(procedureCallStatus>0)
+        {
+            logger.info("Deleted club request with id "+ requestID );
+            return true;
+        }
+        else
+        {
+            logger.error("Failed to delete request with id "+ requestID );
             return false;
         }
     }

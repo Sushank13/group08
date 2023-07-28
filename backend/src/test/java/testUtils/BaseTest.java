@@ -2,6 +2,7 @@ package testUtils;
 
 import com.dal.cs.backend.Club.ClassObject.Category;
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
 import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
@@ -83,6 +84,19 @@ public class BaseTest {
         return club;
     }
 
+    public ClubUpdateRequest createNewClubRequest(boolean createInDatabase, Club club) {
+        ClubUpdateRequest newClubRequest = RandomGenerator.generateRandomNewClubRequest(club);
+        if (createInDatabase) {
+            try {
+                iClubDataLayer.createNewClubRequest(newClubRequest.getRequestID(), club, newClubRequest.getRequestType().toString(), newClubRequest.getRequestStatus().toString());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            addToStack(Club.class, club.getClubID());
+        }
+        return newClubRequest;
+    }
+
     public void cleanUpTest() {
         while (!cleanUpStack.empty()) {
             deleteRow(cleanUpStack.pop());
@@ -92,6 +106,7 @@ public class BaseTest {
     private void deleteRow(CleanUpRow cleanUpRow) {
         Class className = cleanUpRow.getClassName();
         String uniqueID = cleanUpRow.getUniqueID();
+
         if (className.equals(Member.class)) {
             iMemberDataLayer.deleteMember(uniqueID);
         } else if (className.equals(Category.class)) {
@@ -106,6 +121,13 @@ public class BaseTest {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+        } else if (className.equals(ClubUpdateRequest.class)) {
+            try {
+                iClubDataLayer.deleteClubRequest(uniqueID);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 }
