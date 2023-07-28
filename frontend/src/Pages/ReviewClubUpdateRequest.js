@@ -6,14 +6,7 @@ import React, { useEffect, useState } from 'react';
 
 function ReviewClubUpdateRequest() {
 
-    const [newClubRequest, setNewClubRequest] = useState({
-        name: "",
-        firstName: "",
-        lastName: "",
-        emailID: "",
-    });
 
-    const [pendingClubRequest, setPendingClubRequest] = useState([]);
 
     const [updateClubRequest, setUpdateClubRequest] = useState([]);
 
@@ -31,27 +24,7 @@ function ReviewClubUpdateRequest() {
         fetchpendingclubs()
 
     }, [])
-    const [clubsData, setClubsData] = useState([]);
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        try {
-            const response = await axios.post(`/registerClub`, JSON.stringify(newClubRequest));
-            if (response.status === 200) {
-                Toast({
-                    title: 'Successful',
-                    description: 'Your submission was successful.',
-                    status: 'success',
-                    duration: 5000,
-                    isClosable: true,
-                });
-            }
-            return response.data;
 
-        } catch (error) {
-            console.log(error);
-            return null;
-        }
-    }
     const handleReject = async (requestID) => {
 
         try {

@@ -6,12 +6,7 @@ import React, { useEffect, useState } from 'react';
 
 function ReviewNewClubRequest() {
 
-  const [newClubRequest, setNewClubRequest] = useState({
-    name: "",
-    firstName: "",
-    lastName: "",
-    emailID: "",
-  });
+
 
   const [pendingClubRequest, setPendingClubRequest] = useState([]);
 
