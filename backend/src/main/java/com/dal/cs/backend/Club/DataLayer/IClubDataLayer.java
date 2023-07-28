@@ -30,6 +30,9 @@ public interface IClubDataLayer
    public boolean updateJoinClubRequestStatusToApproved(String reqId) throws SQLException;
    public boolean deleteJoinClubRequest(String reqId) throws SQLException;
    public List<ClubUpdateRequest> getAllClubRequests(RequestType requestType, RequestStatus requestStatus) throws SQLException;
+
+   ClubUpdateRequest  getClubRequest(String requestID) throws SQLException;
+
    public boolean createClubCategory(Category category) throws SQLException;
    public boolean deleteClubCategory(String categoryID) throws SQLException;
    public boolean deleteClubRequest(String requestID) throws SQLException;

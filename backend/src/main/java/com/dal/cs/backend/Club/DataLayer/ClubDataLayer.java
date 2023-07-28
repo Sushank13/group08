@@ -731,6 +731,45 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
     }
 
     @Override
+    public ClubUpdateRequest getClubRequest(String requestID) throws SQLException {
+        if (connection != null) {
+            logger.info("Entered getClubRequest()");
+            callProcedure = getProcedureCallString("getClubRequestInfoByRequestId", 1);
+            callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1, requestID);
+            boolean procedureCallStatus = callableStatement.execute();
+            ResultSet resultSet = callableStatement.getResultSet();
+            if (procedureCallStatus) {
+                while (resultSet.next()) {
+                    ClubUpdateRequest clubUpdateRequest = new ClubUpdateRequestBuilder()
+                            .setRequestID(resultSet.getString(1))
+                            .setClubID(resultSet.getString(2))
+                            .setRequesterEmailID(resultSet.getString(3))
+                            .setCategoryID(resultSet.getString(4))
+                            .setClubName(resultSet.getString(5))
+                            .setDescription(resultSet.getString(6))
+                            .setFacebookLink(resultSet.getString(7))
+                            .setInstagramLink(resultSet.getString(8))
+                            .setLocation(resultSet.getString(9))
+                            .setMeetingTime(resultSet.getString(10))
+                            .setClubImage(resultSet.getString(11))
+                            .setRules(resultSet.getString(12))
+                            .setRequestType(RequestType.valueOf(resultSet.getString(13)))
+                            .setRequestStatus(RequestStatus.valueOf(resultSet.getString(14)))
+                            .createClubUpdateRequest();
+                    logger.info("Exiting DataLayer: returning club request");
+                    return clubUpdateRequest;
+                }
+            }
+            logger.error("Problem with procedure call or database connection");
+            return null;
+
+        }
+        logger.error("Exception: Database Connection not established.");
+        return null;
+    }
+
+    @Override
     public boolean createClubCategory(Category category) throws SQLException {
         logger.info("Entered Datalayer: createClubCategory()");
         logger.info("createClubCategory(): calling stored procedure");
