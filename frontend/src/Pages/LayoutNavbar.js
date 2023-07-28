@@ -8,36 +8,37 @@ function LayoutNavbar() {
         <>
             <header> <Navbar /> </header>
 
-            <Flex as="nav" align="center" justify="space-between" padding="1rem" bg="white" h="1vh" top="25%" left="0" right="0" color='#605c51'>
-                <Box>
-                    <NavLink to='/'>
-                        <Text>About</Text>
-                    </NavLink>
-                </Box>
-                <Box>
-                    <NavLink to='/'>
-                        <Text>Home</Text>
-                    </NavLink>
-                </Box>
-                <Box>
-                    <NavLink to='/FindClubs'>
-                        <Text>Find Clubs</Text>
-                    </NavLink>
-                </Box>
-                <Box>
-                    <NavLink to='/FindEvents'>
-                        <Text>Find Events</Text>
-                    </NavLink>
-                </Box>
-                <Box>
-                    <NavLink to='/admin'>
-                        <Text>Admin</Text>
-                    </NavLink>
-                </Box>
-            </Flex>
+            <Box bg="black"> {/* Add a black background */}
+                <Flex as="nav" align="center" justify="space-between" padding="1rem" h="1vh" top="25%" left="0" right="0" color='white'>
+                    <Box>
+                        <NavLink to='/'>
+                            <Text color="white">About</Text>
+                        </NavLink>
+                    </Box>
+                    <Box>
+                        <NavLink to='/'>
+                            <Text color="white">Home</Text>
+                        </NavLink>
+                    </Box>
+                    <Box>
+                        <NavLink to='/FindClubs'>
+                            <Text color="white">Find Clubs</Text>
+                        </NavLink>
+                    </Box>
+                    <Box>
+                        <NavLink to='/FindEvents'>
+                            <Text color="white">Find Events</Text>
+                        </NavLink>
+                    </Box>
+                    <Box>
+                        <NavLink to='/admin'>
+                            <Text color="white">Admin</Text>
+                        </NavLink>
+                    </Box>
+                </Flex>
+            </Box>
 
             <Outlet />
-
         </>
     );
 }

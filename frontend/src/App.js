@@ -21,6 +21,10 @@ import CreateEventForm from './Pages/CreateEventForm';
 import ReviewNewClubRequest from './Pages/ReviewNewClubRequest';
 import ReviewClubUpdateRequest from './Pages/ReviewClubUpdateRequest';
 import ManageClub from './Pages/ManageClub';
+import RecommenderPage from './Pages/RecommenderPage';
+import UpdateEventDetails from './Pages/UpdateEventDetails';
+import UpdateClubDetails from './Pages/UpdateClubDetails';
+
 
 const ROLES = {
   'member': 'member',
@@ -43,10 +47,11 @@ function App() {
           <Route path="event/:eventName" element={<EventPage />} />
 
           <Route path="FindClubs" element={<FindAllClubs />} />
-          <Route path="manageclub" element={<ManageClub />} />
+          <Route path="/admin/manageclub" element={<ManageClub />} />
           <Route path="club/:clubName" element={<ClubPage />} />
-          <Route path="reviewnewclubrequest" element={<ReviewNewClubRequest />} />
-          <Route path="reviewclubupdaterequest" element={<ReviewClubUpdateRequest />} />
+
+          <Route path="/admin/reviewnewclubrequest" element={<ReviewNewClubRequest />} />
+          <Route path="/admin/reviewclubupdaterequest" element={<ReviewClubUpdateRequest />} />
 
           <Route path="newclubrequestform" element={<NewClubRequestForm />} />
           <Route path="clubmembershipform" element={<ClubMembershipForm />} />
@@ -54,6 +59,12 @@ function App() {
           <Route path="createeventform" element={<CreateEventForm />} />
 
           {/* <Route path="createeventform" element={<ClubMembershipForm />} /> */}
+
+          <Route path="recommend" element={<RecommenderPage />} />
+          <Route path="updateEvent/:eventName" element={<UpdateEventDetails />} />
+
+          <Route path="club/:clubName" element={<ClubPage />} />
+          <Route path="updateClub/:clubName" element={<UpdateClubDetails />} />
 
           {/* we want to protect these routes */}
           <Route element={<PersistLogin />}>
