@@ -67,12 +67,33 @@ public class ClubDataLayerTest extends BaseTest {
 
     @Test
     public void getAllJoinClubRequestsTest() {
-        //TODO: Add club random generator for club creation
-//        try {
-//            Assertions.assertTrue(iClubDataLayer.getAllJoinClubRequests("CLB_2", "user@dal.ca").size() > 0);
-//        } catch (SQLException e) {
-//            fail("Test failed: Exception occurred- " + e.getMessage());
-//        }
+        Member president = createMember(true, MemberType.president);
+        Member member1 = createMember(true, MemberType.member);
+        Member member2 = createMember(true, MemberType.member);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        JoinClubRequest joinClubRequest1 = createNewJoinClubRequest(true, member1.getEmailId(), club.getClubID());
+        JoinClubRequest joinClubRequest2 = createNewJoinClubRequest(true, member2.getEmailId(), club.getClubID());
+
+        List<JoinClubRequest> joinClubRequests = new ArrayList<>();
+        try {
+            joinClubRequests = iClubDataLayer.getAllJoinClubRequests(club.getClubID(), president.getEmailId());
+            boolean match1 = false;
+            boolean match2 = false;
+            for (JoinClubRequest joinClubRequest : joinClubRequests
+            ) {
+                if (joinClubRequest.getRequestID().equals(joinClubRequest1.getRequestID()))
+                    match1 = true;
+                if (joinClubRequest.getRequestID().equals(joinClubRequest2.getRequestID()))
+                    match2 = true;
+
+                if (match1 && match2)
+                    break;
+            }
+            Assertions.assertTrue(match1 || match2);
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
     }
 
     @Test
