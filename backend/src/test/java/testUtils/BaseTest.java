@@ -7,6 +7,7 @@ import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
+import com.dal.cs.backend.Club.Enum.RequestType;
 import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
 import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.database.DatabaseConnection;
@@ -87,7 +88,15 @@ public class BaseTest {
     }
 
     public ClubUpdateRequest createNewClubRequest(boolean createInDatabase, Club club) {
-        ClubUpdateRequest newClubRequest = RandomGenerator.generateRandomNewClubRequest(club);
+        return createClubRequest(createInDatabase, club, RequestType.NEW_REQUEST);
+    }
+
+    public ClubUpdateRequest createUpdateClubRequest(boolean createInDatabase, Club club) {
+        return createClubRequest(createInDatabase, club, RequestType.UPDATE_REQUEST);
+    }
+
+    public ClubUpdateRequest createClubRequest(boolean createInDatabase, Club club, RequestType requestType) {
+        ClubUpdateRequest newClubRequest = RandomGenerator.generateRandomNewClubRequest(club, requestType);
         if (createInDatabase) {
             try {
                 iClubDataLayer.createNewClubRequest(newClubRequest.getRequestID(), club, newClubRequest.getRequestType().toString(), newClubRequest.getRequestStatus().toString());

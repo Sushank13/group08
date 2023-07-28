@@ -55,30 +55,6 @@ public class ClubDataLayerTest extends BaseTest {
     }
 
     @Test
-    void updateClubDetailsTest() {
-//        try {
-//            // Request ID
-//            String requestId = "REQ_00_"+(int)Math.floor(Math.random()*500);
-//            // New Club object with updated details
-//            Club club = new Club();
-//            club.setClubID("CLB_1");
-//            club.setClubName("Dal & Kings Bike Society");
-//            club.setDescription("Enthusiastic club organising biking trips.");
-//            // request type
-//            String requestType = String.valueOf(RequestType.UPDATE_REQUEST);
-//            // request status
-//            String requestStatus = String.valueOf(RequestStatus.PENDING);
-//            // calling data layer function
-//            boolean result = iClubDataLayer.insertUpdatedClubDetails(requestId,club,requestType,requestStatus);
-//            System.out.println("result = " + result);
-//            assertTrue(result);
-//        }
-//        catch (Exception e) {
-//            fail("Test failed: Exception occurred- "+e.getMessage());
-//        }
-    }
-
-    @Test
     public void getClubDetailsFromClubRequestTest() {
         try {
             String reqId = "REQ_1";
@@ -202,6 +178,23 @@ public class ClubDataLayerTest extends BaseTest {
 
         //Remove from cleanup stack
         popCleanUpStack();
+    }
+
+    @Test
+    public void insertUpdatedClubDetailsTest() {
+        Member member = createMember(true, MemberType.member);
+        Category category = createCategory(true);
+        Club club = createClub(true, member.getEmailId(), category);
+        ClubUpdateRequest updateClubRequest = createUpdateClubRequest(false, club);
+
+        //Clean up
+        addToStack(ClubUpdateRequest.class, updateClubRequest.getRequestID());
+
+        try {
+            Assertions.assertTrue(iClubDataLayer.insertUpdatedClubDetails(updateClubRequest.getRequestID(), club, RequestType.UPDATE_REQUEST.name(), RequestStatus.PENDING.name()));
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
     }
 
     @Test
