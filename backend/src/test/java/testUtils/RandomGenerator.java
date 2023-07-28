@@ -122,7 +122,8 @@ public class RandomGenerator {
         return president;
     }
 
-    public static Club generateRandomClub(String presidentEmailID, String clubID, String categoryID, String categoryName) {
+    public static Club generateRandomClub(String presidentEmailID, Category category) {
+        String clubID = generateRandomClubID();
         String clubName = generateRandomString(10);
         String description = generateRandomString(100);
         String facebookLink = generateRandomFacebookLink();
@@ -130,7 +131,7 @@ public class RandomGenerator {
         String location = generateRandomString(100);
         String meetingTime = generateRandomString(10);
         String rules = generateRandomString(100);
-        return new Club(clubID, clubName, description, presidentEmailID, facebookLink, instagramLink, categoryID, location, meetingTime, null, rules, categoryName);
+        return new Club(clubID, clubName, description, presidentEmailID, facebookLink, instagramLink, category.getCategoryID(), location, meetingTime, null, rules, category.getCategoryName());
     }
 
     public static Event generateRandomEvent(String organiserEmailID, String clubID, String eventID) {

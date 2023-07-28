@@ -2,6 +2,8 @@ package Club.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Category;
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.member.Enum.MemberType;
+import com.dal.cs.backend.member.MemberObject.Member;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -166,6 +168,38 @@ public class ClubDataLayerTest extends BaseTest {
         }
 
         //Avoid clean up as deleted
+        popCleanUpStack();
+    }
+
+    @Test
+    public void createClub() {
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(false, president.getEmailId(), category);
+
+        try {
+            Assertions.assertTrue(iClubDataLayer.createClub(club));
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
+
+        //Clean up
+        addToStack(Club.class, club.getClubID());
+    }
+
+    @Test
+    public void deleteClub() {
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+
+        try {
+            Assertions.assertTrue(iClubDataLayer.deleteClub(club.getClubID()));
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
+
+        //Skip club clean up
         popCleanUpStack();
     }
 }

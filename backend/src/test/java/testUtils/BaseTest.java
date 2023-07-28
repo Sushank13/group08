@@ -1,6 +1,7 @@
 package testUtils;
 
 import com.dal.cs.backend.Club.ClassObject.Category;
+import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
@@ -10,9 +11,11 @@ import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import com.dal.cs.backend.member.DataLayer.IMemberDataLayer;
 import com.dal.cs.backend.member.DataLayer.MemberDataLayer;
+import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.member.MemberObject.Member;
 
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.Stack;
 
 public class BaseTest {
@@ -39,8 +42,14 @@ public class BaseTest {
         cleanUpStack.pop();
     }
 
-    public Member createMember(boolean createInDatabase) {
-        Member member = RandomGenerator.generateRandomDalClubMember();
+    public Member createMember(boolean createInDatabase, MemberType memberType) {
+        Member member;
+        switch (memberType) {
+            case admin -> member = RandomGenerator.generateRandomAdminMember();
+            case president -> member = RandomGenerator.generateRandomPresidentMember();
+            default -> member = RandomGenerator.generateRandomDalClubMember();
+        }
+
         if (createInDatabase) {
             iMemberDataLayer.createNewMember(member);
             addToStack(Member.class, member.getEmailId());
@@ -61,6 +70,19 @@ public class BaseTest {
         return category;
     }
 
+    public Club createClub(boolean createInDatabase, String presidentEmailID, Category category) {
+        Club club = RandomGenerator.generateRandomClub(presidentEmailID, category);
+        if (createInDatabase) {
+            try {
+                iClubDataLayer.createClub(club);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            addToStack(Club.class, club.getClubID());
+        }
+        return club;
+    }
+
     public void cleanUpTest() {
         while (!cleanUpStack.empty()) {
             deleteRow(cleanUpStack.pop());
@@ -68,11 +90,19 @@ public class BaseTest {
     }
 
     private void deleteRow(CleanUpRow cleanUpRow) {
-        if (cleanUpRow.getClassName().equals(Member.class)) {
-            iMemberDataLayer.deleteMember(cleanUpRow.getUniqueID());
-        } else if (cleanUpRow.getClassName().equals(Category.class)) {
+        Class className = cleanUpRow.getClassName();
+        String uniqueID = cleanUpRow.getUniqueID();
+        if (className.equals(Member.class)) {
+            iMemberDataLayer.deleteMember(uniqueID);
+        } else if (className.equals(Category.class)) {
             try {
-                iClubDataLayer.deleteClubCategory(cleanUpRow.getUniqueID());
+                iClubDataLayer.deleteClubCategory(uniqueID);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (className.equals(Club.class)) {
+            try {
+                iClubDataLayer.deleteClub(uniqueID);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
