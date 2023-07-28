@@ -131,12 +131,12 @@ public class RandomGenerator {
     public static Club generateRandomClub(String presidentEmailID, Category category) {
         String clubID = generateRandomClubID();
         String clubName = generateRandomString(10);
-        String description = generateRandomString(100);
+        String description = generateRandomString(10);
         String facebookLink = generateRandomFacebookLink();
         String instagramLink = generateRandomInstagramLink();
-        String location = generateRandomString(100);
+        String location = generateRandomString(10);
         String meetingTime = generateRandomString(10);
-        String rules = generateRandomString(100);
+        String rules = generateRandomString(10);
         return new Club(clubID, clubName, description, presidentEmailID, facebookLink, instagramLink, category.getCategoryID(), location, meetingTime, null, rules, category.getCategoryName());
     }
 
@@ -167,8 +167,8 @@ public class RandomGenerator {
 
     public static Event generateRandomEvent(String organiserEmailID, String clubID, String eventID) {
         String eventName = generateRandomString(10);
-        String description = generateRandomString(100);
-        String venue = generateRandomString(100);
+        String description = generateRandomString(10);
+        String venue = generateRandomString(10);
         LocalDate startDate = generateRandomDate();
         LocalDate endDate = generateRandomDate();
         LocalTime startTime = generateRandomTime();
