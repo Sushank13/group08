@@ -55,6 +55,9 @@ function App() {
 
           {/* <Route path="createeventform" element={<ClubMembershipForm />} /> */}
 
+          <Route path="club/:clubName" element={<ClubPage />} />         
+          <Route path="updateClub/:clubName" element={<UpdateClubDetails />} />
+          
           {/* we want to protect these routes */}
           <Route element={<PersistLogin />}>
             <Route element={<RequireAuth allowedRoles={[ROLES.admin]} />}>

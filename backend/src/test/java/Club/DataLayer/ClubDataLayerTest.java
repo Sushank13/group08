@@ -5,6 +5,8 @@ import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
+import com.dal.cs.backend.Club.Enum.RequestStatus;
+import com.dal.cs.backend.Club.Enum.RequestType;
 import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import org.junit.jupiter.api.Assertions;
@@ -139,6 +141,16 @@ public class ClubDataLayerTest {
         //TODO: Add club random generator for club creation
 //        try {
 //            Assertions.assertTrue(iclubDataLayer.getAllJoinClubRequests("CLB_2", "user@dal.ca").size() > 0);
+//        } catch (SQLException e) {
+//            fail("Test failed: Exception occurred- " + e.getMessage());
+//        }
+    }
+
+    @Test
+    public void getAllClubRequestsTest() {
+        //TODO: Add club random generator for club creation
+//        try {
+//            Assertions.assertTrue(iclubDataLayer.getAllClubRequests(RequestType.NEW_REQUEST, RequestStatus.APPROVED).size() > 0);
 //        } catch (SQLException e) {
 //            fail("Test failed: Exception occurred- " + e.getMessage());
 //        }
