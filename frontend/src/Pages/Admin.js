@@ -16,15 +16,15 @@ function Admin() {
       </Flex>
       <Flex direction='column' mt='80px'>
         <Text fontSize='md'>Manage New Club Requests:</Text>
-        <NavLink to='/NewClubRequest'>
+        <NavLink to='/admin/reviewnewclubrequest'>
           <Button bgColor='black' mt='20px' color='white'>New Club Request</Button>
         </NavLink>
         <Text fontSize='md' mt='40px'>Manage Existing Clubs:</Text>
-        <NavLink to='/subscribe'>
+        <NavLink to='/admin/manageclub'>
           <Button bgColor='black' mt='20px' color='white'>Manage Clubs</Button>
         </NavLink>
         <Text fontSize='md' mt='40px'>Review Club Update Requests:</Text>
-        <NavLink to='/subscribe'>
+        <NavLink to='/admin/reviewclubupdaterequest'>
           <Button bgColor='black' mt='20px' color='white'>Club Update Requests</Button>
         </NavLink>
       </Flex>

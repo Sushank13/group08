@@ -1,4 +1,4 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex, Text, Toast } from '@chakra-ui/react';
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Flex, Text, Toast } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
@@ -13,19 +13,12 @@ function ReviewNewClubRequest() {
     emailID: "",
   });
 
-  const [pendingClubRequest, setPendingClubRequest] = useState([{
-    name: "Dalhousie Greens"
-  }, {
-    name: "preeti"
-  },
-  {
-    name: "anindita"
-  }]);
+  const [pendingClubRequest, setPendingClubRequest] = useState([]);
 
   useEffect(() => {
     const fetchpendingclubs = async () => {
       try {
-        const response = await axios.get(`/getpending`);
+        const response = await axios.get(`/getAllNewClubRequests?requestStatus=APPROVED`);
         const data = await response.data
         setPendingClubRequest(data)
       }
@@ -38,14 +31,34 @@ function ReviewNewClubRequest() {
   }, [])
 
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleReject = async (requestID) => {
+
     try {
-      const response = await axios.post(`/registerClub`, JSON.stringify(newClubRequest));
+      const response = await axios.put(`/admin/rejectClubRequest/${requestID}`);
       if (response.status === 200) {
         Toast({
           title: 'Successful',
-          description: 'Your submission was successful.',
+          description: 'CLUB REJECTED SUCCESSFULLY.',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+      return response.data;
+
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+  const handleApproval = async (requestID) => {
+
+    try {
+      const response = await axios.put(`/admin/approveClubRequest/${requestID}`);
+      if (response.status === 200) {
+        Toast({
+          title: 'Successful',
+          description: 'CLUB ACCEPTED SUCCESSFULLY.',
           status: 'success',
           duration: 5000,
           isClosable: true,
@@ -76,7 +89,7 @@ function ReviewNewClubRequest() {
                 <h2>
                   <AccordionButton>
                     <Box as="span" flex='1' textAlign='left'>
-                      {pendingClub.name}
+                      {pendingClub.clubName}
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
@@ -84,36 +97,37 @@ function ReviewNewClubRequest() {
                 <AccordionPanel pb={4} >
                   <Flex direction='column'>
                     <Flex direction='row' justifyContent='space-between'>
-                      <Flex width='20%'>
+                      <Flex width='30%'>
                         <Text fontSize='md'>Club Name:</Text>
                       </Flex>
-                      <Flex width='80%'>
-                        <Text fontSize='md'>Dalhousie Greens</Text>
+                      <Flex width='70%'>
+                        <Text fontSize='md'>{pendingClub.clubName}</Text>
                       </Flex>
                     </Flex>
                     <Flex direction='row' justifyContent='space-between'>
-                      <Flex width='20%'>
+                      <Flex width='30%'>
                         <Text fontSize='md'>Club Description:</Text>
                       </Flex>
-                      <Flex width='80%'>
-                        <Text fontSize='md'>A Green values common interest society, pertaining to sustainability, social justice and grassroots democracy.
-                          Our society brings together people with common interest in green values for discussions and events pertaining to these values</Text>
+                      <Flex width='70%'>
+                        <Text fontSize='md'>{pendingClub.description}</Text>
                       </Flex>
                     </Flex>
+
                     <Flex direction='row' justifyContent='space-between'>
-                      <Flex width='20%'>
-                        <Text fontSize='md'>Requestor Name:</Text>
-                      </Flex>
-                      <Flex width='80%'>
-                        <Text fontSize='md'>Preeti Sharma</Text>
-                      </Flex>
-                    </Flex>
-                    <Flex direction='row' justifyContent='space-between'>
-                      <Flex width='20%'>
+                      <Flex width='30%'>
                         <Text fontSize='md'>Requestor Email ID:</Text>
                       </Flex>
+                      <Flex width='70%'>
+                        <Text fontSize='md'>{pendingClub.requesterEmailID}</Text>
+                      </Flex>
+
+                    </Flex>
+                    <Flex direction='row' justifyContent='space-between'>
+                      <Flex width='20%'>
+                        <Button mt='40px' type="submit" onClick={() => handleApproval(pendingClub.requestID)} bg="green">Approve</Button>
+                      </Flex>
                       <Flex width='80%'>
-                        <Text fontSize='md'>pr233584@dal.ca</Text>
+                        <Button mt='40px' type="submit" onClick={() => handleReject(pendingClub.requestID)} bg="red">Reject</Button>
                       </Flex>
                     </Flex>
                   </Flex>

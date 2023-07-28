@@ -1,51 +1,36 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex, Text, Toast } from '@chakra-ui/react';
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Flex, Text, Toast } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 
 
 function ManageClub() {
 
-    const [newClubRequest, setNewClubRequest] = useState({
-        name: "",
-        firstName: "",
-        lastName: "",
-        emailID: "",
-    });
 
-    const [pendingClubRequest, setPendingClubRequest] = useState([{
-        name: "Request #1"
-    }, {
-        name: "Request #2"
-    },
-    {
-        name: "Request #3"
-    }]);
+    const [clubData, setClubsData] = useState([]);
 
     useEffect(() => {
-        const fetchpendingclubs = async () => {
+        const getAllClubs = async () => {
             try {
-                const response = await axios.get(`/getpending`);
-                const data = await response.data
-                setPendingClubRequest(data)
+                const response = await axios.get('/getAllClubs');
+                setClubsData(response.data);
+            } catch (error) {
+                console.log(error);
             }
-            catch (e) {
-                console.error(e.message)
-            }
-        }
-        fetchpendingclubs()
-
+        };
+        getAllClubs();
     }, [])
 
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleDelete = async (clubID) => {
+
         try {
-            const response = await axios.post(`/registerClub`, JSON.stringify(newClubRequest));
+            const response = await axios.post(`/admin/deleteClub/${clubID}`);
             if (response.status === 200) {
                 Toast({
                     title: 'Successful',
-                    description: 'Your submission was successful.',
+                    description: 'Your club was successfully deleted.',
                     status: 'success',
                     duration: 5000,
                     isClosable: true,
@@ -70,13 +55,13 @@ function ManageClub() {
             </Flex>
             <Flex direction='column' alignItems='center' mt='80px' width='60%'>
                 {
-                    pendingClubRequest.map((pendingClub) => {
+                    clubData.map((clubData) => {
                         return (<Accordion allowToggle width='90%'>
                             <AccordionItem>
                                 <h2>
                                     <AccordionButton>
                                         <Box as="span" flex='1' textAlign='left'>
-                                            {pendingClub.name}
+                                            {clubData.clubName}
                                         </Box>
                                         <AccordionIcon />
                                     </AccordionButton>
@@ -88,7 +73,7 @@ function ManageClub() {
                                                 <Text fontSize='md'>Club Name:</Text>
                                             </Flex>
                                             <Flex width='80%'>
-                                                <Text fontSize='md'>Dalhousie Greens</Text>
+                                                <Text fontSize='md'>{clubData.clubName}</Text>
                                             </Flex>
                                         </Flex>
                                         <Flex direction='row' justifyContent='space-between'>
@@ -96,40 +81,19 @@ function ManageClub() {
                                                 <Text fontSize='md'>Club Description:</Text>
                                             </Flex>
                                             <Flex width='80%'>
-                                                <Text fontSize='md'>A Green values common interest society, pertaining to sustainability, social justice and grassroots democracy.
-                                                    Our society brings together people with common interest in green values for discussions and events pertaining to these values</Text>
+                                                <Text fontSize='md'>{clubData.description}</Text>
                                             </Flex>
                                         </Flex>
                                         <Flex direction='row' justifyContent='space-between'>
+
                                             <Flex width='20%'>
-                                                <Text fontSize='md'>Requestor Name:</Text>
+                                                <NavLink to="/updateClub/:clubName">
+                                                    <Button mt='40px' type="submit" bg="grey">Edit</Button>
+                                                </NavLink>
                                             </Flex>
+
                                             <Flex width='80%'>
-                                                <Text fontSize='md'>Preeti Sharma</Text>
-                                            </Flex>
-                                        </Flex>
-                                        <Flex direction='row' justifyContent='space-between'>
-                                            <Flex width='20%'>
-                                                <Text fontSize='md'>Requestor Email ID:</Text>
-                                            </Flex>
-                                            <Flex width='80%'>
-                                                <Text fontSize='md'>pr233584@dal.ca</Text>
-                                            </Flex>
-                                        </Flex>
-                                        <Flex direction='row' justifyContent='space-between'>
-                                            <Flex width='20%'>
-                                                <Text fontSize='md'>Old Values</Text>
-                                            </Flex>
-                                            <Flex width='80%'>
-                                                <Text fontSize='md'>Name: Dalhousie Greens</Text>
-                                            </Flex>
-                                        </Flex>
-                                        <Flex direction='row' justifyContent='space-between'>
-                                            <Flex width='20%'>
-                                                <Text fontSize='md'>New Values:</Text>
-                                            </Flex>
-                                            <Flex width='80%'>
-                                                <Text fontSize='md'>Dalhousie Environment</Text>
+                                                <Button mt='40px' type="submit" onClick={() => handleDelete(clubData.clubID)} bg="red">Delete Club</Button>
                                             </Flex>
                                         </Flex>
                                     </Flex>
