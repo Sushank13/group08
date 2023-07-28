@@ -1,5 +1,6 @@
 package testUtils;
 
+import com.dal.cs.backend.Club.ClassObject.Category;
 import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Event.EventObject.Event;
 import com.dal.cs.backend.member.Enum.MemberType;
@@ -7,6 +8,8 @@ import com.dal.cs.backend.member.MemberObject.Member;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.AbstractMap;
+import java.util.Map;
 import java.util.Random;
 
 public class RandomGenerator {
@@ -73,6 +76,12 @@ public class RandomGenerator {
 
     public static String generateRandomCategoryID() {
         return "CAT_" + generateRandomInteger(1000, 10000);
+    }
+
+    public static Category generateRandomCategory() {
+        String categoryID = RandomGenerator.generateRandomCategoryID();
+        String categoryName = RandomGenerator.generateRandomString(10);
+        return new Category(categoryID, categoryName);
     }
 
     public static String generateRandomEventID() {

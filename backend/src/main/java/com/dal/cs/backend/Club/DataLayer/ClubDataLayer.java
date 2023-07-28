@@ -1,5 +1,6 @@
 package com.dal.cs.backend.Club.DataLayer;
 
+import com.dal.cs.backend.Club.ClassObject.Category;
 import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
 import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
@@ -726,6 +727,47 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
         else {
             logger.error("Exception: Database Connection not established.");
             return null;
+        }
+    }
+
+    @Override
+    public boolean createClubCategory(Category category) throws SQLException {
+        logger.info("Entered Datalayer: createClubCategory()");
+        logger.info("createClubCategory(): calling stored procedure");
+        callProcedure=getProcedureCallString("createClubCategory", 2);
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1, category.getCategoryID());
+        callableStatement.setString(2, category.getCategoryName());
+        int procedureCallStatus=callableStatement.executeUpdate();
+        if(procedureCallStatus>0)
+        {
+            logger.info("Added category " + category.getCategoryName() + " with id "+ category.getCategoryID() );
+            return true;
+        }
+        else
+        {
+            logger.error("Failed to add category " + category.getCategoryName() + " with id "+ category.getCategoryID() );
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteClubCategory(String categoryID) throws SQLException {
+        logger.info("Entered Datalayer: deleteClubCategory()");
+        logger.info("deleteClubCategory(): calling stored procedure");
+        callProcedure=getProcedureCallString("deleteClubCategory", 1);
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1, categoryID);
+        int procedureCallStatus=callableStatement.executeUpdate();
+        if(procedureCallStatus>0)
+        {
+            logger.info("Deleted category with id "+ categoryID );
+            return true;
+        }
+        else
+        {
+            logger.error("Failed to delete category with id "+ categoryID );
+            return false;
         }
     }
 

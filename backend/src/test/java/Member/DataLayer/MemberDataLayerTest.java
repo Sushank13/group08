@@ -19,7 +19,7 @@ public class MemberDataLayerTest extends BaseTest {
 
     @Test
     public void createNewMemberTest() {
-        Member randomMember = RandomGenerator.generateRandomDalClubMember();
+        Member randomMember = createMember(false);
         Assertions.assertTrue(() -> iMemberDataLayer.createNewMember(randomMember));
 
         //Clean Up
@@ -28,7 +28,7 @@ public class MemberDataLayerTest extends BaseTest {
 
     @Test
     public void getMemberTest() {
-        Member randomMember = createMember();
+        Member randomMember = createMember(true);
         Member recievedMember = iMemberDataLayer.getMember(randomMember.getEmailId());
         Assertions.assertNotNull(recievedMember, "Member not found");
 
@@ -45,7 +45,7 @@ public class MemberDataLayerTest extends BaseTest {
 
     @Test
     public void deleteMemberTest() {
-        Member randomMember = createMember();
+        Member randomMember = createMember(true);
         iMemberDataLayer.createNewMember(randomMember);
         Assertions.assertTrue(() -> iMemberDataLayer.deleteMember(randomMember.getEmailId()));
     }

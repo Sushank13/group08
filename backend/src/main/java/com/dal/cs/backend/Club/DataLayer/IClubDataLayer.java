@@ -1,5 +1,6 @@
 package com.dal.cs.backend.Club.DataLayer;
 
+import com.dal.cs.backend.Club.ClassObject.Category;
 import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
 import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
@@ -29,4 +30,6 @@ public interface IClubDataLayer
    public boolean updateJoinClubRequestStatusToApproved(String reqId) throws SQLException;
    public boolean deleteJoinClubRequest(String reqId) throws SQLException;
    public List<ClubUpdateRequest> getAllClubRequests(RequestType requestType, RequestStatus requestStatus) throws SQLException;
+   public boolean createClubCategory(Category category) throws SQLException;
+   public boolean deleteClubCategory(String categoryID) throws SQLException;
 }

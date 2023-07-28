@@ -327,3 +327,19 @@ BEGIN
     AND newAndUpdateClubRequest.requestStatus = requestStatus;
 END //
 DELIMITER ;
+
+    -- Procedure to create club category
+DELIMITER //
+CREATE PROCEDURE createClubCategory(IN categoryID VARCHAR(255), IN categoryName VARCHAR(255))
+BEGIN
+INSERT INTO category (category.categoryID, category.categoryName) VALUES (categoryID, categoryName);
+END //
+DELIMITER ;
+
+-- Procedure to delete club category
+DELIMITER //
+CREATE PROCEDURE deleteClubCategory(IN categoryID VARCHAR(255))
+BEGIN
+DELETE FROM category WHERE category.categoryID = categoryID;
+END //
+DELIMITER ;
