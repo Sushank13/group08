@@ -8,10 +8,7 @@ import com.dal.cs.backend.Club.Enum.RequestStatus;
 import com.dal.cs.backend.Club.Enum.RequestType;
 import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.member.MemberObject.Member;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import testUtils.BaseTest;
 
 import java.sql.SQLException;
@@ -29,37 +26,25 @@ public class ClubDataLayerTest extends BaseTest {
         super();
     }
 
-    @AfterAll
+    @AfterEach
     public void cleanUp() {
         cleanUpTest();
     }
 
     @Test
     void getLatestRequestIdTest() {
-        try {
-            String result = iClubSecondDataLayer.getLatestRequestId();
-            System.out.println("result = \n" + result);
-        } catch (Exception e) {
-            fail("Exception occured: " + e.getMessage());
-        }
-    }
-
-    @Test
-    void getLatestClubIdTest() {
         Member president = createMember(true, MemberType.president);
         Category category = createCategory(true);
         Club club = createClub(false, president.getEmailId(), category);
-        ClubUpdateRequest approvedNewClubRequest = createNewClubRequest(true, club, RequestStatus.APPROVED);
+        ClubUpdateRequest newClubRequest = createNewClubRequest(true, club, RequestStatus.PENDING);
         try {
-            iClubDataLayer.createClub(club);
-            addToStack(Club.class, club.getClubID());
-
-            String latestClubId = iClubSecondDataLayer.getLatestClubId();
-            Assertions.assertTrue(latestClubId.equals(club.getClubID()));
+            String latestRequestId = iClubSecondDataLayer.getLatestRequestId();
+            Assertions.assertTrue(latestRequestId.equals(newClubRequest.getRequestID()));
         } catch (Exception e) {
             fail("Exception occured: " + e.getMessage());
         }
     }
+
 
 
     @Test
