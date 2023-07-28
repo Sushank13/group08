@@ -1,50 +1,37 @@
 package Member.DataLayer;
 
-import com.dal.cs.backend.database.DatabaseConnection;
-import com.dal.cs.backend.database.IDatabaseConnection;
-import com.dal.cs.backend.member.DataLayer.IMemberDataLayer;
-import com.dal.cs.backend.member.DataLayer.MemberDataLayer;
 import com.dal.cs.backend.member.MemberObject.Member;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
-import testUtils.RandomGenerator;
+import testUtils.BaseTest;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class MemberDataLayerTest {
+public class MemberDataLayerTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(MemberDataLayerTest.class);
-    private IMemberDataLayer memberDataLayer;
 
-    private Member randomMember;
-
-    @BeforeAll
-    public void beforeALl() {
-        IDatabaseConnection databaseConnection = DatabaseConnection.getInstance();
-        memberDataLayer = MemberDataLayer.getInstance(databaseConnection);
-    }
-    @BeforeEach
-    public void beforeEach() {
-        randomMember = RandomGenerator.generateRandomDalClubMember();
+    public MemberDataLayerTest() {
+        super();
     }
 
-    @AfterEach
+    @AfterAll
     public void cleanUp(TestInfo testInfo) {
-        if (testInfo.getTags().contains("SkipCleanUp"))
-            return;
-        memberDataLayer.deleteMember(randomMember.getEmailId());
+        cleanUpTest();
     }
 
     @Test
     public void createNewMemberTest() {
+        Member randomMember = createMember();
         logger.info("[Test][Member][Service] Created test member with emailId: " + randomMember.getEmailId());
-        Assertions.assertTrue(() -> memberDataLayer.createNewMember(randomMember));
+        Assertions.assertTrue(() -> iMemberDataLayer.createNewMember(randomMember));
     }
 
     @Test
     public void getMemberTest() {
+        Member randomMember = createMember();
         logger.info("[Test][Member][Service] Created test member with emailId: " + randomMember.getEmailId());
-        memberDataLayer.createNewMember(randomMember);
-        Member recievedMember = memberDataLayer.getMember(randomMember.getEmailId());
+        iMemberDataLayer.createNewMember(randomMember);
+        Member recievedMember = iMemberDataLayer.getMember(randomMember.getEmailId());
         Assertions.assertNotNull(recievedMember, "Member not found");
 
         //Assert member values
@@ -59,10 +46,10 @@ public class MemberDataLayerTest {
     }
 
     @Test
-    @Tag("SkipCleanUp")
     public void deleteMemberTest() {
+        Member randomMember = createMember();
         logger.info("[Test][Member][Service] Created test member with emailId: " + randomMember.getEmailId());
-        memberDataLayer.createNewMember(randomMember);
-        Assertions.assertTrue(() -> memberDataLayer.deleteMember(randomMember.getEmailId()));
+        iMemberDataLayer.createNewMember(randomMember);
+        Assertions.assertTrue(() -> iMemberDataLayer.deleteMember(randomMember.getEmailId()));
     }
 }
