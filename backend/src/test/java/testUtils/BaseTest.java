@@ -97,6 +97,7 @@ public class BaseTest {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+            addToStack(Event.class, eventID);
         }
         return event;
     }

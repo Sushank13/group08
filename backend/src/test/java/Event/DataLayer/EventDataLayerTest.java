@@ -2,6 +2,7 @@ package Event.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Category;
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
 import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
@@ -30,26 +31,29 @@ public class EventDataLayerTest extends BaseTest {
 
     @Test
     public void getAllEventsTest() {
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        Member organiser = createMember(true, MemberType.member);
+        Event event1 = createEvent(true, organiser.getEmailId(), club.getClubID());
+        Event event2 = createEvent(true, president.getEmailId(), club.getClubID());
         try {
-            List<Event> listOfAllEvents = iEventDataLayer.getAllEvents();
-            System.out.println("List of Events: \n" + listOfAllEvents);
-            int i;
-            for (i = 0; i < listOfAllEvents.size(); i++) {
-                Event event = listOfAllEvents.get(i);
-                System.out.println(event.getOrganizerEmailID());
-                System.out.println(event.getEventName());
-                System.out.println(event.getDescription());
-                System.out.println(event.getVenue());
-                System.out.println(event.getImage());
-                System.out.println(event.getStartDate());
-                System.out.println(event.getEndDate());
-                System.out.println(event.getStartTime());
-                System.out.println(event.getEndTime());
-                System.out.println(event.getEventTopic());
+            List<Event> events = iEventDataLayer.getAllEvents();
+            boolean match1 = false;
+            boolean match2 = false;
+            for (Event event : events
+            ) {
+                if (event.getEventID().equals(event1.getEventID()))
+                    match1 = true;
+                if (event.getEventID().equals(event2.getEventID()))
+                    match2 = true;
 
+                if (match1 && match2)
+                    break;
             }
+            Assertions.assertTrue(match1 && match2);
         } catch (SQLException e) {
-            fail("Test failed: Exception occurred- " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
