@@ -110,24 +110,25 @@ public class EventDataLayerTest extends BaseTest {
 
     @Test
     public void getEventDetails() {
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        Member organiser = createMember(true, MemberType.member);
+        Event event = createEvent(true, organiser.getEmailId(), club.getClubID());
+
         try {
-            List<Event> eventDetails = iEventDataLayer.getEventDetails("GALA");
-            System.out.println("Event Details: \n" + eventDetails);
-            int i;
-            for (i = 0; i < eventDetails.size(); i++) {
-                Event event = eventDetails.get(i);
-                System.out.println(event.getEventName());
-                System.out.println(event.getEventTopic());
-                System.out.println(event.getDescription());
-                System.out.println(event.getStartDate());
-                System.out.println(event.getEndDate());
-                System.out.println(event.getStartTime());
-                System.out.println(event.getEndTime());
-                System.out.println(event.getVenue());
-                System.out.println(event.getOrganizerEmailID());
-            }
-        }
-        catch (SQLException e) {
+            Event recievedEvent = iEventDataLayer.getEventDetails(event.getEventName()).get(0);
+            Assertions.assertEquals(recievedEvent.getEventID(), event.getEventID());
+            Assertions.assertEquals(recievedEvent.getEventName(), event.getEventName());
+            Assertions.assertEquals(recievedEvent.getEventTopic(), event.getEventTopic());
+            Assertions.assertEquals(recievedEvent.getDescription(), event.getDescription());
+            Assertions.assertEquals(recievedEvent.getStartDate(), event.getStartDate());
+            Assertions.assertEquals(recievedEvent.getEndDate(), event.getEndDate());
+            Assertions.assertEquals(recievedEvent.getStartTime(), event.getStartTime());
+            Assertions.assertEquals(recievedEvent.getEndTime(), event.getEndTime());
+            Assertions.assertEquals(recievedEvent.getVenue(), event.getVenue());
+            Assertions.assertEquals(recievedEvent.getOrganizerEmailID(), event.getOrganizerEmailID());
+        } catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
     }

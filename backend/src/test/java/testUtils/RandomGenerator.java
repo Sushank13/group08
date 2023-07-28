@@ -69,7 +69,8 @@ public class RandomGenerator {
     public static LocalTime generateRandomTime() {
         int randomHour = generateRandomInteger(LocalTime.now().getHour());
         int randomMinute = generateRandomInteger(LocalTime.now().getMinute());
-        return LocalTime.of(randomHour, randomMinute);
+        int randomSecond = generateRandomInteger(LocalTime.now().getSecond());
+        return LocalTime.of(randomHour, randomMinute, randomSecond);
     }
 
     public static String generateRandomClubID() {
