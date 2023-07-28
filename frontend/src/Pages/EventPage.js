@@ -63,7 +63,7 @@ function EventPage() {
     <>
       <Box position="relative" height="20vh">
 
-        <img src={`data:image/png;base64, ${eventDetails.image}`} alt="Club background image" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img src={`data:image/png;base64, ${eventDetails.image}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
 
         <Flex position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)">
           <Box bg="white" p="5px" textAlign="center" >

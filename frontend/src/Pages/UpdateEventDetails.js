@@ -25,25 +25,6 @@ function UpdateEventDetails() {
   const toast = useToast();
   const navigate = useNavigate();
 
-  const getEventDetails = async () => {
-    try {
-
-      console.log(eventNameParam);
-      const response = await axios.get(`/unauthenticated/getEventDetails/${eventNameParam}`);
-
-      setEventDetails(response.data[0]);
-      console.log(response.data[0]);
-      setOrganizerEmailID(response.data[0].organizerEmailID);
-      setEventName(response.data[0].eventName);
-      setDescription(response.data[0].description);
-      setVenue(response.data[0].venue);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  };
-
   const updateEventDetails = async () => {
      try {
        const eventObject = {
@@ -80,10 +61,10 @@ function UpdateEventDetails() {
     }
 
        console.log(JSON.stringify(eventObject));
-       /*const response = await axiosPrivate.post('/president/updateEventDetails',
+       const response = await axiosPrivate.post('/president/updateEventDetails',
                JSON.stringify(eventObject)
        );
-       console.log(response);*/
+       console.log(response);
 
        navigate(`/event/${eventDetails.eventName}`);
 
@@ -142,8 +123,26 @@ function UpdateEventDetails() {
   };
 
   useEffect(() => {
+    const getEventDetails = async () => {
+      try {
+  
+        const response = await axios.get(`/unauthenticated/getEventDetails/${eventNameParam}`);
+  
+        setEventDetails(response.data[0]);
+        console.log(response.data[0]);
+        setOrganizerEmailID(response.data[0].organizerEmailID);
+        setEventName(response.data[0].eventName);
+        setDescription(response.data[0].description);
+        setVenue(response.data[0].venue);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+  
     getEventDetails();
-  }, [loading]);
+  }, [eventNameParam,loading]);
 
   return (
     <Box position="relative">

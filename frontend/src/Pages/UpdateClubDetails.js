@@ -29,27 +29,6 @@ function UpdateClubDetails() {
   const toast = useToast();
   const navigate = useNavigate();
 
-  const getClubDetails = async () => {
-    try {
-
-      console.log(clubNameParam);
-      const response = await axios.get(`/unauthenticated/getClubByName/${clubNameParam}`);
-
-      setClubDetails(response.data[0]);
-      console.log(response.data[0]);
-      setClubName(clubDetails.clubName);
-      setDescription(clubDetails.description);
-      setLocation(clubDetails.location);
-      setMeetingTimes(clubDetails.meetingTime);
-      setFacebookLink(clubDetails.facebookLink);
-      setInstagramLink(clubDetails.instagramLink);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  };
-
   const updateClubDetails = async () => {
     try {
       const clubObject = { clubID: clubDetails.clubID, clubName: null, categoryName: null, description: null, presidentEmailID: null, facebookLink: null, instagramLink: null, categoryID: null, location: null, meetingTime: null, clubImage: null, rules: null};
@@ -72,11 +51,11 @@ function UpdateClubDetails() {
       }
 
       console.log(JSON.stringify(clubObject));
-      /*const response = await axiosPrivate.post('/president/updateClubDetails',
+      const response = await axiosPrivate.post('/president/updateClubDetails',
               JSON.stringify(clubObject)
       );
       console.log(response);
-	*/
+	
       navigate(`/club/${clubDetails.clubName}`);
 
     } catch (error) {
@@ -85,8 +64,28 @@ function UpdateClubDetails() {
   };
 
   useEffect(() => {
+    const getClubDetails = async () => {
+    try {
+
+      const response = await axios.get(`/unauthenticated/getClubByName/${clubNameParam}`);
+
+      setClubDetails(response.data[0]);
+      console.log(response.data[0]);
+      setClubName(clubDetails.clubName);
+      setDescription(clubDetails.description);
+      setLocation(clubDetails.location);
+      setMeetingTimes(clubDetails.meetingTime);
+      setFacebookLink(clubDetails.facebookLink);
+      setInstagramLink(clubDetails.instagramLink);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
     getClubDetails();
-  }, [loading]);
+  }, [clubNameParam, clubDetails.clubName, clubDetails.description, clubDetails.facebookLink, clubDetails.instagramLink, clubDetails.location, clubDetails.meetingTime, loading]);
 
   const handleUpdate = () => {
     let updated = false; 
