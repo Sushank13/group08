@@ -14,12 +14,13 @@ import PersistLogin from './Components/PersistLogin';
 import FindAllEvents from './Pages/FindAllEvents';
 import EventPage from './Pages/EventPage';
 import Admin from './Pages/Admin';
-import NewClubRequest from './Pages/ReviewNewClubRequest';
 import NewClubRequestForm from './Pages/NewClubRequestForm';
 import ClubMembershipForm from './Pages/ClubMembershipForm';
 import SignupPage from './Pages/SignupPage';
 import CreateEventForm from './Pages/CreateEventForm';
 import ReviewNewClubRequest from './Pages/ReviewNewClubRequest';
+import ReviewClubUpdateRequest from './Pages/ReviewClubUpdateRequest';
+import ManageClub from './Pages/ManageClub';
 
 const ROLES = {
   'member': 'member',
@@ -42,9 +43,10 @@ function App() {
           <Route path="event/:eventName" element={<EventPage />} />
 
           <Route path="FindClubs" element={<FindAllClubs />} />
+          <Route path="manageclub" element={<ManageClub />} />
           <Route path="club/:clubName" element={<ClubPage />} />
           <Route path="reviewnewclubrequest" element={<ReviewNewClubRequest />} />
-          <Route path="reviewclubupdaterequest" element={<ReviewNewClubRequest />} />
+          <Route path="reviewclubupdaterequest" element={<ReviewClubUpdateRequest />} />
 
           <Route path="newclubrequestform" element={<NewClubRequestForm />} />
           <Route path="clubmembershipform" element={<ClubMembershipForm />} />
