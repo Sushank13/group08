@@ -229,4 +229,20 @@ public class ClubDataLayerTest extends BaseTest {
         //Skip club clean up
         popCleanUpStack();
     }
+
+    @Test
+    public void getClubsByNameTest() {
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club randomClub = createClub(true, president.getEmailId(), category);
+        try {
+            List<Club> clubs = iClubDataLayer.getClubsByName(randomClub.getClubName());
+            for (Club club: clubs
+                 ) {
+                Assertions.assertTrue(club.getClubName().equals(randomClub.getClubName()));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
