@@ -12,12 +12,12 @@ function LayoutNavbar() {
                 <Flex as="nav" align="center" justify="space-between" padding="1rem" h="1vh" top="25%" left="0" right="0" color='white'>
                     <Box>
                         <NavLink to='/'>
-                            <Text color="white">About</Text>
+                            <Text color="white">Home</Text>
                         </NavLink>
                     </Box>
                     <Box>
-                        <NavLink to='/'>
-                            <Text color="white">Home</Text>
+                        <NavLink to='/recommend'>
+                            <Text color="white">Recommend</Text>
                         </NavLink>
                     </Box>
                     <Box>

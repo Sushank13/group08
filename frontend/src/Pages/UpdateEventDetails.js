@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Box, Flex, Text, Input, Button, Checkbox, useToast } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router';
+import axios, { axiosPrivate } from '../axiosConfiguration';
 
 function UpdateEventDetails() {
-  const [organizerEmailID, setOrganizerEmailID] = useState('organizer@example.com');
-  const [eventName, setEventName] = useState('Sample Event');
-  const [description, setDescription] = useState('A sample event description');
-  const [venue, setVenue] = useState('Sample Venue');
-  const [image, setImage] = useState(''); // Assuming it's a file upload field
+  const { eventNameParam } = useParams(); 
+
+  const [eventDetails, setEventDetails] = useState([]); 
+  const [loading, setLoading] = useState(true);
+
+  const [organizerEmailID, setOrganizerEmailID] = useState('');
+  const [eventName, setEventName] = useState('');
+  const [description, setDescription] = useState('');
+  const [venue, setVenue] = useState('');
+  const [image, setImage] = useState(''); 
   const [updateOrganizerEmailID, setUpdateOrganizerEmailID] = useState(false);
   const [updateEventName, setUpdateEventName] = useState(false);
   const [updateDescription, setUpdateDescription] = useState(false);
@@ -15,24 +23,75 @@ function UpdateEventDetails() {
 
   const [toastError, setToastError] = useState('');
   const toast = useToast();
+  const navigate = useNavigate();
+
+  const updateEventDetails = async () => {
+     try {
+       const eventObject = {
+      eventID: eventDetails.eventID,
+      clubID: eventDetails.clubID,
+      organizerEmailID: null,
+      eventName: null,
+      description: null,
+      venue: null,
+      image: null,
+      startDate: null,
+      endDate: null,
+      startTime: null,
+      endTime: null,
+      eventTopic: null,
+    };
+
+  if (updateOrganizerEmailID) {
+      eventObject.organizerEmailID = organizerEmailID;
+    }
+    if (updateEventName) {
+      eventObject.eventName = eventName;
+    }
+    if (updateDescription) {
+      eventObject.description = description;
+    }
+    if (updateVenue) {
+      eventObject.venue = venue;
+    }
+    if (updateImage) {
+      const base64String = await getBase64StringFromImage(image);
+      eventObject.image = base64String;
+      console.log(base64String);
+    }
+
+       console.log(JSON.stringify(eventObject));
+       const response = await axiosPrivate.post('/president/updateEventDetails',
+               JSON.stringify(eventObject)
+       );
+       console.log(response);
+
+       navigate(`/event/${eventDetails.eventName}`);
+
+     } catch (error) {
+       console.log(error);
+     }
+  };
 
   const handleUpdate = () => {
-    let updated = false; // Flag to track if any field has been updated
+    let updated = false; 
+    if (updateOrganizerEmailID || updateEventName || updateDescription || updateVenue || updateImage ) {
 
-    if (updateOrganizerEmailID && organizerEmailID === 'organizer@example.com') {
-      setToastError('Please update Organizer Email ID');
-    } else if (updateEventName && eventName === 'Sample Event') {
-      setToastError('Please update Event Name');
-    } else if (updateDescription && description === 'A sample event description') {
-      setToastError('Please update Description');
-    } else if (updateVenue && venue === 'Sample Venue') {
-      setToastError('Please update Venue');
-    } else if (updateImage && image === '') {
-      setToastError('Please update Image');
-    } else {
-      // At least one field has been updated successfully
-      updated = true;
-      setToastError(''); // Clear the error message
+      if (updateOrganizerEmailID && organizerEmailID === eventDetails.organizerEmailID) {
+        setToastError('Please update Organizer Email ID');
+      } else if (updateEventName && eventName === eventDetails.eventName) {
+        setToastError('Please update Event Name');
+      } else if (updateDescription && description === eventDetails.description) {
+        setToastError('Please update Description');
+      } else if (updateVenue && venue === eventDetails.venue) {
+        setToastError('Please update Venue');
+      } else if (updateImage && image === '') {
+        setToastError('Please update Image');
+      } else {
+        updated = true;
+        setToastError(''); 
+        updateEventDetails();
+      }
     }
 
     if (updated) {
@@ -43,28 +102,59 @@ function UpdateEventDetails() {
         duration: 5000,
         isClosable: true,
       });
-
-      // Implement the rest of the update logic here
-
-      console.log('Organizer Email ID:', updateOrganizerEmailID ? organizerEmailID : 'Not Updated');
-      console.log('Event Name:', updateEventName ? eventName : 'Not Updated');
-      console.log('Description:', updateDescription ? description : 'Not Updated');
-      console.log('Venue:', updateVenue ? venue : 'Not Updated');
-      console.log('Image:', updateImage ? image : 'Not Updated');
+    } else {
+      toast({
+        title: 'Oops!',
+        description: 'Please select a field to update by checking the update box! Looks like you are trying to update a field value without updating it.',
+        status: 'error',
+        duration: 10000,
+        isClosable: true,
+      });
     }
   };
+
+  const getBase64StringFromImage = (imageFile) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(imageFile);
+    });
+  };
+
+  useEffect(() => {
+    const getEventDetails = async () => {
+      try {
+  
+        const response = await axios.get(`/unauthenticated/getEventDetails/${eventNameParam}`);
+  
+        setEventDetails(response.data[0]);
+        console.log(response.data[0]);
+        setOrganizerEmailID(response.data[0].organizerEmailID);
+        setEventName(response.data[0].eventName);
+        setDescription(response.data[0].description);
+        setVenue(response.data[0].venue);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+  
+    getEventDetails();
+  }, [eventNameParam,loading]);
 
   return (
     <Box position="relative">
       <img src="/formBackground.jpg" alt="" style={{ width: '100%', height: '400px', objectFit: 'cover' }} />
-      <Box position="absolute" top="50px" left="50%" transform="translateX(-50%)" width="60%" bg="white" p="20px" rounded="md" h="100%">
-        <Flex align="center" justify="center" h="100vh">
-          <Box p="20px" bg="white" rounded="md">
+      <Box position="absolute" top="50px" left="50%" transform="translateX(-50%)" width="60%" bg="white"  rounded="md" h="100%">
+      <Flex align="center" justify="center" h="65vh">
+          <Box bg="white" rounded="md" width="80%">
             <Text fontSize="4xl" fontWeight="bold" textAlign="center" mb="10px" color="yellow.500">
               UPDATE EVENT DETAILS
             </Text>
             <Text fontSize="md" textAlign="center" mb="20px">
-              Please select and update the values as required!
+              Please select the checkbox of the field value requiring updation.
             </Text>
 
             
@@ -139,7 +229,7 @@ function UpdateEventDetails() {
 
             <Box mt="20px">
               <Button colorScheme="yellow" onClick={handleUpdate} width="100%">
-                Update Event Details
+                UPDATE EVENT DETAILS
               </Button>
             </Box>
           </Box>

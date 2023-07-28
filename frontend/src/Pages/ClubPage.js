@@ -93,7 +93,7 @@ function ClubPage() {
   return (
     <>
       <Box position="relative" height="20vh">
-        <img src="/dalBackground.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img src={`data:image/png;base64, ${clubDetails.clubImage}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
 
         <Box position="absolute" top="50px"  left="50%" transform="translateX(-50%)" width="60%" bg="white" p="20px" rounded="md" h="100%">
           <Flex position='relative' bgColor='white' alignItems='center' justifyContent='center'>

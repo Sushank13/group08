@@ -17,7 +17,6 @@ import RecommenderPage from './Pages/RecommenderPage';
 import UpdateEventDetails from './Pages/UpdateEventDetails';
 import UpdateClubDetails from './Pages/UpdateClubDetails';
 
-
 const ROLES = {
   'member': 'member',
   'president': 'president',
@@ -41,10 +40,9 @@ function App() {
           <Route path="club/:clubName" element={<ClubPage />} />
          
           <Route path="recommend" element={<RecommenderPage />} />
-          <Route path="updateEvent/:eventName" element={<UpdateEventDetails />} />
 
-          <Route path="club/:clubName" element={<ClubPage />} />         
-          <Route path="updateClub/:clubName" element={<UpdateClubDetails />} />
+          <Route path="updateEvent/:eventNameParam" element={<UpdateEventDetails />} />
+          <Route path="updateClub/:clubNameParam" element={<UpdateClubDetails />} />
           
           {/* we want to protect these routes */}
           <Route element={<PersistLogin />}>
