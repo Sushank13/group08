@@ -1,6 +1,6 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex, Text, Toast } from '@chakra-ui/react';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 
 
@@ -12,6 +12,31 @@ function ReviewNewClubRequest() {
     lastName: "",
     emailID: "",
   });
+
+  const [pendingClubRequest, setPendingClubRequest] = useState([{
+    name: "Dalhousie Greens"
+  }, {
+    name: "preeti"
+  },
+  {
+    name: "anindita"
+  }]);
+
+  useEffect(() => {
+    const fetchpendingclubs = async () => {
+      try {
+        const response = await axios.get(`/getpending`);
+        const data = await response.data
+        setPendingClubRequest(data)
+      }
+      catch (e) {
+        console.error(e.message)
+      }
+    }
+    fetchpendingclubs()
+
+  }, [])
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -44,72 +69,63 @@ function ReviewNewClubRequest() {
         </Flex>
       </Flex>
       <Flex direction='column' alignItems='center' mt='80px' width='60%'>
-        <Accordion allowToggle width='90%'>
-          <AccordionItem>
-            <h2>
-              <AccordionButton>
-                <Box as="span" flex='1' textAlign='left'>
-                  Request #1: Dalhousie Greens
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4} >
-              <Flex direction='column'>
-                <Flex direction='row' justifyContent='space-between'>
-                  <Flex width='20%'>
-                    <Text fontSize='md'>Club Name:</Text>
+        {
+          pendingClubRequest.map((pendingClub) => {
+            return (<Accordion allowToggle width='90%'>
+              <AccordionItem>
+                <h2>
+                  <AccordionButton>
+                    <Box as="span" flex='1' textAlign='left'>
+                      {pendingClub.name}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4} >
+                  <Flex direction='column'>
+                    <Flex direction='row' justifyContent='space-between'>
+                      <Flex width='20%'>
+                        <Text fontSize='md'>Club Name:</Text>
+                      </Flex>
+                      <Flex width='80%'>
+                        <Text fontSize='md'>Dalhousie Greens</Text>
+                      </Flex>
+                    </Flex>
+                    <Flex direction='row' justifyContent='space-between'>
+                      <Flex width='20%'>
+                        <Text fontSize='md'>Club Description:</Text>
+                      </Flex>
+                      <Flex width='80%'>
+                        <Text fontSize='md'>A Green values common interest society, pertaining to sustainability, social justice and grassroots democracy.
+                          Our society brings together people with common interest in green values for discussions and events pertaining to these values</Text>
+                      </Flex>
+                    </Flex>
+                    <Flex direction='row' justifyContent='space-between'>
+                      <Flex width='20%'>
+                        <Text fontSize='md'>Requestor Name:</Text>
+                      </Flex>
+                      <Flex width='80%'>
+                        <Text fontSize='md'>Preeti Sharma</Text>
+                      </Flex>
+                    </Flex>
+                    <Flex direction='row' justifyContent='space-between'>
+                      <Flex width='20%'>
+                        <Text fontSize='md'>Requestor Email ID:</Text>
+                      </Flex>
+                      <Flex width='80%'>
+                        <Text fontSize='md'>pr233584@dal.ca</Text>
+                      </Flex>
+                    </Flex>
                   </Flex>
-                  <Flex width='80%'>
-                    <Text fontSize='md'>Dalhousie Greens</Text>
-                  </Flex>
-                </Flex>
-                <Flex direction='row' justifyContent='space-between'>
-                  <Flex width='20%'>
-                    <Text fontSize='md'>Club Description:</Text>
-                  </Flex>
-                  <Flex width='80%'>
-                    <Text fontSize='md'>A Green values common interest society, pertaining to sustainability, social justice and grassroots democracy.
-                      Our society brings together people with common interest in green values for discussions and events pertaining to these values</Text>
-                  </Flex>
-                </Flex>
-                <Flex direction='row' justifyContent='space-between'>
-                  <Flex width='20%'>
-                    <Text fontSize='md'>Requestor Name:</Text>
-                  </Flex>
-                  <Flex width='80%'>
-                    <Text fontSize='md'>Preeti Sharma</Text>
-                  </Flex>
-                </Flex>
-                <Flex direction='row' justifyContent='space-between'>
-                  <Flex width='20%'>
-                    <Text fontSize='md'>Requestor Email ID:</Text>
-                  </Flex>
-                  <Flex width='80%'>
-                    <Text fontSize='md'>pr233584@dal.ca</Text>
-                  </Flex>
-                </Flex>
-              </Flex>
-            </AccordionPanel>
-          </AccordionItem>
+                </AccordionPanel>
+              </AccordionItem>
 
-          <AccordionItem>
-            <h2>
-              <AccordionButton>
-                <Box as="span" flex='1' textAlign='left'>
-                  Section 2 title
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-              veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-              commodo consequat.
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion>
+
+            </Accordion>)
+
+          })
+        }
+
       </Flex>
     </Flex>
   );
