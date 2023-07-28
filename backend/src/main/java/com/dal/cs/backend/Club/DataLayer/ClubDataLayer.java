@@ -505,8 +505,8 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             int result = callableStatement.executeUpdate();
             if (result == 0)
                 resultStatus = false;
-            else if (result > 1)
-            resultStatus = true;
+            else if (result > 0)
+                resultStatus = true;
             logger.info("deleteClub- Procedure execution call successful, resultStatus = " + resultStatus);
             logger.info("Exiting Data Layer: Returning boolean resultStatus to Service Layer");
             return resultStatus;
