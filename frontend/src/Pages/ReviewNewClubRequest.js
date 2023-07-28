@@ -13,8 +13,9 @@ function ReviewNewClubRequest() {
   useEffect(() => {
     const fetchpendingclubs = async () => {
       try {
-        const response = await axios.get(`/getAllNewClubRequests?requestStatus=APPROVED`);
+        const response = await axios.get(`/admin/getAllNewClubRequests?requestStatus=APPROVED`);
         const data = await response.data
+        console.log(data);
         setPendingClubRequest(data)
       }
       catch (e) {

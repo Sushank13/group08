@@ -13,7 +13,7 @@ function ManageClub() {
     useEffect(() => {
         const getAllClubs = async () => {
             try {
-                const response = await axios.get('/getAllClubs?requestStatus=APPROVED');
+                const response = await axios.get('/admin/getAllUpdateCubRlequests?requestStatus=APPROVED');
                 setClubsData(response.data);
             } catch (error) {
                 console.log(error);

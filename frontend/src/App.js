@@ -61,7 +61,7 @@ function App() {
           <Route path="clubmembershipform" element={<ClubMembershipForm />} />
 
 
-          
+          s
 
           {/* we want to protect these routes */}
           <Route element={<PersistLogin />}>
@@ -69,7 +69,7 @@ function App() {
               <Route path="admin" element={<AdminHomePage />} />
               <Route path="admin/reviewnewclubrequest" element={<ReviewNewClubRequest />} />
               <Route path="admin/reviewclubupdaterequest" element={<ReviewClubUpdateRequest />} />
-          <Route path="admin/manageclub" element={<ManageClub />} />
+              <Route path="admin/manageclub" element={<ManageClub />} />
             </Route>
           </Route>
           {/* catch all */}
