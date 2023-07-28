@@ -1,25 +1,31 @@
 package Event.DataLayer;
 
+import com.dal.cs.backend.Club.ClassObject.Category;
+import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
 import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
 import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.dal.cs.backend.member.Enum.MemberType;
+import com.dal.cs.backend.member.MemberObject.Member;
+import org.junit.jupiter.api.*;
+import testUtils.BaseTest;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class EventDataLayerTest {
-    private IEventDataLayer iEventDataLayer;
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+public class EventDataLayerTest extends BaseTest {
 
-    @BeforeEach
-    public void beforeTestRun() {
-        IDatabaseConnection iDatabaseConnection = DatabaseConnection.getInstance();
-        iEventDataLayer = EventDataLayer.getInstance(iDatabaseConnection);
+    public EventDataLayerTest() {
+        super();
+    }
+    @AfterEach
+    public void cleanUp() {
+        cleanUpTest();
     }
 
     @Test
@@ -49,25 +55,18 @@ public class EventDataLayerTest {
 
     @Test
     public void createEventTest() {
-//        try {
-//            Event demoEvent = new Event();
-//            demoEvent.setEventID("EVNT_00_1");
-//            demoEvent.setClubID("CLB_2");
-//            demoEvent.setOrganizerEmailID("swit@dal.ca");
-//            demoEvent.setEventName("sample event name");
-//            demoEvent.setDescription("sample event description");
-//            demoEvent.setVenue("sample event venue");
-//            demoEvent.setImage("sample_image.jpg");
-//            demoEvent.setStartDate("2023-01-01");
-//            demoEvent.setEndDate("2023-01-03");
-//            demoEvent.setStartTime("11:00:00");
-//            demoEvent.setEndTime("12:00:00");
-//            demoEvent.setEventTopic("sample topic");
-//            boolean result = iEventDataLayer.createEvent(demoEvent);
-//            System.out.println("result = " + result);
-//        } catch (SQLException e) {
-//            fail("Test failed: Exception occurred- " + e.getMessage());
-//        }
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        Member organiser = createMember(true, MemberType.member);
+        Event event = createEvent(false, organiser.getEmailId(), club.getClubID());
+        //Add to clean up
+        addToStack(Event.class, event.getEventID());
+        try {
+            Assertions.assertTrue(iEventDataLayer.createEvent(event));
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
     }
 
     @Test

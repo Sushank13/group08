@@ -17,10 +17,10 @@ import com.dal.cs.backend.member.DataLayer.IMemberDataLayer;
 import com.dal.cs.backend.member.DataLayer.MemberDataLayer;
 import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.member.MemberObject.Member;
-import org.assertj.core.condition.Join;
+import com.dal.cs.backend.Event.EventObject.Event;
+
 
 import java.sql.SQLException;
-import java.util.Random;
 import java.util.Stack;
 
 public class BaseTest {
@@ -86,6 +86,19 @@ public class BaseTest {
             addToStack(Club.class, club.getClubID());
         }
         return club;
+    }
+
+    public Event createEvent(boolean createInDatabase, String organiserEmailID, String clubID) {
+        String eventID = RandomGenerator.generateRandomEventID();
+        Event event = RandomGenerator.generateRandomEvent(organiserEmailID, clubID, eventID);
+        if (createInDatabase){
+            try {
+                iEventDataLayer.createEvent(event);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return event;
     }
 
     public ClubUpdateRequest createNewClubRequest(boolean createInDatabase, Club club, RequestStatus requestStatus) {
@@ -158,6 +171,13 @@ public class BaseTest {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+        } else if (className.equals(Event.class)) {
+            try {
+                iEventDataLayer.deleteEvent(uniqueID);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 }
