@@ -16,7 +16,6 @@ import EventPage from './Pages/EventPage';
 import Admin from './Pages/Admin';
 import NewClubRequestForm from './Pages/NewClubRequestForm';
 import ClubMembershipForm from './Pages/ClubMembershipForm';
-import SignupPage from './Pages/SignupPage';
 import CreateEventForm from './Pages/CreateEventForm';
 import ReviewNewClubRequest from './Pages/ReviewNewClubRequest';
 import ReviewClubUpdateRequest from './Pages/ReviewClubUpdateRequest';
@@ -54,7 +53,7 @@ function App() {
           <Route path="/admin/reviewclubupdaterequest" element={<ReviewClubUpdateRequest />} />
           <Route path="newclubrequestform" element={<NewClubRequestForm />} />
           <Route path="clubmembershipform" element={<ClubMembershipForm />} />
-          <Route path="signuppage" element={<SignupPage />} />
+
           <Route path="createeventform" element={<CreateEventForm />} />
 
           {/* <Route path="createeventform" element={<ClubMembershipForm />} /> */}
