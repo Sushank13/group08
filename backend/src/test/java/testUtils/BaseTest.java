@@ -3,6 +3,7 @@ package testUtils;
 import com.dal.cs.backend.Club.ClassObject.Category;
 import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
@@ -14,6 +15,7 @@ import com.dal.cs.backend.member.DataLayer.IMemberDataLayer;
 import com.dal.cs.backend.member.DataLayer.MemberDataLayer;
 import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.member.MemberObject.Member;
+import org.assertj.core.condition.Join;
 
 import java.sql.SQLException;
 import java.util.Random;
@@ -97,6 +99,18 @@ public class BaseTest {
         return newClubRequest;
     }
 
+    public JoinClubRequest createNewJoinClubRequest(boolean createInDatabase, String requesterEmailID, String clubID) {
+        JoinClubRequest joinClubRequest = RandomGenerator.generateRandomJoinClubRequest(requesterEmailID, clubID);
+        if (createInDatabase) {
+            try {
+                iClubDataLayer.insertJoinClubRequest(joinClubRequest);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return joinClubRequest;
+    }
+
     public void cleanUpTest() {
         while (!cleanUpStack.empty()) {
             deleteRow(cleanUpStack.pop());
@@ -127,7 +141,12 @@ public class BaseTest {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-
+        } else if (className.equals(JoinClubRequest.class)) {
+            try {
+                iClubDataLayer.deleteJoinClubRequest(uniqueID);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

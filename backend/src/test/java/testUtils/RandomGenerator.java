@@ -3,6 +3,7 @@ package testUtils;
 import com.dal.cs.backend.Club.ClassObject.Category;
 import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.Enum.RequestStatus;
 import com.dal.cs.backend.Club.Enum.RequestType;
 import com.dal.cs.backend.Event.EventObject.Event;
@@ -156,6 +157,12 @@ public class RandomGenerator {
                 clubDetails.getRules(),
                 RequestType.NEW_REQUEST,
                 RequestStatus.PENDING);
+    }
+
+    public static JoinClubRequest generateRandomJoinClubRequest(String requesterEmailID, String clubID) {
+        String requestID = generateRandomRequestID();
+        String joiningReason = generateRandomString(50);
+        return new JoinClubRequest(requestID, requesterEmailID, clubID, joiningReason, RequestStatus.PENDING);
     }
 
     public static Event generateRandomEvent(String organiserEmailID, String clubID, String eventID) {

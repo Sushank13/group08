@@ -3,6 +3,7 @@ package Club.DataLayer;
 import com.dal.cs.backend.Club.ClassObject.Category;
 import com.dal.cs.backend.Club.ClassObject.Club;
 import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.Enum.RequestStatus;
 import com.dal.cs.backend.Club.Enum.RequestType;
 import com.dal.cs.backend.member.Enum.MemberType;
@@ -19,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
-import static testUtils.RandomGenerator.generateRandomRequestID;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ClubDataLayerTest extends BaseTest {
@@ -237,15 +237,15 @@ public class ClubDataLayerTest extends BaseTest {
         Member president = createMember(true, MemberType.president);
         Category category = createCategory(true);
         Club club = createClub(false, president.getEmailId(), category);
-
+        //Clean up
+        addToStack(Club.class, club.getClubID());
         try {
             Assertions.assertTrue(iClubDataLayer.createClub(club));
         } catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
 
-        //Clean up
-        addToStack(Club.class, club.getClubID());
+
     }
 
     @Test
@@ -293,6 +293,22 @@ public class ClubDataLayerTest extends BaseTest {
             ) {
                 Assertions.assertTrue(club.getCategoryID().equals(randomClub.getCategoryID()));
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void insertJoinClubRequestTest() {
+        Member member = createMember(true, MemberType.member);
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        JoinClubRequest joinClubRequest = createNewJoinClubRequest(false, member.getEmailId(), club.getClubID());
+        //Clean up
+        addToStack(JoinClubRequest.class, joinClubRequest.getRequestID());
+        try {
+            Assertions.assertTrue(iClubDataLayer.insertJoinClubRequest(joinClubRequest));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
