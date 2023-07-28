@@ -1,15 +1,22 @@
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom';
+import { Box, Heading, Text, Link as ChakraLink } from '@chakra-ui/react';
 
 const Missing = () => {
-    return (
-        <article style={{ padding: "100px" }}>
-            <h1>Oops!</h1>
-            <p>Page Not Found</p>
-            <div className="flexGrow">
-                <Link to="/">Visit Our Homepage</Link>
-            </div>
-        </article>
-    )
-}
+  return (
+    <Box p="100px">
+      <Text fontSize="6xl" mb="4">
+        OOPS!
+      </Text>
+      <Text fontSize="xl" mb="4">
+        You are trying to find a page that does not exist!
+      </Text>
+      <Box flexGrow={1}>
+        <ChakraLink as={Link} to="/" color="blue.500">
+          Visit Our Homepage
+        </ChakraLink>
+      </Box>
+    </Box>
+  );
+};
 
-export default Missing
+export default Missing;
