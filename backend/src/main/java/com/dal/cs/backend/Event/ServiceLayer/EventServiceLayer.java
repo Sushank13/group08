@@ -1,4 +1,8 @@
 package com.dal.cs.backend.Event.ServiceLayer;
+import com.dal.cs.backend.Email.ClassObject.Email;
+import com.dal.cs.backend.Email.ObjectBuilder.EmailBuilder;
+import com.dal.cs.backend.Email.ServiceLayer.EmailServiceLayer;
+import com.dal.cs.backend.Email.ServiceLayer.IEmailServiceLayer;
 import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
 import org.apache.logging.log4j.LogManager;
@@ -118,17 +122,58 @@ public class EventServiceLayer implements  IEventServiceLayer{
 
     /**
      * This method register the events
+     *
      * @param eventID this will be the id of event
-     * @param emailID  is the email id of the user using which they signed up to DalClubs
+     * @param emailID is the email id of the user using which they signed up to DalClubs
      * @return true if registered successfully
      */
     @Override
-    public boolean registerEvents(String eventID, String emailID){
+    public boolean registerEvents(String eventID, String emailID)
+    {
         logger.info("Service Layer Entered: Entered registerEvents()- Calling Data layer registerEvents()");
         try
         {
             boolean resultStatus= iEventDataLayer.registerEvents(eventID,emailID);
-            return resultStatus;
+            if(resultStatus)
+            {
+                logger.info("ServiceLayer: event registered. Sending Confirmation mail to user.");
+                //get event details by event id
+                logger.info("ServiceLayer: calling getEventByEventId() of DataLayer ");
+                Event event=iEventDataLayer.getEventByEventId(eventID);
+                if(event!=null)
+                {
+                    logger.info("ServiceLayer: event details returned.");
+                    logger.info("ServiceLayer: creating to, from, subject and body for the email");
+                    String emailRecipient=emailID;
+                    String emailSubject="Registration successful for the event: "+ event.getEventName();
+                    StringBuilder emailBody=new StringBuilder();
+                    emailBody.append("PFB the Event Details: ").append("\n")
+                            .append("Event ID: "+eventID).append("\n")
+                            .append("Event Name: "+event.getEventName()).append("\n")
+                            .append("Event Venue: "+event.getVenue()).append("\n")
+                            .append("Event Starts: "+ event.getStartDate()+" "+event.getStartTime()).append("\n")
+                            .append("Event Ends: "+ event.getEndTime()+" "+ event.getEndDate());
+                    logger.info("ServiceLayer: building email");
+                    Email email=new EmailBuilder().setEmailBody(emailBody.toString())
+                            .setEmailRecipient(emailRecipient)
+                            .setEmailSubject(emailSubject).buildEmail();
+                    logger.info("ServiceLayer: calling email service");
+                    IEmailServiceLayer iEmailServiceLayer=new EmailServiceLayer();
+                    boolean emailStatus=iEmailServiceLayer.sendEmail(email);
+                    if(emailStatus)
+                    {
+                        logger.info("ServiceLayer: email sent successfully");
+                        logger.info("ServiceLayer: Retuning true to the controller");
+                        return true;
+                    }
+                    else
+                    {
+                        logger.info("ServiceLayer: email not sent successfully");
+                        logger.info("ServiceLayer: Retuning false to the controller");
+                        return false;
+                    }
+                }
+            }
         }
         catch (SQLException e)
         {
