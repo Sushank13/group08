@@ -5,5 +5,5 @@ import com.dal.cs.backend.Email.Exceptions.CustomEmailException;
 
 public interface IEmailServiceLayer
 {
-    public void sendEmail(Email email);
+    public boolean sendEmail(Email email);
 }
