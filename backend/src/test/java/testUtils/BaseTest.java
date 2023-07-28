@@ -107,6 +107,7 @@ public class BaseTest {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+            addToStack(JoinClubRequest.class, joinClubRequest.getRequestID());
         }
         return joinClubRequest;
     }

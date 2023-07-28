@@ -313,4 +313,22 @@ public class ClubDataLayerTest extends BaseTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    public void deleteJoinClubRequestTest() {
+        Member member = createMember(true, MemberType.member);
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        JoinClubRequest joinClubRequest = createNewJoinClubRequest(true, member.getEmailId(), club.getClubID());
+
+        try {
+            Assertions.assertTrue(iClubDataLayer.deleteJoinClubRequest(joinClubRequest.getRequestID()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        //Remove from stack
+        popCleanUpStack();
+    }
 }
