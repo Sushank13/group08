@@ -13,10 +13,17 @@ import AdminHomePage from './Pages/AdminHomePage';
 import PersistLogin from './Components/PersistLogin';
 import FindAllEvents from './Pages/FindAllEvents';
 import EventPage from './Pages/EventPage';
+
 import Admin from './Pages/Admin';
 import NewClubRequest from './Pages/NewClubRequest';
 import NewClubRequestForm from './Pages/NewClubRequestForm';
 import ClubMembershipForm from './Pages/ClubMembershipForm';
+
+import RecommenderPage from './Pages/RecommenderPage';
+import UpdateEventDetails from './Pages/UpdateEventDetails';
+import UpdateClubDetails from './Pages/UpdateClubDetails';
+
+
 
 const ROLES = {
   'member': 'member',
@@ -39,9 +46,15 @@ function App() {
 
           <Route path="FindClubs" element={<FindAllClubs />} />
           <Route path="club/:clubName" element={<ClubPage />} />
+         
+          <Route path="recommend" element={<RecommenderPage />} />
+          <Route path="updateEvent/:eventName" element={<UpdateEventDetails />} />
 
           <Route path="newclubrequestform" element={<NewClubRequestForm />} />
           <Route path="clubmembershipform" element={<ClubMembershipForm />} />
+
+          <Route path="club/:clubName" element={<ClubPage />} />         
+          <Route path="updateClub/:clubName" element={<UpdateClubDetails />} />
 
           {/* we want to protect these routes */}
           <Route element={<PersistLogin />}>
