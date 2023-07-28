@@ -31,7 +31,7 @@ function NewClubRequestForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`/registerClub`, clubRequest);
+            const response = await axios.post(`/member/registerClub`, clubRequest);
             if (response.status === 200) {
                 toast({
                     title: 'Successful',

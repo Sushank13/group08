@@ -13,7 +13,7 @@ function ManageClub() {
     useEffect(() => {
         const getAllClubs = async () => {
             try {
-                const response = await axios.get('/getAllClubs');
+                const response = await axios.get('/getAllClubs?requestStatus=APPROVED');
                 setClubsData(response.data);
             } catch (error) {
                 console.log(error);
@@ -26,7 +26,7 @@ function ManageClub() {
     const handleDelete = async (clubID) => {
 
         try {
-            const response = await axios.post(`/admin/deleteClub/${clubID}`);
+            const response = await axios.post(`/admin/deleteClub/${clubID}?requestStatus=APPROVED`);
             if (response.status === 200) {
                 Toast({
                     title: 'Successful',

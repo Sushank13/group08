@@ -13,7 +13,7 @@ function ReviewClubUpdateRequest() {
     useEffect(() => {
         const fetchpendingclubs = async () => {
             try {
-                const response = await axios.get(`/admin/getAllUpdateClubRequests`);
+                const response = await axios.get(`/admin/getAllUpdateClubRequests?requestStatus=APPROVED`);
                 const data = await response.data
                 setUpdateClubRequest(data)
             }
