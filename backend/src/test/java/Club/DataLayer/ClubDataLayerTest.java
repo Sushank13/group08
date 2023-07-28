@@ -237,9 +237,26 @@ public class ClubDataLayerTest extends BaseTest {
         Club randomClub = createClub(true, president.getEmailId(), category);
         try {
             List<Club> clubs = iClubDataLayer.getClubsByName(randomClub.getClubName());
+            Assertions.assertTrue(clubs.size() != 0);
             for (Club club: clubs
                  ) {
                 Assertions.assertTrue(club.getClubName().equals(randomClub.getClubName()));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test void getClubsByCategoryTest() {
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club randomClub = createClub(true, president.getEmailId(), category);
+        try {
+            List<Club> clubs = iClubDataLayer.getClubsByCategory(randomClub.getCategoryID());
+            Assertions.assertTrue(clubs.size() != 0);
+            for (Club club: clubs
+            ) {
+                Assertions.assertTrue(club.getCategoryID().equals(randomClub.getCategoryID()));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
