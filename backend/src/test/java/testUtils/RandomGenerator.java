@@ -1,9 +1,17 @@
 package testUtils;
 
+import com.dal.cs.backend.Club.ClassObject.Category;
+import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
+import com.dal.cs.backend.Club.Enum.RequestStatus;
+import com.dal.cs.backend.Club.Enum.RequestType;
+import com.dal.cs.backend.Event.EventObject.Event;
 import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.member.MemberObject.Member;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Random;
 
 public class RandomGenerator {
@@ -21,6 +29,7 @@ public class RandomGenerator {
         }
         return sb;
     }
+
     public static String generateRandomString(int length) {
         String randomCharacters = CHARACTERS + DIGITS;
         return generateRandomStringFromCharacters(length, randomCharacters).toString();
@@ -29,6 +38,11 @@ public class RandomGenerator {
     public static Integer generateRandomInteger(int upperBound) {
         Random random = new Random();
         return random.nextInt(1, upperBound);
+    }
+
+    public static Integer generateRandomInteger(int lowerBound, int upperBound) {
+        Random random = new Random();
+        return random.nextInt(lowerBound, upperBound);
     }
 
     public static String generateRandomPhoneNumber() {
@@ -49,7 +63,45 @@ public class RandomGenerator {
         int randomYear = generateRandomInteger(LocalDate.now().getYear());
         int randomMonth = generateRandomInteger(LocalDate.now().getMonthValue());
         int randomDate = generateRandomInteger(LocalDate.now().getDayOfMonth());
-        return LocalDate.of(randomYear,randomMonth, randomDate);
+        return LocalDate.of(randomYear, randomMonth, randomDate);
+    }
+
+    public static LocalTime generateRandomTime() {
+        int randomHour = generateRandomInteger(LocalTime.now().getHour());
+        int randomMinute = generateRandomInteger(LocalTime.now().getMinute());
+        int randomSecond = generateRandomInteger(LocalTime.now().getSecond());
+        return LocalTime.of(randomHour, randomMinute, randomSecond);
+    }
+
+    public static String generateRandomClubID() {
+        return "CLB_" + generateRandomInteger(1000, 10000);
+    }
+
+    public static String generateRandomCategoryID() {
+        return "CAT_" + generateRandomInteger(1000, 10000);
+    }
+
+    public static Category generateRandomCategory() {
+        String categoryID = RandomGenerator.generateRandomCategoryID();
+        String categoryName = RandomGenerator.generateRandomString(10);
+        return new Category(categoryID, categoryName);
+    }
+
+    public static String generateRandomEventID() {
+        return "EVNT_" + generateRandomInteger(1000, 10000);
+    }
+
+    private static String generateRandomFacebookLink() {
+        return "https://www.facebook.com/" + generateRandomString(10);
+    }
+
+    private static String generateRandomInstagramLink() {
+        return "https://www.instagram.com/" + generateRandomString(10);
+    }
+
+
+    public static String generateRandomRequestID() {
+        return "REQ_" + generateRandomInteger(1000, 10000);
     }
 
     public static Member generateRandomDalClubMember() {
@@ -61,7 +113,68 @@ public class RandomGenerator {
         String mobile = generateRandomPhoneNumber();
         LocalDate date = generateRandomDate();
         String password = generateRandomString(10);
-        Member  newMember = new Member(email, firstName, lastName, MemberType.member, program, term, mobile, date, password);
+        Member newMember = new Member(email, firstName, lastName, MemberType.member, program, term, mobile, date, password);
         return newMember;
+    }
+
+    public static Member generateRandomAdminMember() {
+        Member admin = generateRandomDalClubMember();
+        admin.setMemberType(MemberType.admin);
+        return admin;
+    }
+
+    public static Member generateRandomPresidentMember() {
+        Member president = generateRandomDalClubMember();
+        president.setMemberType(MemberType.president);
+        return president;
+    }
+
+    public static Club generateRandomClub(String presidentEmailID, Category category) {
+        String clubID = generateRandomClubID();
+        String clubName = generateRandomString(10);
+        String description = generateRandomString(10);
+        String facebookLink = generateRandomFacebookLink();
+        String instagramLink = generateRandomInstagramLink();
+        String location = generateRandomString(10);
+        String meetingTime = generateRandomString(10);
+        String rules = generateRandomString(10);
+        return new Club(clubID, clubName, description, presidentEmailID, facebookLink, instagramLink, category.getCategoryID(), location, meetingTime, null, rules, category.getCategoryName());
+    }
+
+    public static ClubUpdateRequest generateRandomNewClubRequest(Club clubDetails, RequestType requestType, RequestStatus requestStatus) {
+        String requestID = generateRandomRequestID();
+        return new ClubUpdateRequest(requestID,
+                clubDetails.getClubID(),
+                clubDetails.getPresidentEmailID(),
+                clubDetails.getCategoryID(),
+                clubDetails.getCategoryName(),
+                clubDetails.getClubName(),
+                clubDetails.getDescription(),
+                clubDetails.getFacebookLink(),
+                clubDetails.getInstagramLink(),
+                clubDetails.getLocation(),
+                clubDetails.getMeetingTime(),
+                clubDetails.getClubImage(),
+                clubDetails.getRules(),
+                requestType,
+                requestStatus);
+    }
+
+    public static JoinClubRequest generateRandomJoinClubRequest(String requesterEmailID, String clubID) {
+        String requestID = generateRandomRequestID();
+        String joiningReason = generateRandomString(50);
+        return new JoinClubRequest(requestID, requesterEmailID, clubID, joiningReason, RequestStatus.PENDING);
+    }
+
+    public static Event generateRandomEvent(String organiserEmailID, String clubID, String eventID) {
+        String eventName = generateRandomString(10);
+        String description = generateRandomString(10);
+        String venue = generateRandomString(10);
+        LocalDate startDate = generateRandomDate();
+        LocalDate endDate = generateRandomDate();
+        LocalTime startTime = generateRandomTime();
+        LocalTime endTime = generateRandomTime();
+        String eventTopic = generateRandomString(20);
+        return new Event(eventID, clubID, organiserEmailID, eventName, description, venue, null, startDate.toString(), endDate.toString(), startTime.toString(), endTime.toString(), eventTopic);
     }
 }

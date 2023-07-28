@@ -1,79 +1,86 @@
 package Event.DataLayer;
 
+import com.dal.cs.backend.Club.ClassObject.Category;
+import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
 import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
 import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.dal.cs.backend.member.Enum.MemberType;
+import com.dal.cs.backend.member.MemberObject.Member;
+import org.junit.jupiter.api.*;
+import testUtils.BaseTest;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class EventDataLayerTest {
-    private IEventDataLayer iEventDataLayer;
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+public class EventDataLayerTest extends BaseTest {
 
-    @BeforeEach
-    public void beforeTestRun() {
-        IDatabaseConnection iDatabaseConnection = DatabaseConnection.getInstance();
-        iEventDataLayer = EventDataLayer.getInstance(iDatabaseConnection);
+    public EventDataLayerTest() {
+        super();
+    }
+    @AfterEach
+    public void cleanUp() {
+        cleanUpTest();
     }
 
     @Test
     public void getAllEventsTest() {
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        Member organiser = createMember(true, MemberType.member);
+        Event event1 = createEvent(true, organiser.getEmailId(), club.getClubID());
+        Event event2 = createEvent(true, president.getEmailId(), club.getClubID());
         try {
-            List<Event> listOfAllEvents = iEventDataLayer.getAllEvents();
-            System.out.println("List of Events: \n" + listOfAllEvents);
-            int i;
-            for (i = 0; i < listOfAllEvents.size(); i++) {
-                Event event = listOfAllEvents.get(i);
-                System.out.println(event.getOrganizerEmailID());
-                System.out.println(event.getEventName());
-                System.out.println(event.getDescription());
-                System.out.println(event.getVenue());
-                System.out.println(event.getImage());
-                System.out.println(event.getStartDate());
-                System.out.println(event.getEndDate());
-                System.out.println(event.getStartTime());
-                System.out.println(event.getEndTime());
-                System.out.println(event.getEventTopic());
+            List<Event> events = iEventDataLayer.getAllEvents();
+            boolean match1 = false;
+            boolean match2 = false;
+            for (Event event : events
+            ) {
+                if (event.getEventID().equals(event1.getEventID()))
+                    match1 = true;
+                if (event.getEventID().equals(event2.getEventID()))
+                    match2 = true;
 
+                if (match1 && match2)
+                    break;
             }
+            Assertions.assertTrue(match1 && match2);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void createEventTest() {
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        Member organiser = createMember(true, MemberType.member);
+        Event event = createEvent(false, organiser.getEmailId(), club.getClubID());
+        //Add to clean up
+        addToStack(Event.class, event.getEventID());
+        try {
+            Assertions.assertTrue(iEventDataLayer.createEvent(event));
         } catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
     }
 
     @Test
-    public void createEventTest() {
-//        try {
-//            Event demoEvent = new Event();
-//            demoEvent.setEventID("EVNT_00_1");
-//            demoEvent.setClubID("CLB_2");
-//            demoEvent.setOrganizerEmailID("swit@dal.ca");
-//            demoEvent.setEventName("sample event name");
-//            demoEvent.setDescription("sample event description");
-//            demoEvent.setVenue("sample event venue");
-//            demoEvent.setImage("sample_image.jpg");
-//            demoEvent.setStartDate("2023-01-01");
-//            demoEvent.setEndDate("2023-01-03");
-//            demoEvent.setStartTime("11:00:00");
-//            demoEvent.setEndTime("12:00:00");
-//            demoEvent.setEventTopic("sample topic");
-//            boolean result = iEventDataLayer.createEvent(demoEvent);
-//            System.out.println("result = " + result);
-//        } catch (SQLException e) {
-//            fail("Test failed: Exception occurred- " + e.getMessage());
-//        }
-    }
-
-    @Test
     public void getLatestEventIdTest() {
-        String result = iEventDataLayer.getLatestEventId();
-        System.out.println("result = "+result);
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        Event event = createEvent(true, president.getEmailId(), club.getClubID());
+        String latestEventId = "EVNT_" + (Integer.parseInt(iEventDataLayer.getLatestEventId().split("_")[1]) - 1);
+        Assertions.assertEquals(latestEventId, event.getEventID());
     }
 
     @Test
@@ -103,24 +110,25 @@ public class EventDataLayerTest {
 
     @Test
     public void getEventDetails() {
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        Member organiser = createMember(true, MemberType.member);
+        Event event = createEvent(true, organiser.getEmailId(), club.getClubID());
+
         try {
-            List<Event> eventDetails = iEventDataLayer.getEventDetails("GALA");
-            System.out.println("Event Details: \n" + eventDetails);
-            int i;
-            for (i = 0; i < eventDetails.size(); i++) {
-                Event event = eventDetails.get(i);
-                System.out.println(event.getEventName());
-                System.out.println(event.getEventTopic());
-                System.out.println(event.getDescription());
-                System.out.println(event.getStartDate());
-                System.out.println(event.getEndDate());
-                System.out.println(event.getStartTime());
-                System.out.println(event.getEndTime());
-                System.out.println(event.getVenue());
-                System.out.println(event.getOrganizerEmailID());
-            }
-        }
-        catch (SQLException e) {
+            Event recievedEvent = iEventDataLayer.getEventDetails(event.getEventName()).get(0);
+            Assertions.assertEquals(recievedEvent.getEventID(), event.getEventID());
+            Assertions.assertEquals(recievedEvent.getEventName(), event.getEventName());
+            Assertions.assertEquals(recievedEvent.getEventTopic(), event.getEventTopic());
+            Assertions.assertEquals(recievedEvent.getDescription(), event.getDescription());
+            Assertions.assertEquals(recievedEvent.getStartDate(), event.getStartDate());
+            Assertions.assertEquals(recievedEvent.getEndDate(), event.getEndDate());
+            Assertions.assertEquals(recievedEvent.getStartTime(), event.getStartTime());
+            Assertions.assertEquals(recievedEvent.getEndTime(), event.getEndTime());
+            Assertions.assertEquals(recievedEvent.getVenue(), event.getVenue());
+            Assertions.assertEquals(recievedEvent.getOrganizerEmailID(), event.getOrganizerEmailID());
+        } catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
     }
@@ -142,33 +150,33 @@ public class EventDataLayerTest {
 
     @Test
     public void deleteEventTest() {
-//        try {
-//            String eventID = "EVNT_00_1";
-//            boolean result = iEventDataLayer.deleteEvent(eventID);
-//            System.out.println("result = " + result);
-//        } catch (SQLException e) {
-//            fail("Test failed: Exception occurred- " + e.getMessage());
-//        }
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        Event event = createEvent(true, president.getEmailId(), club.getClubID());
+        try {
+            Assertions.assertTrue(iEventDataLayer.deleteEvent(event.getEventID()));
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
+
+        //Remove from clean up stack
+        popCleanUpStack();
     }
 
     @Test
     public void getEventsByClubTest() {
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        Event event1 = createEvent(true, president.getEmailId(), club.getClubID());
+        Event event2 = createEvent(true, president.getEmailId(), club.getClubID());
         try {
-            List<Event> eventDetails = iEventDataLayer.getEventsByClub("CLB_1");
-            System.out.println("Event Details: \n" + eventDetails);
-            int i;
-            for (i = 0; i < eventDetails.size(); i++) {
-                Event event = eventDetails.get(i);
-                System.out.println(event.getEventName());
-                System.out.println(event.getEventTopic());
-                System.out.println(event.getDescription());
-                System.out.println(event.getStartDate());
-                System.out.println(event.getEndDate());
-                System.out.println(event.getStartTime());
-                System.out.println(event.getEndTime());
-                System.out.println(event.getVenue());
-                System.out.println(event.getOrganizerEmailID());
-            }
+            List<Event> eventDetails = iEventDataLayer.getEventsByClub(club.getClubID());
+            boolean match1 = eventDetails.get(0).getEventID().equals(event1.getEventID()) && eventDetails.get(1).getEventID().equals(event2.getEventID());
+            boolean match2 = eventDetails.get(1).getEventID().equals(event1.getEventID()) && eventDetails.get(0).getEventID().equals(event2.getEventID());
+
+            Assertions.assertTrue(match1 || match2);
         }
         catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
