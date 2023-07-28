@@ -216,6 +216,23 @@ public class ClubDataLayerTest extends BaseTest {
     }
 
     @Test
+    public void updateClubRequestStatusToRejectedTest() {
+        Member member = createMember(true, MemberType.member);
+        Category category = createCategory(true);
+        Club club = createClub(false, member.getEmailId(), category);
+        ClubUpdateRequest newClubRequest = createNewClubRequest(true, club);
+        //Clean up
+        addToStack(ClubUpdateRequest.class, newClubRequest.getRequestID());
+        try {
+            Assertions.assertTrue(iClubDataLayer.getClubRequest(newClubRequest.getRequestID()).getRequestStatus().equals(RequestStatus.PENDING));
+            Assertions.assertTrue(iClubDataLayer.updateClubRequestStatusToRejected(newClubRequest.getRequestID()));
+            Assertions.assertTrue(iClubDataLayer.getClubRequest(newClubRequest.getRequestID()).getRequestStatus().equals(RequestStatus.REJECTED));
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
+    }
+
+    @Test
     public void createClubTest() {
         Member president = createMember(true, MemberType.president);
         Category category = createCategory(true);
