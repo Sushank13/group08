@@ -79,16 +79,6 @@ public class ClubDataLayerTest extends BaseTest {
     }
 
     @Test
-    public void getAllClubsTest() {
-        try {
-            List<Club> listOfAllClubs = iClubDataLayer.getAllClubs();
-            System.out.println("List of Clubs: \n" + listOfAllClubs);
-        } catch (SQLException e) {
-            fail("Test failed: Exception occurred- " + e.getMessage());
-        }
-    }
-
-    @Test
     public void getClubDetailsFromClubRequestTest() {
         try {
             String reqId = "REQ_1";
@@ -260,8 +250,35 @@ public class ClubDataLayerTest extends BaseTest {
         } catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
+    }
 
+    @Test
+    public void getAllClubsTest() {
+        List<Club> clubs = new ArrayList<>();
+        for (int i = 0 ; i< 10; i++) {
+            Member president = createMember(true, MemberType.president);
+            Category category = createCategory(true);
+            clubs.add(createClub(true, president.getEmailId(), category));
+        }
 
+        try {
+            List<Club> receivedClubs = iClubDataLayer.getAllClubs();
+            for (Club club: clubs
+            ) {
+                boolean found = false;
+                for (Club receivedClub: receivedClubs
+                ) {
+                    if (receivedClub.getClubID().equals(club.getClubID())) {
+                        Assertions.assertTrue(receivedClub.getClubName().equals(club.getClubName()));
+                        found = true;
+                        break;
+                    }
+                }
+                Assertions.assertTrue(found);
+            }
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
     }
 
     @Test
