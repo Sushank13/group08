@@ -343,3 +343,11 @@ BEGIN
 DELETE FROM category WHERE category.categoryID = categoryID;
 END //
 DELIMITER ;
+
+-- Procedure to delete club request
+DELIMITER //
+CREATE PROCEDURE deleteClubRequest(IN requestID VARCHAR(255))
+BEGIN
+    DELETE FROM newAndUpdateClubRequest WHERE newAndUpdateClubRequest.requestID = requestID;
+END //
+DELIMITER ;
