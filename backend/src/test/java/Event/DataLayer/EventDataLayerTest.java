@@ -166,22 +166,17 @@ public class EventDataLayerTest extends BaseTest {
 
     @Test
     public void getEventsByClubTest() {
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        Event event1 = createEvent(true, president.getEmailId(), club.getClubID());
+        Event event2 = createEvent(true, president.getEmailId(), club.getClubID());
         try {
-            List<Event> eventDetails = iEventDataLayer.getEventsByClub("CLB_1");
-            System.out.println("Event Details: \n" + eventDetails);
-            int i;
-            for (i = 0; i < eventDetails.size(); i++) {
-                Event event = eventDetails.get(i);
-                System.out.println(event.getEventName());
-                System.out.println(event.getEventTopic());
-                System.out.println(event.getDescription());
-                System.out.println(event.getStartDate());
-                System.out.println(event.getEndDate());
-                System.out.println(event.getStartTime());
-                System.out.println(event.getEndTime());
-                System.out.println(event.getVenue());
-                System.out.println(event.getOrganizerEmailID());
-            }
+            List<Event> eventDetails = iEventDataLayer.getEventsByClub(club.getClubID());
+            boolean match1 = eventDetails.get(0).getEventID().equals(event1.getEventID()) && eventDetails.get(1).getEventID().equals(event2.getEventID());
+            boolean match2 = eventDetails.get(1).getEventID().equals(event1.getEventID()) && eventDetails.get(0).getEventID().equals(event2.getEventID());
+
+            Assertions.assertTrue(match1 || match2);
         }
         catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
