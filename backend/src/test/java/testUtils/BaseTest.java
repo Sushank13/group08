@@ -7,6 +7,7 @@ import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
+import com.dal.cs.backend.Club.Enum.RequestStatus;
 import com.dal.cs.backend.Club.Enum.RequestType;
 import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
 import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
@@ -87,16 +88,16 @@ public class BaseTest {
         return club;
     }
 
-    public ClubUpdateRequest createNewClubRequest(boolean createInDatabase, Club club) {
-        return createClubRequest(createInDatabase, club, RequestType.NEW_REQUEST);
+    public ClubUpdateRequest createNewClubRequest(boolean createInDatabase, Club club, RequestStatus requestStatus) {
+        return createClubRequest(createInDatabase, club, RequestType.NEW_REQUEST, requestStatus);
     }
 
-    public ClubUpdateRequest createUpdateClubRequest(boolean createInDatabase, Club club) {
-        return createClubRequest(createInDatabase, club, RequestType.UPDATE_REQUEST);
+    public ClubUpdateRequest createUpdateClubRequest(boolean createInDatabase, Club club, RequestStatus requestStatus) {
+        return createClubRequest(createInDatabase, club, RequestType.UPDATE_REQUEST, requestStatus);
     }
 
-    public ClubUpdateRequest createClubRequest(boolean createInDatabase, Club club, RequestType requestType) {
-        ClubUpdateRequest clubRequest = RandomGenerator.generateRandomNewClubRequest(club, requestType);
+    public ClubUpdateRequest createClubRequest(boolean createInDatabase, Club club, RequestType requestType, RequestStatus requestStatus) {
+        ClubUpdateRequest clubRequest = RandomGenerator.generateRandomNewClubRequest(club, requestType, requestStatus);
         if (createInDatabase) {
             try {
                 iClubDataLayer.createNewClubRequest(clubRequest.getRequestID(), club, clubRequest.getRequestType().toString(), clubRequest.getRequestStatus().toString());

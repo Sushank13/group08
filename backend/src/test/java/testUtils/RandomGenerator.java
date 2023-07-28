@@ -140,7 +140,7 @@ public class RandomGenerator {
         return new Club(clubID, clubName, description, presidentEmailID, facebookLink, instagramLink, category.getCategoryID(), location, meetingTime, null, rules, category.getCategoryName());
     }
 
-    public static ClubUpdateRequest generateRandomNewClubRequest(Club clubDetails, RequestType requestType) {
+    public static ClubUpdateRequest generateRandomNewClubRequest(Club clubDetails, RequestType requestType, RequestStatus requestStatus) {
         String requestID = generateRandomRequestID();
         return new ClubUpdateRequest(requestID,
                 clubDetails.getClubID(),
@@ -156,7 +156,7 @@ public class RandomGenerator {
                 clubDetails.getClubImage(),
                 clubDetails.getRules(),
                 requestType,
-                RequestStatus.PENDING);
+                requestStatus);
     }
 
     public static JoinClubRequest generateRandomJoinClubRequest(String requesterEmailID, String clubID) {

@@ -46,9 +46,16 @@ public class ClubDataLayerTest extends BaseTest {
 
     @Test
     void getLatestClubIdTest() {
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(false, president.getEmailId(), category);
+        ClubUpdateRequest approvedNewClubRequest = createNewClubRequest(true, club, RequestStatus.APPROVED);
         try {
-            String result = iClubSecondDataLayer.getLatestClubId();
-            System.out.println("result = \n" + result);
+            iClubDataLayer.createClub(club);
+            addToStack(Club.class, club.getClubID());
+
+            String latestClubId = iClubSecondDataLayer.getLatestClubId();
+            Assertions.assertTrue(latestClubId.equals(club.getClubID()));
         } catch (Exception e) {
             fail("Exception occured: " + e.getMessage());
         }
@@ -57,9 +64,14 @@ public class ClubDataLayerTest extends BaseTest {
 
     @Test
     public void getLatestJoinClubRequestIdTest() {
+        Member president = createMember(true, MemberType.president);
+        Member member = createMember(true, MemberType.member);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        JoinClubRequest joinClubRequest = createNewJoinClubRequest(true, member.getEmailId(), club.getClubID());
         try {
             String latestRequestId = iClubSecondDataLayer.getLatestJoinClubRequestId();
-            System.out.println(latestRequestId);
+            Assertions.assertTrue(latestRequestId.equals(joinClubRequest.getRequestID()));
         } catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
@@ -102,8 +114,8 @@ public class ClubDataLayerTest extends BaseTest {
         Member member = createMember(true, MemberType.member);
         Category category = createCategory(true);
         Club club = createClub(true, member.getEmailId(), category);
-        ClubUpdateRequest clubRequest1 = (createUpdateClubRequest(true, club));
-        ClubUpdateRequest clubRequest2 = (createUpdateClubRequest(true, club));
+        ClubUpdateRequest clubRequest1 = (createUpdateClubRequest(true, club, RequestStatus.PENDING));
+        ClubUpdateRequest clubRequest2 = (createUpdateClubRequest(true, club, RequestStatus.PENDING));
 
         List<ClubUpdateRequest> clubUpdateRequests = null;
         try {
@@ -183,7 +195,7 @@ public class ClubDataLayerTest extends BaseTest {
         Member member = createMember(true, MemberType.member);
         Category category = createCategory(true);
         Club club = createClub(false, member.getEmailId(), category);
-        ClubUpdateRequest newClubRequest = createNewClubRequest(false, club);
+        ClubUpdateRequest newClubRequest = createNewClubRequest(false, club, RequestStatus.PENDING);
         //Clean up
         addToStack(ClubUpdateRequest.class, newClubRequest.getRequestID());
 
@@ -199,7 +211,7 @@ public class ClubDataLayerTest extends BaseTest {
         Member member = createMember(true, MemberType.member);
         Category category = createCategory(true);
         Club club = createClub(false, member.getEmailId(), category);
-        ClubUpdateRequest newClubRequest = createNewClubRequest(true, club);
+        ClubUpdateRequest newClubRequest = createNewClubRequest(true, club, RequestStatus.PENDING);
 
         try {
             Club recievedClub = iClubDataLayer.getClubDetailsFromClubRequest(newClubRequest.getRequestID());
@@ -214,7 +226,7 @@ public class ClubDataLayerTest extends BaseTest {
         Member member = createMember(true, MemberType.member);
         Category category = createCategory(true);
         Club club = createClub(true, member.getEmailId(), category);
-        ClubUpdateRequest newClubRequest = createNewClubRequest(true, club);
+        ClubUpdateRequest newClubRequest = createNewClubRequest(true, club, RequestStatus.PENDING);
 
         try {
             Assertions.assertTrue(iClubDataLayer.deleteClubRequest(newClubRequest.getRequestID()));
@@ -231,7 +243,7 @@ public class ClubDataLayerTest extends BaseTest {
         Member member = createMember(true, MemberType.member);
         Category category = createCategory(true);
         Club club = createClub(true, member.getEmailId(), category);
-        ClubUpdateRequest updateClubRequest = createUpdateClubRequest(false, club);
+        ClubUpdateRequest updateClubRequest = createUpdateClubRequest(false, club, RequestStatus.PENDING);
 
         //Clean up
         addToStack(ClubUpdateRequest.class, updateClubRequest.getRequestID());
@@ -248,7 +260,7 @@ public class ClubDataLayerTest extends BaseTest {
         Member member = createMember(true, MemberType.member);
         Category category = createCategory(true);
         Club club = createClub(false, member.getEmailId(), category);
-        ClubUpdateRequest newClubRequest = createNewClubRequest(true, club);
+        ClubUpdateRequest newClubRequest = createNewClubRequest(true, club, RequestStatus.PENDING);
         //Clean up
         addToStack(ClubUpdateRequest.class, newClubRequest.getRequestID());
         try {
@@ -265,7 +277,7 @@ public class ClubDataLayerTest extends BaseTest {
         Member member = createMember(true, MemberType.member);
         Category category = createCategory(true);
         Club club = createClub(false, member.getEmailId(), category);
-        ClubUpdateRequest newClubRequest = createNewClubRequest(true, club);
+        ClubUpdateRequest newClubRequest = createNewClubRequest(true, club, RequestStatus.PENDING);
         //Clean up
         addToStack(ClubUpdateRequest.class, newClubRequest.getRequestID());
         try {
