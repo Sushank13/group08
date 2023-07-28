@@ -52,7 +52,6 @@ function App() {
 
           <Route path="/admin/reviewnewclubrequest" element={<ReviewNewClubRequest />} />
           <Route path="/admin/reviewclubupdaterequest" element={<ReviewClubUpdateRequest />} />
-
           <Route path="newclubrequestform" element={<NewClubRequestForm />} />
           <Route path="clubmembershipform" element={<ClubMembershipForm />} />
           <Route path="signuppage" element={<SignupPage />} />
