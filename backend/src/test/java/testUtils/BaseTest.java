@@ -96,16 +96,16 @@ public class BaseTest {
     }
 
     public ClubUpdateRequest createClubRequest(boolean createInDatabase, Club club, RequestType requestType) {
-        ClubUpdateRequest newClubRequest = RandomGenerator.generateRandomNewClubRequest(club, requestType);
+        ClubUpdateRequest clubRequest = RandomGenerator.generateRandomNewClubRequest(club, requestType);
         if (createInDatabase) {
             try {
-                iClubDataLayer.createNewClubRequest(newClubRequest.getRequestID(), club, newClubRequest.getRequestType().toString(), newClubRequest.getRequestStatus().toString());
+                iClubDataLayer.createNewClubRequest(clubRequest.getRequestID(), club, clubRequest.getRequestType().toString(), clubRequest.getRequestStatus().toString());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            addToStack(Club.class, club.getClubID());
+            addToStack(ClubUpdateRequest.class, clubRequest.getRequestID());
         }
-        return newClubRequest;
+        return clubRequest;
     }
 
     public JoinClubRequest createNewJoinClubRequest(boolean createInDatabase, String requesterEmailID, String clubID) {

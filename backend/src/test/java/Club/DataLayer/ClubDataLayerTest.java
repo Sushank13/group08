@@ -54,16 +54,6 @@ public class ClubDataLayerTest extends BaseTest {
         }
     }
 
-    @Test
-    public void getClubDetailsFromClubRequestTest() {
-        try {
-            String reqId = "REQ_1";
-            Club club = iClubDataLayer.getClubDetailsFromClubRequest(reqId);
-            System.out.println(club.getClubID() + "," + club.getClubName());
-        } catch (SQLException e) {
-            fail("Test failed: Exception occurred- " + e.getMessage());
-        }
-    }
 
     @Test
     public void getLatestJoinClubRequestIdTest() {
@@ -87,12 +77,32 @@ public class ClubDataLayerTest extends BaseTest {
 
     @Test
     public void getAllClubRequestsTest() {
-        //TODO: Add club random generator for club creation
-//        try {
-//            Assertions.assertTrue(iClubDataLayer.getAllClubRequests(RequestType.NEW_REQUEST, RequestStatus.APPROVED).size() > 0);
-//        } catch (SQLException e) {
-//            fail("Test failed: Exception occurred- " + e.getMessage());
-//        }
+
+        Member member = createMember(true, MemberType.member);
+        Category category = createCategory(true);
+        Club club = createClub(true, member.getEmailId(), category);
+        ClubUpdateRequest clubRequest1 = (createUpdateClubRequest(true, club));
+        ClubUpdateRequest clubRequest2 = (createUpdateClubRequest(true, club));
+
+        List<ClubUpdateRequest> clubUpdateRequests = null;
+        try {
+            clubUpdateRequests = iClubDataLayer.getAllClubRequests(RequestType.UPDATE_REQUEST, RequestStatus.PENDING);
+            boolean match1 = false;
+            boolean match2 = false;
+            for (ClubUpdateRequest clubUpdateRequest : clubUpdateRequests
+            ) {
+                if (clubUpdateRequest.getRequestID().equals(clubRequest1.getRequestID()))
+                    match1 = true;
+                if (clubUpdateRequest.getRequestID().equals(clubRequest2.getRequestID()))
+                    match2 = true;
+
+                if (match1 && match2)
+                    break;
+            }
+            Assertions.assertTrue(match1 || match2);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -111,16 +121,16 @@ public class ClubDataLayerTest extends BaseTest {
     @Test
     public void getAllClubCategoriesTest() {
         List<Category> categories = new ArrayList<>();
-        for (int i=0; i< 10; i++){
+        for (int i = 0; i < 10; i++) {
             categories.add(createCategory(true));
         }
         try {
             ArrayList<HashMap<String, String>> allCategories = iClubDataLayer.getAllClubCategories();
-            for (Category category: categories
-                 ) {
+            for (Category category : categories
+            ) {
                 boolean found = false;
-                for (HashMap<String, String> receivedCategory: allCategories
-                     ) {
+                for (HashMap<String, String> receivedCategory : allCategories
+                ) {
                     if (receivedCategory.get("categoryID").equals(category.getCategoryID())) {
                         Assertions.assertTrue(receivedCategory.get("categoryName").equals(category.getCategoryName()));
                         found = true;
@@ -158,6 +168,21 @@ public class ClubDataLayerTest extends BaseTest {
 
         try {
             Assertions.assertTrue(iClubDataLayer.createNewClubRequest(newClubRequest.getRequestID(), club, RequestType.NEW_REQUEST.name(), RequestStatus.PENDING.name()));
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void getClubDetailsFromClubRequestTest() {
+        Member member = createMember(true, MemberType.member);
+        Category category = createCategory(true);
+        Club club = createClub(false, member.getEmailId(), category);
+        ClubUpdateRequest newClubRequest = createNewClubRequest(true, club);
+
+        try {
+            Club recievedClub = iClubDataLayer.getClubDetailsFromClubRequest(newClubRequest.getRequestID());
+            Assertions.assertTrue(recievedClub.getClubID().equals(club.getClubID()));
         } catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
@@ -248,7 +273,7 @@ public class ClubDataLayerTest extends BaseTest {
     @Test
     public void getAllClubsTest() {
         List<Club> clubs = new ArrayList<>();
-        for (int i = 0 ; i< 10; i++) {
+        for (int i = 0; i < 10; i++) {
             Member president = createMember(true, MemberType.president);
             Category category = createCategory(true);
             clubs.add(createClub(true, president.getEmailId(), category));
@@ -256,10 +281,10 @@ public class ClubDataLayerTest extends BaseTest {
 
         try {
             List<Club> receivedClubs = iClubDataLayer.getAllClubs();
-            for (Club club: clubs
+            for (Club club : clubs
             ) {
                 boolean found = false;
-                for (Club receivedClub: receivedClubs
+                for (Club receivedClub : receivedClubs
                 ) {
                     if (receivedClub.getClubID().equals(club.getClubID())) {
                         Assertions.assertTrue(receivedClub.getClubName().equals(club.getClubName()));
@@ -298,8 +323,8 @@ public class ClubDataLayerTest extends BaseTest {
         try {
             List<Club> clubs = iClubDataLayer.getClubsByName(randomClub.getClubName());
             Assertions.assertTrue(clubs.size() != 0);
-            for (Club club: clubs
-                 ) {
+            for (Club club : clubs
+            ) {
                 Assertions.assertTrue(club.getClubName().equals(randomClub.getClubName()));
             }
         } catch (SQLException e) {
@@ -315,7 +340,7 @@ public class ClubDataLayerTest extends BaseTest {
         try {
             List<Club> clubs = iClubDataLayer.getClubsByCategory(randomClub.getCategoryID());
             Assertions.assertTrue(clubs.size() != 0);
-            for (Club club: clubs
+            for (Club club : clubs
             ) {
                 Assertions.assertTrue(club.getCategoryID().equals(randomClub.getCategoryID()));
             }
