@@ -55,16 +55,6 @@ public class ClubDataLayerTest extends BaseTest {
     }
 
     @Test
-    void getAllClubCategoriesTest() {
-        try {
-            ArrayList<HashMap<String, String>> result = iClubDataLayer.getAllClubCategories();
-            System.out.println("result = \n" + result);
-        } catch (Exception e) {
-            fail("Test failed: Exception occured- " + e.getMessage());
-        }
-    }
-
-    @Test
     void updateClubDetailsTest() {
 //        try {
 //            // Request ID
@@ -150,6 +140,32 @@ public class ClubDataLayerTest extends BaseTest {
 
         //Clean up
         addToStack(Category.class, category.getCategoryID());
+    }
+
+    @Test
+    public void getAllClubCategoriesTest() {
+        List<Category> categories = new ArrayList<>();
+        for (int i=0; i< 10; i++){
+            categories.add(createCategory(true));
+        }
+        try {
+            ArrayList<HashMap<String, String>> allCategories = iClubDataLayer.getAllClubCategories();
+            for (Category category: categories
+                 ) {
+                boolean found = false;
+                for (HashMap<String, String> receivedCategory: allCategories
+                     ) {
+                    if (receivedCategory.get("categoryID").equals(category.getCategoryID())) {
+                        Assertions.assertTrue(receivedCategory.get("categoryName").equals(category.getCategoryName()));
+                        found = true;
+                        break;
+                    }
+                }
+                Assertions.assertTrue(found);
+            }
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
     }
 
     @Test
