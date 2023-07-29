@@ -179,8 +179,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
     {
         logger.info("Service Layer Entered: Entered getClubsByName()- Calling Data layer getClubsByName()");
         try{
-            List<Club> listClubsByName=iClubDataLayer.getClubsByName(name);
-            return listClubsByName;
+            return iClubDataLayer.getClubsByName(name);
         } catch(SQLException e)
         {
             logger.error("getClubsByName()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
