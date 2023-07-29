@@ -50,6 +50,7 @@ public  class EmailServiceLayer  implements  IEmailServiceLayer
      * This method sends an email to a user
      * @param email is the email object that has the to , from, subject and body.
      * @return true if the email is transmitted else return false.
+     * @ref: https://netcorecloud.com/tutorials/send-email-in-java-using-gmail-smtp/
      */
     public boolean sendEmail(Email email)
     {
