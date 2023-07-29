@@ -338,7 +338,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
     public boolean deleteClub(String clubID) {
         logger.info("Service Layer Entered: Entered deleteClub- Calling Data layer deleteClub");
         boolean resultStatus;
-        String errorMessage = null;
+        String errorMessage;
         try {
             resultStatus = iClubDataLayer.deleteClub(clubID);
             logger.info("Exiting Service Layer: Returning boolean resultStatus to Controller");
