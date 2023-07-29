@@ -214,7 +214,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
     @Override
     public String updateClubDetails(Club club) {
         logger.info("Service Layer Entered: Entered updateClubDetails- Calling Data layer insertUpdatedClubDetails");
-        String errorMessage = null;
+        String errorMessage;
         String requestId = generateRequestId();
         String requestType = String.valueOf(RequestType.UPDATE_REQUEST);
         String requestStatus = String.valueOf(RequestStatus.PENDING);
