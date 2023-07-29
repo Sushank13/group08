@@ -420,11 +420,9 @@ public class ClubServiceLayer implements  IClubServiceLayer
                 List<String> splitLatestRequestId = List.of(latestRequestId.split("_"));
                 int requestNumber= Integer.parseInt(splitLatestRequestId.get(1));
                 int newRequestNumber=requestNumber+one;
-                String newRequestId=splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
-                return newRequestId;
+                return splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
             }
-            String firstRequestId = "REQ_1";
-            return firstRequestId;
+            return "REQ_1";
         }
         catch (SQLException e)
         {
