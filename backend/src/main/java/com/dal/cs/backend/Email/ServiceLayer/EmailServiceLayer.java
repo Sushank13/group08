@@ -67,15 +67,16 @@ public  class EmailServiceLayer  implements  IEmailServiceLayer
             body=email.getEmailBody();
             message.setText(body);
             logger.info("sendEmail():email to, from,subject and body set successfully");
-            Transport.send(message);
             logger.info("sendEmail():sending email");
+            Transport.send(message);
+            logger.info("sendEmail():email sent successfully. Returning true.");
             return true;
         }
         catch(MessagingException e)
         {
+            logger.info("sendEmail():email not sent successfully. Returning false.");
             logger.error(e.getMessage());
         }
-
         return false;
     }
 }
