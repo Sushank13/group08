@@ -120,11 +120,9 @@ public class ClubServiceLayer implements  IClubServiceLayer
                 List<String> splitLatestClubId = List.of(latestClubId.split("_"));
                 int clubNUmber=Integer.parseInt(splitLatestClubId.get(1));
                 int newClubNumber=clubNUmber+one;
-                String newClubId=splitLatestClubId.get(0).concat("_").concat(String.valueOf(newClubNumber));
-                return newClubId;
+                return splitLatestClubId.get(0).concat("_").concat(String.valueOf(newClubNumber));
             }
-            String firstClubId = "CLB_1";
-            return firstClubId;
+            return "CLB_1";
         }
         catch (SQLException e)
         {
