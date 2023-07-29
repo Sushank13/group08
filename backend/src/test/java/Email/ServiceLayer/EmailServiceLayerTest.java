@@ -19,8 +19,8 @@ public class EmailServiceLayerTest
     public void sendEmailTest()
     {
         Email email=new EmailBuilder().setEmailBody("Test Body")
-                .setEmailRecipient("sjinay.two3@gmail.com")
+                .setEmailRecipient("swit@dal.ca")
                 .setEmailSubject("Test Subject").buildEmail();
-        iEmailServiceLayer.sendEmail(email);
+        System.out.println(iEmailServiceLayer.sendEmail(email));
     }
 }
