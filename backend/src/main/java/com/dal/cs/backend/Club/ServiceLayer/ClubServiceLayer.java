@@ -197,8 +197,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
     public List<Club> getClubsByCategory(String category) {
         logger.info("Service Layer Entered: Entered getClubsByCategory()- Calling Data layer getClubsByCategory()");
         try{
-            List<Club> listClubsByCategory=iClubDataLayer.getClubsByCategory(category);
-            return listClubsByCategory;
+            return iClubDataLayer.getClubsByCategory(category);
         } catch(SQLException e)
         {
             logger.error("getClubsByCategory()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
