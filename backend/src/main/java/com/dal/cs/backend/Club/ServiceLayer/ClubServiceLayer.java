@@ -356,7 +356,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
             logger.error("Exception occured in 'deleteClub': "+errorMessage);
         }
         logger.info("Exiting Service Layer: Returning error message to Controller");
-        return resultStatus;
+        return false;
     }
 
     /**
