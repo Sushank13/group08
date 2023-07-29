@@ -345,13 +345,11 @@ public class ClubServiceLayer implements  IClubServiceLayer
             return resultStatus;
         }
         catch (SQLException e) {
-            resultStatus = false;
             errorMessage = e.getMessage();
             logger.error("Exception occured in 'deleteClub': "+errorMessage);
         }
         catch (Exception e)
         {
-            resultStatus = false;
             errorMessage = e.getMessage();
             logger.error("Exception occured in 'deleteClub': "+errorMessage);
         }
