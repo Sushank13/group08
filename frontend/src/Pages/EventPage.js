@@ -16,7 +16,7 @@ const fetchEventDetails = async (eventName) => {
 const registerEventHandler = async (eventID) => {
   try {
     var emailID = "swit@dal.ca";
-    const response = await axiosPrivate.post(`/member/registerEvents/${eventID}/${emailID}`);
+    const response = await axiosPrivate.post(`/unauthenticated/registerEvents/${eventID}/${emailID}`);
     console.log(response.data);
     return response.data; 
   } catch (error) {
