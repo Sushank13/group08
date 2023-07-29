@@ -126,18 +126,17 @@ public class ClubController
         logger.info("Controller Entered: Received request to approve the new club or update club request.");
         logger.info("approveClubRequest()- Calling approveClubRequest() of ServiceLayer");
         boolean approveRequestStatus=iClubServiceLayer.approveClubRequest(reqId);
+        String message;
         if(approveRequestStatus)
         {
-            String message=" Club request with Request ID: "+reqId+ " has been successfully approved";
-            logger.info("Exiting Controller: returning club request approval message");
-            return  message;
+            message = " Club request with Request ID: " + reqId + " has been successfully approved";
         }
         else
         {
-            String message="Your request with Request ID: "+reqId+ " could not be approved";
-            logger.info("Exiting Controller: returning club request approval message");
-            return  message;
+            message = "Your request with Request ID: " + reqId + " could not be approved";
         }
+        logger.info("Exiting Controller: returning club request approval message");
+        return  message;
     }
     
     /** * This method receives the request to reject the club update or new club request
@@ -150,18 +149,17 @@ public class ClubController
         logger.info("Controller Entered: Received request to reject the new club or update club request.");
         logger.info("rejectClubRequest()- Calling rejectClubRequest() of ServiceLayer");
         boolean rejectRequestStatus = iClubServiceLayer.rejectClubRequest(reqId);
+        String message;
         if (rejectRequestStatus)
         {
-            String message = "Club request with Request ID: " + reqId + " has been successfully rejected";
-            logger.info("Exiting Controller: returning club request rejection message");
-            return message;
+            message = "Club request with Request ID: " + reqId + " has been successfully rejected";
         }
         else
         {
-            String message = "Club request with Request ID: " + reqId + " could not be rejected";
-            logger.info("Exiting Controller: returning club request rejection message");
-            return message;
+            message = "Club request with Request ID: " + reqId + " could not be rejected";
         }
+        logger.info("Exiting Controller: returning club request rejection message");
+        return message;
     }
 
 
