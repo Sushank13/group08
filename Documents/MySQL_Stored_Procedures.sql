@@ -255,6 +255,16 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Procedure to get join club requests with requestID
+DELIMITER //
+CREATE PROCEDURE getJoinClubRequest(IN requestID VARCHAR(50))
+BEGIN
+    SELECT requestID, requestorEmailID, clubID, joiningReason, requestStatus
+    FROM joinClubRequest
+    WHERE joinClubRequest.requestID = requestID;
+END //
+DELIMITER ;
+
 -- Procedure to get all join club requests with club ID
 DELIMITER //
 CREATE PROCEDURE getAllJoinClubRequests(IN clubID VARCHAR(50), IN presidentEmailID VARCHAR(255))
@@ -301,5 +311,53 @@ CREATE PROCEDURE deleteJoinClubRequest(IN requestId VARCHAR(50))
 BEGIN
    DELETE FROM joinClubRequest
    WHERE joinClubRequest.requestID=requestId;
+END //
+DELIMITER ;
+
+-- Procedure to get event by even id
+DELIMITER //
+CREATE PROCEDURE getEventByEventId(IN eventId VARCHAR(50))
+BEGIN
+   select * from events where events.eventID=eventId;
+END //
+DELIMITER ;
+
+
+-- Procedure to get all new and update club requests
+DELIMITER //
+CREATE PROCEDURE getAllClubRequests(IN requestType VARCHAR(255), IN requestStatus VARCHAR(255))
+BEGIN
+    SELECT requestID, newAndUpdateClubRequest.clubID, requestorEmailID, newAndUpdateClubRequest.categoryID, categoryName, newAndUpdateClubRequest.clubName, newAndUpdateClubRequest.description, newAndUpdateClubRequest.facebookLink, newAndUpdateClubRequest.instagramLink, newAndUpdateClubRequest.location, newAndUpdateClubRequest.meetingTime, newAndUpdateClubRequest.clubImage, newAndUpdateClubRequest.rules, newAndUpdateClubRequest.requestType, newAndUpdateClubRequest.requestStatus
+    FROM club
+    INNER JOIN newAndUpdateClubRequest
+        ON club.clubID = newAndUpdateClubRequest.clubID
+    INNER JOIN category
+        ON newAndUpdateClubRequest.categoryID = category.categoryID
+    WHERE newAndUpdateClubRequest.requestType = requestType
+    AND newAndUpdateClubRequest.requestStatus = requestStatus;
+END //
+DELIMITER ;
+
+    -- Procedure to create club category
+DELIMITER //
+CREATE PROCEDURE createClubCategory(IN categoryID VARCHAR(255), IN categoryName VARCHAR(255))
+BEGIN
+INSERT INTO category (category.categoryID, category.categoryName) VALUES (categoryID, categoryName);
+END //
+DELIMITER ;
+
+-- Procedure to delete club category
+DELIMITER //
+CREATE PROCEDURE deleteClubCategory(IN categoryID VARCHAR(255))
+BEGIN
+DELETE FROM category WHERE category.categoryID = categoryID;
+END //
+DELIMITER ;
+
+-- Procedure to delete club request
+DELIMITER //
+CREATE PROCEDURE deleteClubRequest(IN requestID VARCHAR(255))
+BEGIN
+    DELETE FROM newAndUpdateClubRequest WHERE newAndUpdateClubRequest.requestID = requestID;
 END //
 DELIMITER ;
