@@ -16,22 +16,16 @@ import java.util.Properties;
 public  class EmailServiceLayer  implements  IEmailServiceLayer
 {
     private static final Logger logger= LogManager.getLogger(EmailServiceLayer.class);
-    private  String recipient;
-    private String sender;
-    private String senderPassword;
-    private String subject;
-    private String body;
-    private String host;
-    private String port;
-    private Properties properties;
-    private Session session;
+    private final String sender;
+    private final String senderPassword;
+    private final Session session;
     public EmailServiceLayer()
     {
         sender="dal.clubs.mail@gmail.com";
         senderPassword="pxdsgwpmsfslbjdn";
-        host="smtp.gmail.com";
-        port="465";
-        properties=System.getProperties();
+        String host = "smtp.gmail.com";
+        String port = "465";
+        Properties properties = System.getProperties();
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", port);
         properties.put("mail.smtp.ssl.enable", "true");
@@ -50,7 +44,7 @@ public  class EmailServiceLayer  implements  IEmailServiceLayer
      * This method sends an email to a user
      * @param email is the email object that has the to , from, subject and body.
      * @return true if the email is transmitted else return false.
-     * @ref: https://netcorecloud.com/tutorials/send-email-in-java-using-gmail-smtp/
+     * @link: <a href="https://netcorecloud.com/tutorials/send-email-in-java-using-gmail-smtp/">...</a>
      */
     public boolean sendEmail(Email email)
     {
@@ -60,11 +54,11 @@ public  class EmailServiceLayer  implements  IEmailServiceLayer
             logger.info("sendEmail(): setting email to, from,subject and body");
             MimeMessage message=new MimeMessage(session);
             message.setFrom(new InternetAddress(sender));
-            recipient=email.getEmailRecipient();
+            String recipient = email.getEmailRecipient();
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            subject=email.getEmailSubject();
+            String subject = email.getEmailSubject();
             message.setSubject(subject);
-            body=email.getEmailBody();
+            String body = email.getEmailBody();
             message.setText(body);
             logger.info("sendEmail():email to, from,subject and body set successfully");
             logger.info("sendEmail():sending email");
