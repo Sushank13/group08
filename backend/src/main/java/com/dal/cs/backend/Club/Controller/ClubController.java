@@ -120,7 +120,7 @@ public class ClubController
      * @param reqId is the request id of the club update or new club request
      * @return a message
      */
-        @RequestMapping(method = RequestMethod.PUT,value="/admin/approveClubRequest/{reqId}")
+        @RequestMapping(method = RequestMethod.PUT,value="/unauthenticated/approveClubRequest/{reqId}")
      public String approveClubRequest(@PathVariable("reqId") String reqId )
     {
         logger.info("Controller Entered: Received request to approve the new club or update club request.");
@@ -143,7 +143,7 @@ public class ClubController
      * @param reqId is the request id of the club update or new club request
      * @return a message
      */
-    @RequestMapping(method = RequestMethod.PUT,value="/admin/rejectClubRequest/{reqId}")
+    @RequestMapping(method = RequestMethod.PUT,value="/unauthenticated/rejectClubRequest/{reqId}")
     public String rejectClubRequest(@PathVariable("reqId") String reqId )
     {
         logger.info("Controller Entered: Received request to reject the new club or update club request.");
