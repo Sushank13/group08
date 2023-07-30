@@ -108,8 +108,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
         logger.info("Service Layer Entered: Entered getEventsByUser()- Calling Data layer getEventsByUser()");
         try
         {
-            List<Event> listOfAllEvents=iEventDataLayer.getEventsByUser(userEmailId);
-            return listOfAllEvents;
+            return iEventDataLayer.getEventsByUser(userEmailId);
         }
         catch(SQLException e)
         {
@@ -190,8 +189,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
         logger.info("Service Layer Entered: Entered getEventDetails()- Calling Data layer getEventDetails()");
         try
         {
-            List<Event> eventDetails=iEventDataLayer.getEventDetails(nameOfEvent);
-            return eventDetails;
+            return iEventDataLayer.getEventDetails(nameOfEvent);
         }
         catch(SQLException e)
         {
