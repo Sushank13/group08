@@ -117,13 +117,13 @@ public class RandomGenerator {
 
     public static Member generateRandomDalClubMember() {
         String email = RandomGenerator.generateRandomEmail();
-        String firstName = generateRandomString(10);
-        String lastName = generateRandomString(10);
-        String program = generateRandomProgram(8);
-        int term = generateRandomInteger(8);
+        String firstName = generateRandomString(maxStringLength);
+        String lastName = generateRandomString(maxStringLength);
+        String program = generateRandomProgram(maxStringLength);
+        int term = generateRandomInteger(maxStringLength);
         String mobile = generateRandomPhoneNumber();
         LocalDate date = generateRandomDate();
-        String password = generateRandomString(10);
+        String password = generateRandomString(maxStringLength);
         Member newMember = new Member(email, firstName, lastName, MemberType.member, program, term, mobile, date, password);
         return newMember;
     }
@@ -142,13 +142,13 @@ public class RandomGenerator {
 
     public static Club generateRandomClub(String presidentEmailID, Category category) {
         String clubID = generateRandomClubID();
-        String clubName = generateRandomString(10);
-        String description = generateRandomString(10);
+        String clubName = generateRandomString(maxStringLength);
+        String description = generateRandomString(maxStringLength);
         String facebookLink = generateRandomFacebookLink();
         String instagramLink = generateRandomInstagramLink();
-        String location = generateRandomString(10);
-        String meetingTime = generateRandomString(10);
-        String rules = generateRandomString(10);
+        String location = generateRandomString(maxStringLength);
+        String meetingTime = generateRandomString(maxStringLength);
+        String rules = generateRandomString(maxStringLength);
         return new Club(clubID, clubName, description, presidentEmailID, facebookLink, instagramLink, category.getCategoryID(), location, meetingTime, null, rules, category.getCategoryName());
     }
 
