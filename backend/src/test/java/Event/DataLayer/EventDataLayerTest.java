@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class EventDataLayerTest extends BaseTest {
 
-   /* public EventDataLayerTest() {
+   public EventDataLayerTest() {
         super();
     }
     @AfterEach
@@ -181,5 +181,20 @@ public class EventDataLayerTest extends BaseTest {
         catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
-    }*/
+    }
+    @Test
+    public void getEventByEventIdTest() {
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        Event event = createEvent(true, president.getEmailId(), club.getClubID());
+        try {
+            Event eventDetails = iEventDataLayer.getEventByEventId(event.getEventID());
+            boolean match = eventDetails.getEventName().equals(event.getEventName());
+            Assertions.assertTrue( match );
+        }
+        catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
+    }
 }
