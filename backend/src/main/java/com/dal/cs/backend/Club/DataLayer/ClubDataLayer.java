@@ -777,22 +777,23 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             ResultSet resultSet = callableStatement.getResultSet();
             if (procedureCallStatus) {
                 resultSet.next();
-                    ClubUpdateRequest clubUpdateRequest = new ClubUpdateRequestBuilder()
-                            .setRequestID(resultSet.getString(1))
-                            .setClubID(resultSet.getString(2))
-                            .setRequesterEmailID(resultSet.getString(3))
-                            .setCategoryID(resultSet.getString(4))
-                            .setClubName(resultSet.getString(5))
-                            .setDescription(resultSet.getString(6))
-                            .setFacebookLink(resultSet.getString(7))
-                            .setInstagramLink(resultSet.getString(8))
-                            .setLocation(resultSet.getString(9))
-                            .setMeetingTime(resultSet.getString(10))
-                            .setClubImage(resultSet.getString(11))
-                            .setRules(resultSet.getString(12))
-                            .setRequestType(RequestType.valueOf(resultSet.getString(13)))
-                            .setRequestStatus(RequestStatus.valueOf(resultSet.getString(14)))
-                            .createClubUpdateRequest();
+                ClubUpdateRequest clubUpdateRequest = new ClubUpdateRequestBuilder()
+                        .setRequestID(resultSet.getString("requestID"))
+                        .setClubID(resultSet.getString("clubID"))
+                        .setRequesterEmailID(resultSet.getString("requestorEmailID"))
+                        .setClubID(resultSet.getString("clubID"))
+                        .setCategoryName(resultSet.getString("categoryName"))
+                        .setClubName(resultSet.getString("clubName"))
+                        .setDescription(resultSet.getString("description"))
+                        .setFacebookLink(resultSet.getString("facebookLink"))
+                        .setInstagramLink(resultSet.getString("instagramLink"))
+                        .setLocation(resultSet.getString("location"))
+                        .setMeetingTime(resultSet.getString("meetingTime"))
+                        .setClubImage(resultSet.getString("clubImage"))
+                        .setRules(resultSet.getString("rules"))
+                        .setRequestType(RequestType.valueOf(resultSet.getString("requestType")))
+                        .setRequestStatus(RequestStatus.valueOf(resultSet.getString("requestStatus")))
+                        .createClubUpdateRequest();
                     logger.info("Exiting DataLayer: returning club request");
                     return clubUpdateRequest;
             }
