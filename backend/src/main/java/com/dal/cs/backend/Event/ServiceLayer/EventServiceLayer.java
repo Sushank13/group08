@@ -207,7 +207,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
     @Override
     public boolean updateEventDetails(Event event) {
         logger.info("Service Layer Entered: Entered updateEventDetails- Calling Data layer updateEventDetails");
-        String errorMessage = null;
+        String errorMessage;
         try {
             logger.info("updateEventDetails- Calling Data layer updateEventDetails");
             boolean eventStatus = iEventDataLayer.updateEventDetails(event);
@@ -217,7 +217,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
             }
             else {
                 errorMessage = "Unable to update event details in database table.";
-                logger.warn("Exiting Service Layer: Returning boolean result status=false to Controller");
+                logger.warn("Exiting Service Layer: Returning boolean result status=false to Controller. Error Message: "+errorMessage);
                 return false;
             }
         } catch (SQLException e) {
@@ -236,7 +236,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
     public boolean deleteEvent(String eventID) {
         logger.info("Service Layer Entered: Entered deleteEvent- Calling Data layer deleteEvent");
         boolean resultStatus;
-        String errorMessage = null;
+        String errorMessage;
         try {
             resultStatus = iEventDataLayer.deleteEvent(eventID);
             logger.info("Exiting Service Layer: Returning boolean resultStatus to Controller");
