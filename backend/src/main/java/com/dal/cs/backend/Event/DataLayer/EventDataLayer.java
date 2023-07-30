@@ -47,7 +47,7 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         List<Event> listOfAllEvents=new ArrayList<>();
         if(procedureCallStatus)
         {
-            listOfAllEvents = setEventFromResultSet(resultSet, listOfAllEvents);
+            setEventFromResultSet(resultSet, listOfAllEvents);
             logger.info("getAllEvents(): list of all events created successfully");
             logger.info("Exiting DataLayer: returning list of all events to Service Layer");
             return listOfAllEvents;
@@ -214,7 +214,7 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         ResultSet resultSet = callableStatement.getResultSet();
         List<Event> eventDetails = new ArrayList<>();
         if (procedureCallStatus) {
-            eventDetails = setEventFromResultSet(resultSet, eventDetails);
+            setEventFromResultSet(resultSet, eventDetails);
             logger.info("getEventDetails(): get the list of all events details successfully");
             logger.info("Exiting DataLayer: returning list of all events details to Service Layer");
 
@@ -230,7 +230,7 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
      * @param eventDetails list in which Event objects are to be added
      * @throws SQLException
      */
-    private List<Event> setEventFromResultSet(ResultSet resultSet, List<Event> eventDetails) throws SQLException {
+    private void setEventFromResultSet(ResultSet resultSet, List<Event> eventDetails) throws SQLException {
         while (resultSet.next()) {
             Event event = new EventBuilder()
                     .setEventID(resultSet.getString(1))
@@ -247,7 +247,6 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
                     .setEventTopic(resultSet.getString(12)).createEvent();
             eventDetails.add(event);
         }
-        return eventDetails;
     }
 
     /**
@@ -352,7 +351,7 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
         ResultSet resultSet = callableStatement.getResultSet();
         List<Event> listOfAllEvents = new ArrayList<>();
         if (resultStatus) {
-            listOfAllEvents = setEventFromResultSet(resultSet, listOfAllEvents);
+            setEventFromResultSet(resultSet, listOfAllEvents);
             logger.info("Exiting DataLayer: returning list of all events details to Service Layer");
             return listOfAllEvents;
         } else {
