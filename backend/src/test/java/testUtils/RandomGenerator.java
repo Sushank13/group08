@@ -18,6 +18,10 @@ public class RandomGenerator {
 
     private static String CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
     private static String DIGITS = "1234567890";
+    private static final int maxStringLength = 10;
+    private static final int maxStringLength2 = 8;
+    private static final int lowerBoundRule = 1000;
+    private static final int upperBoundRule = 10000;
 
     private static StringBuilder generateRandomStringFromCharacters(int length, String characterSet) {
         Random random = new Random();
@@ -46,12 +50,12 @@ public class RandomGenerator {
     }
 
     public static String generateRandomPhoneNumber() {
-        return generateRandomStringFromCharacters(10, DIGITS).toString();
+        return generateRandomStringFromCharacters(maxStringLength, DIGITS).toString();
     }
 
     public static String generateRandomEmail() {
         // Generate a random username with 8 characters
-        return generateRandomString(8) + "@dal.ca";
+        return generateRandomString(maxStringLength2) + "@dal.ca";
     }
 
     public static String generateRandomProgram(int upperBound) {
