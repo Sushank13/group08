@@ -60,16 +60,23 @@ public class RandomGenerator {
     }
 
     public static LocalDate generateRandomDate() {
+        final int februaryMonth = 2;
+        final int marchMonth = 3;
+        final int dayOne = 1;
+        final int dayTwo = 1;
         int randomYear = generateRandomInteger(LocalDate.now().getYear());
-        int randomMonth = generateRandomInteger(LocalDate.now().getMonthValue());
-        int randomDate = generateRandomInteger(LocalDate.now().getDayOfMonth());
+        int randomMonth = generateRandomInteger( (LocalDate.now().getMonthValue()==februaryMonth ? marchMonth : LocalDate.now().getMonthValue()) );
+        int randomDate = generateRandomInteger( (LocalDate.now().getDayOfMonth()==dayOne ? dayTwo : LocalDate.now().getDayOfMonth()));
         return LocalDate.of(randomYear, randomMonth, randomDate);
     }
 
     public static LocalTime generateRandomTime() {
-        int randomHour = generateRandomInteger(LocalTime.now().getHour());
-        int randomMinute = generateRandomInteger(LocalTime.now().getMinute());
-        int randomSecond = generateRandomInteger(LocalTime.now().getSecond());
+        final int maxHourInDay = 23;
+        final int maxMinuteInDay = 59;
+        final int maxSecondInDay = 59;
+        int randomHour = generateRandomInteger(maxHourInDay);
+        int randomMinute = generateRandomInteger(maxMinuteInDay);
+        int randomSecond = generateRandomInteger(maxSecondInDay);
         return LocalTime.of(randomHour, randomMinute, randomSecond);
     }
 
