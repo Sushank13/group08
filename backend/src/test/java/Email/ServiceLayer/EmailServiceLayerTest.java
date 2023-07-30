@@ -7,6 +7,8 @@ import com.dal.cs.backend.Email.ServiceLayer.IEmailServiceLayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class EmailServiceLayerTest
 {
     private IEmailServiceLayer iEmailServiceLayer;
@@ -21,6 +23,6 @@ public class EmailServiceLayerTest
         Email email=new EmailBuilder().setEmailBody("Test Body")
                 .setEmailRecipient("swit@dal.ca")
                 .setEmailSubject("Test Subject").buildEmail();
-        System.out.println(iEmailServiceLayer.sendEmail(email));
+        assertTrue(iEmailServiceLayer.sendEmail(email));
     }
 }
