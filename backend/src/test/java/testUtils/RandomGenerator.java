@@ -171,6 +171,22 @@ public class RandomGenerator {
                 requestStatus);
     }
 
+    public static Event generateRandomNewEventRequest(Event eventDetails) {
+        return new Event(eventDetails.getEventID(),
+                eventDetails.getClubID(),
+                eventDetails.getOrganizerEmailID(),
+                generateRandomString(maxStringLength), // Event Name
+                generateRandomString(maxStringLength), // Description
+                generateRandomString(maxStringLength), // Venue
+                eventDetails.getImage(),
+                generateRandomDate().toString(), // startDate
+                generateRandomDate().toString(), // endDate
+                generateRandomTime().toString(), // startTime
+                generateRandomTime().toString(), // endTime
+                generateRandomString(maxStringLength) // eventTopic
+        );
+    }
+
     public static JoinClubRequest generateRandomJoinClubRequest(String requesterEmailID, String clubID) {
         final int joiningReasonStringLength = 50;
         String requestID = generateRandomRequestID();
