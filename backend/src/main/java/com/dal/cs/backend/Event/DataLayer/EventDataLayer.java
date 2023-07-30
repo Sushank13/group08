@@ -381,7 +381,7 @@ public class EventDataLayer extends BaseDataLayer implements IEventDataLayer {
             resultSet.next();
             Event event=new EventBuilder().setOrganizerEmailID(resultSet.getString(3))
                     .setEventName(resultSet.getString(4)).setVenue(resultSet.getString(6))
-                    .setStartTime(resultSet.getString(10)).setEndTime((resultSet.getString(11)).toString())
+                    .setStartTime(resultSet.getString(10)).setEndTime((resultSet.getString(11)))
                     .setStartDate(resultSet.getString(8)).setEndDate(resultSet.getString(9))
                     .createEvent();
             logger.info("Datalayer: returning the event object to the service layer");
