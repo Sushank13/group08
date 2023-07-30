@@ -37,8 +37,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
         logger.info("Service Layer Entered: Entered getAllEvents()- Calling Data layer getAllEvents()");
         try
         {
-            List<Event> listOfAllEvents=iEventDataLayer.getAllEvents();
-            return listOfAllEvents;
+            return iEventDataLayer.getAllEvents();
         }
         catch(SQLException e)
         {
