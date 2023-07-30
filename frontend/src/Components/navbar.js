@@ -7,7 +7,7 @@ import '../DalClubCommons';
 function Navbar() {
   return (
 
-    <Flex as="nav" align="center" justify="space-between" padding="1rem" bg={global.DalClubCommons.yellow} color={global.DalClubCommons.black} h="8vh">
+    <Flex as="nav" align="center" justify="space-between"  padding="1rem" bg={global.DalClubCommons.yellow} color={global.DalClubCommons.black} h="8vh">
       <Box>
         <NavLink to='/'>
           <div style={{ fontFamily: 'Pacifico, cursive' }}>
@@ -17,7 +17,7 @@ function Navbar() {
       </Box>
       <Flex>
         <Box>
-          <Icon as={FaUser} boxSize={6} />
+        <Icon as={FaUser} boxSize={6} />
         </Box>
       </Flex>
     </Flex>
