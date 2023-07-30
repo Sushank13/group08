@@ -23,6 +23,6 @@ public class EmailServiceLayerTest
         Email email=new EmailBuilder().setEmailBody("Test Body")
                 .setEmailRecipient("swit@dal.ca")
                 .setEmailSubject("Test Subject").buildEmail();
-        System.out.println((iEmailServiceLayer.sendEmail(email)));
+        assertTrue((iEmailServiceLayer.sendEmail(email)));
     }
 }
