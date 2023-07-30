@@ -8,6 +8,9 @@ import org.apache.logging.log4j.Logger;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -18,25 +21,36 @@ public  class EmailServiceLayer  implements  IEmailServiceLayer
     private static final Logger logger= LogManager.getLogger(EmailServiceLayer.class);
     private final String sender;
     private final String senderPassword;
-    private final Session session;
+    private Session session;
     public EmailServiceLayer()
     {
-        sender="dal.clubs.mail@gmail.com";
-        senderPassword="pxdsgwpmsfslbjdn";
-        String host = "smtp.gmail.com";
-        String port = "465";
-        Properties properties = System.getProperties();
-        properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", port);
-        properties.put("mail.smtp.ssl.enable", "true");
-        properties.put("mail.smtp.auth", "true");
-        session=Session.getInstance(properties,new javax.mail.Authenticator()
+        sender="mail.username";
+        senderPassword="mail.password";
+        String host = "mail.host";
+        String port = "mail.port";
+        String CONFIGURATION_FILE = "src/main/resources/application.properties";
+        try(InputStream propertiesFile = new FileInputStream(CONFIGURATION_FILE))
         {
-            protected PasswordAuthentication getPasswordAuthentication()
+            Properties properties=new Properties();
+            properties.load(propertiesFile);
+            Properties systemProperties = System.getProperties();
+            systemProperties.put("mail.smtp.host", properties.getProperty(host));
+            systemProperties.put("mail.smtp.port", properties.getProperty(port));
+            systemProperties.put("mail.smtp.ssl.enable", "true");
+            systemProperties.put("mail.smtp.auth", "true");
+            session=Session.getInstance(systemProperties,new javax.mail.Authenticator()
             {
-                return new PasswordAuthentication(sender, senderPassword);
-            }
-        });
+                protected PasswordAuthentication getPasswordAuthentication()
+                {
+                    return new PasswordAuthentication(properties.getProperty(sender), properties.getProperty(senderPassword));
+                }
+            });
+
+        }
+        catch(IOException e)
+        {
+           logger.error(e.getMessage());
+        }
 
     }
 
