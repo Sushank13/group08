@@ -103,16 +103,16 @@ public class RandomGenerator {
     }
 
     private static String generateRandomFacebookLink() {
-        return "https://www.facebook.com/" + generateRandomString(10);
+        return "https://www.facebook.com/" + generateRandomString(maxStringLength);
     }
 
     private static String generateRandomInstagramLink() {
-        return "https://www.instagram.com/" + generateRandomString(10);
+        return "https://www.instagram.com/" + generateRandomString(maxStringLength);
     }
 
 
     public static String generateRandomRequestID() {
-        return "REQ_" + generateRandomInteger(1000, 10000);
+        return "REQ_" + generateRandomInteger(lowerBoundRule, upperBoundRule);
     }
 
     public static Member generateRandomDalClubMember() {
