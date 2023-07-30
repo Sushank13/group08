@@ -283,17 +283,17 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
         {
             resultSet.next();
             Club club=new ClubBuilder()
-                    .setClubID(resultSet.getString(2))
-                    .setPresidentEmailID(resultSet.getString(3))
-                    .setCategoryID(resultSet.getString(4))
-                    .setClubName(resultSet.getString(5))
-                    .setDescription(resultSet.getString(6))
-                    .setFacebookLink(resultSet.getString(7))
-                    .setInstagramLink(resultSet.getString(8))
-                    .setLocation(resultSet.getString(9))
-                    .setMeetingTime(resultSet.getString(10))
-                    .setClubImage(resultSet.getString(11))
-                    .setRules(resultSet.getString(12))
+                    .setClubID(resultSet.getString("clubID"))
+                    .setPresidentEmailID(resultSet.getString("presidentEmailID"))
+                    .setCategoryID(resultSet.getString("categoryID"))
+                    .setClubName(resultSet.getString("clubName"))
+                    .setDescription(resultSet.getString("description"))
+                    .setFacebookLink(resultSet.getString("facebookLink"))
+                    .setInstagramLink(resultSet.getString("instagramLink"))
+                    .setLocation(resultSet.getString("location"))
+                    .setMeetingTime(resultSet.getString("meetingTime"))
+                    .setClubImage(resultSet.getString("clubImage"))
+                    .setRules(resultSet.getString("rules"))
                     .createClub();
             logger.info("Exiting DataLayer: returning club details to Service Layer for request id "+reqId);
             return club;
@@ -599,11 +599,11 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             if (procedureCallStatus) {
                 resultSet.next();
                     JoinClubRequestBuilder joinClubRequestBuilder = new JoinClubRequestBuilder()
-                            .setRequestID(resultSet.getString(1))
-                            .setRequesterEmailID(resultSet.getString(2))
-                            .setClubID(resultSet.getString(3))
-                            .setJoiningReason(resultSet.getString(4));
-                    RequestStatus requestStatus = RequestStatus.valueOf(resultSet.getString(5));
+                            .setRequestID(resultSet.getString("requestID"))
+                            .setRequesterEmailID(resultSet.getString("requestorEmailID"))
+                            .setClubID(resultSet.getString("clubID"))
+                            .setJoiningReason(resultSet.getString("joiningReason"));
+                    RequestStatus requestStatus = RequestStatus.valueOf(resultSet.getString("requestStatus"));
                     joinClubRequestBuilder.setRequestStatus(requestStatus);
                     logger.info("Exiting DataLayer: returning join club request to Service Layer");
                     return joinClubRequestBuilder.createJoinClubRequest();
