@@ -99,7 +99,7 @@ public class RandomGenerator {
     }
 
     public static String generateRandomEventID() {
-        return "EVNT_" + generateRandomInteger(1000, 10000);
+        return "EVNT_" + generateRandomInteger(lowerBoundRule, upperBoundRule);
     }
 
     private static String generateRandomFacebookLink() {
