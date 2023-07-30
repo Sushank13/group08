@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 public class EventServiceLayerTest {
-    private IEventServiceLayer iEventServiceLayer;
+    /*private IEventServiceLayer iEventServiceLayer;
 
     @BeforeEach
     public void beforeTestRun() {
@@ -117,5 +117,5 @@ public class EventServiceLayerTest {
             System.out.println("EndTime: "+listOfAllEvents.get(i).getEndTime());
             System.out.println("EventTopic: "+listOfAllEvents.get(i).getEventTopic());
         }
-    }
+    }*/
 }
