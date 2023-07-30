@@ -49,7 +49,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
 
     /**
      * This method generates a new event ID, for inserting a new event record into event table.
-     * @param event is the real world event object which has all the information about a event.
+     * @param event is the real world event object which has all the information about an event.
      * @return boolean status result if the event was created successfully by inserting the record into the table, else false.
      */
     @Override
@@ -82,7 +82,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
 
     /**
      * This method retrieves the new incremented event id when a new event creation is to be executed.
-     * @return the new latest eventid String
+     * @return the new latest eventID String
      */
     private String generateEventId() {
         logger.info("generateEventId- Entered generateEventId- Calling Data layer getLatestEventId");
