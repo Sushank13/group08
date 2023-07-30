@@ -2,15 +2,13 @@ package Event.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Category;
 import com.dal.cs.backend.Club.ClassObject.Club;
-import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
-import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
-import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
-import com.dal.cs.backend.database.DatabaseConnection;
-import com.dal.cs.backend.database.IDatabaseConnection;
 import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.member.MemberObject.Member;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import testUtils.BaseTest;
 
 import java.sql.SQLException;
