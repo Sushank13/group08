@@ -15,6 +15,7 @@ build_backend:
         - apt-get install gettext-base moreutils -y
         - envsubst < src/main/resources/database.properties | sponge src/main/resources/database.properties
         - envsubst < src/main/resources/security.properties | sponge src/main/resources/security.properties
+        - envsubst < src/main/resources/application.properties | sponge src/main/resources/application.properties
         - mvn clean install # compile, package, and install
         - echo "Completed - Maven Build stage"
     artifacts:
@@ -51,6 +52,7 @@ test_backend:
         - apt-get install gettext-base moreutils -y
         - envsubst < src/main/resources/database.properties | sponge src/main/resources/database.properties
         - envsubst < src/main/resources/security.properties | sponge src/main/resources/security.properties
+        - envsubst < src/main/resources/application.properties | sponge src/main/resources/application.properties
         - mvn test
         - echo "Completed - Testing Maven Build"
     artifacts:
@@ -71,6 +73,8 @@ deploy_backend:
         - apt-get update
         - apt-get install gettext-base moreutils -y
         - envsubst < src/main/resources/database.properties | sponge src/main/resources/database.properties
+        - envsubst < src/main/resources/security.properties | sponge src/main/resources/security.properties
+        - envsubst < src/main/resources/application.properties | sponge src/main/resources/application.properties
         - curl -s "https://api.render.com/deploy/srv-${RENDER_DEPLOY_KEY_1}?key=${RENDER_DEPLOY_KEY_2}" 
         - echo "Completed - Deploying Springboot"
 
