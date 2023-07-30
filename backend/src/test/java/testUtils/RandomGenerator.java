@@ -172,8 +172,9 @@ public class RandomGenerator {
     }
 
     public static JoinClubRequest generateRandomJoinClubRequest(String requesterEmailID, String clubID) {
+        final int joiningReasonStringLength = 50;
         String requestID = generateRandomRequestID();
-        String joiningReason = generateRandomString(50);
+        String joiningReason = generateRandomString(joiningReasonStringLength);
         return new JoinClubRequest(requestID, requesterEmailID, clubID, joiningReason, RequestStatus.PENDING);
     }
 
