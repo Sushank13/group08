@@ -412,17 +412,17 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
         while(resultSet.next())
         {
             Club club = new ClubBuilder()
-                    .setClubID(resultSet.getString(1))
-                    .setClubName(resultSet.getString(2))
-                    .setDescription(resultSet.getString(3))
-                    .setPresidentEmailID(resultSet.getString(4))
-                    .setFacebookLink(resultSet.getString(5))
-                    .setInstagramLink(resultSet.getString(6))
-                    .setCategoryID(resultSet.getString(7))
-                    .setLocation(resultSet.getString(8))
-                    .setMeetingTime(resultSet.getString(9))
-                    .setClubImage(resultSet.getString(10))
-                    .setRules(resultSet.getString(11))
+                    .setClubID(resultSet.getString("clubID"))
+                    .setClubName(resultSet.getString("clubName"))
+                    .setDescription(resultSet.getString("description"))
+                    .setPresidentEmailID(resultSet.getString("presidentEmailID"))
+                    .setFacebookLink(resultSet.getString("facebookLink"))
+                    .setInstagramLink(resultSet.getString("instagramLink"))
+                    .setCategoryID(resultSet.getString("categoryID"))
+                    .setLocation(resultSet.getString("location"))
+                    .setMeetingTime(resultSet.getString("meetingTime"))
+                    .setClubImage(resultSet.getString("clubImage"))
+                    .setRules(resultSet.getString("rules"))
                     .createClub();
             listOfAllClubs.add(club);
         }
