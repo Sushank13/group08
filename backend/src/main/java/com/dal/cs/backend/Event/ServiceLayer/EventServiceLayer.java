@@ -55,7 +55,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
     @Override
     public boolean createEvent(Event event) {
         logger.info("Service Layer Entered: Entered createEvent- Calling Data layer createEvent");
-        String errorMessage = null;
+        String errorMessage;
         logger.info("createEvent- Calling generateEventId()");
         String EventId=generateEventId();
         event.setEventID(EventId);
@@ -69,7 +69,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
             }
             else {
                 errorMessage = "Unable to create event by inserting in database table.";
-                logger.warn("Exiting Service Layer: Returning boolean result status=false to Controller");
+                logger.warn("Exiting Service Layer: Returning boolean result status=false to Controller, Error Message: "+errorMessage);
                 return false;
             }
         } catch (SQLException e) {
