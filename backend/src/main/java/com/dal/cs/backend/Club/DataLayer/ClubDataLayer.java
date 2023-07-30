@@ -1,11 +1,14 @@
 package com.dal.cs.backend.Club.DataLayer;
 
+import com.dal.cs.backend.Club.ClassObject.Category;
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
 import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.Enum.RequestStatus;
+import com.dal.cs.backend.Club.Enum.RequestType;
 import com.dal.cs.backend.Club.ObjectBuilder.ClubBuilder;
+import com.dal.cs.backend.Club.ObjectBuilder.ClubUpdateRequestBuilder;
 import com.dal.cs.backend.Club.ObjectBuilder.JoinClubRequestBuilder;
-import com.dal.cs.backend.baseUtils.Enum.EnumUtils;
 import com.dal.cs.backend.baseUtils.dataLayer.BaseDataLayer;
 import com.dal.cs.backend.database.IDatabaseConnection;
 
@@ -125,9 +128,9 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
         callableStatement.setString(13,requestType);
         callableStatement.setString(14,requestStatus);
         logger.info("Executing stored procedure to create a new record for new club request");
-        boolean procedureCallStatus=callableStatement.execute();
+        int procedureCallStatus=callableStatement.executeUpdate();
         logger.info("Procedure to create a new club request called with status "+procedureCallStatus);
-        if(procedureCallStatus)
+        if(procedureCallStatus > 0)
         {
             logger.info("Exiting DataLayer: returning true to Service Layer");
             return true;
@@ -502,8 +505,8 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             int result = callableStatement.executeUpdate();
             if (result == 0)
                 resultStatus = false;
-            else if (result > 1)
-            resultStatus = true;
+            else if (result > 0)
+                resultStatus = true;
             logger.info("deleteClub- Procedure execution call successful, resultStatus = " + resultStatus);
             logger.info("Exiting Data Layer: Returning boolean resultStatus to Service Layer");
             return resultStatus;
@@ -577,6 +580,42 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             return false;
         }
     }
+
+    /**
+     * Gets join club request
+     * @param requestID String
+     * @return Join club requests for a club managed by the president
+     * @throws SQLException
+     */
+    @Override
+    public JoinClubRequest getJoinClubRequest(String requestID) throws SQLException {
+        if (connection != null) {
+            logger.info("Data Layer Entered: Entered getJoinClubRequest()");
+            callProcedure = getProcedureCallString("getJoinClubRequest", 1);
+            callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1, requestID);
+            boolean procedureCallStatus = callableStatement.execute();
+            ResultSet resultSet = callableStatement.getResultSet();
+            if (procedureCallStatus) {
+                while (resultSet.next()) {
+                    JoinClubRequestBuilder joinClubRequestBuilder = new JoinClubRequestBuilder()
+                            .setRequestID(resultSet.getString(1))
+                            .setRequesterEmailID(resultSet.getString(2))
+                            .setClubID(resultSet.getString(3))
+                            .setJoiningReason(resultSet.getString(4));
+                    RequestStatus requestStatus = RequestStatus.valueOf(resultSet.getString(5));
+                    joinClubRequestBuilder.setRequestStatus(requestStatus);
+                    logger.info("Exiting DataLayer: returning join club request to Service Layer");
+                    return joinClubRequestBuilder.createJoinClubRequest();
+                }
+            }
+            logger.error("Problem with procedure call or database connection");
+            return null;
+        }
+        logger.error("Exception: Database Connection not established.");
+        return null;
+    }
+
      /**
      * Gets list of club requests by joining club and join club request with club id and verifies president
      * @param clubID String
@@ -670,6 +709,159 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             logger.info("join club request with request id: "+ reqId+ " not deleted");
             logger.error("Problem with procedure call or database connection");
             logger.info("Exiting datalayer: returning false to ServiceLayer");
+            return false;
+        }
+    }
+
+    /**
+     * Gets all update clubs requests based on request type from database
+     * @param requestType Filter request on type
+     * @param requestStatus Filter
+     * @return List of new club requests
+     * @throws SQLException
+     */
+    @Override
+    public List<ClubUpdateRequest>  getAllClubRequests(RequestType requestType, RequestStatus requestStatus) throws SQLException {
+        if (connection != null) {
+            logger.info("Entered getAllClubRequests()");
+            callProcedure = getProcedureCallString("getAllClubRequests", 2);
+            callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1, requestType.name());
+            callableStatement.setString(2, requestStatus.name());
+            boolean procedureCallStatus = callableStatement.execute();
+            ResultSet resultSet = callableStatement.getResultSet();
+            List<ClubUpdateRequest> clubUpdateRequests = new ArrayList<>();
+            if (procedureCallStatus) {
+                while (resultSet.next()) {
+                    ClubUpdateRequest clubUpdateRequest = new ClubUpdateRequestBuilder()
+                            .setRequestID(resultSet.getString(1))
+                            .setClubID(resultSet.getString(2))
+                            .setRequesterEmailID(resultSet.getString(3))
+                            .setClubID(resultSet.getString(4))
+                            .setCategoryName(resultSet.getString(5))
+                            .setClubName(resultSet.getString(6))
+                            .setDescription(resultSet.getString(7))
+                            .setFacebookLink(resultSet.getString(8))
+                            .setInstagramLink(resultSet.getString(9))
+                            .setLocation(resultSet.getString(10))
+                            .setMeetingTime(resultSet.getString(11))
+                            .setClubImage(resultSet.getString(12))
+                            .setRules(resultSet.getString(13))
+                            .setRequestType(RequestType.valueOf(resultSet.getString(14)))
+                            .setRequestStatus(RequestStatus.valueOf(resultSet.getString(15)))
+                            .createClubUpdateRequest();
+                    clubUpdateRequests.add(clubUpdateRequest);;
+                }
+                logger.info("getAllClubRequests(): list of all club requests created successfully");
+                logger.info("Exiting DataLayer: returning list of all club request");
+                return clubUpdateRequests;
+            } else {
+                logger.error("Problem with procedure call or database connection");
+                return null;
+            }
+        }
+        else {
+            logger.error("Exception: Database Connection not established.");
+            return null;
+        }
+    }
+
+    @Override
+    public ClubUpdateRequest getClubRequest(String requestID) throws SQLException {
+        if (connection != null) {
+            logger.info("Entered getClubRequest()");
+            callProcedure = getProcedureCallString("getClubRequestInfoByRequestId", 1);
+            callableStatement = connection.prepareCall(callProcedure);
+            callableStatement.setString(1, requestID);
+            boolean procedureCallStatus = callableStatement.execute();
+            ResultSet resultSet = callableStatement.getResultSet();
+            if (procedureCallStatus) {
+                while (resultSet.next()) {
+                    ClubUpdateRequest clubUpdateRequest = new ClubUpdateRequestBuilder()
+                            .setRequestID(resultSet.getString(1))
+                            .setClubID(resultSet.getString(2))
+                            .setRequesterEmailID(resultSet.getString(3))
+                            .setCategoryID(resultSet.getString(4))
+                            .setClubName(resultSet.getString(5))
+                            .setDescription(resultSet.getString(6))
+                            .setFacebookLink(resultSet.getString(7))
+                            .setInstagramLink(resultSet.getString(8))
+                            .setLocation(resultSet.getString(9))
+                            .setMeetingTime(resultSet.getString(10))
+                            .setClubImage(resultSet.getString(11))
+                            .setRules(resultSet.getString(12))
+                            .setRequestType(RequestType.valueOf(resultSet.getString(13)))
+                            .setRequestStatus(RequestStatus.valueOf(resultSet.getString(14)))
+                            .createClubUpdateRequest();
+                    logger.info("Exiting DataLayer: returning club request");
+                    return clubUpdateRequest;
+                }
+            }
+            logger.error("Problem with procedure call or database connection");
+            return null;
+
+        }
+        logger.error("Exception: Database Connection not established.");
+        return null;
+    }
+
+    @Override
+    public boolean createClubCategory(Category category) throws SQLException {
+        logger.info("Entered Datalayer: createClubCategory()");
+        logger.info("createClubCategory(): calling stored procedure");
+        callProcedure=getProcedureCallString("createClubCategory", 2);
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1, category.getCategoryID());
+        callableStatement.setString(2, category.getCategoryName());
+        int procedureCallStatus=callableStatement.executeUpdate();
+        if(procedureCallStatus>0)
+        {
+            logger.info("Added category " + category.getCategoryName() + " with id "+ category.getCategoryID() );
+            return true;
+        }
+        else
+        {
+            logger.error("Failed to add category " + category.getCategoryName() + " with id "+ category.getCategoryID() );
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteClubCategory(String categoryID) throws SQLException {
+        logger.info("Entered Datalayer: deleteClubCategory()");
+        logger.info("deleteClubCategory(): calling stored procedure");
+        callProcedure=getProcedureCallString("deleteClubCategory", 1);
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1, categoryID);
+        int procedureCallStatus=callableStatement.executeUpdate();
+        if(procedureCallStatus>0)
+        {
+            logger.info("Deleted category with id "+ categoryID );
+            return true;
+        }
+        else
+        {
+            logger.error("Failed to delete category with id "+ categoryID );
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteClubRequest(String requestID) throws SQLException {
+        logger.info("Entered Datalayer: deleteClubRequest()");
+        logger.info("deleteClubRequest(): calling stored procedure");
+        callProcedure=getProcedureCallString("deleteClubRequest", 1);
+        callableStatement=connection.prepareCall(callProcedure);
+        callableStatement.setString(1, requestID);
+        int procedureCallStatus=callableStatement.executeUpdate();
+        if(procedureCallStatus>0)
+        {
+            logger.info("Deleted club request with id "+ requestID );
+            return true;
+        }
+        else
+        {
+            logger.error("Failed to delete request with id "+ requestID );
             return false;
         }
     }

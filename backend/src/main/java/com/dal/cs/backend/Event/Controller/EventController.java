@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", allowedHeaders="*")
 @RestController
 public class EventController {
     private static final Logger logger = LogManager.getLogger(EventController.class);
