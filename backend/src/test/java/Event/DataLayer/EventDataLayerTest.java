@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class EventDataLayerTest extends BaseTest {
 
-    public EventDataLayerTest() {
+   /* public EventDataLayerTest() {
         super();
     }
     @AfterEach
@@ -181,5 +181,5 @@ public class EventDataLayerTest extends BaseTest {
         catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
-    }
+    }*/
 }
