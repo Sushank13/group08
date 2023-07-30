@@ -85,11 +85,11 @@ public class RandomGenerator {
     }
 
     public static String generateRandomClubID() {
-        return "CLB_" + generateRandomInteger(1000, 10000);
+        return "CLB_" + generateRandomInteger(lowerBoundRule, upperBoundRule);
     }
 
     public static String generateRandomCategoryID() {
-        return "CAT_" + generateRandomInteger(1000, 10000);
+        return "CAT_" + generateRandomInteger(lowerBoundRule, upperBoundRule);
     }
 
     public static Category generateRandomCategory() {
