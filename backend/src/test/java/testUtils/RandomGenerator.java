@@ -179,14 +179,15 @@ public class RandomGenerator {
     }
 
     public static Event generateRandomEvent(String organiserEmailID, String clubID, String eventID) {
-        String eventName = generateRandomString(10);
-        String description = generateRandomString(10);
-        String venue = generateRandomString(10);
+        final int maxEventTopicLength = 20;
+        String eventName = generateRandomString(maxStringLength);
+        String description = generateRandomString(maxStringLength);
+        String venue = generateRandomString(maxStringLength);
         LocalDate startDate = generateRandomDate();
         LocalDate endDate = generateRandomDate();
         LocalTime startTime = generateRandomTime();
         LocalTime endTime = generateRandomTime();
-        String eventTopic = generateRandomString(20);
+        String eventTopic = generateRandomString(maxEventTopicLength);
         return new Event(eventID, clubID, organiserEmailID, eventName, description, venue, null, startDate.toString(), endDate.toString(), startTime.toString(), endTime.toString(), eventTopic);
     }
 }
