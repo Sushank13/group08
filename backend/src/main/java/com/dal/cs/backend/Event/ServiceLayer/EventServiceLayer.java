@@ -143,18 +143,16 @@ public class EventServiceLayer implements  IEventServiceLayer{
                 {
                     logger.info("ServiceLayer: event details returned.");
                     logger.info("ServiceLayer: creating to, from, subject and body for the email");
-                    String emailRecipient=emailID;
                     String emailSubject="Registration successful for the event: "+ event.getEventName();
-                    StringBuilder emailBody=new StringBuilder();
-                    emailBody.append("PFB the Event Details: ").append("\n")
-                            .append("Event ID: "+eventID).append("\n")
-                            .append("Event Name: "+event.getEventName()).append("\n")
-                            .append("Event Venue: "+event.getVenue()).append("\n")
-                            .append("Event Starts: "+ event.getStartDate()+" "+event.getStartTime()).append("\n")
-                            .append("Event Ends: "+ event.getEndTime()+" "+ event.getEndDate());
+                    String emailBody = "PFB the Event Details: " + "\n" +
+                            "Event ID: " + eventID + "\n" +
+                            "Event Name: " + event.getEventName() + "\n" +
+                            "Event Venue: " + event.getVenue() + "\n" +
+                            "Event Starts: " + event.getStartDate() + " " + event.getStartTime() + "\n" +
+                            "Event Ends: " + event.getEndTime() + " " + event.getEndDate();
                     logger.info("ServiceLayer: building email");
-                    Email email=new EmailBuilder().setEmailBody(emailBody.toString())
-                            .setEmailRecipient(emailRecipient)
+                    Email email=new EmailBuilder().setEmailBody(emailBody)
+                            .setEmailRecipient(emailID)
                             .setEmailSubject(emailSubject).buildEmail();
                     logger.info("ServiceLayer: calling email service");
                     IEmailServiceLayer iEmailServiceLayer=new EmailServiceLayer();
