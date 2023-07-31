@@ -93,11 +93,9 @@ public class ClubServiceLayer implements  IClubServiceLayer
                 List<String> splitLatestRequestId = List.of(latestRequestId.split("_"));
                 int requestNumber= Integer.parseInt(splitLatestRequestId.get(1));
                 int newRequestNumber=requestNumber+one;
-                String newRequestId=splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
-                return newRequestId;
+                return splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
             }
-            String firstRequestId = "REQ_1";
-            return firstRequestId;
+            return "REQ_1";
         }
         catch (SQLException e)
         {
@@ -122,11 +120,9 @@ public class ClubServiceLayer implements  IClubServiceLayer
                 List<String> splitLatestClubId = List.of(latestClubId.split("_"));
                 int clubNUmber=Integer.parseInt(splitLatestClubId.get(1));
                 int newClubNumber=clubNUmber+one;
-                String newClubId=splitLatestClubId.get(0).concat("_").concat(String.valueOf(newClubNumber));
-                return newClubId;
+                return splitLatestClubId.get(0).concat("_").concat(String.valueOf(newClubNumber));
             }
-            String firstClubId = "CLB_1";
-            return firstClubId;
+            return "CLB_1";
         }
         catch (SQLException e)
         {
@@ -163,8 +159,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
         logger.info("Service Layer Entered: Entered getAllClubs()- Calling Data layer getAllClubs()");
         try
         {
-            List<Club> listOfAllClubs=iClubDataLayer.getAllClubs();
-            return listOfAllClubs;
+            return iClubDataLayer.getAllClubs();
         }
         catch(SQLException e)
         {
@@ -184,8 +179,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
     {
         logger.info("Service Layer Entered: Entered getClubsByName()- Calling Data layer getClubsByName()");
         try{
-            List<Club> listClubsByName=iClubDataLayer.getClubsByName(name);
-            return listClubsByName;
+            return iClubDataLayer.getClubsByName(name);
         } catch(SQLException e)
         {
             logger.error("getClubsByName()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
@@ -203,8 +197,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
     public List<Club> getClubsByCategory(String category) {
         logger.info("Service Layer Entered: Entered getClubsByCategory()- Calling Data layer getClubsByCategory()");
         try{
-            List<Club> listClubsByCategory=iClubDataLayer.getClubsByCategory(category);
-            return listClubsByCategory;
+            return iClubDataLayer.getClubsByCategory(category);
         } catch(SQLException e)
         {
             logger.error("getClubsByCategory()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
@@ -221,7 +214,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
     @Override
     public String updateClubDetails(Club club) {
         logger.info("Service Layer Entered: Entered updateClubDetails- Calling Data layer insertUpdatedClubDetails");
-        String errorMessage = null;
+        String errorMessage;
         String requestId = generateRequestId();
         String requestType = String.valueOf(RequestType.UPDATE_REQUEST);
         String requestStatus = String.valueOf(RequestStatus.PENDING);
@@ -345,25 +338,23 @@ public class ClubServiceLayer implements  IClubServiceLayer
     public boolean deleteClub(String clubID) {
         logger.info("Service Layer Entered: Entered deleteClub- Calling Data layer deleteClub");
         boolean resultStatus;
-        String errorMessage = null;
+        String errorMessage;
         try {
             resultStatus = iClubDataLayer.deleteClub(clubID);
             logger.info("Exiting Service Layer: Returning boolean resultStatus to Controller");
             return resultStatus;
         }
         catch (SQLException e) {
-            resultStatus = false;
             errorMessage = e.getMessage();
             logger.error("Exception occured in 'deleteClub': "+errorMessage);
         }
         catch (Exception e)
         {
-            resultStatus = false;
             errorMessage = e.getMessage();
             logger.error("Exception occured in 'deleteClub': "+errorMessage);
         }
         logger.info("Exiting Service Layer: Returning error message to Controller");
-        return resultStatus;
+        return false;
     }
 
     /**
@@ -427,11 +418,9 @@ public class ClubServiceLayer implements  IClubServiceLayer
                 List<String> splitLatestRequestId = List.of(latestRequestId.split("_"));
                 int requestNumber= Integer.parseInt(splitLatestRequestId.get(1));
                 int newRequestNumber=requestNumber+one;
-                String newRequestId=splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
-                return newRequestId;
+                return splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
             }
-            String firstRequestId = "REQ_1";
-            return firstRequestId;
+            return "REQ_1";
         }
         catch (SQLException e)
         {

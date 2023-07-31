@@ -2,15 +2,13 @@ package Event.DataLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Category;
 import com.dal.cs.backend.Club.ClassObject.Club;
-import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
-import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
-import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
-import com.dal.cs.backend.database.DatabaseConnection;
-import com.dal.cs.backend.database.IDatabaseConnection;
 import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.member.MemberObject.Member;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import testUtils.BaseTest;
 
 import java.sql.SQLException;
@@ -21,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class EventDataLayerTest extends BaseTest {
 
-   /* public EventDataLayerTest() {
+   public EventDataLayerTest() {
         super();
     }
     @AfterEach
@@ -135,17 +133,16 @@ public class EventDataLayerTest extends BaseTest {
 
     @Test
     public void updateEventDetailsTest () {
-//        Event mockEvent = new Event();
-//        mockEvent.setEventID("EVNT_3");
-//        mockEvent.setClubID("CLB_3");
-//        mockEvent.setEventName("Dalhousie outdoor society Spring AGM");
-//        mockEvent.setEventTopic("Outdoor recreational activity");
-//        try {
-//            boolean eventStatus = iEventDataLayer.updateEventDetails(mockEvent);
-//            System.out.println("eventStatus = " + eventStatus);
-//        } catch (SQLException e) {
-//            fail("Test failed: Exception occurred- " + e.getMessage());
-//        }
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        Event event = createEvent(true, president.getEmailId(), club.getClubID());
+        Event eventRequest = createEventRequest( event);
+        try {
+            Assertions.assertTrue(iEventDataLayer.updateEventDetails(eventRequest));
+        } catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
     }
 
     @Test
@@ -181,5 +178,20 @@ public class EventDataLayerTest extends BaseTest {
         catch (SQLException e) {
             fail("Test failed: Exception occurred- " + e.getMessage());
         }
-    }*/
+    }
+    @Test
+    public void getEventByEventIdTest() {
+        Member president = createMember(true, MemberType.president);
+        Category category = createCategory(true);
+        Club club = createClub(true, president.getEmailId(), category);
+        Event event = createEvent(true, president.getEmailId(), club.getClubID());
+        try {
+            Event eventDetails = iEventDataLayer.getEventByEventId(event.getEventID());
+            boolean match = eventDetails.getEventName().equals(event.getEventName());
+            Assertions.assertTrue( match );
+        }
+        catch (SQLException e) {
+            fail("Test failed: Exception occurred- " + e.getMessage());
+        }
+    }
 }
