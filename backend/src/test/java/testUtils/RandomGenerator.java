@@ -18,6 +18,10 @@ public class RandomGenerator {
 
     private static String CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
     private static String DIGITS = "1234567890";
+    private static final int maxStringLength = 10;
+    private static final int maxStringLength2 = 8;
+    private static final int lowerBoundRule = 1000;
+    private static final int upperBoundRule = 10000;
 
     private static StringBuilder generateRandomStringFromCharacters(int length, String characterSet) {
         Random random = new Random();
@@ -46,12 +50,12 @@ public class RandomGenerator {
     }
 
     public static String generateRandomPhoneNumber() {
-        return generateRandomStringFromCharacters(10, DIGITS).toString();
+        return generateRandomStringFromCharacters(maxStringLength, DIGITS).toString();
     }
 
     public static String generateRandomEmail() {
         // Generate a random username with 8 characters
-        return generateRandomString(8) + "@dal.ca";
+        return generateRandomString(maxStringLength2) + "@dal.ca";
     }
 
     public static String generateRandomProgram(int upperBound) {
@@ -60,25 +64,34 @@ public class RandomGenerator {
     }
 
     public static LocalDate generateRandomDate() {
+        final int februaryMonth = 2;
+        final int marchMonth = 3;
+        final int dayOne = 1;
+        final int dayTwo = 1;
         int randomYear = generateRandomInteger(LocalDate.now().getYear());
         int randomMonth = generateRandomInteger(LocalDate.now().getMonthValue());
+        randomMonth = (randomMonth == februaryMonth ? marchMonth : randomMonth);
         int randomDate = generateRandomInteger(LocalDate.now().getDayOfMonth());
+        randomDate = (randomDate==dayOne ? dayTwo : randomDate);
         return LocalDate.of(randomYear, randomMonth, randomDate);
     }
 
     public static LocalTime generateRandomTime() {
-        int randomHour = generateRandomInteger(LocalTime.now().getHour());
-        int randomMinute = generateRandomInteger(LocalTime.now().getMinute());
-        int randomSecond = generateRandomInteger(LocalTime.now().getSecond());
+        final int maxHourInDay = 23;
+        final int maxMinuteInDay = 59;
+        final int maxSecondInDay = 59;
+        int randomHour = generateRandomInteger(maxHourInDay);
+        int randomMinute = generateRandomInteger(maxMinuteInDay);
+        int randomSecond = generateRandomInteger(maxSecondInDay);
         return LocalTime.of(randomHour, randomMinute, randomSecond);
     }
 
     public static String generateRandomClubID() {
-        return "CLB_" + generateRandomInteger(1000, 10000);
+        return "CLB_" + generateRandomInteger(lowerBoundRule, upperBoundRule);
     }
 
     public static String generateRandomCategoryID() {
-        return "CAT_" + generateRandomInteger(1000, 10000);
+        return "CAT_" + generateRandomInteger(lowerBoundRule, upperBoundRule);
     }
 
     public static Category generateRandomCategory() {
@@ -88,31 +101,31 @@ public class RandomGenerator {
     }
 
     public static String generateRandomEventID() {
-        return "EVNT_" + generateRandomInteger(1000, 10000);
+        return "EVNT_" + generateRandomInteger(lowerBoundRule, upperBoundRule);
     }
 
     private static String generateRandomFacebookLink() {
-        return "https://www.facebook.com/" + generateRandomString(10);
+        return "https://www.facebook.com/" + generateRandomString(maxStringLength);
     }
 
     private static String generateRandomInstagramLink() {
-        return "https://www.instagram.com/" + generateRandomString(10);
+        return "https://www.instagram.com/" + generateRandomString(maxStringLength);
     }
 
 
     public static String generateRandomRequestID() {
-        return "REQ_" + generateRandomInteger(1000, 10000);
+        return "REQ_" + generateRandomInteger(lowerBoundRule, upperBoundRule);
     }
 
     public static Member generateRandomDalClubMember() {
         String email = RandomGenerator.generateRandomEmail();
-        String firstName = generateRandomString(10);
-        String lastName = generateRandomString(10);
-        String program = generateRandomProgram(8);
-        int term = generateRandomInteger(8);
+        String firstName = generateRandomString(maxStringLength);
+        String lastName = generateRandomString(maxStringLength);
+        String program = generateRandomProgram(maxStringLength);
+        int term = generateRandomInteger(maxStringLength);
         String mobile = generateRandomPhoneNumber();
         LocalDate date = generateRandomDate();
-        String password = generateRandomString(10);
+        String password = generateRandomString(maxStringLength);
         Member newMember = new Member(email, firstName, lastName, MemberType.member, program, term, mobile, date, password);
         return newMember;
     }
@@ -131,13 +144,13 @@ public class RandomGenerator {
 
     public static Club generateRandomClub(String presidentEmailID, Category category) {
         String clubID = generateRandomClubID();
-        String clubName = generateRandomString(10);
-        String description = generateRandomString(10);
+        String clubName = generateRandomString(maxStringLength);
+        String description = generateRandomString(maxStringLength);
         String facebookLink = generateRandomFacebookLink();
         String instagramLink = generateRandomInstagramLink();
-        String location = generateRandomString(10);
-        String meetingTime = generateRandomString(10);
-        String rules = generateRandomString(10);
+        String location = generateRandomString(maxStringLength);
+        String meetingTime = generateRandomString(maxStringLength);
+        String rules = generateRandomString(maxStringLength);
         return new Club(clubID, clubName, description, presidentEmailID, facebookLink, instagramLink, category.getCategoryID(), location, meetingTime, null, rules, category.getCategoryName());
     }
 
@@ -160,21 +173,41 @@ public class RandomGenerator {
                 requestStatus);
     }
 
+    public static Event generateRandomNewEventRequest(Event eventDetails) {
+        return new Event(eventDetails.getEventID(),
+                eventDetails.getClubID(),
+                eventDetails.getOrganizerEmailID(),
+                generateRandomString(maxStringLength), // Event Name
+                generateRandomString(maxStringLength), // Description
+                generateRandomString(maxStringLength), // Venue
+                eventDetails.getImage(),
+                generateRandomDate().toString(), // startDate
+                generateRandomDate().toString(), // endDate
+                generateRandomTime().toString(), // startTime
+                generateRandomTime().toString(), // endTime
+                generateRandomString(maxStringLength) // eventTopic
+        );
+    }
+
     public static JoinClubRequest generateRandomJoinClubRequest(String requesterEmailID, String clubID) {
+        final int joiningReasonStringLength = 50;
         String requestID = generateRandomRequestID();
-        String joiningReason = generateRandomString(50);
+        String joiningReason = generateRandomString(joiningReasonStringLength);
         return new JoinClubRequest(requestID, requesterEmailID, clubID, joiningReason, RequestStatus.PENDING);
     }
 
     public static Event generateRandomEvent(String organiserEmailID, String clubID, String eventID) {
-        String eventName = generateRandomString(10);
-        String description = generateRandomString(10);
-        String venue = generateRandomString(10);
+        final int maxEventTopicLength = 20;
+        String eventName = generateRandomString(maxStringLength);
+        String description = generateRandomString(maxStringLength);
+        String venue = generateRandomString(maxStringLength);
         LocalDate startDate = generateRandomDate();
         LocalDate endDate = generateRandomDate();
         LocalTime startTime = generateRandomTime();
         LocalTime endTime = generateRandomTime();
-        String eventTopic = generateRandomString(20);
+        String eventTopic = generateRandomString(maxEventTopicLength);
         return new Event(eventID, clubID, organiserEmailID, eventName, description, venue, null, startDate.toString(), endDate.toString(), startTime.toString(), endTime.toString(), eventTopic);
     }
 }
+
+
