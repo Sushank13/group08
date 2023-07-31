@@ -11,14 +11,13 @@ import com.dal.cs.backend.Club.Enum.RequestStatus;
 import com.dal.cs.backend.Club.Enum.RequestType;
 import com.dal.cs.backend.Event.DataLayer.EventDataLayer;
 import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
+import com.dal.cs.backend.Event.EventObject.Event;
 import com.dal.cs.backend.database.DatabaseConnection;
 import com.dal.cs.backend.database.IDatabaseConnection;
 import com.dal.cs.backend.member.DataLayer.IMemberDataLayer;
 import com.dal.cs.backend.member.DataLayer.MemberDataLayer;
 import com.dal.cs.backend.member.Enum.MemberType;
 import com.dal.cs.backend.member.MemberObject.Member;
-import com.dal.cs.backend.Event.EventObject.Event;
-
 
 import java.sql.SQLException;
 import java.util.Stack;
@@ -100,6 +99,10 @@ public class BaseTest {
             addToStack(Event.class, eventID);
         }
         return event;
+    }
+    public Event createEventRequest(Event event) {
+        Event eventUpdateRequest = RandomGenerator.generateRandomNewEventRequest(event);
+        return eventUpdateRequest;
     }
 
     public ClubUpdateRequest createNewClubRequest(boolean createInDatabase, Club club, RequestStatus requestStatus) {

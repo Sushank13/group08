@@ -1,4 +1,8 @@
 package com.dal.cs.backend.Event.ServiceLayer;
+import com.dal.cs.backend.Email.ClassObject.Email;
+import com.dal.cs.backend.Email.ObjectBuilder.EmailBuilder;
+import com.dal.cs.backend.Email.ServiceLayer.EmailServiceLayer;
+import com.dal.cs.backend.Email.ServiceLayer.IEmailServiceLayer;
 import com.dal.cs.backend.Event.DataLayer.IEventDataLayer;
 import com.dal.cs.backend.Event.EventObject.Event;
 import org.apache.logging.log4j.LogManager;
@@ -33,8 +37,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
         logger.info("Service Layer Entered: Entered getAllEvents()- Calling Data layer getAllEvents()");
         try
         {
-            List<Event> listOfAllEvents=iEventDataLayer.getAllEvents();
-            return listOfAllEvents;
+            return iEventDataLayer.getAllEvents();
         }
         catch(SQLException e)
         {
@@ -46,13 +49,13 @@ public class EventServiceLayer implements  IEventServiceLayer{
 
     /**
      * This method generates a new event ID, for inserting a new event record into event table.
-     * @param event is the real world event object which has all the information about a event.
+     * @param event is the real world event object which has all the information about an event.
      * @return boolean status result if the event was created successfully by inserting the record into the table, else false.
      */
     @Override
     public boolean createEvent(Event event) {
         logger.info("Service Layer Entered: Entered createEvent- Calling Data layer createEvent");
-        String errorMessage = null;
+        String errorMessage;
         logger.info("createEvent- Calling generateEventId()");
         String EventId=generateEventId();
         event.setEventID(EventId);
@@ -66,7 +69,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
             }
             else {
                 errorMessage = "Unable to create event by inserting in database table.";
-                logger.warn("Exiting Service Layer: Returning boolean result status=false to Controller");
+                logger.warn("Exiting Service Layer: Returning boolean result status=false to Controller, Error Message: "+errorMessage);
                 return false;
             }
         } catch (SQLException e) {
@@ -79,7 +82,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
 
     /**
      * This method retrieves the new incremented event id when a new event creation is to be executed.
-     * @return the new latest eventid String
+     * @return the new latest eventID String
      */
     private String generateEventId() {
         logger.info("generateEventId- Entered generateEventId- Calling Data layer getLatestEventId");
@@ -105,8 +108,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
         logger.info("Service Layer Entered: Entered getEventsByUser()- Calling Data layer getEventsByUser()");
         try
         {
-            List<Event> listOfAllEvents=iEventDataLayer.getEventsByUser(userEmailId);
-            return listOfAllEvents;
+            return iEventDataLayer.getEventsByUser(userEmailId);
         }
         catch(SQLException e)
         {
@@ -118,17 +120,56 @@ public class EventServiceLayer implements  IEventServiceLayer{
 
     /**
      * This method register the events
+     *
      * @param eventID this will be the id of event
-     * @param emailID  is the email id of the user using which they signed up to DalClubs
+     * @param emailID is the email id of the user using which they signed up to DalClubs
      * @return true if registered successfully
      */
     @Override
-    public boolean registerEvents(String eventID, String emailID){
+    public boolean registerEvents(String eventID, String emailID)
+    {
         logger.info("Service Layer Entered: Entered registerEvents()- Calling Data layer registerEvents()");
         try
         {
             boolean resultStatus= iEventDataLayer.registerEvents(eventID,emailID);
-            return resultStatus;
+            if(resultStatus)
+            {
+                logger.info("ServiceLayer: event registered. Sending Confirmation mail to user.");
+                //get event details by event id
+                logger.info("ServiceLayer: calling getEventByEventId() of DataLayer ");
+                Event event=iEventDataLayer.getEventByEventId(eventID);
+                if(event!=null)
+                {
+                    logger.info("ServiceLayer: event details returned.");
+                    logger.info("ServiceLayer: creating to, from, subject and body for the email");
+                    String emailSubject="Registration successful for the event: "+ event.getEventName();
+                    String emailBody = "PFB the Event Details: " + "\n" +
+                            "Event ID: " + eventID + "\n" +
+                            "Event Name: " + event.getEventName() + "\n" +
+                            "Event Venue: " + event.getVenue() + "\n" +
+                            "Event Starts: " + event.getStartDate() + " " + event.getStartTime() + "\n" +
+                            "Event Ends: " + event.getEndTime() + " " + event.getEndDate();
+                    logger.info("ServiceLayer: building email");
+                    Email email=new EmailBuilder().setEmailBody(emailBody)
+                            .setEmailRecipient(emailID)
+                            .setEmailSubject(emailSubject).buildEmail();
+                    logger.info("ServiceLayer: calling email service");
+                    IEmailServiceLayer iEmailServiceLayer=new EmailServiceLayer();
+                    boolean emailStatus=iEmailServiceLayer.sendEmail(email);
+                    if(emailStatus)
+                    {
+                        logger.info("ServiceLayer: email sent successfully");
+                        logger.info("ServiceLayer: Retuning true to the controller");
+                        return true;
+                    }
+                    else
+                    {
+                        logger.info("ServiceLayer: email not sent successfully");
+                        logger.info("ServiceLayer: Retuning false to the controller");
+                        return false;
+                    }
+                }
+            }
         }
         catch (SQLException e)
         {
@@ -148,8 +189,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
         logger.info("Service Layer Entered: Entered getEventDetails()- Calling Data layer getEventDetails()");
         try
         {
-            List<Event> eventDetails=iEventDataLayer.getEventDetails(nameOfEvent);
-            return eventDetails;
+            return iEventDataLayer.getEventDetails(nameOfEvent);
         }
         catch(SQLException e)
         {
@@ -167,7 +207,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
     @Override
     public boolean updateEventDetails(Event event) {
         logger.info("Service Layer Entered: Entered updateEventDetails- Calling Data layer updateEventDetails");
-        String errorMessage = null;
+        String errorMessage;
         try {
             logger.info("updateEventDetails- Calling Data layer updateEventDetails");
             boolean eventStatus = iEventDataLayer.updateEventDetails(event);
@@ -177,7 +217,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
             }
             else {
                 errorMessage = "Unable to update event details in database table.";
-                logger.warn("Exiting Service Layer: Returning boolean result status=false to Controller");
+                logger.warn("Exiting Service Layer: Returning boolean result status=false to Controller. Error Message: "+errorMessage);
                 return false;
             }
         } catch (SQLException e) {
@@ -196,7 +236,7 @@ public class EventServiceLayer implements  IEventServiceLayer{
     public boolean deleteEvent(String eventID) {
         logger.info("Service Layer Entered: Entered deleteEvent- Calling Data layer deleteEvent");
         boolean resultStatus;
-        String errorMessage = null;
+        String errorMessage;
         try {
             resultStatus = iEventDataLayer.deleteEvent(eventID);
             logger.info("Exiting Service Layer: Returning boolean resultStatus to Controller");
@@ -231,4 +271,6 @@ public class EventServiceLayer implements  IEventServiceLayer{
         logger.warn("Exiting Service Layer: Returning boolean result status=false to Controller");
         return null;
     }
+
+
 }
