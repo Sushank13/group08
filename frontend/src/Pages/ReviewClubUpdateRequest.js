@@ -1,5 +1,6 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Flex, Text, Toast } from '@chakra-ui/react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 
 
@@ -9,11 +10,17 @@ function ReviewClubUpdateRequest() {
 
 
     const [updateClubRequest, setUpdateClubRequest] = useState([]);
+    const jwt = "Bearer " + Cookies.get('jwt');
 
     useEffect(() => {
         const fetchpendingclubs = async () => {
             try {
-                const response = await axios.get(`/admin/getAllUpdateClubRequests?requestStatus=APPROVED`);
+                const response = await axios.get(`/admin/getAllUpdateClubRequests?requestStatus=PENDING`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': jwt
+                    }
+                });
                 const data = await response.data
                 setUpdateClubRequest(data)
             }
@@ -22,13 +29,18 @@ function ReviewClubUpdateRequest() {
             }
         }
         fetchpendingclubs()
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleReject = async (requestID) => {
 
         try {
-            const response = await axios.put(`/admin/rejectClubRequest/${requestID}`);
+            const response = await axios.put(`/admin/rejectClubRequest/${requestID}`, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': jwt
+                }
+            });
             if (response.status === 200) {
                 Toast({
                     title: 'Successful',
@@ -48,7 +60,12 @@ function ReviewClubUpdateRequest() {
     const handleApproval = async (requestID) => {
 
         try {
-            const response = await axios.put(`/admin/approveClubRequest/${requestID}`);
+            const response = await axios.put(`/admin/approveClubRequest/${requestID}`, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': jwt
+                }
+            });
             if (response.status === 200) {
                 Toast({
                     title: 'Successful',

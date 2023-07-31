@@ -1,7 +1,7 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Flex, Text, Toast } from '@chakra-ui/react';
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Flex, Text, useToast } from '@chakra-ui/react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
-
 
 
 function ReviewNewClubRequest() {
@@ -9,36 +9,53 @@ function ReviewNewClubRequest() {
 
 
   const [pendingClubRequest, setPendingClubRequest] = useState([]);
+  const jwt = "Bearer " + Cookies.get('jwt');
+  const toast = useToast();
+
+
 
   useEffect(() => {
-    const fetchpendingclubs = async () => {
-      try {
-        const response = await axios.get(`/admin/getAllNewClubRequests?requestStatus=APPROVED`);
-        const data = await response.data
-        console.log(data);
-        setPendingClubRequest(data)
-      }
-      catch (e) {
-        console.error(e.message)
-      }
-    }
-    fetchpendingclubs()
 
+    fetchpendingclubs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
-  const handleReject = async (requestID) => {
-
+  const fetchpendingclubs = async () => {
     try {
-      const response = await axios.put(`/admin/rejectClubRequest/${requestID}`);
+      const response = await axios.get(`/admin/getAllNewClubRequests?requestStatus=PENDING`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': jwt
+        }
+      });
+      const data = await response.data
+      console.log(data);
+      setPendingClubRequest(data)
+    }
+    catch (e) {
+      console.error(e.message)
+    }
+  }
+
+  const handleReject = async (requestID) => {
+    console.log(requestID)
+    try {
+      const response = await axios.put(`/admin/rejectClubRequest/${requestID}`, {}, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': jwt
+        }
+      });
       if (response.status === 200) {
-        Toast({
+        toast({
           title: 'Successful',
           description: 'CLUB REJECTED SUCCESSFULLY.',
           status: 'success',
           duration: 5000,
           isClosable: true,
         });
+        fetchpendingclubs();
       }
       return response.data;
 
@@ -50,9 +67,15 @@ function ReviewNewClubRequest() {
   const handleApproval = async (requestID) => {
 
     try {
-      const response = await axios.put(`/admin/approveClubRequest/${requestID}`);
+      const response = await axios.put(`/admin/approveClubRequest/${requestID}`, {}, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': jwt
+        }
+      });
+
       if (response.status === 200) {
-        Toast({
+        toast({
           title: 'Successful',
           description: 'CLUB ACCEPTED SUCCESSFULLY.',
           status: 'success',
@@ -79,8 +102,8 @@ function ReviewNewClubRequest() {
       </Flex>
       <Flex direction='column' alignItems='center' mt='80px' width='60%'>
         {
-          pendingClubRequest.map((pendingClub) => {
-            return (<Accordion allowToggle width='90%'>
+          pendingClubRequest.map((pendingClub, ind) => {
+            return (<Accordion allowToggle key={ind} width='90%'>
               <AccordionItem>
                 <h2>
                   <AccordionButton>

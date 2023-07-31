@@ -1,5 +1,6 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Flex, Text, Toast } from '@chakra-ui/react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -9,24 +10,36 @@ function ManageClub() {
 
 
     const [clubData, setClubsData] = useState([]);
+    const jwt = "Bearer " + Cookies.get('jwt');
 
     useEffect(() => {
         const getAllClubs = async () => {
             try {
-                const response = await axios.get('/admin/getAllUpdateCubRlequests?requestStatus=APPROVED');
+                const response = await axios.get('/admin/getAllUpdateCubRlequests?requestStatus=APPROVED', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': jwt
+                    }
+                });
                 setClubsData(response.data);
             } catch (error) {
                 console.log(error);
             }
         };
         getAllClubs();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
     const handleDelete = async (clubID) => {
 
         try {
-            const response = await axios.post(`/admin/deleteClub/${clubID}?requestStatus=APPROVED`);
+            const response = await axios.post(`/admin/deleteClub/${clubID}?requestStatus=APPROVED`, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': jwt
+                }
+            });
             if (response.status === 200) {
                 Toast({
                     title: 'Successful',
