@@ -209,3 +209,5 @@ public class RandomGenerator {
         return new Event(eventID, clubID, organiserEmailID, eventName, description, venue, null, startDate.toString(), endDate.toString(), startTime.toString(), endTime.toString(), eventTopic);
     }
 }
+
+

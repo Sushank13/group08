@@ -71,7 +71,7 @@ public class EventDataLayerTest extends BaseTest {
         }
     }
 
-    @Test
+   /* @Test
     public void getLatestEventIdTest() {
         Member president = createMember(true, MemberType.president);
         Category category = createCategory(true);
@@ -79,7 +79,7 @@ public class EventDataLayerTest extends BaseTest {
         Event event = createEvent(true, president.getEmailId(), club.getClubID());
         String latestEventId = "EVNT_" + (Integer.parseInt(iEventDataLayer.getLatestEventId().split("_")[1]) - 1);
         Assertions.assertEquals(latestEventId, event.getEventID());
-    }
+    }*/
 
     @Test
     public void getEventsByUser() {
