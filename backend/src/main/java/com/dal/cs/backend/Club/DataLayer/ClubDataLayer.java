@@ -284,7 +284,7 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
             resultSet.next();
             Club club=new ClubBuilder()
                     .setClubID(resultSet.getString("clubID"))
-                    .setPresidentEmailID(resultSet.getString("presidentEmailID"))
+                    .setPresidentEmailID(resultSet.getString("requestorEmailID"))
                     .setCategoryID(resultSet.getString("categoryID"))
                     .setClubName(resultSet.getString("clubName"))
                     .setDescription(resultSet.getString("description"))
