@@ -782,7 +782,7 @@ public class ClubDataLayer extends BaseDataLayer implements IClubDataLayer, IClu
                         .setClubID(resultSet.getString("clubID"))
                         .setRequesterEmailID(resultSet.getString("requestorEmailID"))
                         .setClubID(resultSet.getString("clubID"))
-                        .setCategoryName(resultSet.getString("categoryName"))
+                        .setCategoryName(resultSet.getString("categoryID"))
                         .setClubName(resultSet.getString("clubName"))
                         .setDescription(resultSet.getString("description"))
                         .setFacebookLink(resultSet.getString("facebookLink"))
