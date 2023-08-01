@@ -41,12 +41,12 @@ public class RandomGenerator {
 
     public static Integer generateRandomInteger(int upperBound) {
         Random random = new Random();
-        return random.nextInt(1, upperBound);
+        return random.nextInt(1, upperBound+1);
     }
 
     public static Integer generateRandomInteger(int lowerBound, int upperBound) {
         Random random = new Random();
-        return random.nextInt(lowerBound, upperBound);
+        return random.nextInt(lowerBound, upperBound+1);
     }
 
     public static String generateRandomPhoneNumber() {
