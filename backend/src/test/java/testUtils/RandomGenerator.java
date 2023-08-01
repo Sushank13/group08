@@ -67,7 +67,7 @@ public class RandomGenerator {
         final int februaryMonth = 2;
         final int marchMonth = 3;
         final int dayOne = 1;
-        final int dayTwo = 1;
+        final int dayTwo = 2;
         int randomYear = generateRandomInteger(LocalDate.now().getYear());
         int randomMonth = generateRandomInteger(LocalDate.now().getMonthValue());
         randomMonth = (randomMonth == februaryMonth ? marchMonth : randomMonth);
