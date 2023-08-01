@@ -53,10 +53,11 @@ public class AuthController {
         long refreshTokenDuration = 24*60*60;
 
         Cookie cookie = new Cookie("jwt", jwtGenerator.generateToken(authentication.getName(), refreshTokenDuration));
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
         cookie.setMaxAge(24*60*60);
         cookie.setSecure(true);
         cookie.setPath("/");
+
         response.addCookie(cookie);
         return new ResponseEntity<>(new AuthResponseDTO(token, roles), HttpStatus.OK);
     }
