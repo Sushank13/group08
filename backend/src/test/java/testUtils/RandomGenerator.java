@@ -69,9 +69,9 @@ public class RandomGenerator {
         final int dayOne = 1;
         final int dayTwo = 1;
         int randomYear = generateRandomInteger(LocalDate.now().getYear());
-        int randomMonth = generateRandomInteger(LocalDate.now().getMonthValue());
+        int randomMonth = generateRandomInteger(LocalDate.now().getMonthValue()== februaryMonth ? marchMonth :LocalDate.now().getMonthValue());
         randomMonth = (randomMonth == februaryMonth ? marchMonth : randomMonth);
-        int randomDate = generateRandomInteger(LocalDate.now().getDayOfMonth());
+        int randomDate = generateRandomInteger(LocalDate.now().getDayOfMonth()==dayOne ? dayTwo :LocalDate.now().getDayOfMonth());
         randomDate = (randomDate==dayOne ? dayTwo : randomDate);
         return LocalDate.of(randomYear, randomMonth, randomDate);
     }
