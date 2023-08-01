@@ -16,7 +16,7 @@ const fetchEventDetails = async (eventName) => {
 const registerEventHandler = async (eventID) => {
   try {
     var emailID = "swit@dal.ca";
-    const response = await axiosPrivate.post(`/member/registerEvents/${eventID}/${emailID}`);
+    const response = await axiosPrivate.post(`/unauthenticated/registerEvents/${eventID}/${emailID}`);
     console.log(response.data);
     return response.data; 
   } catch (error) {
@@ -63,7 +63,7 @@ function EventPage() {
     <>
       <Box position="relative" height="20vh">
 
-        <img src="/bg1.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img src={`data:image/png;base64, ${eventDetails.image}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
 
         <Flex position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)">
           <Box bg="white" p="5px" textAlign="center" >

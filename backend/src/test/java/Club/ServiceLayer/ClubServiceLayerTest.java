@@ -3,6 +3,7 @@ package Club.ServiceLayer;
 import com.dal.cs.backend.Club.DataLayer.ClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
+import com.dal.cs.backend.Club.Enum.RequestStatus;
 import com.dal.cs.backend.Club.ServiceLayer.ClubServiceLayer;
 import com.dal.cs.backend.Club.ServiceLayer.IClubServiceLayer;
 import com.dal.cs.backend.Club.ClassObject.Club;
@@ -93,4 +94,39 @@ public class ClubServiceLayerTest
     public void getAllJoinClubRequestsTest() {
 //        assertNotEquals(iclubServiceLayer.getAllJoinClubRequests("CLB_2", "user@dal.ca").size(), 0);
     }
+
+    @Test
+    public void approveJoinClubRequestWhenReqIdIsNullTest()
+    {
+        String reqId=null;
+        assertFalse(iclubServiceLayer.approveClubRequest(reqId));
+    }
+    @Test
+    public void approveJoinClubRequestWhenReqIdIsEmptyTest()
+    {
+        String reqId="";
+        assertFalse(iclubServiceLayer.approveClubRequest(reqId));
+    }
+    @Test
+    public void rejectJoinClubRequestWhenReqIdIsNullTest()
+    {
+        String reqId=null;
+        assertFalse(iclubServiceLayer.rejectClubRequest(reqId));
+    }
+    @Test
+    public void rejectJoinClubRequestWhenReqIdIsEmptyTest()
+    {
+        String reqId="";
+        assertFalse(iclubServiceLayer.rejectClubRequest(reqId));
+    }
+
+    @Test
+    public void getAllNewClubRequestsTests() {
+//        assertTrue(iclubServiceLayer.getAllNewClubRequests(RequestStatus.APPROVED).size()>0);
+    }
+    @Test
+    public void getAllClubUpdateRequestsTests() {
+//        assertTrue(iclubServiceLayer.getAllUpdateClubRequests(RequestStatus.APPROVED).size()>0);
+    }
+
 }

@@ -6,7 +6,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -70,9 +69,7 @@ public class JWTGenerator {
     }
 
     public void printStructure(String token) {
-        Jws
-
-                parseClaimsJws = Jwts.parser().setSigningKey(securityConstants.secret)
+        Jws parseClaimsJws = Jwts.parser().setSigningKey(securityConstants.secret)
                 .parseClaimsJws(token);
         System.out.println("Header     : " + parseClaimsJws.getHeader());
         System.out.println("Body       : " + parseClaimsJws.getBody());

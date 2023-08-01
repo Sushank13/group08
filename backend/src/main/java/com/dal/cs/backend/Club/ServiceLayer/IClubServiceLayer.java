@@ -1,7 +1,10 @@
 package com.dal.cs.backend.Club.ServiceLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
 import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
+import com.dal.cs.backend.Club.Enum.RequestStatus;
+import com.dal.cs.backend.Club.Enum.RequestType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,4 +24,9 @@ public interface IClubServiceLayer
   public boolean deleteClub(String clubID);
   public String submitJoinClubRequest(JoinClubRequest joinClubRequest);
   public List<JoinClubRequest> getAllJoinClubRequests(String clubID, String presidentEmailID);
+  public boolean approveJoinClubRequest(String reqId);
+  public boolean rejectJoinClubRequest(String reqId);
+  public List<ClubUpdateRequest> getAllNewClubRequests(RequestStatus requestStatus);
+
+  public List<ClubUpdateRequest> getAllUpdateClubRequests(RequestStatus requestStatus);
 }

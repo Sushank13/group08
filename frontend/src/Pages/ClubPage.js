@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios, { axiosPrivate } from '../axiosConfiguration';
-import { useParams, NavLink } from 'react-router-dom';
-import { Box, Flex, Text, Link,  Icon, Divider, Button, useToast } from '@chakra-ui/react';
+import { Box, Button, Divider, Flex, Icon, Link, Text } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
 import { BsFacebook, BsInstagram } from 'react-icons/bs';
+import { NavLink, useParams } from 'react-router-dom';
+import axios from '../axiosConfiguration';
 import { getEmailID } from '../hooks/useEmail';
 // https://chakra-ui.com/docs/components/link
 const fetchClubDetails = async (clubName) => {
@@ -25,23 +25,24 @@ const fetchEventDetailsByClub = async (clubID) => {
   }
 };
 
-const joinClubHandler = async (clubID, emailID) => {
-  console.log(clubID +" clb user " + emailID);
-  try {
-    console.log(clubID +" clb user " + emailID);
-    const response = await axiosPrivate.get(`/member/joinClub/${clubID}/${emailID}`);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-};
+// const joinClubHandler = async (clubID, emailID) => {
+//   console.log(clubID +" clb user " + emailID);
+//   try {
+//     console.log(clubID +" clb user " + emailID);
+//     const response = await axiosPrivate.get(`/member/joinClub/${clubID}/${emailID}`);
+//     return response.data;
+//   } catch (error) {
+//     console.log(error);
+//     return null;
+//   }
+// };
 
 function ClubPage() {
   const { clubName } = useParams(); 
   const [clubDetails, setClubDetails] = useState([]);
   const [eventDetails, setEventDetails] = useState([]);
   const emailID = getEmailID() || null;
+  console.log(emailID);
 
   useEffect(() => {
     const getClubDetails = async () => {
@@ -56,44 +57,44 @@ function ClubPage() {
     getClubDetails();
   }, [clubName]); 
 
-  const toast = useToast();
-  const handleRegistration = (clubDetails, emailID) => {
-    console.log(emailID + " " + !emailID)
-    if (!emailID) {
-        toast({
-          title: 'Oops!',
-          description: 'Unable to register for this club at the given time. Please sign in.',
-          status: 'error',
-          duration: 10000,
-          isClosable: true,
-        });
-        return;
-    }
-    var response = joinClubHandler(clubDetails.clubID, emailID)
-
-    if (response) {
-      toast({
-        title: 'Successful',
-        description: `Registration request for ${clubDetails.clubName} raised successfully!`,
-        status: 'success',
-        duration: 10000,
-        isClosable: true,
-      });
-    } else {
-      toast({
-        title: 'Oops!',
-        description: 'Unable to register for this club at the given time. Please try again later.',
-        status: 'error',
-        duration: 10000,
-        isClosable: true,
-      });
-    }
-  };
+  // const toast = useToast();
+  // const handleRegistration = (clubDetails, emailID) => {
+  //   console.log(emailID + " " + !emailID)
+  //   // if (!emailID) {
+  //       toast({
+  //         title: 'Oops!',
+  //         description: 'Unable to register for this club at the given time. Please sign in.',
+  //         status: 'error',
+  //         duration: 10000,
+  //         isClosable: true,
+  //       });
+        
+  //   // }
+  //   var response = joinClubHandler(clubDetails.clubID, emailID)
+  //   console.log(response);
+  //   if (response) {
+  //     toast({
+  //       title: 'Successful',
+  //       description: `Registration request for ${clubDetails.clubName} raised successfully!`,
+  //       status: 'success',
+  //       duration: 10000,
+  //       isClosable: true,
+  //     });
+  //   } else {
+  //     toast({
+  //       title: 'Oops!',
+  //       description: 'Unable to register for this club at the given time. Please try again later.',
+  //       status: 'error',
+  //       duration: 10000,
+  //       isClosable: true,
+  //     });
+  //   }
+  // };
 
   return (
     <>
       <Box position="relative" height="20vh">
-        <img src="/dalBackground.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img src={`data:image/png;base64, ${clubDetails.clubImage}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
 
         <Box position="absolute" top="50px"  left="50%" transform="translateX(-50%)" width="60%" bg="white" p="20px" rounded="md" h="100%">
           <Flex position='relative' bgColor='white' alignItems='center' justifyContent='center'>
@@ -136,7 +137,10 @@ function ClubPage() {
           </Box>
 
           <Flex mt="50px">
-            <Button left="50%" transform="translateX(-50%)" width="200px" onClick={() => handleRegistration(clubDetails, emailID)} color="white" bg={global.DalClubCommons.black}>JOIN CLUB</Button>
+          <NavLink to={`/clubmembershipform`}  style={{ textDecoration: 'none', color: global.DalClubCommons.green }}>
+
+            <Button left="50%" transform="translateX(-50%)" width="200px" color="white" bg={global.DalClubCommons.black}>JOIN CLUB</Button>
+              </NavLink>
           </Flex>
           <Text mt="25px" mb="15px" fontWeight="bold">Ongoing and Upcoming Events: </Text>
           <Divider />

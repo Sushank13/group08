@@ -1,7 +1,9 @@
 package com.dal.cs.backend.Club.Controller;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
 import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
+import com.dal.cs.backend.Club.Enum.RequestStatus;
 import com.dal.cs.backend.Club.ServiceLayer.IClubServiceLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -118,48 +120,46 @@ public class ClubController
      * @param reqId is the request id of the club update or new club request
      * @return a message
      */
-        @RequestMapping(method = RequestMethod.PUT,value="/admin/approveClubRequest/{reqId}")
+        @RequestMapping(method = RequestMethod.PUT,value="/unauthenticated/approveClubRequest/{reqId}")
      public String approveClubRequest(@PathVariable("reqId") String reqId )
     {
         logger.info("Controller Entered: Received request to approve the new club or update club request.");
         logger.info("approveClubRequest()- Calling approveClubRequest() of ServiceLayer");
         boolean approveRequestStatus=iClubServiceLayer.approveClubRequest(reqId);
+        String message;
         if(approveRequestStatus)
         {
-            String message=" Club request with Request ID: "+reqId+ " has been successfully approved";
-            logger.info("Exiting Controller: returning club request approval message");
-            return  message;
+            message = " Club request with Request ID: " + reqId + " has been successfully approved";
         }
         else
         {
-            String message="Your request with Request ID: "+reqId+ " could not be approved";
-            logger.info("Exiting Controller: returning club request approval message");
-            return  message;
+            message = "Your request with Request ID: " + reqId + " could not be approved";
         }
+        logger.info("Exiting Controller: returning club request approval message");
+        return  message;
     }
     
     /** * This method receives the request to reject the club update or new club request
      * @param reqId is the request id of the club update or new club request
      * @return a message
      */
-    @RequestMapping(method = RequestMethod.PUT,value="/admin/rejectClubRequest/{reqId}")
+    @RequestMapping(method = RequestMethod.PUT,value="/unauthenticated/rejectClubRequest/{reqId}")
     public String rejectClubRequest(@PathVariable("reqId") String reqId )
     {
         logger.info("Controller Entered: Received request to reject the new club or update club request.");
         logger.info("rejectClubRequest()- Calling rejectClubRequest() of ServiceLayer");
         boolean rejectRequestStatus = iClubServiceLayer.rejectClubRequest(reqId);
+        String message;
         if (rejectRequestStatus)
         {
-            String message = "Club request with Request ID: " + reqId + " has been successfully rejected";
-            logger.info("Exiting Controller: returning club request rejection message");
-            return message;
+            message = "Club request with Request ID: " + reqId + " has been successfully rejected";
         }
         else
         {
-            String message = "Club request with Request ID: " + reqId + " could not be rejected";
-            logger.info("Exiting Controller: returning club request rejection message");
-            return message;
+            message = "Club request with Request ID: " + reqId + " could not be rejected";
         }
+        logger.info("Exiting Controller: returning club request rejection message");
+        return message;
     }
 
 
@@ -204,6 +204,84 @@ public class ClubController
         List<JoinClubRequest> joinClubRequestList = iClubServiceLayer.getAllJoinClubRequests(clubID, presidentEmailID);
         logger.info("Exiting Controller: Returning service layer response result to Frontend via POST /deleteClub");
         return joinClubRequestList;
+    }
+
+    /**
+     *  This method receives the api call to approve a member's join club request by the president of the club
+     * @param reqId is the request id of the join club request of the member
+     * @return a message to the frontend
+     */
+    @RequestMapping(method =RequestMethod.PUT,value="/president/approveJoinClubRequest/{reqId}")
+    public String approveJoinClubRequest(@PathVariable("reqId") String reqId)
+    {
+        String message;
+        logger.info(" Entered Controller: received request to approve a join club request");
+        logger.info("Controller: Inside approveJoinClubRequest() ");
+        logger.info("approveJoinClubRequest(): Calling approveJoinClubRequest() in the service layer");
+        boolean approveJoinClubRequestStatus=iClubServiceLayer.approveJoinClubRequest(reqId);
+        if(approveJoinClubRequestStatus)
+        {
+            message="Join Club Request with request id: "+reqId+" was approved";
+        }
+        else
+        {
+            message="Join Club Request with request id: "+reqId+"could not be approved";
+        }
+        logger.info("Controller: Exiting Controller. Returning approval message");
+        return message;
+    }
+
+    /**
+     *  This method receives the api call to reject a member's join club request by the president of the club
+     * @param reqId is the request id of the join club request of the member
+     * @return a message to the frontend
+     */
+    @RequestMapping(method =RequestMethod.PUT,value="/unauthenticated/rejectJoinClubRequest/{reqId}")
+    public String rejectJoinClubRequest(@PathVariable("reqId") String reqId)
+    {
+        String message;
+        logger.info(" Entered Controller: received request to reject a join club request");
+        logger.info("Controller: Inside rejectJoinClubRequest() ");
+        logger.info("rejectJoinClubRequest(): Calling rejectJoinClubRequest() in the service layer");
+        boolean rejectJoinClubRequestStatus=iClubServiceLayer.rejectJoinClubRequest(reqId);
+        if(rejectJoinClubRequestStatus)
+        {
+            message="Join Club Request with request id: "+reqId+" was rejected successfully";
+        }
+        else
+        {
+            message="Join Club Request with request id: "+reqId+"could not be rejected";
+        }
+        logger.info("Controller: Exiting Controller. Returning rejection message");
+        return message;
+    }
+
+
+    /**
+     * Controller endpoint for admin to get all new club requests
+     * @param requestStatus filter results based on status
+     * @return list of new club requests
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/admin/getAllNewClubRequests")
+    public List<ClubUpdateRequest> getAllNewClubRequests(String requestStatus) {
+        logger.info("Controller Entered: Received request for getting all new club requests based on club ID.");
+        List<ClubUpdateRequest> ClubUpdateRequest = iClubServiceLayer.getAllNewClubRequests(RequestStatus.valueOf(requestStatus));
+        logger.info("Exiting Controller: Returning service layer response result to endpoint");
+        return ClubUpdateRequest;
+    }
+
+
+    /**
+     * Controller endpoint for admin to get all club update requests
+     * @param requestStatus filter results based on status
+     * @return list of club update requests
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/admin/getAllUpdateClubRequests")
+        public List<ClubUpdateRequest> getAllUpdateClubRequests(String requestStatus) {
+        logger.info("Controller Entered: Received request for getting all new club requests based on club ID.");
+        List<ClubUpdateRequest> ClubUpdateRequest = iClubServiceLayer.getAllUpdateClubRequests(RequestStatus.valueOf(requestStatus));
+        logger.info("Exiting Controller: Returning service layer response result to endpoint");
+        return ClubUpdateRequest;
     }
 
 }

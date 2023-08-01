@@ -68,17 +68,18 @@ public class EventController {
 
     /**
      * This method register the events
+     *
      * @param eventID this will be the id of event
-     * @param emailID  is the email id of the user using which they signed up to DalClubs
+     * @param emailID is the email id of the user using which they signed up to DalClubs
      * @return true if registered successfully
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/member/registerEvents/{eventID}/{emailID}")
+    @RequestMapping(method = RequestMethod.POST, value = "/unauthenticated/registerEvents/{eventID}/{emailID}")
     public boolean registerEvents(@PathVariable String eventID, @PathVariable String emailID)
     {
         logger.info("Controller Entered: Received request for register events");
         logger.info("registerEvents- Calling registerEvents() of ServiceLayer");
         boolean resultStatus= iEventServiceLayer.registerEvents(eventID, emailID);
-        logger.info("Exiting Controller: Returning status for insert data via POST /registerEvents");
+        logger.info("Exiting Controller: Returning status= "+resultStatus+" for successful event registration via POST /registerEvents");
         return resultStatus;
     }
 

@@ -1,6 +1,7 @@
 package com.dal.cs.backend.Club.ServiceLayer;
 
 import com.dal.cs.backend.Club.ClassObject.Club;
+import com.dal.cs.backend.Club.ClassObject.ClubUpdateRequest;
 import com.dal.cs.backend.Club.ClassObject.JoinClubRequest;
 import com.dal.cs.backend.Club.DataLayer.IClubDataLayer;
 import com.dal.cs.backend.Club.DataLayer.IClubSecondDataLayer;
@@ -92,11 +93,9 @@ public class ClubServiceLayer implements  IClubServiceLayer
                 List<String> splitLatestRequestId = List.of(latestRequestId.split("_"));
                 int requestNumber= Integer.parseInt(splitLatestRequestId.get(1));
                 int newRequestNumber=requestNumber+one;
-                String newRequestId=splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
-                return newRequestId;
+                return splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
             }
-            String firstRequestId = "REQ_1";
-            return firstRequestId;
+            return "REQ_1";
         }
         catch (SQLException e)
         {
@@ -121,11 +120,9 @@ public class ClubServiceLayer implements  IClubServiceLayer
                 List<String> splitLatestClubId = List.of(latestClubId.split("_"));
                 int clubNUmber=Integer.parseInt(splitLatestClubId.get(1));
                 int newClubNumber=clubNUmber+one;
-                String newClubId=splitLatestClubId.get(0).concat("_").concat(String.valueOf(newClubNumber));
-                return newClubId;
+                return splitLatestClubId.get(0).concat("_").concat(String.valueOf(newClubNumber));
             }
-            String firstClubId = "CLB_1";
-            return firstClubId;
+            return "CLB_1";
         }
         catch (SQLException e)
         {
@@ -162,8 +159,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
         logger.info("Service Layer Entered: Entered getAllClubs()- Calling Data layer getAllClubs()");
         try
         {
-            List<Club> listOfAllClubs=iClubDataLayer.getAllClubs();
-            return listOfAllClubs;
+            return iClubDataLayer.getAllClubs();
         }
         catch(SQLException e)
         {
@@ -183,8 +179,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
     {
         logger.info("Service Layer Entered: Entered getClubsByName()- Calling Data layer getClubsByName()");
         try{
-            List<Club> listClubsByName=iClubDataLayer.getClubsByName(name);
-            return listClubsByName;
+            return iClubDataLayer.getClubsByName(name);
         } catch(SQLException e)
         {
             logger.error("getClubsByName()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
@@ -202,8 +197,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
     public List<Club> getClubsByCategory(String category) {
         logger.info("Service Layer Entered: Entered getClubsByCategory()- Calling Data layer getClubsByCategory()");
         try{
-            List<Club> listClubsByCategory=iClubDataLayer.getClubsByCategory(category);
-            return listClubsByCategory;
+            return iClubDataLayer.getClubsByCategory(category);
         } catch(SQLException e)
         {
             logger.error("getClubsByCategory()- SQL exception occurred while getting response from Data Layer"+e.getMessage());
@@ -220,7 +214,7 @@ public class ClubServiceLayer implements  IClubServiceLayer
     @Override
     public String updateClubDetails(Club club) {
         logger.info("Service Layer Entered: Entered updateClubDetails- Calling Data layer insertUpdatedClubDetails");
-        String errorMessage = null;
+        String errorMessage;
         String requestId = generateRequestId();
         String requestType = String.valueOf(RequestType.UPDATE_REQUEST);
         String requestStatus = String.valueOf(RequestStatus.PENDING);
@@ -344,25 +338,23 @@ public class ClubServiceLayer implements  IClubServiceLayer
     public boolean deleteClub(String clubID) {
         logger.info("Service Layer Entered: Entered deleteClub- Calling Data layer deleteClub");
         boolean resultStatus;
-        String errorMessage = null;
+        String errorMessage;
         try {
             resultStatus = iClubDataLayer.deleteClub(clubID);
             logger.info("Exiting Service Layer: Returning boolean resultStatus to Controller");
             return resultStatus;
         }
         catch (SQLException e) {
-            resultStatus = false;
             errorMessage = e.getMessage();
             logger.error("Exception occured in 'deleteClub': "+errorMessage);
         }
         catch (Exception e)
         {
-            resultStatus = false;
             errorMessage = e.getMessage();
             logger.error("Exception occured in 'deleteClub': "+errorMessage);
         }
         logger.info("Exiting Service Layer: Returning error message to Controller");
-        return resultStatus;
+        return false;
     }
 
     /**
@@ -426,11 +418,9 @@ public class ClubServiceLayer implements  IClubServiceLayer
                 List<String> splitLatestRequestId = List.of(latestRequestId.split("_"));
                 int requestNumber= Integer.parseInt(splitLatestRequestId.get(1));
                 int newRequestNumber=requestNumber+one;
-                String newRequestId=splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
-                return newRequestId;
+                return splitLatestRequestId.get(0).concat("_").concat(String.valueOf(newRequestNumber));
             }
-            String firstRequestId = "REQ_1";
-            return firstRequestId;
+            return "REQ_1";
         }
         catch (SQLException e)
         {
@@ -453,6 +443,122 @@ public class ClubServiceLayer implements  IClubServiceLayer
             return joinClubRequestList;
         } catch (SQLException e) {
             logger.error("getAllJoinClubRequests- SQL Exception occurred while getting response from Data layer" + e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * This method calls the method in datalayer to update the request status to approved
+     * @param reqId is the request id of the join club request of the member
+     * @return true if the request status changed  to approved else return false
+     */
+    @Override
+    public boolean approveJoinClubRequest(String reqId)
+    {
+        logger.info("Entered ServiceLayer: Entered approveJoinClubRequest() ");
+        logger.info("approveJoinClubRequest(): performing input validation for request id");
+        if(reqId==null||reqId.equals(""))
+        {
+            return false;
+        }
+        logger.info("approveJoinClubRequest(): input validation for request id passed");
+        logger.info("approveJoinClubRequest(): calling updateJoinClubRequestStatusToApproved() of datalayer");
+        try
+        {
+            boolean approveJoinClubRequestStatus = iClubDataLayer.updateJoinClubRequestStatusToApproved(reqId);
+            if (approveJoinClubRequestStatus)
+            {
+                logger.info("ServiceLayer: join club request approved.");
+                logger.info("Exiting ServiceLayer: returning true to the Controller.");
+                return true;
+            }
+            else
+            {
+                logger.info("ServiceLayer: join club request could not be approved.");
+                logger.info("Exiting ServiceLayer: returning false to the Controller.");
+                return false;
+            }
+        }
+        catch(SQLException e)
+        {
+            logger.error("ServiceLayer: SQL exception occurred while calling updateJoinClubRequestStatusToApproved()"+e.getMessage());
+            logger.info("Exiting ServiceLayer: returning false to the Controller.");
+            return false;
+        }
+    }
+
+    /**
+     * This method calls the method in datalayer to delete the join club request
+     * @param reqId is the request id of the join club request of the member
+     * @return true if the join club request deleted  else return false
+     */
+    public boolean rejectJoinClubRequest(String reqId)
+    {
+        logger.info("Entered ServiceLayer: Entered rejectJoinClubRequest()");
+        logger.info("rejectJoinClubRequest(): performing input validation for request id");
+        if(reqId==null||reqId.equals(""))
+        {
+            return false;
+        }
+        logger.info("rejectJoinClubRequest(): input validation for request id passed");
+        logger.info("rejectJoinClubRequest(): calling deleteJoinClubRequest() of datalayer");
+        try
+        {
+            boolean rejectJoinClubRequestStatus = iClubDataLayer.deleteJoinClubRequest(reqId);
+            if (rejectJoinClubRequestStatus)
+            {
+                logger.info("ServiceLayer: join club request rejected.");
+                logger.info("Exiting ServiceLayer: returning true to the Controller.");
+                return true;
+            }
+            else
+            {
+                logger.info("ServiceLayer: join club request could not be rejected.");
+                logger.info("Exiting ServiceLayer: returning false to the Controller.");
+                return false;
+            }
+        }
+        catch(SQLException e)
+        {
+            logger.error("ServiceLayer: SQL exception occurred while calling deleteJoinClubRequest()"+e.getMessage());
+            logger.info("Exiting ServiceLayer: returning false to the Controller.");
+            return false;
+        }
+    }
+
+    /**
+     * Get list of all new club requests based on request status
+     * @param requestStatus filter requests
+     * @return list of new club requests filtered with requestStatus
+     */
+    @Override
+    public List<ClubUpdateRequest> getAllNewClubRequests(RequestStatus requestStatus) {
+        try {
+            logger.info("Service Layer Entered: Entered getAllNewClubRequests- Calling Data layer getAllNewClubRequests");
+            List<ClubUpdateRequest> clubUpdateRequests = iClubDataLayer.getAllClubRequests(RequestType.NEW_REQUEST ,requestStatus);
+            logger.info("Exiting Service Layer: Returning new club requests to Controller");
+            return clubUpdateRequests;
+        } catch (SQLException e) {
+            logger.error("getAllNewClubRequests- SQL Exception occurred while getting response from Data layer" + e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    /**
+     * Get list of all club update requests based on request status
+     * @param requestStatus filter requests
+     * @return list of club update requests filtered with requestStatus
+     */
+    @Override
+    public List<ClubUpdateRequest> getAllUpdateClubRequests(RequestStatus requestStatus) {
+        try {
+            logger.info("Service Layer Entered: Entered getAllUpdateClubRequests- Calling Data layer getAllUpdateClubRequests");
+            List<ClubUpdateRequest> clubUpdateRequests = iClubDataLayer.getAllClubRequests(RequestType.UPDATE_REQUEST ,requestStatus);
+            logger.info("Exiting Service Layer: Returning update club requests to Controller");
+            return clubUpdateRequests;
+        } catch (SQLException e) {
+            logger.error("getAllUpdateClubRequests- SQL Exception occurred while getting response from Data layer" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
